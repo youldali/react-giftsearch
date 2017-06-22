@@ -1,0 +1,30 @@
+{
+  "name": "react-giftsearch",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.0"    
+  },
+  "devDependencies": {
+    "react-scripts": "1.0.7",
+    "babel-cli": "^6.24.1",
+    "babel-preset-flow": "^6.23.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "bugs": {
+    "url": "https://github.com/youldali/react-giftsearch/issues"
+  },
+  "homepage": "https://github.com/youldali/react-giftsearch#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youldali/react-giftsearch.git"
+  }
+}
