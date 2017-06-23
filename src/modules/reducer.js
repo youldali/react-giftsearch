@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
-import order from './reducers/list-order.js';
-import filter from './reducers/list-filter.js';
+import { giftSearchReducer as giftSearch } from './gift-search/';
 
-const giftSearchReducer = combineReducers({
-	order,
-	filter
+const rootReducer = combineReducers({
+	giftSearch
 });
 
-export default giftSearchReducer;
+export default rootReducer;
