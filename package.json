@@ -11,15 +11,17 @@
     "redux": "^3.7.0"
   },
   "devDependencies": {
-    "react-scripts": "1.0.7",
     "babel-cli": "^6.24.1",
-    "babel-preset-flow": "^6.23.0"
+    "babel-preset-flow": "^6.23.0",
+    "flow-bin": "^0.48.0",
+    "react-scripts": "1.0.7"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "flow": "flow"
   },
   "bugs": {
     "url": "https://github.com/youldali/react-giftsearch/issues"

@@ -48,19 +48,22 @@
 	"buffers":
 	[
 		{
-			"file": "package.json",
+			"file": "src/state.txt",
 			"settings":
 			{
-				"buffer_size": 758,
+				"buffer_size": 477,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/App.js",
+			"contents": "",
+			"file": "src/routes/giftSearch/index.js",
+			"file_size": 0,
+			"file_write_time": 131426904440000000,
 			"settings":
 			{
-				"buffer_size": 497,
+				"buffer_size": 0,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -73,24 +76,24 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 287.0,
-		"last_filter": "chang",
+		"height": 392.0,
+		"last_filter": "add",
 		"selected_items":
 		[
-			[
-				"chang",
-				"Git: Change Branch"
-			],
-			[
-				"com",
-				"Git: Commit"
-			],
 			[
 				"add",
 				"Git: Add..."
 			],
 			[
 				"commit",
+				"Git: Commit"
+			],
+			[
+				"chang",
+				"Git: Change Branch"
+			],
+			[
+				"com",
 				"Git: Commit"
 			],
 			[
@@ -482,7 +485,7 @@
 				"Git: Toggle Annotations"
 			]
 		],
-		"width": 593.0
+		"width": 521.0
 	},
 	"console":
 	{
@@ -503,10 +506,24 @@
 	"expanded_folders":
 	[
 		"/Users/yannis.ouldali/Documents/tests/react-giftsearch",
-		"/Users/yannis.ouldali/Documents/tests/react-giftsearch/src"
+		"/Users/yannis.ouldali/Documents/tests/react-giftsearch/src",
+		"/Users/yannis.ouldali/Documents/tests/react-giftsearch/src/modules",
+		"/Users/yannis.ouldali/Documents/tests/react-giftsearch/src/modules/gift-search",
+		"/Users/yannis.ouldali/Documents/tests/react-giftsearch/src/modules/gift-search/reducers",
+		"/Users/yannis.ouldali/Documents/tests/react-giftsearch/src/routes"
 	],
 	"file_history":
 	[
+		"/Users/yannis.ouldali/Documents/tests/react-giftsearch/src/modules/giftSearch/reducers/list-order.js",
+		"/Users/yannis.ouldali/Documents/tests/react-giftsearch/src/config.json",
+		"/Users/yannis.ouldali/Documents/tests/react-giftsearch/src/modules/reducer.js",
+		"/Users/yannis.ouldali/Documents/tests/react-giftsearch/src/modules/gift-search/reducers/list-order.js",
+		"/Users/yannis.ouldali/Documents/tests/react-giftsearch/package.json",
+		"/Users/yannis.ouldali/Documents/tests/react-giftsearch/src/App.js",
+		"/Users/yannis.ouldali/Documents/tests/react-box/.gitignore",
+		"/Users/yannis.ouldali/Documents/tests/react-giftsearch/react-giftsearch.sublime-project",
+		"/Users/yannis.ouldali/Documents/sublime-project/box-react.sublime-project",
+		"/Users/yannis.ouldali/Documents/sublime-project/box-knockout.sublime-project",
 		"/Users/yannis.ouldali/Documents/tests/box-knockout/app/shared/helper/helper.encode.js",
 		"/Users/yannis.ouldali/Documents/tests/react-box/public/boxers-data/buakaw.json",
 		"/Users/yannis.ouldali/Documents/tests/react-box/public/boxers-data/mike-tyson.json",
@@ -541,8 +558,6 @@
 		"/Users/yannis.ouldali/Documents/tests/react-box/src/boxer-search/test.jsx",
 		"/Users/yannis.ouldali/Documents/tests/react-box/src/boxer-list/boxer-list.component.jsx",
 		"/Users/yannis.ouldali/Documents/tests/react-box/public/asset/css/css.css",
-		"/Users/yannis.ouldali/Documents/sublime-project/box-react.sublime-project",
-		"/Users/yannis.ouldali/Documents/sublime-project/box-knockout.sublime-project",
 		"/Users/yannis.ouldali/Documents/sublime-project/box-knockout.sublime-workspace",
 		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/skin/frontend/smartbox_rwd_v1/default/scss/pages/checkout/_payment.scss",
 		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/design/frontend/smartbox_rwd_v1/dakota/locale/fr_FR/translate.csv",
@@ -626,15 +641,7 @@
 		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/skin/frontend/smartbox_rwd_v1/default/scss/helpers/_fonts.scss",
 		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/skin/frontend/smartbox_rwd_v1/default/fonts/smartbox-icons-extended-webfont.woff2",
 		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/skin/frontend/smartbox_rwd_v1/default/fonts/smartbox-icons-extended-webfont.svg",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/yanni.patch",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/design/frontend/smartbox_rwd_v1/default/template/thematic/catalog/product/view/type/bundle/usp_row.phtml",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/skin/frontend/smartbox_rwd_v1/default/scss/helpers/_animation.scss",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/skin/frontend/smartbox_rwd_v1/default/scss/helpers/_mixins.scss",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/skin/frontend/smartbox_rwd_v1/default/fonts/smartbox-icons-extended-webfont.ttf",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/skin/frontend/smartbox_rwd_v1/default/scss/elements/_item.scss",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/design/frontend/smartbox_rwd_v1/default/template/thematic/catalog/product/list/item.phtml",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/js/ejs/thematic_v3.ejs",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/local/Smartbox/Widget/etc/widget.xml"
+		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/yanni.patch"
 	],
 	"find":
 	{
@@ -849,150 +856,28 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "package.json",
+					"file": "src/state.txt",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 758,
+						"buffer_size": 477,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								756,
-								756
+								340,
+								350
 							]
 						],
 						"settings":
 						{
-							"auto_complete": true,
-							"bracket_highlighter.busy": false,
-							"bracket_highlighter.locations":
-							{
-								"close":
-								{
-									"1":
-									[
-										755,
-										756
-									]
-								},
-								"icon":
-								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/curly_bracket.png",
-										"brackethighlighter.default"
-									]
-								},
-								"open":
-								{
-									"1":
-									[
-										666,
-										667
-									]
-								},
-								"unmatched":
-								{
-								}
-							},
-							"bracket_highlighter.regions":
-							[
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content"
-							],
-							"git_savvy.file_path": "/Users/yannis.ouldali/Documents/tests/react-giftsearch/package.json",
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/App.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 497,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								497,
-								497
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
 							"bracket_highlighter.busy": false,
 							"bracket_highlighter.locations":
 							{
@@ -1011,16 +896,36 @@
 							},
 							"bracket_highlighter.regions":
 							[
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
 								"bh_unmatched",
 								"bh_unmatched_center",
 								"bh_unmatched_open",
 								"bh_unmatched_close",
 								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
 								"bh_angle",
 								"bh_angle_center",
 								"bh_angle_open",
@@ -1031,52 +936,133 @@
 								"bh_tag_open",
 								"bh_tag_close",
 								"bh_tag_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
 								"bh_double_quote",
 								"bh_double_quote_center",
 								"bh_double_quote_open",
 								"bh_double_quote_close",
 								"bh_double_quote_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content"
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content"
 							],
-							"git_savvy.file_path": "/Users/yannis.ouldali/Documents/tests/react-giftsearch/src/App.js",
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"git_savvy.repo_path": "/Users/yannis.ouldali/Documents/tests/react-giftsearch",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/routes/giftSearch/index.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content"
+							],
+							"git_savvy.repo_path": "/Users/yannis.ouldali/Documents/tests/react-giftsearch",
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1454,6 +1440,10 @@
 	"selected_group": 0,
 	"settings":
 	{
+		"xdebug":
+		{
+			"hide_conflict": false
+		}
 	},
 	"show_minimap": true,
 	"show_open_files": true,

@@ -1,0 +1,46 @@
+{
+	gift-search:
+		filter:
+			nb-people(alone/group/couple)
+			nights
+			price
+			keywords
+		order: 
+		universe
+
+	favorites:
+		gifts:
+
+}
+
+
+
+directory structure:
+
+config.json
+
+modules/
+	reducer.js
+	giftSearch/
+		reducers/
+			filter.js
+			order.js
+			universe.js
+		actions/
+			index.js
+
+Routes/
+	landingUniverse/
+		containers/
+			landing.js
+
+	giftSearch/
+		index.js
+		containers/
+			giftList.js
+			giftFilter + HOC
+			giftSort.js + HOC
+
+	favorite/
+		containers/
+			favoriteList.js
