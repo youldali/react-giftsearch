@@ -1,4 +1,4 @@
-import filterReducer from '../list-filter.js';
+import filterReducer from '../filter.js';
 import {SET_FILTER, RESET_FILTER} from '../../actions/';
 
 test('it initializes state', () => {

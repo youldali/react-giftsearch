@@ -1,4 +1,4 @@
-import orderReducer from '../list-order.js';
+import orderReducer from '../order.js';
 import {SET_ORDER} from '../../actions/';
 
 test('it initializes state', () => {

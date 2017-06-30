@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
-import order from './reducers/list-order.js';
-import filter from './reducers/list-filter.js';
+import order from './reducers/order';
+import filter from './reducers/filter';
+import universe from './reducers/universe';
 import * as actions from './actions/';
 
 
 export const giftSearchReducer = combineReducers({
 	order,
-	filter
+	filter,
+	universe
 });
 
 export { actions };

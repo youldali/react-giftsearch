@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
+import GiftList from './gift-list-module/containers/gift-list'
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
@@ -13,9 +14,8 @@ class App extends Component {
         <div className="App-header">
           <h2>Welcome to React</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reloadd.
-        </p>
+        
+        <GiftList />
       </div>
     );
   }
