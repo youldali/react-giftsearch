@@ -4,7 +4,7 @@ import configureStore from './configureStore';
 import App from './routes/App';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-const store = configureStore()
+const store = configureStore();
 
 export default class Root extends Component {
   render() {
