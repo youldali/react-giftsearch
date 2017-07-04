@@ -1,14 +1,11 @@
 // @flow
-import { SET_UNIVERSE } from '../actions/';
+import type { Action } from '../actions/';
 
-type actionType = {
-	type: string,
-	universe: string
-};
+type UniverseState = string;
 
-function universeReducer(state: string = '', action: actionType): string{
+function universeReducer(state: UniverseState = '', action: Action): UniverseState{
 	switch (action.type){
-		case SET_UNIVERSE:
+		case "SET_UNIVERSE":
 			return action.universe
 		default:
 			return state;

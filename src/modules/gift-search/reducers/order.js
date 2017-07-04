@@ -1,14 +1,11 @@
  // @flow
-import {SET_ORDER} from '../actions/';
+import type { Action } from '../actions/';
 
-type actionType = {
-	type: string,
-	order:string
-};
+type OrderState = string;
 
-function orderReducer (state: string = '', action: actionType): string {
+function orderReducer (state: OrderState = '', action: Action): OrderState {
 	switch (action.type){
-		case SET_ORDER:
+		case "SET_ORDER":
 			return action.order;
 		default:
 			return state;
