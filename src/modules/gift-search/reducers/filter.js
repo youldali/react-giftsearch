@@ -10,11 +10,11 @@ function filterReducer (state: FilterState = {}, action: Action): FilterState {
 		case "SET_FILTER":
 			return {...state, ...action.filters};
 		case "RESET_FILTER":
-			let filters = action.filters;
-			for (let filter in filters) {
-				filters[filter] = '';
+			let resetedFilters = {};
+			for (let field of (action.filters)) {
+				resetedFilters[field] = '';
 			}
-			return {...state, ...filters};
+			return {...state, ...resetedFilters};
 		default:
 			return state;		
 	}

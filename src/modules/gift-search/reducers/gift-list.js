@@ -1,23 +1,31 @@
 // @flow
 import type { Action } from '../actions/';
 
-type FilterState = {
-	+[string]: string
+type GiftListState = {
+	+giftList: Array<Object>,
+	+isFetching: boolean
 };
 
-function filterReducer (state: FilterState = {}, action: Action): FilterState {
+const initialState = {
+	giftList: [],
+	isFetching: false
+}
+
+function giftListReducer (state: GiftListState = initialState, action: Action): GiftListState {
 	switch (action.type){
-		case "SET_FILTER":
-			return {...state, ...action.filters};
-		case "RESET_FILTER":
-			let filters = action.filters;
-			for (let filter in filters) {
-				filters[filter] = '';
-			}
-			return {...state, ...filters};
+		case "SET_GIFT_LIST":
+			return {
+				giftList: [...action.giftList],
+				isFetching: state.isFetching
+			};
+		case "IS_FETCHING_GIFT_LIST":
+			return {
+				...state, 
+				isFetching: action.isFetching
+			};
 		default:
 			return state;		
 	}
 }
 
-export default filterReducer;
+export default giftListReducer;

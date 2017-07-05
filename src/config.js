@@ -7,4 +7,8 @@ export const cloudSearchConfig =
 		"adventure" : [851,867,850,887,879,849,881,925,929, 855],
 		"occasion" : [873,882,870,883,877]
 	}
-}
+};
+
+export const localForageConfig = {
+	name: 'gift-finder-storage'
+};

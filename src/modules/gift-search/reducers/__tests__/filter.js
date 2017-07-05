@@ -1,5 +1,4 @@
 import filterReducer from '../filter.js';
-import {SET_FILTER, RESET_FILTER} from '../../actions/';
 
 test('it initializes state', () => {
 	const newState = filterReducer(undefined, {});
@@ -8,28 +7,29 @@ test('it initializes state', () => {
 
 test('it adds a filter', () => {
 	const action = {
-		type: SET_FILTER,
-		field: 'nom',
-		filter: 'myFilter'
+		type: "SET_FILTER",
+		filters:{
+			'name': 'myFilter'
+		}
 	};
 	const newState = filterReducer({}, action);
-	expect(newState).toEqual({'nom': 'myFilter'});	
+	expect(newState).toEqual({'name': 'myFilter'});	
 });
 
 test('it resets a filter already set', () => {
 	const action = {
-		type: RESET_FILTER,
-		field: 'nom',
+		type: "RESET_FILTER",
+		filters: ['name', 'surname']
 	};
-	const newState = filterReducer({'nom': 'myFilter'}, action);
-	expect(newState).toEqual({'nom': ''});	
+	const newState = filterReducer({'name': 'myFilterValue', 'lastname': 'myLastname', 'surname': 'mySurname'}, action);
+	expect(newState).toEqual({'name': '', 'lastname': 'myLastname', 'surname': ''});	
 });
 
 test('it resets a filter that does not exist', () => {
 	const action = {
-		type: RESET_FILTER,
-		field: 'nom',
+		type: "RESET_FILTER",
+		filters: ['name']
 	};
 	const newState = filterReducer({}, action);
-	expect(newState).toEqual({'nom': ''});	
+	expect(newState).toEqual({'name': ''});	
 });

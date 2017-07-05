@@ -8,7 +8,9 @@ export type Action =
 		{ type: 'SET_FILTER', filters: Filters }
 	| { type: 'RESET_FILTER', filters: Filters}
 	| { type: 'SET_ORDER', order: string }
-	| { type: 'SET_UNIVERSE', universe: string };
+	| { type: 'SET_UNIVERSE', universe: string }
+	| { type: 'IS_FETCHING_GIFT_LIST', isFetching: boolean }
+	| { type: 'SET_GIFT_LIST', giftList: Array<Object> };
 
 export type Dispatch = (action: Action | ThunkAction | Promise<Action> | Array<Action>) => any;
 export type GetState = () => Object;
@@ -23,7 +25,7 @@ export function setFilter(filters: Filters): Action {
 	}
 };
 
-export function resetFilter(filters: Filters): Action{
+export function resetFilter(filters: Array<string>): Action{
 	return{
 		type: "RESET_FILTER",
 		filters
@@ -45,14 +47,14 @@ export function setUniverse(universe: string): Action{
 }
 
 
-function isFetchingGiftList(isFetching: boolean){
+function isFetchingGiftList(isFetching: boolean): Action{
 	return{
 		type: "IS_FETCHING_GIFT_LIST",
 		isFetching
 	}	
 }
 
-function setGiftList(giftList: Array<Object>){
+function setGiftList(giftList: Array<Object>): Action{
 return{
 		type: "SET_GIFT_LIST",
 		giftList
@@ -60,12 +62,13 @@ return{
 }
 
 export function fetchGiftList(universe: string){
-	return (dispatch) => {
+	return (dispatch: Dispatch) => {
 		dispatch(isFetchingGiftList(true));
-		giftFetcher(universe)
+		
+		return giftFetcher(universe)
 			.then( giftList => {
-				dispatch(setGiftList(giftList));
 				dispatch(isFetchingGiftList(false));
+				dispatch(setGiftList(giftList));
 			});
 	}
 }

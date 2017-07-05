@@ -1,3 +1,5 @@
+// @flow
+
 import { cloudSearchConfig } from 'config';
 import fetch from 'isomorphic-fetch';
 
@@ -12,7 +14,7 @@ const buildGiftUrl = (categories: Array<number>): string => {
 }
 
 export default 
-(universe : string): Promise<?string> => {
+(universe: string): Promise<?string> => {
 	const categories = cloudSearchConfig['universeToUrlMap'][universe];
 	if(typeof categories === 'undefined')
 		return new Promise((resolve, reject) => {
