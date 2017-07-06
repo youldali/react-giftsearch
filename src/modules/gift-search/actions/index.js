@@ -1,12 +1,12 @@
  // @flow
-import giftFetcher from '../helper/universeToUrlMapping';
+import giftFetcher from '../helper/universeFetchGift';
 
 //Types
 type Filters = { [string]: string };
 
 export type Action = 
 		{ type: 'SET_FILTER', filters: Filters }
-	| { type: 'RESET_FILTER', filters: Filters}
+	| { type: 'RESET_FILTER', filters: Array<string>}
 	| { type: 'SET_ORDER', order: string }
 	| { type: 'SET_UNIVERSE', universe: string }
 	| { type: 'IS_FETCHING_GIFT_LIST', isFetching: boolean }

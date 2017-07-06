@@ -3,10 +3,18 @@
 import localForage from 'localForage';
 import { localForageConfig } from 'config';
 
-localforage.config({
+localForage.config({
     name: localForageConfig.name || ''
 });
 
-export let saveGiftList = (universe: string, giftList: Array<Object>):Promise<Array<Object>>  => {
-	return localforage.setItem('universe', giftList);
-}
+export let storageSaveGifts = (universe: string, giftList: Array<Object>):Promise<?Array<Object>>  => {
+	return localForage.setItem(universe, giftList)
+					.catch((err) => {
+					    console.log('Failed to save Gift List to storage', err);
+							return Promise.reject(err);
+					});
+};
+
+export let storageGetGifts = (universe: string):Promise<Array<Object>>  => {
+	return localForage.getItem(universe);
+};

@@ -1,7 +1,7 @@
 import * as actions from '../index';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import * as giftFetcher from '../../helper/universeToUrlMapping';
+import * as giftFetcher from '../../helper/universeFetchGift';
 
 test('it should return the "set filter" action creator', function(){
 	const expectedAction = {

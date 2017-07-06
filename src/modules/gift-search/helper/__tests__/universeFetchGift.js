@@ -1,9 +1,11 @@
-import giftFetcher, { buildGiftUrl } from '../universeToUrlMapping';
-import * as testa from '../universeToUrlMapping';
+import giftFetcher, { buildGiftUrl, fetchGiftsRemotely } from '../universeFetchGift';
+import * as universeStorage from '../universeStorage';
 import { cloudSearchConfig } from 'config';
 import nock from 'nock';
 
+
 beforeAll(() => {
+	universeStorage.storageSaveGifts = jest.fn();
   cloudSearchConfig.baseUrl = "http://www.smartbox.com/?";
   cloudSearchConfig.universeToUrlMap = {
 		"well-being" : [10,100,150],
@@ -18,36 +20,37 @@ test('it builds the correct url', () => {
 })
 
 
-describe('fetch gift boxes', () => {
+describe('fetch gift boxes remotely', () => {
 
 	afterEach(() => {
-    nock.cleanAll()
+    nock.cleanAll();
+    jest.resetAllMocks();
   })
 
-	test('it returns undefined when categories is undefined', () => {
-		giftFetcher('undefinedCategory')
-			.then(giftBoxes => expect(giftBoxes).toBe(undefined));
+	test('it returns empty array when categories is undefined', () => {
+		fetchGiftsRemotely('undefinedCategory')
+			.then(giftBoxes => expect(giftBoxes).toEqual([]));
 	});
 
 	
-	test('it returns undefined when http request has error status', () => {
+	test('it returns empty array when http request has error status', () => {
 		nock(cloudSearchConfig.baseUrl)
    		.get('/')
    		.query(true)
     	.reply(404, 'not found');
 
-		giftFetcher('gastronomy')
-			.then(giftBoxes => expect(giftBoxes).toBe(undefined));
+		fetchGiftsRemotely('gastronomy')
+			.then(giftBoxes => expect(giftBoxes).toEqual([]));
 	});
 
-	test('it returns undefined when http request fails', () => {
+	test('it returns empty array when http request fails', () => {
 		nock(cloudSearchConfig.baseUrl)
    		.get('/')
    		.query(true)
     	.replyWithError('network failure');
 
-		giftFetcher('gastronomy')
-			.then(giftBoxes => expect(giftBoxes).toBe(undefined));
+		fetchGiftsRemotely('gastronomy')
+			.then(giftBoxes => expect(giftBoxes).toEqual([]));
 	});
 	
 	test('it returns GiftBoxes when http request succeeds', () => {
@@ -63,7 +66,10 @@ describe('fetch gift boxes', () => {
    		.query(true)
     	.reply(200, responseBody);
     	
-		giftFetcher('gastronomy')
-			.then(giftBoxes => expect(giftBoxes).toEqual(responseBody.items));
+		fetchGiftsRemotely('gastronomy')
+			.then(giftBoxes => {
+				expect(giftBoxes).toEqual(responseBody.items);
+				expect(universeStorage.storageSaveGifts.mock.calls.length).toBe(1);
+			});
 	});
 })
