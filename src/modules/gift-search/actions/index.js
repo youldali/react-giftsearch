@@ -1,5 +1,6 @@
  // @flow
 import giftFetcher from '../helper/fetchGiftsRemotely';
+import { storageGetGifts, storageSaveGifts } from '../helper/fetchGiftsStorage';
 
 //Types
 type Filters = { [string]: string };
@@ -61,7 +62,7 @@ return{
 	}		
 }
 
-export function fetchGiftList(universe: string){
+function fetchGiftRemotely (universe: string ): Action{
 	return (dispatch: Dispatch) => {
 		dispatch(isFetchingGiftList(true));
 		
@@ -69,6 +70,28 @@ export function fetchGiftList(universe: string){
 			.then( giftList => {
 				dispatch(isFetchingGiftList(false));
 				dispatch(setGiftList(giftList));
+				return giftList;
 			});
-	}
+	};
+}
+
+function fetchGiftLocally (universe: string ): Action{
+	return (dispatch: Dispatch) => {		
+		return storageGetGifts(universe)
+						.then( giftList => {
+							dispatch(setGiftList(giftList));
+							return giftList;
+						});
+	};
+}
+export function fetchGiftList(universe: string){
+
+	// add dispatch
+	return fetchGiftLocally(universe)
+					.catch( (e) => {
+						fetchGiftRemotely(universe)
+					})
+					.then( (giftList) => {
+						storageSaveGifts(universe, giftList);
+					});
 }

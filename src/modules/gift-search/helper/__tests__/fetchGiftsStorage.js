@@ -43,7 +43,7 @@ const localForageMockGenerator = function (willResolve, storage){
 	}
 }
 
-describe.skip('localForage succeeds', () => {
+describe('localForage succeeds', () => {
 	let storage = {};
 	beforeAll(() => {
 		storage = {...storageMock};
