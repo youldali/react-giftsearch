@@ -1,11 +1,9 @@
-import giftFetcher, { buildGiftUrl, fetchGiftsRemotely } from '../universeFetchGift';
-import * as universeStorage from '../universeStorage';
+import giftFetcher, { buildGiftUrl } from '../fetchGiftsRemotely';
 import { cloudSearchConfig } from 'config';
 import nock from 'nock';
 
 
 beforeAll(() => {
-	universeStorage.storageSaveGifts = jest.fn();
   cloudSearchConfig.baseUrl = "http://www.smartbox.com/?";
   cloudSearchConfig.universeToUrlMap = {
 		"well-being" : [10,100,150],
@@ -28,7 +26,7 @@ describe('fetch gift boxes remotely', () => {
   })
 
 	test('it returns empty array when categories is undefined', () => {
-		fetchGiftsRemotely('undefinedCategory')
+		giftFetcher('undefinedCategory')
 			.then(giftBoxes => expect(giftBoxes).toEqual([]));
 	});
 
@@ -39,7 +37,7 @@ describe('fetch gift boxes remotely', () => {
    		.query(true)
     	.reply(404, 'not found');
 
-		fetchGiftsRemotely('gastronomy')
+		giftFetcher('gastronomy')
 			.then(giftBoxes => expect(giftBoxes).toEqual([]));
 	});
 
@@ -49,7 +47,7 @@ describe('fetch gift boxes remotely', () => {
    		.query(true)
     	.replyWithError('network failure');
 
-		fetchGiftsRemotely('gastronomy')
+		giftFetcher('gastronomy')
 			.then(giftBoxes => expect(giftBoxes).toEqual([]));
 	});
 	
@@ -66,10 +64,9 @@ describe('fetch gift boxes remotely', () => {
    		.query(true)
     	.reply(200, responseBody);
     	
-		fetchGiftsRemotely('gastronomy')
+		giftFetcher('gastronomy')
 			.then(giftBoxes => {
 				expect(giftBoxes).toEqual(responseBody.items);
-				expect(universeStorage.storageSaveGifts.mock.calls.length).toBe(1);
 			});
 	});
 })

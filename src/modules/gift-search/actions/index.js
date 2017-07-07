@@ -1,5 +1,5 @@
  // @flow
-import giftFetcher from '../helper/universeFetchGift';
+import giftFetcher from '../helper/fetchGiftsRemotely';
 
 //Types
 type Filters = { [string]: string };

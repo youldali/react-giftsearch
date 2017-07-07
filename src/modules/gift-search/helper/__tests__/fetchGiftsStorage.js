@@ -1,4 +1,4 @@
-import * as universeStorage from '../universeStorage';
+import * as universeStorage from '../fetchGiftsStorage';
 import localForage from 'localForage';
 
 const storageMock = {
