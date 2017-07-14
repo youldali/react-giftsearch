@@ -18,10 +18,10 @@ export let storageSaveGifts = (universe: string, giftList: Array<Object>):Promis
 export let storageGetGifts = (universe: string):Promise<Array<Object>>  => {
 	return localForage.getItem(universe)
 						.then( (giftList) => {
-						    if(!giftList)
+						    if(giftList == null)
 						    	return Promise.reject('universe not stored')
 						    else
 						    	return Promise.resolve(giftList);
 						});
-					;
+					
 };

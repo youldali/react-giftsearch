@@ -17,11 +17,9 @@ export default
 (universe: string): Promise<Array<Object>> => {
 	//builds URL
 	const categories = cloudSearchConfig['universeToUrlMap'][universe];
-	if(typeof categories === 'undefined')
-		return new Promise((resolve, reject) => {
-			console.log('Universe undefined');
-		  resolve([]);
-		});
+	if(typeof categories === 'undefined'){
+		return Promise.reject('Undefined Gift-List category');
+	}
 
 	//fetches
 	const fetchConfig = {
@@ -33,14 +31,14 @@ export default
 						if(response.ok) 
 							return response.json();
 						else
-							throw (`Status: ${response.status} - ${response.statusText}`);
+							return Promise.reject(`Status: ${response.status} - ${response.statusText}`);
 					})
 					.then((jsonData: Object) => {
 						return jsonData.items;
 					})
 					.catch(error => {
 						console.log('Error fetching Gift boxes', error);
-						return [];
+						return Promise.reject(error);
 					});
 };
 
