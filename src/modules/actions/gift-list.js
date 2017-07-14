@@ -1,22 +1,7 @@
  // @flow
-import giftFetcher from '../helper/fetchGiftsRemotely';
-import { storageGetGifts, storageSaveGifts } from '../helper/fetchGiftsStorage';
-
-//Types
-type Filters = { [string]: string };
-
-export type Action = 
-		{ type: 'SET_FILTER', filters: Filters }
-	| { type: 'RESET_FILTER', filters: Array<string>}
-	| { type: 'SET_ORDER', order: string }
-	| { type: 'SET_UNIVERSE', universe: string }
-	| { type: 'IS_FETCHING_GIFT_LIST', isFetching: boolean }
-	| { type: 'SET_GIFT_LIST', giftList: Array<Object> }
-	| { type: 'HAS_FETCH_GIFT_LIST_FAILED', failure: boolean};
-
-export type Dispatch = (action: Action | ThunkAction | Promise<Action> | Array<Action>) => any;
-export type GetState = () => Object;
-export type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
+import type { Action, GiftList, Filters, Dispatch } from './types';
+import giftFetcher from '../gift-search/helper/fetchGiftsRemotely';
+import { storageGetGifts, storageSaveGifts } from '../gift-search/helper/fetchGiftsStorage';
 
 
 //Action creators
@@ -63,7 +48,7 @@ function fetchGiftListFails(failure: boolean): Action{
 	}	
 }
 
-function setGiftList(giftList: Array<Object>): Action{
+function setGiftList(giftList: GiftList): Action{
 return{
 		type: "SET_GIFT_LIST",
 		giftList
@@ -71,7 +56,7 @@ return{
 }
 
 function fetchGiftRemotely (universe: string ): Function{
-	return (dispatch: Dispatch): Promise<Array<Object>> => {
+	return (dispatch: Dispatch): Promise<GiftList> => {
 		dispatch(isFetchingGiftList(true));
 		
 		return giftFetcher(universe)
@@ -84,7 +69,7 @@ function fetchGiftRemotely (universe: string ): Function{
 }
 
 function fetchGiftLocally (universe: string ): Function{
-	return (dispatch: Dispatch): Promise<Array<Object>> => {		
+	return (dispatch: Dispatch): Promise<GiftList> => {		
 		return storageGetGifts(universe)
 						.then( giftList => {
 							dispatch(setGiftList(giftList));

@@ -3,7 +3,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import * as selectors from 'modules/gift-search/selectors';
-import * as actions from 'modules/gift-search/actions';
+import * as actions from 'modules/actions/gift-list';
 
 import {GridList, GridTile} from 'material-ui/GridList';
 

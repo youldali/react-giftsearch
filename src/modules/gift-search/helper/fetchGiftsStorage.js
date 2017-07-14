@@ -1,5 +1,5 @@
 // @flow
-
+import type { GiftList } from 'modules/actions/types';
 import localForage from 'localForage';
 import { localForageConfig } from 'config';
 
@@ -7,7 +7,7 @@ localForage.config({
     name: localForageConfig.name || ''
 });
 
-export let storageSaveGifts = (universe: string, giftList: Array<Object>):Promise<?Array<Object>>  => {
+export let storageSaveGifts = (universe: string, giftList: GiftList):Promise<?GiftList>  => {
 	return localForage.setItem(universe, giftList)
 					.catch((err) => {
 					    console.log('Failed to save Gift List to storage', err);
@@ -15,7 +15,7 @@ export let storageSaveGifts = (universe: string, giftList: Array<Object>):Promis
 					});
 };
 
-export let storageGetGifts = (universe: string):Promise<Array<Object>>  => {
+export let storageGetGifts = (universe: string):Promise<?GiftList>  => {
 	return localForage.getItem(universe)
 						.then( (giftList) => {
 						    if(giftList == null)

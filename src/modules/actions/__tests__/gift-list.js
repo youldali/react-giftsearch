@@ -1,7 +1,7 @@
-import * as actions from '../index';
+import * as actions from '../gift-list';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import * as giftFetcher from '../../helper/fetchGiftsRemotely';
+import * as giftFetcher from 'modules/gift-search/helper/fetchGiftsRemotely';
 
 test('it should return the "set filter" action creator', function(){
 	const expectedAction = {

@@ -1,5 +1,5 @@
 // @flow
-import type { Action } from '../actions/';
+import type { Action } from 'modules/actions/types';
 
 type UniverseState = string;
 
