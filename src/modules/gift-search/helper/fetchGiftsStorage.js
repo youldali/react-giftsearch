@@ -1,6 +1,6 @@
 // @flow
 import type { GiftList } from 'modules/actions/types';
-import localForage from 'localForage';
+import localForage from 'localforage';
 import { localForageConfig } from 'config';
 
 localForage.config({

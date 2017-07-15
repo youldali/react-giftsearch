@@ -32,29 +32,33 @@ function fetchGiftListRemotely (universe: string ): Function{
 	return (dispatch: Dispatch): Promise<GiftList> => {
 		dispatch(isFetchingGiftList(true));
 		
-		return giftFetcher(universe)
-						.catch( e => {
-							dispatch(fetchGiftListSucceeds(false))
-							return Promise.reject(e);
-						})
-						.then( giftList => {
-							dispatch(fetchGiftListSucceeds(true))
-							dispatch(setGiftList(giftList));
-							storageSaveGifts(universe, giftList)
-								.catch(e => console.log('Error saving Gift List', e));
-							return giftList;
-						});
+		return (
+			giftFetcher(universe)
+				.catch( e => {
+					dispatch(fetchGiftListSucceeds(false))
+					return Promise.reject(e);
+				})
+				.then( giftList => {
+					dispatch(fetchGiftListSucceeds(true))
+					dispatch(setGiftList(giftList));
+					storageSaveGifts(universe, giftList)
+						.catch(e => console.log('Error saving Gift List', e));
+					return giftList;
+				})
+		);
 	};
 }
 
 export
 function fetchGiftListLocally (universe: string ): Function{
 	return (dispatch: Dispatch): Promise<GiftList> => {		
-		return storageGetGifts(universe)
-						.then( giftList => {
-							dispatch(setGiftList(giftList));
-							return giftList;
-						});
+		return (
+			storageGetGifts(universe)
+				.then( giftList => {
+					dispatch(setGiftList(giftList));
+					return giftList;
+				})
+		);
 	};
 }
 

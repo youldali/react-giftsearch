@@ -4,7 +4,7 @@ import type { Action, GiftList } from 'modules/actions/types';
 type GiftListState = {
 	+giftList: GiftList,
 	+isFetching: boolean,
-	+hasFetchFailed: boolean
+	+fetchSuccess: boolean
 };
 
 const initialState = {

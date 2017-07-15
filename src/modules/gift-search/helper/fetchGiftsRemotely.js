@@ -3,7 +3,8 @@ import type { GiftList } from 'modules/actions/types';
 import { cloudSearchConfig } from 'config';
 import fetch from 'isomorphic-fetch';
 
-export const buildGiftUrl = 
+export
+const buildGiftUrl = 
 (categories: Array<number>): string => {
 	const universeParameter = categories.reduce(
 		(acc, category) => `${acc}&category[]=${category}`,
