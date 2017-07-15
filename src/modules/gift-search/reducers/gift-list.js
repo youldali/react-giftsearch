@@ -10,7 +10,7 @@ type GiftListState = {
 const initialState = {
 	giftList: [],
 	isFetching: false,
-	hasFetchFailed: false
+	fetchSuccess: true
 }
 
 function giftListReducer (state: GiftListState = initialState, action: Action): GiftListState {
@@ -25,10 +25,11 @@ function giftListReducer (state: GiftListState = initialState, action: Action): 
 				...state, 
 				isFetching: action.isFetching
 			};
-		case "HAS_FETCH_GIFT_LIST_FAILED":
+		case "FETCH_GIFT_LIST_SUCCESS":
 			return {
-				...state, 
-				hasFetchFailed: action.failure				
+				...state,
+				isFetching: false,
+				fetchSuccess: action.success				
 			};
 		default:
 			return state;		

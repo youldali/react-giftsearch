@@ -14,7 +14,7 @@ type Action =
 	| { type: 'SET_UNIVERSE', universe: string }
 	| { type: 'IS_FETCHING_GIFT_LIST', isFetching: boolean }
 	| { type: 'SET_GIFT_LIST', giftList: GiftList }
-	| { type: 'HAS_FETCH_GIFT_LIST_FAILED', failure: boolean};
+	| { type: 'FETCH_GIFT_LIST_SUCCESS', success: boolean};
 
 export 
 type Dispatch = (action: Action | ThunkAction | Promise<Action> | Array<Action>) => any;

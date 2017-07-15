@@ -3,7 +3,7 @@ import giftListReducer from '../gift-list';
 const initialState = {
 	giftList: [],
 	isFetching: false,
-	hasFetchFailed: false
+	fetchSuccess: true
 };
 
 test('it should initialize state', () => {
@@ -14,7 +14,7 @@ test('it should update the isFetching property', () => {
 	const expectedState = {
 		giftList: [],
 		isFetching: true,
-		hasFetchFailed: false
+		fetchSuccess: true
 	}	
 	const action = {
 		type: "IS_FETCHING_GIFT_LIST",
@@ -40,7 +40,7 @@ test('it should update the gift list property', () => {
 	const expectedState = {
 		giftList: myGiftList,
 		isFetching: false,
-		hasFetchFailed: false
+		fetchSuccess: true
 	}	
 	const action = {
 		type: "SET_GIFT_LIST",
@@ -49,15 +49,15 @@ test('it should update the gift list property', () => {
 	expect(giftListReducer(initialState, action)).toEqual(expectedState);
 });
 
-test('it should update the hasFetched property', () => {
+test('it should update the "fetchSuccess" property', () => {
 	const expectedState = {
 		giftList: [],
 		isFetching: false,
-		hasFetchFailed: true
+		fetchSuccess: false
 	}	
 	const action = {
-		type: "HAS_FETCH_GIFT_LIST_FAILED",
-		failure: true
+		type: "FETCH_GIFT_LIST_SUCCESS",
+		success: false
 	}
 	expect(giftListReducer(initialState, action)).toEqual(expectedState);
 });
