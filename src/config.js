@@ -1,4 +1,5 @@
-export const cloudSearchConfig = 
+export 
+const cloudSearchConfig = 
 {
 	"baseUrl": "//www.smartbox.com/fr/cloudsearch/search/thematic/?sortby=position&pagesize=1000",
 	"universeToUrlMap": {
@@ -9,6 +10,36 @@ export const cloudSearchConfig =
 	}
 };
 
-export const localForageConfig = {
+export 
+const localForageConfig = {
 	name: 'gift-finder-storage'
+};
+
+
+export 
+const formatGiftConfig = {
+	fieldsToKeep: [
+		'id',
+		'activity_name',
+		'category',
+		'city',
+		'description',
+		'name',
+		'partner_name',
+		'price',
+		'ranking',
+		'rating',
+		'short_description',
+		'sku',
+		'store_id',
+		'subtitle',
+		'universe',
+		'special_price',
+		'url',
+		'img',
+		'show_rating',
+		'number_activities',
+		'reviews_count',
+		'type_experience',
+	]
 };
