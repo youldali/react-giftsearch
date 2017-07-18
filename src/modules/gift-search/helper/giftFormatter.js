@@ -51,7 +51,7 @@ const getAmountOfNights = (category: Array<string>): [number, number] => {
 		amountNights[0] = category.indexOf(formatGiftConfig.oneNight) === -1 ? 2 : 1;
 	}
 
-	else if(category.indexOf(formatGiftConfig.oneNight)){
+	else if(category.indexOf(formatGiftConfig.oneNight) >= 0){
 		amountNights = [1, 1];
 	}
 
@@ -70,7 +70,7 @@ const getAmountOfPersons = (nb_pers: string): [number, number] => {
     amountOfPersons[i] = parseInt(val, 10);
 	}
 
-	if(amountOfPersons.length === 1)
+	if(nbPersArray.length === 1)
 		amountOfPersons[1] = amountOfPersons[0];
 
 	return amountOfPersons;
@@ -80,7 +80,7 @@ const getAmountOfPersons = (nb_pers: string): [number, number] => {
  * Filter the properties returned by Cloudsearch depending on the config
  */
 export 
-const filterObjectProperties = (giftInfos: Object): GiftFiltered => {
+const filterObjectProperties = (giftInfos: Object): Gift => {
 	let filteredGift = {};
 
 	for (const property of formatGiftConfig.fieldsToKeep) {
