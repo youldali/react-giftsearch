@@ -1,8 +1,8 @@
 // @flow
-import type { Action, GiftList } from 'modules/actions/types';
+import type { Action, GiftCollection } from 'modules/actions/types';
 
 type GiftListState = {
-	+giftList: GiftList,
+	+giftList: GiftCollection,
 	+isFetching: boolean,
 	+fetchSuccess: boolean
 };

@@ -1,5 +1,5 @@
  // @flow
-import type { Action, GiftList, Dispatch, ThunkAction } from './types';
+import type { Action, GiftCollection, Dispatch, ThunkAction } from './types';
 import giftFetcher from '../gift-search/helper/fetchGiftsRemotely';
 import { storageGetGifts, storageSaveGifts } from '../gift-search/helper/fetchGiftsStorage';
 
@@ -20,7 +20,7 @@ function fetchGiftListSucceeds(success: boolean): Action{
 }
 
 export
-function setGiftList(giftList: GiftList): Action{
+function setGiftList(giftList: GiftCollection): Action{
 return{
 		type: "SET_GIFT_LIST",
 		giftList
@@ -29,7 +29,7 @@ return{
 
 export
 function fetchGiftListRemotely (universe: string ): Function{
-	return (dispatch: Dispatch): Promise<GiftList> => {
+	return (dispatch: Dispatch): Promise<GiftCollection> => {
 		dispatch(isFetchingGiftList(true));
 		
 		return (
@@ -51,7 +51,7 @@ function fetchGiftListRemotely (universe: string ): Function{
 
 export
 function fetchGiftListLocally (universe: string ): Function{
-	return (dispatch: Dispatch): Promise<GiftList> => {		
+	return (dispatch: Dispatch): Promise<GiftCollection> => {		
 		return (
 			storageGetGifts(universe)
 				.then( giftList => {

@@ -1,5 +1,5 @@
 // @flow
-import type { GiftList } from 'modules/actions/types';
+import type { GiftCollection } from 'modules/actions/types';
 import localForage from 'localforage';
 import { localForageConfig } from 'config';
 
@@ -8,7 +8,7 @@ localForage.config({
 });
 
 export 
-let storageSaveGifts = (universe: string, giftList: GiftList):Promise<?GiftList>  => {
+let storageSaveGifts = (universe: string, giftList: GiftCollection):Promise<GiftCollection>  => {
 	return (
 		localForage.setItem(universe, giftList)
 			.catch((err) => {
@@ -19,7 +19,7 @@ let storageSaveGifts = (universe: string, giftList: GiftList):Promise<?GiftList>
 };
 
 export 
-let storageGetGifts = (universe: string):Promise<?GiftList>  => {
+let storageGetGifts = (universe: string):Promise<GiftCollection>  => {
 	return (
 		localForage.getItem(universe)
 			.then( (giftList) => {

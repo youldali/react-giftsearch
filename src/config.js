@@ -1,3 +1,5 @@
+// @flow
+
 export 
 const cloudSearchConfig = 
 {
@@ -41,5 +43,10 @@ const formatGiftConfig = {
 		'number_activities',
 		'reviews_count',
 		'type_experience',
-	]
+	],
+	oneNight: 'Une nuit',
+	twoNights: 'Deux nuits'
 };
+
+
+
