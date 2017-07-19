@@ -3,32 +3,6 @@
 import type { Gift, GiftCollection } from 'modules/actions/types';
 import { formatGiftConfig } from 'config';
 
-type GiftFiltered = {
-	id: string,
-	activity_name: string,
-	category: Array<string>,
-	city: string,
-	description: string,
-	name: string,
-	partner_name: string,
-	price: string,
-	ranking: number,
-	rating: string,
-	short_description: string,
-	sku: string,
-	store_id: string,
-	subtitle: string,
-	universe: Array<string>,
-	special_price: string,
-	url: string,
-	img: string,
-	show_rating: boolean,
-	number_activities: number,
-	reviews_count: number,
-	type_experience: Array<string>,
-};
-
-
 /*
  * Returns the price (number) given the formatted price
  */
@@ -80,7 +54,7 @@ const getAmountOfPersons = (nb_pers: string): [number, number] => {
  * Filter the properties returned by Cloudsearch depending on the config
  */
 export 
-const filterObjectProperties = (giftInfos: Object): Gift => {
+const filterObjectProperties = (giftInfos: Object): Object => {
 	let filteredGift = {};
 
 	for (const property of formatGiftConfig.fieldsToKeep) {

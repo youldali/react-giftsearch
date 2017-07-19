@@ -13,7 +13,7 @@ const cloudSearchConfig =
 };
 
 export 
-const localForageConfig = {
+const localforageConfig = {
 	name: 'gift-finder-storage'
 };
 

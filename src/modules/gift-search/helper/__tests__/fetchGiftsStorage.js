@@ -1,5 +1,5 @@
 import * as universeStorage from '../fetchGiftsStorage';
-import localForage from 'localForage';
+import localforage from 'localforage';
 
 const storageMock = {
 	'gastronomy': [
@@ -15,7 +15,7 @@ const storageMock = {
 		}
 	]
 };
-const localForageMockGenerator = function (willResolve, storage){
+const localforageMockGenerator = function (willResolve, storage){
 	return {
 		setItem: (key, value) => {
 			return (
@@ -25,7 +25,7 @@ const localForageMockGenerator = function (willResolve, storage){
 						resolve(value);
 					}
 					else{
-						reject('Error LocalForage');
+						reject('Error localforage');
 					}
 				})
 			);
@@ -38,7 +38,7 @@ const localForageMockGenerator = function (willResolve, storage){
 						resolve(storage[key]);
 					}
 					else{
-						reject('Error LocalForage');
+						reject('Error localforage');
 					}
 				})
 			);
@@ -47,12 +47,12 @@ const localForageMockGenerator = function (willResolve, storage){
 	};
 }
 
-describe('localForage succeeds', () => {
+describe('localforage succeeds', () => {
 	let storage = {};
 	beforeAll(() => {
 		storage = {...storageMock};
-		jest.spyOn(localForage, 'setItem').mockImplementation((key, value) => localForageMockGenerator(true, storage).setItem(key, value));
-		jest.spyOn(localForage, 'getItem').mockImplementation((key) => localForageMockGenerator(true, storage).getItem(key));
+		jest.spyOn(localforage, 'setItem').mockImplementation((key, value) => localforageMockGenerator(true, storage).setItem(key, value));
+		jest.spyOn(localforage, 'getItem').mockImplementation((key) => localforageMockGenerator(true, storage).getItem(key));
 	})
 
 
@@ -85,12 +85,12 @@ describe('localForage succeeds', () => {
 	});	
 });
 
-describe('localForage fails', () => {
+describe('localforage fails', () => {
 	let storage = {};
 	beforeAll(() => {
 		storage = {...storageMock};
-		jest.spyOn(localForage, 'setItem').mockImplementation((key, value) => localForageMockGenerator(false, storage).setItem(key, value));
-		jest.spyOn(localForage, 'getItem').mockImplementation((key) => localForageMockGenerator(false, storage).getItem(key));
+		jest.spyOn(localforage, 'setItem').mockImplementation((key, value) => localforageMockGenerator(false, storage).setItem(key, value));
+		jest.spyOn(localforage, 'getItem').mockImplementation((key) => localforageMockGenerator(false, storage).getItem(key));
 	})
 
 
