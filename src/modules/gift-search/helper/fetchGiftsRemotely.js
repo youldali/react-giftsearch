@@ -2,6 +2,7 @@
 import type { GiftCollection } from 'modules/actions/types';
 import { cloudSearchConfig } from 'config';
 import fetch from 'isomorphic-fetch';
+import { formatGiftCollection } from './giftFormatter';
 
 export
 const buildGiftUrl = 
@@ -35,7 +36,8 @@ export default
 							return Promise.reject(`Status: ${response.status} - ${response.statusText}`);
 					})
 					.then((jsonData: Object) => {
-						return jsonData.items;
+						const giftCollection = formatGiftCollection(jsonData.items);
+						return giftCollection;
 					})
 					.catch(error => {
 						console.log('Error fetching Gift boxes', error);

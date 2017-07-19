@@ -1,14 +1,18 @@
 import giftFetcher, { buildGiftUrl } from '../fetchGiftsRemotely';
+import * as giftFormatter from '../giftFormatter';
 import { cloudSearchConfig } from 'config';
 import nock from 'nock';
 
 
+const mockFormatGiftCollection = jest.spyOn(giftFormatter, 'formatGiftCollection').mockImplementation(val => val);
 beforeAll(() => {
+
   cloudSearchConfig.baseUrl = "http://www.smartbox.com/?";
   cloudSearchConfig.universeToUrlMap = {
 		"well-being" : [10,100,150],
 		"gastronomy" : [1,2]
 	};
+
 });
 
 test('it builds the correct url', () => {
@@ -22,7 +26,6 @@ describe('fetch gift boxes remotely', () => {
 
 	afterEach(() => {
     nock.cleanAll();
-    jest.resetAllMocks();
   })
 
 	test('it returns rejected Promise when categories is undefined', () => {
