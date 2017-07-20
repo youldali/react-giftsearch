@@ -1,6 +1,7 @@
 //@flow
 
-import type { Filters } from 'modules/actions/types';
+import type { Filters, FilterValue } from 'modules/actions/types';
+import type { Criterias } from 'config';
 import { filterConfig } from 'config';
 
 
@@ -10,10 +11,11 @@ type FilterFunction = (target: Object) => boolean;
  * Build a sub Query for a specific criterias list
  */
 export const 
-buildFilterSubQuery = (threshold: number, criterias: Array<Object>, objectName: string): string => {
+buildFilterSubQuery = (threshold: FilterValue, criterias: Criterias, objectName: string): string => {
 	let filterToEval = '';
 	for (const {field, operator} of criterias) {
-		filterToEval += `&& ${objectName}['${field}'] ${operator} ${threshold} `;
+		const thresholdFormatted = typeof threshold === 'string' ? `"${threshold}"` : threshold;
+		filterToEval += `&& ${objectName}['${field}'] ${operator} ${thresholdFormatted} `;
 	}
 
 	return filterToEval;
@@ -28,7 +30,7 @@ const buildFilterQuery = (filters: Filters, objectName: string): string => {
 	let filterToEval = 'true ';
 
 	for (const [filterName, threshold] of Object.entries(filters)) {
-	    if(!filterConfig.hasOwnProperty(filterName))
+	    if(!filterConfig.hasOwnProperty(filterName) || (typeof threshold !== 'number' && typeof threshold !== 'string'))
 	    	continue;
 
 	    filterToEval += buildFilterSubQuery(threshold, filterConfig[filterName], objectName);
@@ -43,7 +45,7 @@ const buildFilterQuery = (filters: Filters, objectName: string): string => {
  */
 export
 const filterObjectAgainstCriterias = (filters: Filters): FilterFunction => {
-	return (target: Object): Boolean => {
+	return (target: Object): boolean => {
 		const filterToEval = buildFilterQuery(filters, 'target');
 		return eval(filterToEval);
 	}

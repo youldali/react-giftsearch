@@ -1,7 +1,7 @@
 // @flow
 
-export
-type Filters = { [string]: number };
+export type FilterValue = number | string ;
+export type Filters = { [string]: FilterValue};
 
 export 
 type Gift = {

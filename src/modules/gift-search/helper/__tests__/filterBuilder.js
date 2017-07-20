@@ -4,13 +4,15 @@ import * as config from 'config';
 const gift1 = {'name': 'Paris', 'price': 205, 'min_persons': 1,'max_persons': 1};
 const gift2 = {'name': 'Lyon', 'price': 350, 'min_persons': 1,'max_persons': 2};
 const gift3 = {'name': 'Barcelona', 'price': 700.5, 'min_persons': 2,'max_persons': 6};
-const giftCollection = [gift1, gift2, gift3];
+const gift4 = {'name': 'Lyon', 'price': 990, 'min_persons': 1,'max_persons': 1};
+const giftCollection = [gift1, gift2, gift3, gift4];
 
 beforeAll(() => {
 	config.filterConfig = {
 		'maxPrice': [{ 'field': 'price', 'operator': '<=' }],
 		'forPersons': [{ 'field': 'min_persons', 'operator': '<=' }, { 'field': 'max_persons', 'operator': '>=' }],
 		'complex': [{ 'field': 'complex1', 'operator': '>' }, { 'field': 'complex2', 'operator': '<=' }, { 'field': 'complex3', 'operator': '===' }, { 'field': 'complex4', 'operator': '!=' }],
+		'city': [{ 'field': 'name', 'operator': '===' }]
 	};
 });
 
@@ -39,6 +41,13 @@ describe('buildFilterSubQuery', () => {
 		expect(query).toBe(expectedQuery);			
 	});			
 
+	test('it should return query with test for string value', () => {
+		const filters = {'city': "Lyon"};
+		const query = filterBuilder.buildFilterSubQuery(filters['city'], config.filterConfig['city'], 'gift1'); 
+		const expectedQuery = "&& gift1['name'] === \"Lyon\" ";
+		expect(query).toBe(expectedQuery);			
+	});	
+
 });
 
 describe('buildFilterQuery', () => {
@@ -65,9 +74,9 @@ describe('buildFilterQuery', () => {
 	});
 
 	test('it should return full query for multiple complex filters', () => {
-		const filters = {'forPersons': 3, 'maxPrice': 500, 'complex': 11.1};
+		const filters = {'forPersons': 3, 'maxPrice': 500, 'complex': 11.1, 'city': 'Dublin'};
 		const query = filterBuilder.buildFilterQuery(filters, 'gift1')
-		const expectedQuery = "true && gift1['min_persons'] <= 3 && gift1['max_persons'] >= 3 && gift1['price'] <= 500 && gift1['complex1'] > 11.1 && gift1['complex2'] <= 11.1 && gift1['complex3'] === 11.1 && gift1['complex4'] != 11.1 ";
+		const expectedQuery = "true && gift1['min_persons'] <= 3 && gift1['max_persons'] >= 3 && gift1['price'] <= 500 && gift1['complex1'] > 11.1 && gift1['complex2'] <= 11.1 && gift1['complex3'] === 11.1 && gift1['complex4'] != 11.1 && gift1['name'] === \"Dublin\" ";
 		expect(query).toBe(expectedQuery);
 	});	
 
@@ -105,7 +114,7 @@ describe('filterObjectAgainstCriterias', () => {
 
 	test('it should return objects for 1 persons', () => {
 		const filters = {'forPersons': 1};
-		const expectedCollection = [gift1, gift2];
+		const expectedCollection = [gift1, gift2, gift4];
 		const filteredCollection = giftCollection.filter(filterBuilder.filterObjectAgainstCriterias(filters));
 		expect(filteredCollection).toEqual(expectedCollection);
 	});
@@ -123,5 +132,19 @@ describe('filterObjectAgainstCriterias', () => {
 		const filteredCollection = giftCollection.filter(filterBuilder.filterObjectAgainstCriterias(filters));
 		expect(filteredCollection).toEqual(expectedCollection);
 	});			
+
+	test('it should return objects for city = Lyon', () => {
+		const filters = {'city': 'Lyon'};
+		const expectedCollection = [gift2, gift4];
+		const filteredCollection = giftCollection.filter(filterBuilder.filterObjectAgainstCriterias(filters));
+		expect(filteredCollection).toEqual(expectedCollection);
+	});
+
+	test('it should return objects for city = Lyon AND price < 700', () => {
+		const filters = {'city': 'Lyon', 'maxPrice': 700};
+		const expectedCollection = [gift2];
+		const filteredCollection = giftCollection.filter(filterBuilder.filterObjectAgainstCriterias(filters));
+		expect(filteredCollection).toEqual(expectedCollection);
+	});		
 
 });
