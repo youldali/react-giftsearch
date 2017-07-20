@@ -51,7 +51,7 @@ const formatGiftConfig = {
 export
 const filterConfig = {
 	'maxPrice': [{ 'field': 'price', 'operator': '<=' }],
-	'forPersons': [{ 'field': 'min_persons', 'operator': '>=' }, { 'field': 'max_persons', 'operator': '<=' }],
+	'forPersons': [{ 'field': 'min_persons', 'operator': '<=' }, { 'field': 'max_persons', 'operator': '>=' }],
 };
 
 
