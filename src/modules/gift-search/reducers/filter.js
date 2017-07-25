@@ -24,5 +24,6 @@ export default filterReducer;
 
 export 
 const selectors = {
-	getFilters: (state: Object) => (state.giftSearch.filter)
+	getFilters: (state: Object) => (state.giftSearch.filter),
+	getFilter: (state: Object, filter: string) => (state.giftSearch.filter[filter])
 };
