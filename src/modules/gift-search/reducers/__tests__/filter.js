@@ -16,6 +16,19 @@ test('it adds a filter', () => {
 	expect(newState).toEqual({'name': 'myFilter'});	
 });
 
+test('it adds multiple filters', () => {
+	const action = {
+		type: "SET_FILTER",
+		filters:{
+			'name': 'myFilter',
+			'price': 1234,
+			'value': 'val',
+		}
+	};
+	const newState = filterReducer({}, action);
+	expect(newState).toEqual({'name': 'myFilter', 'price': 1234, 'value': 'val'});	
+});
+
 test('it resets a filter already set', () => {
 	const action = {
 		type: "RESET_FILTER",

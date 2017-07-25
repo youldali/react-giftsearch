@@ -37,9 +37,11 @@ const getAmountOfNights = (category: Array<string>): [number, number] => {
  */
 export 
 const getAmountOfPersons = (nb_pers: string): [number, number] => {
-	let nbPersArray = nb_pers.split('-');
 	let amountOfPersons = [0, 0];
+	if(nb_pers === undefined || nb_pers === null)
+		return amountOfPersons;
 
+	let nbPersArray = nb_pers.split('-');
 	for (const [i, val] of nbPersArray.entries()) {
     amountOfPersons[i] = parseInt(val, 10);
 	}

@@ -82,6 +82,13 @@ describe('buildFilterQuery', () => {
 		expect(query).toBe(expectedQuery);
 	});	
 
+	test('it should return true when no filters provided', () => {
+		const filters = {};
+		const query = filterBuilder.buildFilterQuery(filters, criteriasCollection, 'gift1')
+		const expectedQuery = "true ";
+		expect(query).toBe(expectedQuery);
+	});		
+
 });
 
 
@@ -113,6 +120,12 @@ describe('filterObjectAgainstCriterias', () => {
 		const result2 = filterBuilder.filterObjectAgainstCriterias(filters, criteriasCollection)(gift3);
 		expect(result2).toBe(false);		
 	});	
+
+	test('it should return true when no filters provided', () => {
+		const filters = {};
+		const result = filterBuilder.filterObjectAgainstCriterias(filters, criteriasCollection)(gift2);
+		expect(result).toBe(true);
+	});			
 
 });
 
@@ -170,6 +183,13 @@ describe('filter', () => {
 	test('it should return objects for city = Lyon AND price < 700', () => {
 		const filters = {'city': 'Lyon', 'maxPrice': 700};
 		const expectedCollection = [gift2];
+		const filteredCollection = filter(giftCollection, filters, criteriasCollection);
+		expect(filteredCollection).toEqual(expectedCollection);
+	});
+
+test('it should whole collection when no filter provided', () => {
+		const filters = {};
+		const expectedCollection = giftCollection;
 		const filteredCollection = filter(giftCollection, filters, criteriasCollection);
 		expect(filteredCollection).toEqual(expectedCollection);
 	});		

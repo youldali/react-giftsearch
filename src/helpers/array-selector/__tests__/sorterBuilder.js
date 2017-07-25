@@ -29,6 +29,12 @@ describe('sorterBuilder', () => {
 		expect(comparisonResult).toBe(0);		
 	});	
 
+	test('it should return == 0 when sort state in empty', () => {
+		const sortState = '';
+		const comparisonResult = sorterBuilder(sortState)(gift1, gift1);
+		expect(comparisonResult).toBe(0);		
+	});		
+
 });
 
 describe('sorter', () => {
@@ -57,6 +63,13 @@ describe('sorter', () => {
 	test('it should sort the gift by name DESC', () => {
 		const sortState = '-name';
 		const expectedSort = [gift1, gift2, gift4, gift3];
+		const sortedGifts = sorter(giftCollection, sortState)
+		expect(sortedGifts).toEqual(expectedSort);			
+	});
+
+	test('it should leave the collection unsorted when sortState is empty', () => {
+		const sortState = '';
+		const expectedSort = giftCollection;
 		const sortedGifts = sorter(giftCollection, sortState)
 		expect(sortedGifts).toEqual(expectedSort);			
 	});		
