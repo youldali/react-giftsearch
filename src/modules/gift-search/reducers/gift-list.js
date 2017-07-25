@@ -1,5 +1,11 @@
 // @flow
-import type { Action, GiftCollection } from 'modules/actions/types';
+import type { Action, GiftCollection, Filters } from 'modules/actions/types';
+import { selectors as filterSelectors } from './filter';
+import { selectors as orderSelectors } from './order';
+import { createSelector } from 'reselect';
+import filter from 'helpers/array-selector/filterBuilder';
+import sort from 'helpers/array-selector/sorterBuilder';
+import { filterConfig } from 'config';
 
 type GiftListState = {
 	+giftList: GiftCollection,
@@ -37,3 +43,22 @@ function giftListReducer (state: GiftListState = initialState, action: Action): 
 }
 
 export default giftListReducer;
+
+//selectors
+const getList = (state: Object) => (state.giftSearch.giftList.giftList);
+const getFilteredList = createSelector(
+  [getList, filterSelectors.getFilters],
+  (stateGiftList: GiftCollection, stateGiftFilters: Filters): GiftCollection => filter(stateGiftList, stateGiftFilters, filterConfig)
+);
+const getOrderedFilteredList = createSelector(
+  [getFilteredList, orderSelectors.getOrder],
+  (stateGiftListFiltered: GiftCollection, stateGiftOrder: string): GiftCollection => sort(stateGiftListFiltered, stateGiftOrder)
+);
+
+
+export 
+const selectors = {
+	getList,
+	getFilteredList,
+	getOrderedFilteredList
+};

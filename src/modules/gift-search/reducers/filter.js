@@ -21,3 +21,8 @@ function filterReducer (state: FilterState = {}, action: Action): FilterState {
 }
 
 export default filterReducer;
+
+export 
+const selectors = {
+	getFilters: (state: Object) => (state.giftSearch.filter)
+};

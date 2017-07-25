@@ -13,3 +13,8 @@ function orderReducer (state: OrderState = '', action: Action): OrderState {
 }
 
 export default orderReducer;
+
+export 
+const selectors = {
+	getOrder: (state: Object) => (state.giftSearch.order)
+};

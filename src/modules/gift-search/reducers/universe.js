@@ -13,3 +13,8 @@ function universeReducer(state: UniverseState = '', action: Action): UniverseSta
 }
 
 export default universeReducer;
+
+export 
+const selectors = {
+	getUniverseSelector: (state: Object) => (state.giftSearch.universe)
+}
