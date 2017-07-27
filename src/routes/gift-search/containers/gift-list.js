@@ -34,7 +34,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		fetchList: () => dispatch(actions.fetchGiftList('adventure'))
+		fetchList: () => dispatch(actions.fetchGiftList('gastronomy'))
 	}
 }
 

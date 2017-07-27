@@ -35,7 +35,7 @@ test('it resets a filter already set', () => {
 		filters: ['name', 'surname']
 	};
 	const newState = filterReducer({'name': 'myFilterValue', 'lastname': 'myLastname', 'surname': 'mySurname'}, action);
-	expect(newState).toEqual({'name': '', 'lastname': 'myLastname', 'surname': ''});	
+	expect(newState).toEqual({'lastname': 'myLastname'});	
 });
 
 test('it resets a filter that does not exist', () => {
@@ -44,5 +44,5 @@ test('it resets a filter that does not exist', () => {
 		filters: ['name']
 	};
 	const newState = filterReducer({}, action);
-	expect(newState).toEqual({'name': ''});	
+	expect(newState).toEqual({});	
 });

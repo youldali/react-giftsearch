@@ -1,36 +1,30 @@
-// @flow weak
+// @flow
 
 import React, { Component } from 'react';
-import { FormControlLabel } from 'material-ui/Form';
-import Switch from 'material-ui/Switch';
+import { Radio } from 'semantic-ui-react';
 
-class Filter extends Component {
-  constructor(props) {
-    super(props)
-  }
 
-  componentDidMount() {
+
+const Filter = (props) => {
+
+  const handleChange = () => {
+    if(props.filterState === props.filterForValue)
+      props.resetFilter([props.filterName]);
+    else
+      props.setFilter( {[props.filterName]: props.filterForValue } );
   }  
 
-  state = {
-    checkedA: true,
-  };
+  return (
+    <div>
+      <Radio 
+        toggle 
+        label={props.filterLabel} 
+        checked={props.filterState === props.filterForValue}
+        onChange={handleChange}
+      />
+    </div>
+  );  
 
-  render() {
-    return (
-      <div>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={this.state.checkedA}
-              onChange={(event, checked) => this.setState({ checkedA: checked })}
-            />
-          }
-          label={this.props.label}
-        />
-      </div>
-    );
-  }
-}
+};
 
 export default Filter;

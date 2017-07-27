@@ -1,3 +1,5 @@
+//@flow
+
 import React from 'react';
 
 const gift = ({ giftList }) => (
@@ -6,7 +8,7 @@ const gift = ({ giftList }) => (
 	  <div
 	    key={gift.id}	    
 	  >
-	  	{gift.name} {gift.price} == {gift.rawPrice}
+	  	{gift.name} Price: {gift.rawPrice} - minPers: {gift.min_persons} - minPers: {gift.max_persons}
 	  </div>
 	))}
  </div>

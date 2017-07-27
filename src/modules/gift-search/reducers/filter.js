@@ -10,11 +10,11 @@ function filterReducer (state: FilterState = {}, action: Action): FilterState {
 		case "SET_FILTER":
 			return {...state, ...action.filters};
 		case "RESET_FILTER":
-			let resetedFilters = {};
+			let resetedFilters = {...state};
 			for (let field of (action.filters)) {
-				resetedFilters[field] = '';
+				delete resetedFilters[field];
 			}
-			return {...state, ...resetedFilters};
+			return resetedFilters;
 		default:
 			return state;		
 	}
@@ -25,5 +25,5 @@ export default filterReducer;
 export 
 const selectors = {
 	getFilters: (state: Object) => (state.giftSearch.filter),
-	getFilter: (state: Object, filter: string) => (state.giftSearch.filter[filter])
+	getFilter: (state: Object, filterName: string) => (state.giftSearch.filter[filterName])
 };

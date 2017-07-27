@@ -3,14 +3,16 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { selectors } from 'modules/gift-search/index';
-import * as actions from 'modules/actions/gift-list-fetch';
+import * as actions from 'modules/actions/gift-list-refinement';
 import Filter from '../components/filter';
 
 
 const mapStateToProps = (state, ownProps) => {
-	const filter = selectors.getFilter(ownProps.filterName);
+	const {filterName} = ownProps;
+	const filterState = selectors.getFilter(state, filterName);
 	return {
-		filterName
+		...ownProps,
+		filterState
 	}
 }
 
@@ -21,4 +23,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GiftListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);
