@@ -1,8 +1,8 @@
 // @flow
 
-export type Criteria = {|field: string, operator: string|};
+export type Criteria = {field: string, operator: string};
 export type Criterias = Array<Criteria>;
-export type FilterConfig = {[string]: Criterias};
+export type FilterConfig = { [string]: {criterias: Criterias, filterGroup?: string} };
 export type UniverseToUrlMap = {[string]: Array<number>};
 export type FieldsToKeep = Array<string>;
 
@@ -61,9 +61,18 @@ const formatGiftConfig = {
 
 export
 const filterConfig: FilterConfig = {
-	'maxPrice': [{ 'field': 'rawPrice', 'operator': '<=' }],
-	'forPersonsRange': [{ 'field': 'min_persons', 'operator': '<=' }, { 'field': 'max_persons', 'operator': '>=' }],
-	'forPersons': [{ 'field': 'min_persons', 'operator': '===' }, { 'field': 'max_persons', 'operator': '===' }]
+	'maxPrice': {
+		criterias: [{ 'field': 'rawPrice', 'operator': '<=' }],
+		filterGroup: 'person' 
+	},
+	'forPersonsRange': {
+		criterias: [{ 'field': 'min_persons', 'operator': '<=' }, { 'field': 'max_persons', 'operator': '>=' }],
+		filterGroup: 'person' 
+	},
+	'forPersons': {
+		criterias: [{ 'field': 'min_persons', 'operator': '===' }, { 'field': 'max_persons', 'operator': '===' }],
+		filterGroup: 'person'
+	}
 };
 
 

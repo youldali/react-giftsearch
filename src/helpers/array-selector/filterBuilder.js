@@ -1,9 +1,9 @@
 //@flow
 type FilterValue = number | string ;
 type Filters = { [string]: FilterValue};
-type Criteria = {|field: string, operator: string|};
+type Criteria = {field: string, operator: string};
 type Criterias = Array<Criteria>;
-type CriteriasCollection = {[string]: Criterias};
+type CriteriasCollection = {[string]: {criterias: Criterias}};
 type FilterFunction = (target: Object) => boolean;
 
 /**
@@ -32,7 +32,7 @@ const buildFilterQuery = (filters: Filters, criteriasCollection: CriteriasCollec
 	    if(!criteriasCollection.hasOwnProperty(filterName) || (typeof threshold !== 'number' && typeof threshold !== 'string'))
 	    	continue;
 
-	    filterToEval += buildFilterSubQuery(threshold, criteriasCollection[filterName], objectName);
+	    filterToEval += buildFilterSubQuery(threshold, criteriasCollection[filterName].criterias, objectName);
 	}
 
 	return filterToEval;
