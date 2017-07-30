@@ -5,7 +5,7 @@ type UniverseState = string;
 
 function universeReducer(state: UniverseState = '', action: Action): UniverseState{
 	switch (action.type){
-		case "SET_UNIVERSE":
+		case "GIFT_LIST_SEARCH/SET_UNIVERSE":
 			return action.universe
 		default:
 			return state;

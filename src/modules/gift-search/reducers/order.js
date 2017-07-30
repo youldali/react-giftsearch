@@ -5,7 +5,7 @@ type OrderState = string;
 
 function orderReducer (state: OrderState = '', action: Action): OrderState {
 	switch (action.type){
-		case "SET_ORDER":
+		case "GIFT_LIST_SEARCH/SET_ORDER":
 			return action.order;
 		default:
 			return state;

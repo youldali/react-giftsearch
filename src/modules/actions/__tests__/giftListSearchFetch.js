@@ -1,30 +1,30 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import * as actions from '../gift-list-fetch';
-import * as giftFetcherRemote from 'modules/gift-search/helper/fetchGiftsRemotely';
-import * as giftFetchLocal from 'modules/gift-search/helper/fetchGiftsStorage';
+import * as actions from '../giftListSearchFetch';
+import * as giftFetcherRemote from 'modules/gift-search/helpers/fetchGiftsRemotely';
+import * as giftFetchLocal from 'helpers/browser-storage/storage';
 
 describe('Plain actions creators', () => {
 
-	test('it should return "IS_FETCHING_GIFT_LIST" action creator', () => {
+	test('it should return "GIFT_LIST_SEARCH/FETCH_REQUESTED" action creator', () => {
 		const expectedAction = {
-			type: "IS_FETCHING_GIFT_LIST",
+			type: "GIFT_LIST_SEARCH/FETCH_REQUESTED",
 			isFetching: true
 		};
 
 		expect(actions.isFetchingGiftList(true)).toEqual(expectedAction);
 	});
 
-	test('it should return "FETCH_GIFT_LIST_SUCCESS" action creator', () => {
+	test('it should return "GIFT_LIST_SEARCH/FETCH_SUCCEEDED" action creator', () => {
 		const expectedAction = {
-			type: "FETCH_GIFT_LIST_SUCCESS",
+			type: "GIFT_LIST_SEARCH/FETCH_SUCCEEDED",
 			success: false
 		};
 
 		expect(actions.fetchGiftListSucceeds(false)).toEqual(expectedAction);
 	});
 
-	test('it should return "SET_GIFT_LIST" action creator', () => {
+	test('it should return "GIFT_LIST_SEARCH/SET_LIST" action creator', () => {
 		const myGiftList = [
 			{
 				id: 100,
@@ -39,7 +39,7 @@ describe('Plain actions creators', () => {
 		];	
 
 		const expectedAction = {
-			type: "SET_GIFT_LIST",
+			type: "GIFT_LIST_SEARCH/SET_LIST",
 			giftList: myGiftList
 		};
 
@@ -95,8 +95,8 @@ describe('thunks', () => {
 	let spyStorageSaveGifts;
 	beforeAll(() => {
 		jest.spyOn(giftFetcherRemote, 'default').mockImplementation( universe => mockGiftFetcherRemote(universe));
-		jest.spyOn(giftFetchLocal, 'storageGetGifts').mockImplementation( universe => mockGiftFetcherLocal(universe));
-		spyStorageSaveGifts = jest.spyOn(giftFetchLocal, 'storageSaveGifts').mockImplementation( succeeds => mockGiftSaveLocal(succeeds));
+		jest.spyOn(giftFetchLocal, 'getFromStorage').mockImplementation( universe => mockGiftFetcherLocal(universe));
+		spyStorageSaveGifts = jest.spyOn(giftFetchLocal, 'saveToStorage').mockImplementation( succeeds => mockGiftSaveLocal(succeeds));
 	});
 	
 
@@ -111,9 +111,9 @@ describe('thunks', () => {
 		test('it succeeds', () => {
 			//expected actions
 			const expectedActions = [
-	      { type: "IS_FETCHING_GIFT_LIST", isFetching: true },
-	      { type: "FETCH_GIFT_LIST_SUCCESS", success: true },
-	      { type: "SET_GIFT_LIST", giftList: myGiftList_1 }
+	      { type: "GIFT_LIST_SEARCH/FETCH_REQUESTED", isFetching: true },
+	      { type: "GIFT_LIST_SEARCH/FETCH_SUCCEEDED", success: true },
+	      { type: "GIFT_LIST_SEARCH/SET_LIST", giftList: myGiftList_1 }
 	    ];
 
 			return (
@@ -129,8 +129,8 @@ describe('thunks', () => {
 		test('it fails', () => {
 			//expected actions
 			const expectedActions = [
-	      { type: "IS_FETCHING_GIFT_LIST", isFetching: true },
-	      { type: "FETCH_GIFT_LIST_SUCCESS", success: false },
+	      { type: "GIFT_LIST_SEARCH/FETCH_REQUESTED", isFetching: true },
+	      { type: "GIFT_LIST_SEARCH/FETCH_SUCCEEDED", success: false },
 	    ];
 
 			return (
@@ -150,7 +150,7 @@ describe('thunks', () => {
 		test('it succeeds', () => {
 			//expected actions
 			const expectedActions = [
-	      { type: "SET_GIFT_LIST", giftList: myGiftList_2 }
+	      { type: "GIFT_LIST_SEARCH/SET_LIST", giftList: myGiftList_2 }
 	    ];
 
 			return (
@@ -183,7 +183,7 @@ describe('thunks', () => {
 
 			//expected actions
 			const expectedActions = [
-	      { type: "SET_GIFT_LIST", giftList: myGiftList_2 }
+	      { type: "GIFT_LIST_SEARCH/SET_LIST", giftList: myGiftList_2 }
 	    ];
 
 			store.dispatch(actions.fetchGiftList('sejour'))
@@ -197,9 +197,9 @@ describe('thunks', () => {
 
 			//expected actions
 			const expectedActions = [
-	      { type: "IS_FETCHING_GIFT_LIST", isFetching: true },
-	      { type: "FETCH_GIFT_LIST_SUCCESS", success: true },
-	      { type: "SET_GIFT_LIST", giftList: myGiftList_1 }
+	      { type: "GIFT_LIST_SEARCH/FETCH_REQUESTED", isFetching: true },
+	      { type: "GIFT_LIST_SEARCH/FETCH_SUCCEEDED", success: true },
+	      { type: "GIFT_LIST_SEARCH/SET_LIST", giftList: myGiftList_1 }
 	    ];
 
 			store.dispatch(actions.fetchGiftList('gastronomy'))
@@ -213,8 +213,8 @@ describe('thunks', () => {
 
 			//expected actions
 			const expectedActions = [
-	      { type: "IS_FETCHING_GIFT_LIST", isFetching: true },
-	      { type: "FETCH_GIFT_LIST_SUCCESS", success: false },
+	      { type: "GIFT_LIST_SEARCH/FETCH_REQUESTED", isFetching: true },
+	      { type: "GIFT_LIST_SEARCH/FETCH_SUCCEEDED", success: false },
 	    ];
 
 			store.dispatch(actions.fetchGiftList('undefined'))

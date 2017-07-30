@@ -1,5 +1,4 @@
-import sorter, {sorterBuilder} from '../sorterBuilder';
-import * as config from 'config';
+import sorter, {sorterBuilder} from '../sortList';
 
 const gift1 = {'name': 'Paris', 'price': 205, 'min_persons': 1,'max_persons': 1};
 const gift2 = {'name': 'Lyon', 'price': 150, 'min_persons': 1,'max_persons': 2};

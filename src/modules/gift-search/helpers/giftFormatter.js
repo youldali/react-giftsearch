@@ -1,7 +1,7 @@
 // @flow
 
 import type { Gift, GiftCollection } from 'modules/actions/types';
-import { formatGiftConfig } from 'config';
+import { formatGiftConfig } from 'modules/gift-search/config';
 
 /*
  * Returns the price (number) given the formatted price
@@ -19,7 +19,9 @@ const getRawPrice = (formattedPrice: string): number => {
 export 
 const getAmountOfNights = (category: Array<string>): [number, number] => {
 	let amountNights = [0, 0];
-
+	if(category === undefined || category === null)
+		return amountNights;
+	
 	if(category.indexOf(formatGiftConfig.twoNights) >= 0){
 		amountNights[1] = 2;
 		amountNights[0] = category.indexOf(formatGiftConfig.oneNight) === -1 ? 2 : 1;

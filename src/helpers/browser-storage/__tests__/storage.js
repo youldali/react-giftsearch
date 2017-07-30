@@ -1,4 +1,4 @@
-import * as universeStorage from '../fetchGiftsStorage';
+import * as universeStorage from '../storage';
 import localforage from 'localforage';
 
 const storageMock = {
@@ -71,7 +71,7 @@ describe('localforage succeeds', () => {
 		];
 
 		const expectedStorage = {...storageMock, 'sejour': sejourList};
-		return universeStorage.storageSaveGifts('sejour', sejourList)
+		return universeStorage.saveToStorage('sejour', sejourList)
 						.then((sejourListReturned) => {
 							expect(sejourListReturned).toEqual(sejourList);
 							expect(storage).toEqual(expectedStorage);
@@ -81,7 +81,7 @@ describe('localforage succeeds', () => {
 
 	test('it gets a list from the storage', () => {
 		const expectedStorage = storageMock.gastronomy;
-		return expect(universeStorage.storageGetGifts('gastronomy')).resolves.toEqual(expectedStorage);
+		return expect(universeStorage.getFromStorage('gastronomy')).resolves.toEqual(expectedStorage);
 	});	
 });
 
@@ -109,11 +109,11 @@ describe('localforage fails', () => {
 		];
 
 		const expectedStorage = {...storageMock, 'sejour': sejourList};
-		return expect(universeStorage.storageGetGifts('gastronomy')).rejects.toBeDefined();
+		return expect(universeStorage.saveToStorage('gastronomy', sejourList)).rejects.toBeDefined();
 	});
 
 	test('it gets a list from the storage', () => {
 		const expectedStorage = storageMock.gastronomy;
-		return expect(universeStorage.storageGetGifts('Undefined Category')).rejects.toBeDefined();
+		return expect(universeStorage.getFromStorage('Undefined Category')).rejects.toBeDefined();
 	});	
 });

@@ -1,9 +1,12 @@
 //@flow
+
+import "babel-polyfill";
+
 type FilterValue = number | string ;
-type Filters = { [string]: FilterValue};
-type Criteria = {field: string, operator: string};
-type Criterias = Array<Criteria>;
-type CriteriasCollection = {[string]: {criterias: Criterias}};
+type Filters = { +[string]: FilterValue};
+type Criteria = {|field: string, operator: string|};
+type Criterias = $ReadOnlyArray<Criteria>;
+type CriteriasCollection = {+[string]: {criterias: Criterias}};
 type FilterFunction = (target: Object) => boolean;
 
 /**

@@ -1,4 +1,4 @@
-import filter, * as filterBuilder from '../filterBuilder';
+import filter, * as filterBuilder from '../filterList';
 
 const gift1 = {'name': 'Paris', 'price': 205, 'min_persons': 1,'max_persons': 1};
 const gift2 = {'name': 'Lyon', 'price': 350, 'min_persons': 1,'max_persons': 2};
@@ -7,38 +7,38 @@ const gift4 = {'name': 'Lyon', 'price': 990, 'min_persons': 1,'max_persons': 1};
 const giftCollection = [gift1, gift2, gift3, gift4];
 
 const criteriasCollection = {
-	'maxPrice': [{ 'field': 'price', 'operator': '<=' }],
-	'forPersons': [{ 'field': 'min_persons', 'operator': '<=' }, { 'field': 'max_persons', 'operator': '>=' }],
-	'complex': [{ 'field': 'complex1', 'operator': '>' }, { 'field': 'complex2', 'operator': '<=' }, { 'field': 'complex3', 'operator': '===' }, { 'field': 'complex4', 'operator': '!=' }],
-	'city': [{ 'field': 'name', 'operator': '===' }]
+	'maxPrice': {criterias: [{ 'field': 'price', 'operator': '<=' }] },
+	'forPersons': {criterias: [{ 'field': 'min_persons', 'operator': '<=' }, { 'field': 'max_persons', 'operator': '>=' }]},
+	'complex': {criterias: [{ 'field': 'complex1', 'operator': '>' }, { 'field': 'complex2', 'operator': '<=' }, { 'field': 'complex3', 'operator': '===' }, { 'field': 'complex4', 'operator': '!=' }]},
+	'city': {criterias: [{ 'field': 'name', 'operator': '===' }] }
 };
 
 describe('buildFilterSubQuery', () => {
 
 	test('it should return query with 1 test', () => {
 		const filters = {'maxPrice': 500};
-		const query = filterBuilder.buildFilterSubQuery(filters['maxPrice'], criteriasCollection['maxPrice'], 'gift1'); 
+		const query = filterBuilder.buildFilterSubQuery(filters['maxPrice'], criteriasCollection['maxPrice'].criterias, 'gift1'); 
 		const expectedQuery = "&& gift1['price'] <= 500 ";
 		expect(query).toBe(expectedQuery);			
 	});
 
 	test('it should return query with 2 tests', () => {
 		const filters = {'forPersons': 2};
-		const query = filterBuilder.buildFilterSubQuery(filters['forPersons'], criteriasCollection['forPersons'], 'gift1'); 
+		const query = filterBuilder.buildFilterSubQuery(filters['forPersons'], criteriasCollection['forPersons'].criterias, 'gift1'); 
 		const expectedQuery = "&& gift1['min_persons'] <= 2 && gift1['max_persons'] >= 2 ";
 		expect(query).toBe(expectedQuery);			
 	});
 
 	test('it should return query with multiple tests', () => {
 		const filters = {'complex': 10.57};
-		const query = filterBuilder.buildFilterSubQuery(filters['complex'], criteriasCollection['complex'], 'gift1'); 
+		const query = filterBuilder.buildFilterSubQuery(filters['complex'], criteriasCollection['complex'].criterias, 'gift1'); 
 		const expectedQuery = "&& gift1['complex1'] > 10.57 && gift1['complex2'] <= 10.57 && gift1['complex3'] === 10.57 && gift1['complex4'] != 10.57 ";
 		expect(query).toBe(expectedQuery);			
 	});			
 
 	test('it should return query with test for string value', () => {
 		const filters = {'city': "Lyon"};
-		const query = filterBuilder.buildFilterSubQuery(filters['city'], criteriasCollection['city'], 'gift1'); 
+		const query = filterBuilder.buildFilterSubQuery(filters['city'], criteriasCollection['city'].criterias, 'gift1'); 
 		const expectedQuery = "&& gift1['name'] === \"Lyon\" ";
 		expect(query).toBe(expectedQuery);			
 	});	

@@ -16,7 +16,7 @@ class App extends Component {
         </div>
         
         <Filter filterLabel='Prix max' filterName='maxPrice' filterForValue={60} />
-        <Filter filterLabel='Solo' filterName='forPersons' filterForValue={1} />
+        <Filter filterLabel='Solo' filterName='forPersonsRange' filterForValue={1} />
         <Filter filterLabel='Couple' filterName='forPersons' filterForValue={2} />
         <GiftListContainer />
       </div>

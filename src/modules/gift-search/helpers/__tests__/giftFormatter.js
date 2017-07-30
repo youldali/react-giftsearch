@@ -1,5 +1,5 @@
 import * as giftFormatter from '../giftFormatter';
-import { formatGiftConfig } from 'config';
+import { formatGiftConfig } from 'modules/gift-search/config';
 
 const mockCloudSearchTuple1 = {  
    "id":"239311",

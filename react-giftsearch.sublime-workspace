@@ -60,101 +60,10 @@
 	"buffers":
 	[
 		{
-			"file": "src/modules/actions/types.js",
-			"settings":
-			{
-				"buffer_size": 673,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/modules/actions/gift-list-refinement.js",
-			"settings":
-			{
-				"buffer_size": 487,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/modules/actions/__tests__/gift-list-refinement.js",
-			"settings":
-			{
-				"buffer_size": 916,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/modules/actions/gift-list-fetch.js",
-			"settings":
-			{
-				"buffer_size": 1764,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/modules/gift-search/reducers/gift-list.js",
-			"settings":
-			{
-				"buffer_size": 753,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/modules/actions/__tests__/gift-list-fetch.js",
-			"settings":
-			{
-				"buffer_size": 5590,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/modules/gift-search/helper/fetchGiftsRemotely.js",
-			"settings":
-			{
-				"buffer_size": 1156,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "src/modules/gift-search/helper/fetchGiftsStorage.js",
 			"settings":
 			{
-				"buffer_size": 781,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/routes/gift-list-module/containers/gift-list.js",
-			"settings":
-			{
-				"buffer_size": 1530,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/modules/gift-search/selectors/index.js",
-			"settings":
-			{
-				"buffer_size": 339,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/modules/gift-search/index.js",
-			"settings":
-			{
-				"buffer_size": 286,
-				"encoding": "UTF-8",
+				"buffer_size": 803,
 				"line_ending": "Windows"
 			}
 		}
@@ -166,25 +75,45 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 392.0,
-		"last_filter": "comm",
+		"height": 173.0,
+		"last_filter": "install",
 		"selected_items":
 		[
 			[
-				"comm",
-				"Git: Commit"
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"diff",
+				"git: diff"
+			],
+			[
+				"flo",
+				"Flow"
+			],
+			[
+				"packag",
+				"Package Control: Install Package"
 			],
 			[
 				"commit",
-				"git: commit"
+				"Git: Commit"
+			],
+			[
+				"status",
+				"Git: Status"
 			],
 			[
 				"add",
 				"Git: Add..."
 			],
 			[
-				"status",
+				"git stat",
 				"Git: Status"
+			],
+			[
+				"comm",
+				"Git: Commit"
 			],
 			[
 				"reset",
@@ -195,16 +124,8 @@
 				"Git: Diff Staged Files"
 			],
 			[
-				"diff",
-				"git: diff"
-			],
-			[
 				"lint",
 				"SublimeLinter: Lint This View"
-			],
-			[
-				"install",
-				"Package Control: Install Package"
 			],
 			[
 				"remove",
@@ -483,10 +404,6 @@
 				"Git: New Branch"
 			],
 			[
-				"git stat",
-				"Git: Status"
-			],
-			[
 				"git chang",
 				"Git: Change Branch"
 			],
@@ -642,37 +559,61 @@
 	[
 		"/C/projects/react-giftsearch",
 		"/C/projects/react-giftsearch/src",
+		"/C/projects/react-giftsearch/src/helpers",
+		"/C/projects/react-giftsearch/src/helpers/object",
 		"/C/projects/react-giftsearch/src/modules",
 		"/C/projects/react-giftsearch/src/modules/actions",
 		"/C/projects/react-giftsearch/src/modules/gift-search",
+		"/C/projects/react-giftsearch/src/modules/gift-search/helper",
 		"/C/projects/react-giftsearch/src/modules/gift-search/reducers",
-		"/C/projects/react-giftsearch/src/modules/gift-search/selectors",
+		"/C/projects/react-giftsearch/src/modules/gift-search/reducers/__tests__",
+		"/C/projects/react-giftsearch/src/modules/helpers/list-filtered-with-config",
 		"/C/projects/react-giftsearch/src/routes",
-		"/C/projects/react-giftsearch/src/routes/gift-list-module",
-		"/C/projects/react-giftsearch/src/routes/gift-list-module/containers"
+		"/C/projects/react-giftsearch/src/routes/gift-search",
+		"/C/projects/react-giftsearch/src/routes/gift-search/components",
+		"/C/projects/react-giftsearch/src/routes/gift-search/containers"
 	],
 	"file_history":
 	[
+		"/C/projects/react-giftsearch/src/modules/actions/gift-list-refinement.js",
+		"/C/projects/react-giftsearch/src/modules/actions/types.js",
+		"/C/projects/react-giftsearch/src/config.js",
+		"/C/projects/react-giftsearch/src/helpers/object/index.js",
+		"/C/projects/react-giftsearch/src/modules/gift-search/reducers/filter.js",
+		"/C/projects/react-giftsearch/src/helpers/array-selector/filterBuilder.js",
+		"/C/projects/react-giftsearch/src/modules/helpers/list-filtered-with-config/relatedFilters.js",
+		"/C/projects/react-giftsearch/src/routes/gift-search/containers/filter.js",
+		"/C/projects/react-giftsearch/src/routes/App.js",
+		"/C/projects/react-giftsearch/src/routes/gift-search/components/filter.js",
+		"/C/projects/react-giftsearch/src/routes/gift-search/containers/gift-list.js",
+		"/C/projects/react-giftsearch/src/modules/gift-search/helper/giftFormatter.js",
+		"/C/projects/react-giftsearch/src/modules/gift-search/reducers/__tests__/filter.js",
+		"/C/projects/react-giftsearch/src/modules/actions/__tests__/gift-list-refinement.js",
+		"/C/projects/react-giftsearch/src/modules/helpers/list-filtered-with-config/__tests__/relatedFilters.js",
+		"/C/projects/react-giftsearch/src/helpers/array-selector/__tests__/filterBuilder.js",
+		"/C/projects/react-giftsearch/.babelrc",
+		"/C/projects/react-giftsearch/package.json",
+		"/C/projects/react-giftsearch/src/helpers/object/__tests__/index.js",
+		"/C/projects/react-giftsearch/src/modules/actions/gift-list-fetch.js",
 		"/C/projects/react-giftsearch/src/modules/gift-search/reducers/gift-list.js",
+		"/C/projects/react-giftsearch/src/modules/actions/__tests__/gift-list-fetch.js",
+		"/C/projects/react-giftsearch/src/modules/gift-search/helper/fetchGiftsRemotely.js",
+		"/C/projects/react-giftsearch/src/modules/gift-search/helper/fetchGiftsStorage.js",
+		"/C/projects/react-giftsearch/src/modules/gift-search/index.js",
+		"/C/projects/react-giftsearch/src/modules/gift-search/selectors/index.js",
+		"/C/projects/react-giftsearch/src/routes/gift-list-module/containers/gift-list.js",
 		"/C/projects/react-giftsearch/src/modules/gift-search/reducers/__tests__/gift-list.js",
 		"/C/projects/react-giftsearch/src/configureStore.js",
 		"/C/projects/react-giftsearch/src/modules/rootReducer.js",
-		"/C/projects/react-giftsearch/src/modules/gift-search/index.js",
-		"/C/projects/react-giftsearch/src/routes/gift-list-module/containers/gift-list.js",
 		"/C/projects/react-giftsearch/src/modules/gift-search/actions/index.js",
-		"/C/projects/react-giftsearch/src/modules/actions/gift-list-refinement.js",
 		"/C/projects/react-giftsearch/src/index.js",
 		"/C/projects/react-giftsearch/src/Root.js",
 		"/C/projects/react-giftsearch/src/Root.test.js",
-		"/C/projects/react-giftsearch/src/config.js",
 		"/C/projects/react-giftsearch/src/modules/gift-search/helper/__tests__/universeToUrlMapping.js",
 		"/C/projects/react-giftsearch/src/modules/gift-search/helper/universeToUrlMapping.js",
 		"/C/projects/react-giftsearch/src/modules/reducer.js",
 		"/C/projects/react-giftsearch/src/config.json",
-		"/C/projects/react-giftsearch/package.json",
-		"/C/projects/react-giftsearch/.babelrc",
 		"/C/projects/react-giftsearch/src/state.txt",
-		"/C/projects/react-giftsearch/src/routes/App.js",
 		"/C/projects/react-giftsearch/src/App.js",
 		"/C/projects/react-giftsearch/src/root.js",
 		"/C/projects/react-giftsearch/src/modules/gift-search/reducers/list-order.js",
@@ -761,26 +702,7 @@
 		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/local/Smartbox/Buyer/data/smartbox_buyer_setup/content/1.0.15/cmsblocks/smartbox_swiss_german/footer-about-us",
 		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/local/Smartbox/Buyer/data/smartbox_buyer_setup/content/1.0.15/cmsblocks/smartbox_swiss_french/footer-about-us",
 		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/local/Smartbox/Buyer/data/smartbox_buyer_setup/content/1.0.15/cmsblocks/smartbox_spain/footer-about-us",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/local/Smartbox/Buyer/data/smartbox_buyer_setup/content/1.0.15/cmsblocks/smartbox_italy/footer-about-us",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/local/Smartbox/Buyer/data/smartbox_buyer_setup/content/1.0.15/cmsblocks/smartbox_germany/footer-about-us",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/skin/frontend/smartbox_rwd_v1/default/scss/elements/_footer.scss",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/design/frontend/smartbox_rwd_v1/default/locale/de_CH/translate.csv",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/local/Smartbox/Buyer/etc/config.xml",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/local/Smartbox/Buyer/data/smartbox_buyer_setup/content/1.0.15/cmsblocks/smartbox_france_francais/footer-about-us",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/design/adminhtml/default/default/template/page/footer.phtml",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/de/skin/frontend/smartbox_rwd_v1/default/js/misc/foundation.settings.js",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/local/Smartbox/Beneficiary/Block/Form/Login.php",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/local/Smartbox/Buyer/data/smartbox_buyer_setup/data-upgrade-1.0.15-1.0.16.php",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/skin/frontend/smartbox_rwd_v1/default/scss/helpers/_typography.scss",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/skin/frontend/smartbox_rwd_v1/lavidaesbella/scss/elements/_footer-lavidaesbella.scss",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/skin/frontend/smartbox_rwd_v1/emozione/scss/elements/_footer-emozione.scss",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/local/Smartbox/Buyer/data/smartbox_buyer_setup/content/1.0.8/configdata/smartbox_france_francais/data.csv",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/core/Mage/Core/Model/Config.php",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/local/Smartbox/WebsiteMigration/Helper/Configurationinstaller.php",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/local/Smartbox/Buyer/data/smartbox_buyer_setup/data-upgrade-1.0.14-1.0.15.php",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/design/frontend/smartbox_rwd_v1/default/template/checkout/shipping/shipping/method/selection.phtml",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/etc/local.xml",
-		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/local/Smartbox/Customer/controllers/RegisterController.php"
+		"/Users/yannis.ouldali/dockertools/dockertools/src/unity3/app/code/local/Smartbox/Buyer/data/smartbox_buyer_setup/content/1.0.15/cmsblocks/smartbox_italy/footer-about-us"
 	],
 	"find":
 	{
@@ -839,6 +761,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"FiltersConfigCollection",
+			"relatedFilter",
+			"filterConfig",
+			"FilterConfig",
+			"filterConfig",
+			"FilterConfig",
+			"filterConfig",
+			"FilterConfig",
 			"hasFetchFailed",
 			"fetchSuccess",
 			"giftFetcher",
@@ -958,15 +888,7 @@
 			"Translator",
 			"formValidation::email::customValidity",
 			"Veuillez saisir un email valide",
-			"error",
-			"js-username",
-			"data-bind",
-			"form-register-account",
-			"footer-terms",
-			"<footer>",
-			"box-dlu-description",
-			"catalog::product::exclusiveBenefits::sendDirectly",
-			" catalog::product::exclusiveBenefits::pickDate"
+			"error"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -997,268 +919,28 @@
 	"groups":
 	[
 		{
-			"selected": 8,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/modules/actions/types.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 673,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								611,
-								622
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"git_savvy.file_path": "C:\\projects\\react-giftsearch\\src\\modules\\actions\\types.js",
-							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/modules/actions/gift-list-refinement.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 487,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								76,
-								76
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"git_savvy.file_path": "C:\\projects\\react-giftsearch\\src\\modules\\actions\\gift-list-refinement.js",
-							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/modules/actions/__tests__/gift-list-refinement.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 916,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								52,
-								52
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"git_savvy.file_path": "C:\\projects\\react-giftsearch\\src\\modules\\actions\\__tests__\\gift-list.js",
-							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "src/modules/actions/gift-list-fetch.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1764,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1440,
-								1453
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"auto_name": "",
-							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
-							"incomplete_sync": null,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 213.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "src/modules/gift-search/reducers/gift-list.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 753,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								98,
-								106
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"git_savvy.file_path": "C:\\projects\\react-giftsearch\\src\\modules\\gift-search\\reducers\\gift-list.js",
-							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "src/modules/actions/__tests__/gift-list-fetch.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5590,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5430,
-								5430
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
-							"incomplete_sync": null,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1710.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/modules/gift-search/helper/fetchGiftsRemotely.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1156,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								154,
-								154
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"git_savvy.file_path": "C:\\projects\\react-giftsearch\\src\\modules\\gift-search\\helper\\fetchGiftsRemotely.js",
-							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
 					"file": "src/modules/gift-search/helper/fetchGiftsStorage.js",
-					"semi_transient": false,
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 781,
+						"buffer_size": 803,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								211,
-								211
+								803,
+								803
 							]
 						],
 						"settings":
 						{
-							"auto_complete": false,
-							"git_savvy.file_path": "C:\\projects\\react-giftsearch\\src\\modules\\gift-search\\helper\\fetchGiftsStorage.js",
 							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
 							"incomplete_sync": null,
 							"remote_loading": false,
@@ -1268,111 +950,9 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "src/routes/gift-list-module/containers/gift-list.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1530,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								486,
-								486
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"git_savvy.file_path": "C:\\projects\\react-giftsearch\\src\\routes\\gift-list-module\\containers\\gift-list.js",
-							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 270.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "src/modules/gift-search/selectors/index.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 339,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								334,
-								334
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"git_savvy.file_path": "C:\\projects\\react-giftsearch\\src\\modules\\gift-search\\selectors\\index.js",
-							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "src/modules/gift-search/index.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 286,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								272,
-								280
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"git_savvy.file_path": "C:\\projects\\react-giftsearch\\src\\modules\\gift-search\\index.js",
-							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1411,7 +991,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 100.0
+		"height": 143.0
 	},
 	"output.find_results":
 	{

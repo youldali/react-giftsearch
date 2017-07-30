@@ -1,6 +1,6 @@
 import giftFetcher, { buildGiftUrl } from '../fetchGiftsRemotely';
 import * as giftFormatter from '../giftFormatter';
-import { cloudSearchConfig } from 'config';
+import { cloudSearchConfig } from 'modules/gift-search/config';
 import nock from 'nock';
 
 

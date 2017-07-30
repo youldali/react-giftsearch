@@ -39,13 +39,13 @@ type GiftCollection = Array<Gift>;
 
 export 
 type Action = 
-		{ type: 'SET_FILTER', filters: Filters }
-	| { type: 'RESET_FILTER', filters: Array<string>}
-	| { type: 'SET_ORDER', order: string }
-	| { type: 'SET_UNIVERSE', universe: string }
-	| { type: 'IS_FETCHING_GIFT_LIST', isFetching: boolean }
-	| { type: 'SET_GIFT_LIST', giftList: GiftCollection }
-	| { type: 'FETCH_GIFT_LIST_SUCCESS', success: boolean};
+		{ type: 'GIFT_LIST_SEARCH/SET_FILTERS', filters: Filters, filtersToReset: Array<string> }
+	| { type: 'GIFT_LIST_SEARCH/RESET_FILTERS', filtersToReset: Array<string>}
+	| { type: 'GIFT_LIST_SEARCH/SET_ORDER', order: string }
+	| { type: 'GIFT_LIST_SEARCH/SET_UNIVERSE', universe: string }
+	| { type: 'GIFT_LIST_SEARCH/FETCH_REQUESTED', isFetching: boolean }
+	| { type: 'GIFT_LIST_SEARCH/SET_LIST', giftList: GiftCollection }
+	| { type: 'GIFT_LIST_SEARCH/FETCH_SUCCEEDED', success: boolean};
 
 export 
 type Dispatch = (action: Action | ThunkAction | Promise<Action> | Array<Action>) => any;

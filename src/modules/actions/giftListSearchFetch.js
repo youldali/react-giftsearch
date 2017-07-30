@@ -1,12 +1,12 @@
  // @flow
 import type { Action, GiftCollection, Dispatch, ThunkAction } from './types';
-import giftFetcher from '../gift-search/helper/fetchGiftsRemotely';
-import { storageGetGifts, storageSaveGifts } from '../gift-search/helper/fetchGiftsStorage';
+import giftFetcher from '../gift-search/helpers/fetchGiftsRemotely';
+import { getFromStorage, saveToStorage } from 'helpers/browser-storage/storage';
 
 export
 function isFetchingGiftList(isFetching: boolean): Action{
 	return{
-		type: "IS_FETCHING_GIFT_LIST",
+		type: "GIFT_LIST_SEARCH/FETCH_REQUESTED",
 		isFetching
 	}	
 }
@@ -14,7 +14,7 @@ function isFetchingGiftList(isFetching: boolean): Action{
 export
 function fetchGiftListSucceeds(success: boolean): Action{
 	return{
-		type: "FETCH_GIFT_LIST_SUCCESS",
+		type: "GIFT_LIST_SEARCH/FETCH_SUCCEEDED",
 		success
 	}	
 }
@@ -22,7 +22,7 @@ function fetchGiftListSucceeds(success: boolean): Action{
 export
 function setGiftList(giftList: GiftCollection): Action{
 return{
-		type: "SET_GIFT_LIST",
+		type: "GIFT_LIST_SEARCH/SET_LIST",
 		giftList
 	}		
 }
@@ -41,7 +41,7 @@ function fetchGiftListRemotely (universe: string ): Function{
 				.then( giftList => {
 					dispatch(fetchGiftListSucceeds(true))
 					dispatch(setGiftList(giftList));
-					storageSaveGifts(universe, giftList)
+					saveToStorage(universe, giftList)
 						.catch(e => console.log('Error saving Gift List', e));
 					return giftList;
 				})
@@ -53,7 +53,7 @@ export
 function fetchGiftListLocally (universe: string ): Function{
 	return (dispatch: Dispatch): Promise<GiftCollection> => {		
 		return (
-			storageGetGifts(universe)
+			getFromStorage(universe)
 				.then( giftList => {
 					dispatch(setGiftList(giftList));
 					return giftList;

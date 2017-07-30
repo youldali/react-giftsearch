@@ -6,7 +6,7 @@ test('it initializes the state', function(){
 
 test('it sets the universe', function(){
 	const action = {
-		type: "SET_UNIVERSE",
+		type: "GIFT_LIST_SEARCH/SET_UNIVERSE",
 		universe: 'sejour'
 	}
 	expect(universeReducer('', action)).toBe('sejour');

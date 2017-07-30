@@ -1,10 +1,10 @@
 // @flow
 
-export type Criteria = {field: string, operator: string};
-export type Criterias = Array<Criteria>;
-export type FilterConfig = { [string]: {criterias: Criterias, filterGroup?: string} };
-export type UniverseToUrlMap = {[string]: Array<number>};
-export type FieldsToKeep = Array<string>;
+export type Criteria = {|field: string, operator: string|};
+export type Criterias = $ReadOnlyArray<Criteria>;
+export type FilterConfig = { +[string]: {|criterias: Criterias, filterGroup?: string|} };
+export type UniverseToUrlMap = {+[string]: Array<number>};
+export type FieldsToKeep = $ReadOnlyArray<string>;
 
 const universeToUrlMap: UniverseToUrlMap = {
 	"well-being" : [844,864,880,885,924,846],
@@ -63,7 +63,6 @@ export
 const filterConfig: FilterConfig = {
 	'maxPrice': {
 		criterias: [{ 'field': 'rawPrice', 'operator': '<=' }],
-		filterGroup: 'person' 
 	},
 	'forPersonsRange': {
 		criterias: [{ 'field': 'min_persons', 'operator': '<=' }, { 'field': 'max_persons', 'operator': '>=' }],

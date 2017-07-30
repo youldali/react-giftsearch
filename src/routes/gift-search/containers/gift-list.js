@@ -3,7 +3,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { selectors } from 'modules/gift-search/index';
-import * as actions from 'modules/actions/gift-list-fetch';
+import * as actions from 'modules/actions/giftListSearchFetch';
 import GiftList from '../components/gift-list';
 
 class GiftListContainer extends Component{
@@ -34,7 +34,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		fetchList: () => dispatch(actions.fetchGiftList('gastronomy'))
+		fetchList: () => dispatch(actions.fetchGiftList('adventure'))
 	}
 }
 

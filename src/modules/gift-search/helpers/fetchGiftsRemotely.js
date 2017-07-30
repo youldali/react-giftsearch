@@ -1,6 +1,6 @@
 // @flow
 import type { GiftCollection } from 'modules/actions/types';
-import { cloudSearchConfig } from 'config';
+import { cloudSearchConfig } from 'modules/gift-search/config';
 import fetch from 'isomorphic-fetch';
 import { formatGiftCollection } from './giftFormatter';
 

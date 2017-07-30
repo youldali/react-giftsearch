@@ -3,7 +3,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { selectors } from 'modules/gift-search/index';
-import * as actions from 'modules/actions/gift-list-refinement';
+import * as actions from 'modules/actions/giftListSearchSorting';
 import Filter from '../components/filter';
 
 
@@ -18,8 +18,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setFilter: (filters) => dispatch(actions.setFilter(filters)),
-		resetFilter: (filters) => dispatch(actions.resetFilter(filters))
+		setFilters: (filters) => dispatch(actions.setFilters(filters)),
+		resetFilters: (filters) => dispatch(actions.resetFilters(filters))
 	}
 }
 

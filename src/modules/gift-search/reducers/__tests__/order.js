@@ -7,7 +7,7 @@ test('it initializes state', () => {
 
 test('it changes the order state', () => {
 	const action = {
-		type: "SET_ORDER",
+		type: "GIFT_LIST_SEARCH/SET_ORDER",
 		order: 'new value'
 	};
 	const newState = orderReducer({order: 'value!'}, action);

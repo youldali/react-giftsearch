@@ -9,9 +9,9 @@ const Filter = (props) => {
 
   const handleChange = () => {
     if(props.filterState === props.filterForValue)
-      props.resetFilter([props.filterName]);
+      props.resetFilters([props.filterName]);
     else
-      props.setFilter( {[props.filterName]: props.filterForValue } );
+      props.setFilters( {[props.filterName]: props.filterForValue } );
   }  
 
   return (
