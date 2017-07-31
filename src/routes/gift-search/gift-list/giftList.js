@@ -1,13 +1,15 @@
 //@flow
 
+import type { GiftCollection } from 'modules/actions/types';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { selectors } from 'modules/gift-search/index';
 import * as actions from 'modules/actions/giftListSearchFetch';
-import GiftList from '../components/gift-list';
+import GiftListCards from './giftListCards';
 
+export
 class GiftListContainer extends Component{
-	giftList: Array<Object>;
+	giftCollection: GiftCollection;
 
 	constructor(props) {
     super(props)
@@ -20,15 +22,17 @@ class GiftListContainer extends Component{
   render(){
   	//console.log(this.props.giftList);
   	return (
-  		<GiftList giftList={this.props.giftList} />
+  		<GiftListCards giftCollection={this.props.giftCollection} />
   	);
   }
 }
 
+
+//store Connection
 const mapStateToProps = (state) => {
-	const giftList = selectors.getOrderedFilteredList(state);
+	const giftCollection = selectors.getOrderedFilteredList(state);
 	return {
-		giftList
+		giftCollection
 	}
 }
 
