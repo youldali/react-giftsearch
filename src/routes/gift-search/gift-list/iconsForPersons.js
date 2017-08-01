@@ -4,31 +4,25 @@ import React from 'react'
 import { Icon, Popup } from 'semantic-ui-react'
 
 export 
-const IconSolo = () => {
-	return (
-		<Popup trigger={<span><Icon name='user' /></span>} >
-      Experience solitaire
-    </Popup>
-	)
-};
+const IconSolo = () => (
+	<Popup trigger={<span><Icon name='user' color='orange' size='large' /></span>} >
+    Experience solitaire
+  </Popup>
+);
 
 export 
-const IconCouple = () => {
-	return (
-		<Popup trigger={<span><Icon name='male' /><Icon name='female' /></span>} >
-      Parfait pour les couples
-    </Popup>
-	)
-};
+const IconCouple = () => (
+	<Popup trigger={<span><Icon name='male' fitted color='orange' size='large' /><Icon name='female' fitted color='orange' size='large' /></span>} >
+    Parfait pour les couples
+  </Popup>
+);
 
 export 
-const IconGroups = ({minPersons, maxPersons}: {minPersons: number, maxPersons: number}) => {
-	return (
-		<Popup trigger={<span><Icon name='users' /></span>} >
-      Groupe De {minPersons} à {maxPersons} personnes !
-    </Popup>
-	)
-};
+const IconGroups = ({minPersons, maxPersons}: {minPersons: number, maxPersons: number}) => (
+	<Popup trigger={<span><Icon name='users' color='orange' size='large' /></span>} >
+    Groupe De {minPersons} à {maxPersons} personnes !
+  </Popup>
+);
 
 export default 
 ({minPersons, maxPersons}: {minPersons: number, maxPersons: number}) => {

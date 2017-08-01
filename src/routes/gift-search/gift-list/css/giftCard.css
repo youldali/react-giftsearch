@@ -1,0 +1,13 @@
+.gift-card__price{
+	font-size: 1.2em;
+  color: black;
+  flex-basis: 3em;
+}
+
+.gift-card__icons{
+	flex-grow: 1;
+
+}
+
+.extra{
+}

@@ -2,24 +2,25 @@
 
 import type { GiftCollection } from 'modules/actions/types';
 import React from 'react';
-import { Card } from 'semantic-ui-react';
-import GiftCard from './giftCard';
+import { Item } from 'semantic-ui-react';
+import GiftItem from './giftItem';
 
-const GiftListCards = ({ giftCollection}: {giftCollection: GiftCollection }) => (
-  <Card.Group itemsPerRow={5}>
+const GiftListItems = ({ giftCollection}: {giftCollection: GiftCollection }) => (
+  <Item.Group relaxed link>
 
     {giftCollection.map((gift) =>
-      <GiftCard key={gift.id}
+      <GiftItem key={gift.id}
         name={gift.name}
         url={gift.url}
         img={gift.img}
         subtitle={gift.subtitle}
+        shortDescription={gift.short_description}
         minPersons={gift.min_persons}
         maxPersons={gift.max_persons}
         price={gift.price}
       />
     )}
-  </Card.Group>
+  </Item.Group>
 );
 
-export default GiftListCards;
+export default GiftListItems;

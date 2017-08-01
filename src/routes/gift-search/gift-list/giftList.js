@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import { selectors } from 'modules/gift-search/index';
 import * as actions from 'modules/actions/giftListSearchFetch';
 import GiftListCards from './giftListCards';
+import GiftListItems from './giftListItems';
 
 export
 class GiftListContainer extends Component{
@@ -22,7 +23,7 @@ class GiftListContainer extends Component{
   render(){
   	//console.log(this.props.giftList);
   	return (
-  		<GiftListCards giftCollection={this.props.giftCollection} />
+  		<GiftListItems giftCollection={this.props.giftCollection} />
   	);
   }
 }
