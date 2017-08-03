@@ -1,3 +1,8 @@
 .gift-item{
-	box-shadow: 0 1px 10px 0 rgba(0,0,0,0.15) !important;
+	/*box-shadow: 0 1px 10px 0 rgba(0,0,0,0.15) !important;*/
+}
+
+.gift-item__price{
+	font-size: 1.2em;
+  color: black;
 }

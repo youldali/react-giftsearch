@@ -2,7 +2,8 @@
 import type { GiftCollection } from 'modules/actions/types';
 import React from 'react'
 import GiftListContainer from './gift-list/giftList';
-import Filter from './filter';
+import { Grid } from 'semantic-ui-react'
+import FilterContainer from './filters/filterContainer';
 
 const GiftSearchContainer = () => (
   <div className="App">
@@ -10,10 +11,18 @@ const GiftSearchContainer = () => (
 	    <h2>Welcome to Gift Search</h2>
 	  </div>
 	  
-	  <Filter filterLabel='Prix max' filterName='maxPrice' filterForValue={60} />
-	  <Filter filterLabel='Solo' filterName='forPersonsRange' filterForValue={1} />
-	  <Filter filterLabel='Couple' filterName='forPersons' filterForValue={2} />
-	  <GiftListContainer />
+	  
+	  
+	   <Grid columns={16} >
+	    <Grid.Row centered>
+	      <Grid.Column widescreen={3} largeScreen={3} tablet={4}  >
+					<FilterContainer /> 	
+	      </Grid.Column>
+	      <Grid.Column widescreen={8} largeScreen={9} tablet={12}>
+	        <GiftListContainer />
+	      </Grid.Column>
+	    </Grid.Row>
+	   </Grid>
 	</div>
 );
 
