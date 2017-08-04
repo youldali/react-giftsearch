@@ -5,11 +5,23 @@ import React, { Component } from 'react';
 import { selectors } from 'modules/gift-search/index';
 import * as actions from 'modules/actions/giftListSearchSorting';
 import { Radio } from 'semantic-ui-react';
-
+import InputRange from 'react-input-range';
 
 export
-const Filter = (props) => {
+const FilterRangeSlider = (props) => {
+  const handleChange = () => props.setFilters( {[props.filterName]: props.filterForValue } );
 
+  return (
+    <InputRange
+        maxValue={props.maxValue}
+        minValue={0}
+        value={props.filterState}
+        onChangeComplete={handleChange} />
+  );  
+};
+
+export
+const FilterRadio = (props) => {
   const handleChange = () => {
     if(props.filterState === props.filterForValue)
       props.resetFilters([props.filterName]);
@@ -18,16 +30,13 @@ const Filter = (props) => {
   }  
 
   return (
-    <div>
-      <Radio 
-        toggle 
-        label={props.filterLabel} 
-        checked={props.filterState === props.filterForValue}
-        onChange={handleChange}
-      />
-    </div>
+    <Radio 
+      toggle 
+      label={props.filterLabel} 
+      checked={props.filterState === props.filterForValue}
+      onChange={handleChange}
+    />
   );  
-
 };
 
 
@@ -48,4 +57,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default (FilterComponent) => connect(mapStateToProps, mapDispatchToProps)(FilterComponent);
