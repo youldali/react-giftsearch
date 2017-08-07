@@ -64,6 +64,9 @@ const filterConfig: FilterConfig = {
 	'maxPrice': {
 		criterias: [{ 'field': 'rawPrice', 'operator': '<=' }],
 	},
+	'minPrice': {
+		criterias: [{ 'field': 'rawPrice', 'operator': '>=' }],
+	},
 	'forPersonsRange': {
 		criterias: [{ 'field': 'min_persons', 'operator': '<=' }, { 'field': 'max_persons', 'operator': '>=' }],
 		filterGroup: 'person' 

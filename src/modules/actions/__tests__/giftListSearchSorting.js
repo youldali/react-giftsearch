@@ -99,3 +99,29 @@ describe('setUniverse', () => {
 	});
 
 });
+
+describe('setPage', () => {
+
+	test('it should return the "set page" action creator', () => {
+		const expectedAction = {
+			type: "GIFT_LIST_SEARCH/SET_PAGE",
+			page: 3,
+		};
+
+		expect(actions.setPage(3)).toEqual(expectedAction);
+	});
+
+});
+
+describe('setDisplay', () => {
+
+	test('it should return the "set display" action creator', () => {
+		const expectedAction = {
+			type: "GIFT_LIST_SEARCH/SET_DISPLAY",
+			display: 'card',
+		};
+
+		expect(actions.setDisplay('card')).toEqual(expectedAction);
+	});
+
+});

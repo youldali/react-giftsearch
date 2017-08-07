@@ -32,14 +32,18 @@ const GiftItem = (props: GiftItemType) => (
       	{props.shortDescription}
       </Item.Description>
       <Item.Extra>
-        <span className='gift-item__icons'><IconForPersons minPersons={props.minPersons} maxPersons={props.maxPersons} /></span>
-        {props.showRating && <span className='gift-item__rating'><GiftRating rating={props.rating} /></span> }
-    		<span className='gift-item__price'>{props.price}</span>
-    		<Button floated='right' color='orange' as='a' href={props.url} target='_blank'>
-          Consulter
-          <Icon name='right chevron' />
-        </Button>
+        <div className='flex'>
+          <div className='gift-item__info-sup'>
+            <span className='gift-item__icons'><IconForPersons minPersons={props.minPersons} maxPersons={props.maxPersons} /></span>
+            {props.showRating && <span className='gift-item__rating'><GiftRating rating={props.rating} /></span> }
+          </div>
+        	<div className='gift-item__price'>{props.price}</div>
+    		</div>
       </Item.Extra>
+      <Button floated='right' color='orange' as='a' href={props.url} target='_blank'>
+        Consulter
+        <Icon name='right chevron' />
+      </Button>
     </Item.Content>
   </Item>
 );  

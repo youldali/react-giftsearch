@@ -3,6 +3,16 @@
 }
 
 .gift-item__price{
-	font-size: 1.2em;
+	font-size: 1.3em;
   color: black;
+  font-weight: bold;
+  flex-basis: 3em;
+}
+
+.gift-item__info-sup{
+	flex-grow: 1;
+}
+
+.gift-item__info-sup > span{
+	margin-right: 0.5em;
 }

@@ -1,3 +1,12 @@
 .filter-option__icon{
 	margin-left: 0.5em;
+	opacity: .5;
+}
+
+.checked .filter-option__icon{
+	opacity: 1;
+}
+
+.checked label{
+	font-weight: bold;
 }
