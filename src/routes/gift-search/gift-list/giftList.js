@@ -5,10 +5,11 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { selectors } from 'modules/gift-search/index';
 import * as actions from 'modules/actions/giftListSearchFetch';
+import { incrementPage } from 'modules/actions/giftListSearchSorting';
 import GiftListCards from './giftListCards';
 import GiftListItems from './giftListItems';
 
-import makeVisible from '../../common/hoc/lazyLoadingForList';
+import makeLazyloaded from '../../common/hoc/lazyLoadingForList';
 
 export
 class GiftListContainer extends Component{
@@ -23,10 +24,10 @@ class GiftListContainer extends Component{
   }
 
   render(){
-    const VisibleGiftList = makeVisible(GiftListItems);
+    const LazyLoadedGiftList = makeLazyloaded(GiftListItems);
   	//console.log(this.props.giftList);
   	return (
-  		<VisibleGiftList giftCollection={this.props.giftCollection} />
+  		<LazyLoadedGiftList incrementPage={this.props.incrementPage} fullGiftCollection={this.props.fullGiftCollection}  giftCollection={this.props.giftCollection} />
   	);
   }
 }
@@ -35,14 +36,17 @@ class GiftListContainer extends Component{
 //store Connection
 const mapStateToProps = (state) => {
 	const giftCollection = selectors.getPaginatedOrderedFilteredList(state);
+  const fullGiftCollection = selectors.getOrderedFilteredList(state);
 	return {
-		giftCollection
+		giftCollection,
+    fullGiftCollection
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		fetchList: () => dispatch(actions.fetchGiftList('gastronomy'))
+		fetchList: () => dispatch(actions.fetchGiftList('gastronomy')),
+    incrementPage: () => dispatch(incrementPage())
 	}
 }
 

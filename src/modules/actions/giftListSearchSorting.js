@@ -46,6 +46,20 @@ function setPage(page: number): Action{
 }
 
 export 
+function incrementPage(): Action{
+	return{
+		type: "GIFT_LIST_SEARCH/INCREMENT_PAGE",
+	}
+}
+
+export 
+function decrementPage(): Action{
+	return{
+		type: "GIFT_LIST_SEARCH/DECREMENT_PAGE",
+	}
+}
+
+export 
 function setDisplay(display: DisplayType): Action{
 	return{
 		type: "GIFT_LIST_SEARCH/SET_DISPLAY",

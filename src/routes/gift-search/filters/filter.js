@@ -23,7 +23,7 @@ class FilterPriceRange extends Component{
       50: '50€',
       100: '100€',
       250: '250€',
-      250: '500€',
+      500: '500€',
       [this.props.maxValue]: `${this.props.maxValue}€`
     };
 
@@ -44,8 +44,7 @@ class FilterPriceRange extends Component{
         onAfterChange={this.handleChange} 
         value={this.state.value} 
         marks={this.marks}
-        step={100}
-        dots
+        step={null}
         allowCross={false}
         tipFormatter={value => `${value}€`}
       />

@@ -48,7 +48,9 @@ type Action =
 	| { type: 'GIFT_LIST_SEARCH/SET_LIST', giftList: GiftCollection }
 	| { type: 'GIFT_LIST_SEARCH/FETCH_SUCCEEDED', success: boolean}
 	| { type: 'GIFT_LIST_SEARCH/SET_DISPLAY', display: DisplayType}
-	| { type: 'GIFT_LIST_SEARCH/SET_PAGE', page: number};
+	| { type: 'GIFT_LIST_SEARCH/SET_PAGE', page: number}
+	| { type: 'GIFT_LIST_SEARCH/INCREMENT_PAGE'}
+	| { type: 'GIFT_LIST_SEARCH/DECREMENT_PAGE'};
 
 export 
 type Dispatch = (action: Action | ThunkAction | Promise<Action> | Array<Action>) => any;
