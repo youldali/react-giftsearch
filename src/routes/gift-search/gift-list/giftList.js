@@ -8,6 +8,8 @@ import * as actions from 'modules/actions/giftListSearchFetch';
 import GiftListCards from './giftListCards';
 import GiftListItems from './giftListItems';
 
+import makeVisible from '../../common/hoc/lazyLoadingForList';
+
 export
 class GiftListContainer extends Component{
 	giftCollection: GiftCollection;
@@ -21,9 +23,10 @@ class GiftListContainer extends Component{
   }
 
   render(){
+    const VisibleGiftList = makeVisible(GiftListItems);
   	//console.log(this.props.giftList);
   	return (
-  		<GiftListItems giftCollection={this.props.giftCollection} />
+  		<VisibleGiftList giftCollection={this.props.giftCollection} />
   	);
   }
 }
@@ -31,7 +34,7 @@ class GiftListContainer extends Component{
 
 //store Connection
 const mapStateToProps = (state) => {
-	const giftCollection = selectors.getOrderedFilteredList(state);
+	const giftCollection = selectors.getPaginatedOrderedFilteredList(state);
 	return {
 		giftCollection
 	}

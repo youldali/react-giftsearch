@@ -21,7 +21,7 @@ type GiftItemType = {
 
 const GiftItem = (props: GiftItemType) => (
 	<Item className='gift-item'>
-    <Item.Image src={props.img} as='a' size='small' href={props.url} target='_blank' />
+    <Item.Image src={props.img} as='a' size='small' target='_blank' />
     <Item.Content verticalAlign='middle'>
       <Item.Header>{props.name}</Item.Header>
       <Item.Meta>

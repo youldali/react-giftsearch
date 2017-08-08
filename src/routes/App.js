@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import GiftSearchContainer from './gift-search/';
+import GiftSearchModule from './gift-search/giftSearchModule';
 
 
 // Needed for onTouchTap
@@ -14,7 +14,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <GiftSearchContainer />
+        <GiftSearchModule />
       </div>
     );
   }

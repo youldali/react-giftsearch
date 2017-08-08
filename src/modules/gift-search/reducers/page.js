@@ -16,5 +16,5 @@ export default pageReducer;
 
 export 
 const selectors = {
-	getPageSelector: (state: Object) => (state.giftSearch.page)
+	getPage: (state: Object) => (state.giftSearch.page)
 }

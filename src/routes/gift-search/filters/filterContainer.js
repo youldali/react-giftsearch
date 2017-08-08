@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import { Menu, Icon } from 'semantic-ui-react'
 
-import MakeConnectedFilter, { FilterPriceRange, FilterRadio } from './filter';
+import makeConnectedFilter, { FilterPriceRange, FilterRadio } from './filter';
 import './css/filterContainer.css';
 
 
 const FiltersContainer = (props) => {
 
-  const FilterForPrice = MakeConnectedFilter(FilterPriceRange);
-  const FilterForSolo = MakeConnectedFilter(FilterRadio);
-  const FilterForCouple = MakeConnectedFilter(FilterRadio);
-  const FilterForGroup = MakeConnectedFilter(FilterRadio);
+  const FilterForPrice = makeConnectedFilter(FilterPriceRange);
+  const FilterForSolo = makeConnectedFilter(FilterRadio);
+  const FilterForCouple = makeConnectedFilter(FilterRadio);
+  const FilterForGroup = makeConnectedFilter(FilterRadio);
 
   return (
     <Menu vertical fluid>

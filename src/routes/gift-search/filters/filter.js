@@ -23,6 +23,7 @@ class FilterPriceRange extends Component{
       50: '50€',
       100: '100€',
       250: '250€',
+      250: '500€',
       [this.props.maxValue]: `${this.props.maxValue}€`
     };
 
@@ -31,7 +32,6 @@ class FilterPriceRange extends Component{
 
   handleChange(){
     const [minValue, maxValue] = this.state.value;
-    console.log(minValue, maxValue);
     this.props.setFilters( {'minPrice': minValue, 'maxPrice': maxValue } );
   }
 

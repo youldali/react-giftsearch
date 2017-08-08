@@ -14,25 +14,25 @@ class GiftSearchContainer extends Component {
 		const { contextRefSticky } = this.state
 		return(
 			<div ref={this.handleContextRefSticky}>
-			<Grid columns={16} >
-				<Grid.Row centered>
-					<Grid.Column widescreen={11} largeScreen={12} tablet={16}  >
-						<Sticky context={contextRefSticky}><NavBar /></Sticky>
-					</Grid.Column>
-				</Grid.Row>
-				<Grid.Row centered>
-				  <Grid.Column widescreen={3} largeScreen={3} tablet={4}  >
-						<Sticky context={contextRefSticky} offset={100}>
-							<FilterContainer />
-						</Sticky>
-				  </Grid.Column>
-				  <Grid.Column widescreen={8} largeScreen={9} tablet={12}>
-				  	<div>
-				    	<GiftListContainer />
-				    </div>
-				  </Grid.Column>
-				</Grid.Row>
-			</Grid>
+				<Grid columns={16} >
+					<Grid.Row centered>
+						<Grid.Column widescreen={11} largeScreen={12} tablet={16}  >
+							<Sticky context={contextRefSticky}><NavBar /></Sticky>
+						</Grid.Column>
+					</Grid.Row>
+					<Grid.Row centered>
+					  <Grid.Column widescreen={3} largeScreen={3} tablet={4}  >
+							<Sticky context={contextRefSticky} offset={100}>
+								<FilterContainer />
+							</Sticky>
+					  </Grid.Column>
+					  <Grid.Column widescreen={8} largeScreen={9} tablet={12}>
+					  	<div>
+					    	<GiftListContainer />
+					    </div>
+					  </Grid.Column>
+					</Grid.Row>
+				</Grid>
 			</div>
 		)
 	}
