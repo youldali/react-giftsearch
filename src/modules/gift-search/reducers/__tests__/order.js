@@ -10,6 +10,6 @@ test('it changes the order state', () => {
 		type: "GIFT_LIST_SEARCH/SET_ORDER",
 		order: 'new value'
 	};
-	const newState = orderReducer({order: 'value!'}, action);
+	const newState = orderReducer('value!', action);
 	expect(newState).toBe('new value');
 });

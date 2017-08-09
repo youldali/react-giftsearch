@@ -10,6 +10,6 @@ test('it changes the display state', () => {
 		type: "GIFT_LIST_SEARCH/SET_DISPLAY",
 		display: 'card'
 	};
-	const newState = displayReducer({display: 'list'}, action);
+	const newState = displayReducer('list', action);
 	expect(newState).toBe('card');
 });

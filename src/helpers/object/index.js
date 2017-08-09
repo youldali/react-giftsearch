@@ -1,4 +1,5 @@
 // @flow
+
 export const
 deletePropertiesImmutable = (target: Object, properties: Array<string>): Object => {
 	let resetedObject = {...target};

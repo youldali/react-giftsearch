@@ -113,6 +113,30 @@ describe('setPage', () => {
 
 });
 
+describe('incrementPage', () => {
+
+	test('it should return the "increment page" action creator', () => {
+		const expectedAction = {
+			type: "GIFT_LIST_SEARCH/INCREMENT_PAGE",
+		};
+
+		expect(actions.incrementPage()).toEqual(expectedAction);
+	});
+
+});
+
+describe('decrementPage', () => {
+
+	test('it should return the "decrement page" action creator', () => {
+		const expectedAction = {
+			type: "GIFT_LIST_SEARCH/DECREMENT_PAGE",
+		};
+
+		expect(actions.decrementPage()).toEqual(expectedAction);
+	});
+
+});
+
 describe('setDisplay', () => {
 
 	test('it should return the "set display" action creator', () => {

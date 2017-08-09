@@ -9,7 +9,7 @@ import { incrementPage } from 'modules/actions/giftListSearchSorting';
 import GiftListCards from './giftListCards';
 import GiftListItems from './giftListItems';
 
-import makeLazyloaded from '../../common/hoc/lazyLoadingForList';
+import ListLazyload from '../../common/helpers/lazyLoadingForList';
 
 export
 class GiftListContainer extends Component{
@@ -24,10 +24,14 @@ class GiftListContainer extends Component{
   }
 
   render(){
-    const LazyLoadedGiftList = makeLazyloaded(GiftListItems);
-  	//console.log(this.props.giftList);
   	return (
-  		<LazyLoadedGiftList incrementPage={this.props.incrementPage} fullGiftCollection={this.props.fullGiftCollection}  giftCollection={this.props.giftCollection} />
+      <ListLazyload 
+        onBottomReached={this.props.incrementPage}
+        numberOfItemsDisplayed={this.props.giftCollectionToDisplay.length}
+        numberOfItems={this.props.fullGiftCollection.length}
+      >
+        <GiftListItems giftCollection={this.props.giftCollectionToDisplay} />
+      </ListLazyload>
   	);
   }
 }
@@ -35,10 +39,10 @@ class GiftListContainer extends Component{
 
 //store Connection
 const mapStateToProps = (state) => {
-	const giftCollection = selectors.getPaginatedOrderedFilteredList(state);
+	const giftCollectionToDisplay = selectors.getPaginatedOrderedFilteredList(state);
   const fullGiftCollection = selectors.getOrderedFilteredList(state);
 	return {
-		giftCollection,
+		giftCollectionToDisplay,
     fullGiftCollection
 	}
 }

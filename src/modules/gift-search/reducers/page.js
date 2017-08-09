@@ -2,8 +2,9 @@
 import type { Action } from 'modules/actions/types';
 
 type PageState = number;
+const initialState = 1;
 
-function pageReducer(state: PageState = 1, action: Action): PageState{
+function pageReducer(state: PageState = initialState, action: Action): PageState{
 	switch (action.type){
 		case "GIFT_LIST_SEARCH/SET_PAGE":
 			return action.page;
@@ -12,7 +13,11 @@ function pageReducer(state: PageState = 1, action: Action): PageState{
 		case "GIFT_LIST_SEARCH/DECREMENT_PAGE":
 			return (state > 0 ? --state : state);
 		case "GIFT_LIST_SEARCH/SET_FILTERS":
-			return 1;
+		case "GIFT_LIST_SEARCH/RESET_FILTERS":
+		case "GIFT_LIST_SEARCH/SET_LIST":
+		case "GIFT_LIST_SEARCH/SET_DISPLAY":
+		case "GIFT_LIST_SEARCH/SET_ORDER":
+			return initialState;
 		default:
 			return state;
 	}
