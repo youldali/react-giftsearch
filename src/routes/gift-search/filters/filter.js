@@ -20,7 +20,7 @@ class FilterPriceRange extends Component{
 
     this.marks = {
       0: <strong>0€</strong>,
-      50: '50€',
+      50: '',
       100: '100€',
       250: '250€',
       500: '500€',
@@ -55,17 +55,17 @@ class FilterPriceRange extends Component{
 export
 const FilterRadio = (props) => {
   const handleChange = () => {
-    if(props.filterState === props.filterForValue)
-      props.resetFilters([props.filterName]);
+    if(props.isActive)
+      props.resetFilters(Object.keys(props.componentFilters));
     else
-      props.setFilters( {[props.filterName]: props.filterForValue } );
+      props.setFilters(props.componentFilters);
   }  
 
   return (
       <Radio 
         toggle 
         label={props.filterLabel} 
-        checked={props.filterState === props.filterForValue}
+        checked={props.isActive}
         onChange={handleChange}
       />
   );  
@@ -74,11 +74,12 @@ const FilterRadio = (props) => {
 
 //Store connection
 const mapStateToProps = (state, ownProps) => {
-	const {filterName} = ownProps;
-	const filterState = selectors.getFilter(state, filterName);
+	const { componentFilters } = ownProps;
+	const isActive = componentFilters === undefined ? false : selectors.areFiltersActive(state, componentFilters);
+
 	return {
 		...ownProps,
-		filterState
+		isActive
 	}
 }
 

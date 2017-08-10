@@ -8,9 +8,7 @@ import './css/filterContainer.css';
 const FiltersContainer = (props) => {
 
   const FilterForPrice = makeConnectedFilter(FilterPriceRange);
-  const FilterForSolo = makeConnectedFilter(FilterRadio);
-  const FilterForCouple = makeConnectedFilter(FilterRadio);
-  const FilterForGroup = makeConnectedFilter(FilterRadio);
+  const FilterRadioButton = makeConnectedFilter(FilterRadio);
 
   return (
     <Menu vertical fluid>
@@ -18,7 +16,10 @@ const FiltersContainer = (props) => {
         <Menu.Header>Budget</Menu.Header>
         <Menu.Menu>
           <Menu.Item>
-            <FilterForPrice filterLabel='Prix max' maxValue={500} />
+            <FilterForPrice 
+              filterLabel='Prix max' 
+              maxValue={500} 
+            />
           </Menu.Item>
         </Menu.Menu>
       </Menu.Item>
@@ -27,28 +28,38 @@ const FiltersContainer = (props) => {
         <Menu.Header>A profiter avec</Menu.Header>
         <Menu.Menu>
           <Menu.Item>
-            <FilterForSolo 
+            <FilterRadioButton 
               filterLabel={<label>En solitaire  <span className='filter-option__icon'><Icon name='user' color='orange' size='large' fitted/></span> </label> }
-              filterName='forPersonsRange'
-              filterForValue={1}
+              componentFilters={ {forPersonsRange: 1} }
              />
           </Menu.Item>
           <Menu.Item>
-            <FilterForCouple 
+            <FilterRadioButton 
               filterLabel={<label>En couple <span className='filter-option__icon'><Icon name='male' fitted color='orange' size='large' /><Icon name='female' fitted color='orange' size='large' /></span></label>}
-              filterName='forPersons' 
-              filterForValue={2} 
+              componentFilters={ {forPersons: 2} } 
             /> 
           </Menu.Item>
           <Menu.Item>
-            <FilterForGroup 
+            <FilterRadioButton 
               filterLabel={<label>En groupe <span className='filter-option__icon'><Icon name='users' color='orange' size='large' /></span></label>}
-              filterName='forPersonsRange'
-              filterForValue={3} 
+              componentFilters={ {forPersonsRange: 3} }
             />
           </Menu.Item>  
         </Menu.Menu>
       </Menu.Item>
+
+      <Menu.Item>
+        <Menu.Header>Notes</Menu.Header>
+        <Menu.Menu>
+          <Menu.Item>
+            <FilterRadioButton 
+              filterLabel={<label>Les + populaires <span className='filter-option__icon'><Icon name='star' color='yellow' size='large' /></span></label>}
+              componentFilters={ {showRating: true, minRating: '8'} }
+            />
+          </Menu.Item>
+        </Menu.Menu>
+      </Menu.Item>      
+
     </Menu>
   );
 };

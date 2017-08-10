@@ -60,7 +60,7 @@ const getOrderedFilteredList = createSelector(
 
 const getPaginatedOrderedFilteredList = createSelector(
   [getOrderedFilteredList, pageSelectors.getPage],
-  (stateGiftListOrderedFiltered: GiftCollection, statePage: number): GiftCollection => stateGiftListOrderedFiltered.slice(0, 1 * statePage)
+  (stateGiftListOrderedFiltered: GiftCollection, statePage: number): GiftCollection => stateGiftListOrderedFiltered.slice(0, 10 * statePage)
 );
 
 

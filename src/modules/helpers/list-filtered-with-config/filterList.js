@@ -2,7 +2,7 @@
 
 import "babel-polyfill";
 
-type FilterValue = number | string ;
+type FilterValue = number | string | boolean;
 type Filters = { +[string]: FilterValue};
 type Criteria = {|field: string, operator: string|};
 type Criterias = $ReadOnlyArray<Criteria>;
@@ -32,7 +32,7 @@ const buildFilterQuery = (filters: Filters, criteriasCollection: CriteriasCollec
 	let filterToEval = 'true ';
 
 	for (const [filterName, threshold] of Object.entries(filters)) {
-	    if(!criteriasCollection.hasOwnProperty(filterName) || (typeof threshold !== 'number' && typeof threshold !== 'string'))
+	    if(!criteriasCollection.hasOwnProperty(filterName) || (typeof threshold !== 'number' && typeof threshold !== 'string' && typeof threshold !== 'boolean'))
 	    	continue;
 
 	    filterToEval += buildFilterSubQuery(threshold, criteriasCollection[filterName].criterias, objectName);

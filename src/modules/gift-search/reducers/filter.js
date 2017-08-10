@@ -1,9 +1,9 @@
 // @flow
-import type { Action } from 'modules/actions/types';
+import type { Action, Filters, FilterValue } from 'modules/actions/types';
 import { deletePropertiesImmutable } from 'helpers/object/index';
 
 type FilterState = {
-	+[string]: string
+	+[string]: FilterValue
 };
 
 
@@ -21,8 +21,20 @@ function filterReducer (state: FilterState = {}, action: Action): FilterState {
 
 export default filterReducer;
 
+//selectors
+const getFilters = (state: Object): Filters => (state.giftSearch.filter);
+const getFilter = (state: Object, filterName: string): FilterValue  => (state.giftSearch.filter[filterName]);
+const areFiltersActive = (state: Object, filtersToCompare: Filters ): boolean => {
+	for (const filterName of Object.keys(filtersToCompare)){
+    if(getFilter(state, filterName) !== filtersToCompare[filterName])
+      return false;
+  }
+  return true;
+};
+
 export 
 const selectors = {
-	getFilters: (state: Object) => (state.giftSearch.filter),
-	getFilter: (state: Object, filterName: string) => (state.giftSearch.filter[filterName])
+	getFilter,
+	getFilters,
+	areFiltersActive
 };

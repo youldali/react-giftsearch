@@ -74,7 +74,13 @@ const filterConfig: FilterConfig = {
 	'forPersons': {
 		criterias: [{ 'field': 'min_persons', 'operator': '===' }, { 'field': 'max_persons', 'operator': '===' }],
 		filterGroup: 'person'
-	}
+	},
+	'showRating': {
+		criterias: [{ 'field': 'show_rating', 'operator': '===' }]
+	},
+	'minRating': {
+		criterias: [{ 'field': 'rating', 'operator': '>=' }]
+	},		
 };
 
 
