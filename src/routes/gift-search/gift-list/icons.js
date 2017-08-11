@@ -1,7 +1,7 @@
 //@flow
 
 import React from 'react'
-import { Icon, Popup } from 'semantic-ui-react'
+import { Icon, Popup, Rating } from 'semantic-ui-react'
 
 export 
 const IconSolo = () => (
@@ -24,8 +24,8 @@ const IconGroups = ({minPersons, maxPersons}: {minPersons: number, maxPersons: n
   </Popup>
 );
 
-export default 
-({minPersons, maxPersons}: {minPersons: number, maxPersons: number}) => {
+export
+const IconPeople = ({minPersons, maxPersons}: {minPersons: number, maxPersons: number}) => {
 	
 	if(maxPersons >= 3){
 		return <IconGroups minPersons={minPersons} maxPersons={maxPersons} />;
@@ -40,3 +40,13 @@ export default
 		return <IconSolo />;
 
 };
+
+
+export
+const IconRating = ({rating}: {rating: number | string}) => {
+	const numberOfStars = Math.round(parseFloat(rating) / 2);
+  return (
+  	<Rating icon='star' rating={numberOfStars} maxRating={5} disabled />
+  );
+}
+

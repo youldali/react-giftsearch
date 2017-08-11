@@ -6,8 +6,8 @@ import React, { Component } from 'react';
 import { selectors } from 'modules/gift-search/index';
 import * as actions from 'modules/actions/giftListSearchFetch';
 import { incrementPage } from 'modules/actions/giftListSearchSorting';
-import GiftListCards from './giftListCards';
-import GiftListItems from './giftListItems';
+import GiftListCards from './listCards';
+import GiftListItems from './listItems';
 
 import ListLazyload from '../../common/helpers/lazyLoadingForList';
 

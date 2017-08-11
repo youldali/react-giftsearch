@@ -11,8 +11,13 @@ import 'rc-slider/assets/index.css';
 const RangeWithTooltip = createSliderWithTooltip(Range);
 export
 class FilterPriceRange extends Component{
+  state: { value: [number, number] };
+  props: {
+    maxValue: number,
+    setFilters: Function,
+  }
 
-  constructor(props) {
+  constructor(props: props) {
     super(props);
     this.state = {
       value: [0, this.props.maxValue]

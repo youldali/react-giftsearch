@@ -9,6 +9,18 @@ type Criterias = $ReadOnlyArray<Criteria>;
 type CriteriasCollection = {+[string]: {criterias: Criterias}};
 type FilterFunction = (target: Object) => boolean;
 
+export
+const formatValueToQueryString = (value: FilterValue) => {
+	switch(typeof value){
+		case 'string':
+			return `"${value}"`;
+		case 'boolean':
+			return value.toString();
+		default:
+			return value;
+	}
+}
+
 /**
  * Build a sub Query for a specific criterias list
  */
@@ -17,7 +29,7 @@ const buildFilterSubQuery = (filterValueFallback: FilterValue, criterias: Criter
 	let filterToEval = '';
 	for (const {field, operator, value} of criterias) {
 		const filterValue = value === undefined ? filterValueFallback : value;
-		const filterValueFormatted = typeof filterValue === 'string' ? `"${filterValue}"` : filterValue;
+		const filterValueFormatted = formatValueToQueryString(filterValue);
 		filterToEval += `&& ${objectName}['${field}'] ${operator} ${filterValueFormatted} `;
 	}
 
