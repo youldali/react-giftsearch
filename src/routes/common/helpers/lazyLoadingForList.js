@@ -20,7 +20,6 @@ class ListLazyLoad extends Component {
   }
 
   componentDidUpdate(){
-    console.log('a', this.props.numberOfItems);
     if(this.props.numberOfItemsDisplayed >= this.props.numberOfItems)
       this.removeScrollEventListener()
     else
@@ -29,9 +28,14 @@ class ListLazyLoad extends Component {
     this.bottomReachedCallback();
   }
 
+  componentWillUpdate(nextProps){
+    if(nextProps.currentPage === 1)
+      window.scrollBy(0, this.wrapperRef.getBoundingClientRect().top);
+  }
+
   bottomReachedCallback(){
-    console.log(this.props.numberOfItemsDisplayed, this.props.numberOfItems);
     if(this.props.numberOfItemsDisplayed < this.props.numberOfItems && isElementBottomVisible(this.wrapperRef)){
+      console.log('onBottomReached');
       this.props.onBottomReached();
     }
   }

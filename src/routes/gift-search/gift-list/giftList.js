@@ -29,6 +29,7 @@ class GiftListContainer extends Component{
         onBottomReached={this.props.incrementPage}
         numberOfItemsDisplayed={this.props.giftCollectionToDisplay.length}
         numberOfItems={this.props.fullGiftCollection.length}
+        currentPage={this.props.currentPage}
       >
         <GiftListItems giftCollection={this.props.giftCollectionToDisplay} />
       </ListLazyload>
@@ -41,9 +42,11 @@ class GiftListContainer extends Component{
 const mapStateToProps = (state) => {
 	const giftCollectionToDisplay = selectors.getPaginatedOrderedFilteredList(state);
   const fullGiftCollection = selectors.getOrderedFilteredList(state);
+  const currentPage = selectors.getPage(state);
 	return {
 		giftCollectionToDisplay,
-    fullGiftCollection
+    fullGiftCollection,
+    currentPage
 	}
 }
 
