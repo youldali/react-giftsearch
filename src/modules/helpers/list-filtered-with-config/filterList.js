@@ -4,7 +4,7 @@ import "babel-polyfill";
 
 type FilterValue = number | string | boolean;
 type Filters = { +[string]: FilterValue};
-type Criteria = {|field: string, operator: string|};
+type Criteria = {|field: string, operator: string, value?: FilterValue|};
 type Criterias = $ReadOnlyArray<Criteria>;
 type CriteriasCollection = {+[string]: {criterias: Criterias}};
 type FilterFunction = (target: Object) => boolean;
@@ -13,11 +13,12 @@ type FilterFunction = (target: Object) => boolean;
  * Build a sub Query for a specific criterias list
  */
 export 
-const buildFilterSubQuery = (threshold: FilterValue, criterias: Criterias, objectName: string): string => {
+const buildFilterSubQuery = (filterValueFallback: FilterValue, criterias: Criterias, objectName: string): string => {
 	let filterToEval = '';
-	for (const {field, operator} of criterias) {
-		const thresholdFormatted = typeof threshold === 'string' ? `"${threshold}"` : threshold;
-		filterToEval += `&& ${objectName}['${field}'] ${operator} ${thresholdFormatted} `;
+	for (const {field, operator, value} of criterias) {
+		const filterValue = value === undefined ? filterValueFallback : value;
+		const filterValueFormatted = typeof filterValue === 'string' ? `"${filterValue}"` : filterValue;
+		filterToEval += `&& ${objectName}['${field}'] ${operator} ${filterValueFormatted} `;
 	}
 
 	return filterToEval;
@@ -31,11 +32,11 @@ export
 const buildFilterQuery = (filters: Filters, criteriasCollection: CriteriasCollection, objectName: string): string => {
 	let filterToEval = 'true ';
 
-	for (const [filterName, threshold] of Object.entries(filters)) {
-	    if(!criteriasCollection.hasOwnProperty(filterName) || (typeof threshold !== 'number' && typeof threshold !== 'string' && typeof threshold !== 'boolean'))
+	for (const [filterName, filterValue] of Object.entries(filters)) {
+	    if(!criteriasCollection.hasOwnProperty(filterName) || (typeof filterValue !== 'number' && typeof filterValue !== 'string' && typeof filterValue !== 'boolean'))
 	    	continue;
 
-	    filterToEval += buildFilterSubQuery(threshold, criteriasCollection[filterName].criterias, objectName);
+	    filterToEval += buildFilterSubQuery(filterValue, criteriasCollection[filterName].criterias, objectName);
 	}
 
 	return filterToEval;

@@ -1,6 +1,7 @@
 // @flow
 
-export type Criteria = {|field: string, operator: string|};
+import type { FilterValue } from 'modules/actions/types';
+export type Criteria = {|field: string, operator: string, value?: FilterValue|};
 export type Criterias = $ReadOnlyArray<Criteria>;
 export type FilterConfig = { +[string]: {|criterias: Criterias, filterGroup?: string|} };
 export type UniverseToUrlMap = {+[string]: Array<number>};
@@ -67,6 +68,7 @@ const filterConfig: FilterConfig = {
 	'minPrice': {
 		criterias: [{ 'field': 'rawPrice', 'operator': '>=' }],
 	},
+
 	'forPersonsRange': {
 		criterias: [{ 'field': 'min_persons', 'operator': '<=' }, { 'field': 'max_persons', 'operator': '>=' }],
 		filterGroup: 'person' 
@@ -75,12 +77,14 @@ const filterConfig: FilterConfig = {
 		criterias: [{ 'field': 'min_persons', 'operator': '===' }, { 'field': 'max_persons', 'operator': '===' }],
 		filterGroup: 'person'
 	},
-	'showRating': {
-		criterias: [{ 'field': 'show_rating', 'operator': '===' }]
+	'forCouple': {
+		criterias: [{ 'field': 'min_persons', 'operator': '===', 'value': 2 }, { 'field': 'max_persons', 'operator': '===', 'value': 2 }],
+		filterGroup: 'person'
 	},
-	'minRating': {
-		criterias: [{ 'field': 'rating', 'operator': '>=' }]
-	},		
+	
+	'mostPopular': {
+		criterias: [{ 'field': 'show_rating', 'operator': '===', 'value': true }, { 'field': 'rating', 'operator': '>=', 'value': '8' }]
+	}
 };
 
 

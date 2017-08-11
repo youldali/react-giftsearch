@@ -36,7 +36,7 @@ const FiltersContainer = (props) => {
           <Menu.Item>
             <FilterRadioButton 
               filterLabel={<label>En couple <span className='filter-option__icon'><Icon name='male' fitted color='orange' size='large' /><Icon name='female' fitted color='orange' size='large' /></span></label>}
-              componentFilters={ {forPersons: 2} } 
+              componentFilters={ {forCouple: true} } 
             /> 
           </Menu.Item>
           <Menu.Item>
@@ -54,7 +54,7 @@ const FiltersContainer = (props) => {
           <Menu.Item>
             <FilterRadioButton 
               filterLabel={<label>Les + populaires <span className='filter-option__icon'><Icon name='star' color='yellow' size='large' /></span></label>}
-              componentFilters={ {showRating: true, minRating: '8'} }
+              componentFilters={ {mostPopular: true} }
             />
           </Menu.Item>
         </Menu.Menu>
