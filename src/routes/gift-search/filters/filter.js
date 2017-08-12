@@ -49,7 +49,7 @@ class FilterPriceRange extends Component{
         onAfterChange={this.handleChange} 
         value={this.state.value} 
         marks={this.marks}
-        step={null}
+        step={50}
         allowCross={false}
         tipFormatter={value => `${value}€`}
       />

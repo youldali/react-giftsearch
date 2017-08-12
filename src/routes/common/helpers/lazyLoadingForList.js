@@ -8,6 +8,7 @@ class ListLazyLoad extends Component {
     super(props)
     this.bottomReachedCallback = this.bottomReachedCallback.bind(this);
     this.hasScrollEventListener = false;
+    this.isUpdating = false;
   }
   
   componentDidMount(){
@@ -25,6 +26,7 @@ class ListLazyLoad extends Component {
     else
       this.addScrollEventListener();
 
+    this.isUpdating = false;
     this.bottomReachedCallback();
   }
 
@@ -34,15 +36,17 @@ class ListLazyLoad extends Component {
   }
 
   bottomReachedCallback(){
-    if(this.props.numberOfItemsDisplayed < this.props.numberOfItems && isElementBottomVisible(this.wrapperRef)){
+    if(!this.isUpdating && this.props.numberOfItemsDisplayed < this.props.numberOfItems && isElementBottomVisible(this.wrapperRef)){
       console.log('onBottomReached');
-      this.props.onBottomReached();
+      this.isUpdating = true;
+      setTimeout(this.props.onBottomReached, 0);
+      
     }
   }
 
   addScrollEventListener(){
     if(!this.hasScrollEventListener && this.props.numberOfItemsDisplayed < this.props.numberOfItems){
-      window.addEventListener("scroll", throttle(this.bottomReachedCallback, 30));
+      window.addEventListener("scroll", this.bottomReachedCallback);
       this.hasScrollEventListener = true;
     }
   }

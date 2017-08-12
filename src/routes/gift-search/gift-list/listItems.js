@@ -2,7 +2,7 @@
 
 import type { GiftCollection } from 'modules/actions/types';
 import React from 'react';
-import { Item, Icon, Button } from 'semantic-ui-react';
+import { Item, Icon, Button, Image } from 'semantic-ui-react';
 import './css/item.css';
 
 import { IconPeople, IconRating } from './icons';
@@ -23,7 +23,7 @@ type GiftItemType = {
 export
 const GiftItem = (props: GiftItemType) => (
   <Item className='gift-item'>
-    <Item.Image src={props.img} as='a' size='medium' target='_blank' />
+    <Image src={props.img} as='a' href={props.url} size='medium' target='_blank' />
     <Item.Content verticalAlign='middle'>
       <Item.Header>{props.name}</Item.Header>
       <Item.Meta>
