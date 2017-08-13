@@ -34,7 +34,7 @@ const IconPeople = ({minPersons, maxPersons}: {minPersons: number, maxPersons: n
 		if(minPersons === 2)
 			return <IconCouple />;
 		else
-			return <IconSolo />;
+			return <IconGroups minPersons={minPersons} maxPersons={maxPersons} />;
 	}
 	else
 		return <IconSolo />;
