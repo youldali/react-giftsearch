@@ -8,6 +8,8 @@ import { Radio, Menu } from 'semantic-ui-react';
 import { Range, createSliderWithTooltip } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
+import type { Filters, Dispatch } from 'modules/actions/types';
+
 const RangeWithTooltip = createSliderWithTooltip(Range);
 export
 class FilterPriceRange extends Component{
@@ -15,20 +17,21 @@ class FilterPriceRange extends Component{
   props: {
     maxValue: number,
     setFilters: Function,
-  }
+  };
+  marks: {number: string};
 
-  constructor(props: props) {
+  constructor(props) {
     super(props);
     this.state = {
       value: [0, this.props.maxValue]
     };
 
     this.marks = {
-      0: <strong>0€</strong>,
-      50: '',
-      100: '100€',
-      250: '250€',
-      500: '500€',
+      [0]: <strong>0€</strong>,
+      [50]: '',
+      [100]: '100€',
+      [250]: '250€',
+      [500]: '500€',
       [this.props.maxValue]: `${this.props.maxValue}€`
     };
 
@@ -57,8 +60,15 @@ class FilterPriceRange extends Component{
   };  
 };
 
+
+type FilterRadioProps = {
+  filterLabel: string,
+  isActive: boolean,
+  onChange: Function,
+  componentFilters: Filters
+};
 export
-const FilterRadio = (props) => {
+const FilterRadio = (props: FilterRadioProps) => {
   const handleChange = () => {
     if(props.isActive)
       props.resetFilters(Object.keys(props.componentFilters));
@@ -78,7 +88,8 @@ const FilterRadio = (props) => {
 
 
 //Store connection
-const mapStateToProps = (state, ownProps) => {
+type OwnProps = {componentFilters: Filters};
+const mapStateToProps = (state: Object, ownProps: OwnProps) => {
 	const { componentFilters } = ownProps;
 	const isActive = componentFilters === undefined ? false : selectors.areFiltersActive(state, componentFilters);
 
@@ -88,12 +99,12 @@ const mapStateToProps = (state, ownProps) => {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
 	return {
-		setFilters: (filters) => dispatch(actions.setFilters(filters)),
-		resetFilters: (filters) => dispatch(actions.resetFilters(filters))
+		setFilters: (filters: Filters) => dispatch(actions.setFilters(filters)),
+		resetFilters: (filters: Array<string>) => dispatch(actions.resetFilters(filters))
 	}
 }
 
 export default
-(FilterComponent) => connect(mapStateToProps, mapDispatchToProps)(FilterComponent);
+(FilterComponent: React.Element<*>) => connect(mapStateToProps, mapDispatchToProps)(FilterComponent);

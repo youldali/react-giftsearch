@@ -1,7 +1,7 @@
  // @flow
 import type { Action, Filters, Dispatch, DisplayType } from './types';
 import { filterConfig } from 'modules/gift-search/config';
-import { findMultipleRelatedFilters } from '../helpers/list-filtered-with-config/relatedFilters';
+import { findMultipleRelatedFilters } from '../helpers/refineCollection/relatedFilters';
 
 export 
 function setFilters(filters: Filters): Action {

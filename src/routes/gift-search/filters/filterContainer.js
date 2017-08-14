@@ -5,7 +5,7 @@ import makeConnectedFilter, { FilterPriceRange, FilterRadio } from './filter';
 import './css/filterContainer.css';
 
 
-const FiltersContainer = (props) => {
+const FiltersContainer = () => {
 
   const FilterForPrice = makeConnectedFilter(FilterPriceRange);
   const FilterRadioButton = makeConnectedFilter(FilterRadio);
