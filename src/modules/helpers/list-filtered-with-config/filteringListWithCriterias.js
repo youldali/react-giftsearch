@@ -55,7 +55,7 @@ const evaluateSingleCriteria = (criteria: Criteria, filterValueFallback: FilterV
 export
 const makeFilterFunction = (filterValueFallback: FilterValue, criterias: Criterias): Function => {
 	return function(target: Object): boolean{
-		return (function evaluateNextCriterias(iterator): boolean{
+		return (function evaluateNextCriteria(iterator): boolean{
 			//condition to get out of recursive call
 			const currentIteratorState = iterator.next();
 			if(currentIteratorState.done)
@@ -63,7 +63,7 @@ const makeFilterFunction = (filterValueFallback: FilterValue, criterias: Criteri
 
 			//eval the current criteria and ask for eval of the next one
 			const criteria = currentIteratorState.value;
-			return evaluateSingleCriteria(criteria, filterValueFallback, target) && evaluateNextCriterias(iterator);
+			return evaluateSingleCriteria(criteria, filterValueFallback, target) && evaluateNextCriteria(iterator);
 		})(criterias[Symbol.iterator]());
 	}
 };
@@ -80,8 +80,8 @@ const getFiltersFunctionsCollection = (filters: Filters, criteriasCollection: Cr
 	    if(!criteriasCollection.hasOwnProperty(filterName))
 	    	continue;
 
-	    filterFunction = makeFilterFunction(filterValue, criteriasCollection[filterName].criterias);
-	    filterGroup = getFilterGroup(criteriasCollection, filterName);
+	    const filterFunction = makeFilterFunction(filterValue, criteriasCollection[filterName].criterias);
+	    const filterGroup = getFilterGroup(criteriasCollection, filterName);
 	    addFilterFunctionToMap(filterGroup, filterFunction, filtersFunctionsCollection);
 	}
 
@@ -93,8 +93,8 @@ const getFiltersFunctionsCollection = (filters: Filters, criteriasCollection: Cr
  ** filters an object for a group filter with || operator
  */
 export
-const filterObjectWithFilterGroup = (filterGroupCollection: Array<Function>, target) => {
-	return (function evaluateNextFunction(iterator): boolean{
+const filterObjectWithFilterGroup = (filterGroupCollection: Array<Function>, target): boolean => {
+	return (function evaluateNextFilterFunction(iterator): boolean{
 		//condition to get out of recursive call
 		const currentIteratorState = iterator.next();
 			if(currentIteratorState.done)
@@ -102,7 +102,7 @@ const filterObjectWithFilterGroup = (filterGroupCollection: Array<Function>, tar
 
 		//eval the current criteria and ask for eval of the next one
 		const filterFunction = currentIteratorState.value;
-		return filterFunction(target) || evaluateNextFunction(iterator);
+		return filterFunction(target) || evaluateNextFilterFunction(iterator);
 	})(filterGroupCollection[Symbol.iterator]());
 };
 
@@ -111,7 +111,7 @@ const filterObjectWithFilterGroup = (filterGroupCollection: Array<Function>, tar
  ** filters an object for a group filter with && operator
  */
 export
-const filterObjectWithIndependentFilters = (filterGroupCollection: Array<Function>, target) => {
+const filterObjectWithIndependentFilters = (filterGroupCollection: Array<Function>, target): boolean => {
 	return (function evaluateNextFunction(iterator): boolean{
 		//condition to get out of recursive call
 		const currentIteratorState = iterator.next();
@@ -139,7 +139,7 @@ const filterObjectWithFilterCollection = (filterCollection: Map): FilterFunction
 				return true;
 
 			//eval the current criteria and ask for eval of the next one
-			const {filterGroupName, filterGroupCollection} = currentIteratorState.value;
+			const [filterGroupName, filterGroupCollection] = currentIteratorState.value;
 			if(filterGroupName === undefined)
 				return filterObjectWithIndependentFilters(filterGroupCollection, target) && evaluateNextFilterGroupCollection(iterator);
 			else
