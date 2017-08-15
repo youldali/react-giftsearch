@@ -21,11 +21,11 @@ function filterReducer (state: FilterState = {}, action: Action): FilterState {
 export default filterReducer;
 
 //selectors
-const getFilters = (state: Object): Filters => (state.giftSearch.filter);
+const getAllFilters = (state: Object): Filters => (state.giftSearch.filter);
 const getFilter = (state: Object, filterName: string): FilterValue  => (state.giftSearch.filter[filterName]);
-const areFiltersActive = (state: Object, filtersToCompare: Filters ): boolean => {
-	for (const filterName of Object.keys(filtersToCompare)){
-    if(getFilter(state, filterName) !== filtersToCompare[filterName])
+const areFiltersActive = (state: Object, filterNames: Array<string> ): boolean => {
+	for (const filterName of filterNames){
+    if(getFilter(state, filterName) === undefined)
       return false;
   }
   return true;
@@ -34,6 +34,6 @@ const areFiltersActive = (state: Object, filtersToCompare: Filters ): boolean =>
 export 
 const selectors = {
 	getFilter,
-	getFilters,
+	getAllFilters,
 	areFiltersActive
 };

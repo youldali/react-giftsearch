@@ -54,7 +54,7 @@ class ListLazyLoad extends Component {
     if(!this.isUpdating && this.props.numberOfItemsDisplayed < this.props.numberOfItems && isElementBottomVisible(this.wrapperRef)){
       console.log('bottom reached');
       this.isUpdating = true;
-      setTimeout(this.props.onBottomReached, 0);
+      this.props.onBottomReached();
     }
   }
 

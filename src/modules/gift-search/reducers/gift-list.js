@@ -49,7 +49,7 @@ export default giftListReducer;
 const getList = (state: Object) => (state.giftSearch.giftList.collection);
 
 const getFilteredList = createSelector(
-  [getList, filterSelectors.getFilters],
+  [getList, filterSelectors.getAllFilters],
   (stateGiftList: GiftCollection, stateGiftFilters: Filters): GiftCollection => filterList(stateGiftList, stateGiftFilters, filterConfig)
 );
 

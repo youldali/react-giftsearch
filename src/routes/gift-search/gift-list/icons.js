@@ -43,10 +43,31 @@ const IconPeople = ({minPersons, maxPersons}: {minPersons: number, maxPersons: n
 
 
 export
-const IconRating = ({rating}: {rating: number | string}) => {
+const IconRating = ({rating, numberOfReviews}: {rating: number | string, numberOfReviews: number}) => {
 	const numberOfStars = Math.round(parseFloat(rating) / 2);
   return (
-  	<Rating icon='star' rating={numberOfStars} maxRating={5} disabled />
+		<Popup trigger={<Rating icon='star' rating={numberOfStars} maxRating={5} disabled />} >
+	    Ce coffret a obtenu une moyenne de <strong>{rating}</strong> selon plus de {numberOfReviews} personnes
+	  </Popup>  	
+  	
   );
 }
+
+export
+const IconEBox = () => {
+  return (
+		<Popup 
+			trigger={
+				<Icon.Group size='large'>
+				  <Icon name='mail outline' />
+				  <Icon corner name='edge' />
+				</Icon.Group>
+			} 
+		>
+	    Exclusivement sur note site !
+	  </Popup>  	
+  );
+}
+
+
 

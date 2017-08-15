@@ -23,14 +23,10 @@ class GiftSearchContainer extends Component {
 					</Grid.Row>
 					<Grid.Row centered>
 					  <Grid.Column widescreen={3} largeScreen={3} tablet={4}  >
-							<Sticky context={contextRefSticky} offset={100}>
-								<FilterContainer />
-							</Sticky>
+							<FilterContainer />
 					  </Grid.Column>
 					  <Grid.Column widescreen={8} largeScreen={9} tablet={12}>
-					  	<div>
-					    	<GiftListContainer />
-					    </div>
+					    <GiftListContainer />
 					  </Grid.Column>
 					</Grid.Row>
 				</Grid>

@@ -32,7 +32,8 @@ type Gift = {
 	max_persons: number,
 	min_nights: number,
 	max_nights: number,	
-	rawPrice: number
+	rawPrice: number,
+	web_exclusive: boolean
 };
 
 export

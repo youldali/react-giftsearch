@@ -14,6 +14,7 @@ const RangeWithTooltip = createSliderWithTooltip(Range);
 type FilterPriceRangeProps = {
   maxValue: number,
   setFilters: Function,
+  filterState: Filters
 };
 
 export
@@ -29,15 +30,23 @@ class FilterPriceRange extends Component{
     };
 
     this.marks = {
-      [0]: <strong>0€</strong>,
-      [50]: '',
-      [100]: '100€',
-      [250]: '250€',
-      [500]: '500€',
+      '0': <strong>0€</strong>,
+      '50': '',
+      '100': '100€',
+      '250': '250€',
+      '500': '500€',
       [this.props.maxValue]: `${this.props.maxValue}€`
     };
 
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps: FilterPriceRangeProps){
+    console.log(nextProps);
+    let {minPrice, maxPrice} = nextProps.filterState;
+    minPrice = minPrice === undefined ? 0 : minPrice;
+    maxPrice = maxPrice === undefined ? this.props.maxValue : maxPrice;
+    this.setState({value: [minPrice, maxPrice]});
   }
 
   handleChange(){
@@ -46,6 +55,7 @@ class FilterPriceRange extends Component{
   }
 
   render() {
+    console.log('ff');
     return(
       <RangeWithTooltip 
         min={0} 
@@ -57,6 +67,7 @@ class FilterPriceRange extends Component{
         step={50}
         allowCross={false}
         tipFormatter={value => `${value}€`}
+        defaultValue={[0, this.props.maxValue]}
       />
     );
   };  
@@ -79,6 +90,7 @@ const FilterRadio = (props: FilterRadioProps) => {
       props.setFilters(props.componentFilters);
   }  
 
+  console.log('refresh');
   return (
       <Radio 
         toggle 
@@ -94,11 +106,12 @@ const FilterRadio = (props: FilterRadioProps) => {
 type OwnProps = {componentFilters: Filters};
 const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
 	const { componentFilters } = ownProps;
-	const isActive = componentFilters === undefined ? false : selectors.areFiltersActive(state, componentFilters);
-
+	const isActive = componentFilters === undefined ? false : selectors.areFiltersActive(state, Object.keys(componentFilters));
+  const filterState = selectors.getAllFilters(state);
 	return {
 		...ownProps,
-		isActive
+		isActive,
+    //filterState
 	}
 }
 

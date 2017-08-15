@@ -51,6 +51,7 @@ const fieldsToKeep: FieldsToKeep = [
 	'number_activities',
 	'reviews_count',
 	'type_experience',
+	'web_exclusive'
 ];
 
 export 
@@ -84,7 +85,11 @@ const filterConfig: FilterConfig = {
 	
 	'mostPopular': {
 		criterias: [{ 'field': 'show_rating', 'operator': '===', 'value': true }, { 'field': 'rating', 'operator': '>=', 'value': '8' }]
-	}
+	},
+
+	'excluWeb': {
+		criterias: [{ 'field': 'web_exclusive', 'operator': '===', 'value': true }]
+	}	
 };
 
 

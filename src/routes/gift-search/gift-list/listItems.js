@@ -5,7 +5,7 @@ import React from 'react';
 import { Item, Icon, Button, Image } from 'semantic-ui-react';
 import './css/item.css';
 
-import { IconPeople, IconRating } from './icons';
+import { IconPeople, IconRating, IconEBox } from './icons';
 
 type GiftItemType = {
   url: string,
@@ -17,7 +17,9 @@ type GiftItemType = {
   price: string,
   shortDescription: string,
   rating: string,
-  showRating: boolean
+  showRating: boolean,
+  numberOfReviews: number,
+  webExclusive: boolean
 };
 
 export
@@ -37,8 +39,11 @@ const GiftItem = (props: GiftItemType) => (
         <div className='flex'>
           <div className='gift-item__info-sup'>
             <span className='gift-item__icons'><IconPeople minPersons={props.minPersons} maxPersons={props.maxPersons} /></span>
+            { props.webExclusive && 
+              <span className='gift-item__icons'><IconEBox /></span>
+            }            
             { props.showRating && 
-              <span className='gift-item__rating'><IconRating rating={props.rating} /></span> 
+              <span className='gift-item__rating'><IconRating numberOfReviews={props.numberOfReviews} rating={props.rating} /></span> 
             }
           </div>
           <div className='gift-item__price'>{props.price}</div>
@@ -68,6 +73,8 @@ const GiftListItems = ({ giftCollection}: {giftCollection: GiftCollection }) => 
         price={gift.price}
         rating={gift.rating}
         showRating={gift.show_rating}
+        numberOfReviews={gift.reviews_count}
+        webExclusive={gift.web_exclusive}
       />
     )}
   </Item.Group>
