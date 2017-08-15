@@ -5,11 +5,9 @@ import { findMultipleRelatedFilters } from '../helpers/refineCollection/relatedF
 
 export 
 function setFilters(filters: Filters): Action {
-	const filtersToReset = findMultipleRelatedFilters(filterConfig, Object.keys(filters));
 	return{
 		type: "GIFT_LIST_SEARCH/SET_FILTERS",
-		filters,
-		filtersToReset
+		filters
 	}
 };
 

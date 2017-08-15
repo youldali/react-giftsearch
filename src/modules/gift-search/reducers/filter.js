@@ -10,8 +10,7 @@ type FilterState = {
 function filterReducer (state: FilterState = {}, action: Action): FilterState {
 	switch (action.type){
 		case "GIFT_LIST_SEARCH/SET_FILTERS":
-			let newState = deletePropertiesImmutable(state, action.filtersToReset);
-			return {...newState, ...action.filters};
+			return {...state, ...action.filters};
 		case "GIFT_LIST_SEARCH/RESET_FILTERS":
 			return deletePropertiesImmutable(state, action.filtersToReset);
 		default:

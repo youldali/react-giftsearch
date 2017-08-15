@@ -11,16 +11,18 @@ import 'rc-slider/assets/index.css';
 import type { Filters, Dispatch } from 'modules/actions/types';
 
 const RangeWithTooltip = createSliderWithTooltip(Range);
+type FilterPriceRangeProps = {
+  maxValue: number,
+  setFilters: Function,
+};
+
 export
 class FilterPriceRange extends Component{
   state: { value: [number, number] };
-  props: {
-    maxValue: number,
-    setFilters: Function,
-  };
+  props: FilterPriceRangeProps;
   marks: {number: string};
 
-  constructor(props) {
+  constructor(props: FilterPriceRangeProps) {
     super(props);
     this.state = {
       value: [0, this.props.maxValue]
@@ -64,7 +66,8 @@ class FilterPriceRange extends Component{
 type FilterRadioProps = {
   filterLabel: string,
   isActive: boolean,
-  onChange: Function,
+  setFilters: Function,
+  resetFilters: Function,
   componentFilters: Filters
 };
 export
@@ -89,7 +92,7 @@ const FilterRadio = (props: FilterRadioProps) => {
 
 //Store connection
 type OwnProps = {componentFilters: Filters};
-const mapStateToProps = (state: Object, ownProps: OwnProps) => {
+const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
 	const { componentFilters } = ownProps;
 	const isActive = componentFilters === undefined ? false : selectors.areFiltersActive(state, componentFilters);
 
@@ -99,7 +102,7 @@ const mapStateToProps = (state: Object, ownProps: OwnProps) => {
 	}
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: Dispatch): Object => {
 	return {
 		setFilters: (filters: Filters) => dispatch(actions.setFilters(filters)),
 		resetFilters: (filters: Array<string>) => dispatch(actions.resetFilters(filters))

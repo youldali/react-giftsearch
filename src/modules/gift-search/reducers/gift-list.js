@@ -4,7 +4,7 @@ import { selectors as filterSelectors } from './filter';
 import { selectors as orderSelectors } from './order';
 import { selectors as pageSelectors } from './page';
 import { createSelector } from 'reselect';
-import filterList from 'modules/helpers/refineCollection/filterList';
+import filterList from 'modules/helpers/refineCollection/filteringListWithCriterias';
 import sortList from 'modules/helpers/refineCollection/sortList';
 import { filterConfig } from 'modules/gift-search/config';
 

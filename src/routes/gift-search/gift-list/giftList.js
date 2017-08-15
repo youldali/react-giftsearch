@@ -1,6 +1,6 @@
 //@flow
 
-import type { GiftCollection } from 'modules/actions/types';
+import type { GiftCollection, Dispatch } from 'modules/actions/types';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { selectors } from 'modules/gift-search/index';
@@ -9,13 +9,21 @@ import { incrementPage } from 'modules/actions/giftListSearchSorting';
 import GiftListCards from './listCards';
 import GiftListItems from './listItems';
 
-import ListLazyload from '../../common/helpers/lazyLoadingForList';
+import ListLazyload from '../../common/behavior/lazyLoadingForList';
+
+type GiftListContainerProps = {
+  fetchList: Function,
+  incrementPage: Function,
+  giftCollectionToDisplay: GiftCollection,
+  fullGiftCollection: GiftCollection,
+  currentPage: number
+};
 
 export
 class GiftListContainer extends Component{
-	giftCollection: GiftCollection;
+	props: GiftListContainerProps;
 
-	constructor(props) {
+	constructor(props: GiftListContainerProps) {
     super(props)
   }
 
@@ -39,7 +47,7 @@ class GiftListContainer extends Component{
 
 
 //store Connection
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: Object): Object => {
 	const giftCollectionToDisplay = selectors.getPaginatedOrderedFilteredList(state);
   const fullGiftCollection = selectors.getOrderedFilteredList(state);
   const currentPage = selectors.getPage(state);
@@ -50,7 +58,7 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: Dispatch): Object => {
 	return {
 		fetchList: () => dispatch(actions.fetchGiftList('gastronomy')),
     incrementPage: () => dispatch(incrementPage())

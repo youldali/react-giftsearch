@@ -1,10 +1,25 @@
+//@flow
+
 import React, { Component } from 'react';
 import { Container, Icon } from 'semantic-ui-react';
 import { isElementBottomVisible } from 'helpers/DOM/visibility';
 import throttle from 'lodash.throttle';
 
+type ListLazyLoadProps = {
+  currentPage: number,
+  onBottomReached: Function,
+  numberOfItemsDisplayed: number,
+  numberOfItems: number,
+  children: React.Element<*>;
+};
+
 class ListLazyLoad extends Component {
-  constructor(props) {
+  props: ListLazyLoadProps;
+  hasScrollEventListener: boolean;
+  isUpdating: boolean;
+  wrapperRef: HTMLElement;
+
+  constructor(props: ListLazyLoadProps) {
     super(props)
     this.bottomReachedCallback = this.bottomReachedCallback.bind(this);
     this.hasScrollEventListener = false;
@@ -30,17 +45,16 @@ class ListLazyLoad extends Component {
     this.bottomReachedCallback();
   }
 
-  componentWillUpdate(nextProps){
+  componentWillUpdate(nextProps: ListLazyLoadProps){
     if(nextProps.currentPage === 1)
       window.scrollBy(0, this.wrapperRef.getBoundingClientRect().top);
   }
 
   bottomReachedCallback(){
     if(!this.isUpdating && this.props.numberOfItemsDisplayed < this.props.numberOfItems && isElementBottomVisible(this.wrapperRef)){
-      console.log('onBottomReached');
+      console.log('bottom reached');
       this.isUpdating = true;
       setTimeout(this.props.onBottomReached, 0);
-      
     }
   }
 

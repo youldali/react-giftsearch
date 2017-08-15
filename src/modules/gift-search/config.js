@@ -73,8 +73,8 @@ const filterConfig: FilterConfig = {
 		criterias: [{ 'field': 'min_persons', 'operator': '<=' }, { 'field': 'max_persons', 'operator': '>=' }],
 		filterGroup: 'person' 
 	},
-	'forPersons': {
-		criterias: [{ 'field': 'min_persons', 'operator': '===' }, { 'field': 'max_persons', 'operator': '===' }],
+	'forOnePerson': {
+		criterias: [{ 'field': 'min_persons', 'operator': '===', 'value': 1 }, { 'field': 'max_persons', 'operator': '>=', 'value': 1 }],
 		filterGroup: 'person'
 	},
 	'forCouple': {

@@ -1,7 +1,7 @@
 // @flow
 
 export 
-const isElementInViewport = (el: HTMLElement) => {
+const isElementInViewport = (el: HTMLElement): boolean => {
     var rect = el.getBoundingClientRect();
 
     return (
@@ -13,7 +13,7 @@ const isElementInViewport = (el: HTMLElement) => {
 };
 
 export
-const isElementBottomVisible = (el: HTMLElement) => {
+const isElementBottomVisible = (el: HTMLElement): boolean => {
     var rect = el.getBoundingClientRect();
     
     return (

@@ -1,14 +1,15 @@
 //@flow
+
 import type { GiftCollection } from 'modules/actions/types';
 import React, { Component } from 'react'
 import GiftListContainer from './gift-list/giftList';
 import { Grid, Sticky } from 'semantic-ui-react'
-import FilterContainer from './filters/filterContainer';
+import FilterContainer from './gift-list-refinement/filterContainer';
 import NavBar from '../common/navBar/navBar';
 
 class GiftSearchContainer extends Component {
 	state = {}
-  handleContextRefSticky = contextRefSticky => this.setState({ contextRefSticky })
+  handleContextRefSticky = (contextRefSticky: HTMLElement) => this.setState({ contextRefSticky })
   
 	render(){
 		const { contextRefSticky } = this.state
@@ -17,7 +18,7 @@ class GiftSearchContainer extends Component {
 				<Grid columns={16} >
 					<Grid.Row centered>
 						<Grid.Column widescreen={11} largeScreen={12} tablet={16}  >
-							<Sticky context={contextRefSticky}><NavBar /></Sticky>
+							<NavBar />
 						</Grid.Column>
 					</Grid.Row>
 					<Grid.Row centered>

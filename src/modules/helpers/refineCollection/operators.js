@@ -3,38 +3,38 @@
 import "babel-polyfill";
 
 export
-const inferior = (a: number, b: number): boolean => {
+const inferior = (a: any, b: any): boolean => {
 
 	return a < b;
 };
 
 export
-const inferiorOrEqual = (a: number, b: number): boolean => {
+const inferiorOrEqual = (a: any, b: any): boolean => {
 	return a <= b;
 };
 
 export
-const superior = (a: number, b: number): boolean => {
+const superior = (a: any, b: any): boolean => {
 	return a > b;
 };
 
 export
-const superiorOrEqual = (a: number, b: number): boolean => {
+const superiorOrEqual = (a: any, b: any): boolean => {
 	return a >= b;
 };
 
 export
-const equal = (a: number | string, b: number | string): boolean => {
+const equal = (a: any, b: any): boolean => {
 	return a == b;
 };
 
 export
-const equalStrict = (a: number | string, b: number | string): boolean => {
+const equalStrict = (a: any, b: any): boolean => {
 	return a === b;
 };
 
 export
-const isIncluded = (a: number | string, b: Array<number | string>): boolean => {
+const isIncluded = (a: any, b: Array<number | string> | string): boolean => {
 	const typeOfb = Array.isArray(b) ? 'Array' : typeof b;
 
 	switch(typeOfb){

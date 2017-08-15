@@ -30,7 +30,7 @@ const FiltersContainer = () => {
           <Menu.Item>
             <FilterRadioButton 
               filterLabel={<label>En solitaire  <span className='filter-option__icon'><Icon name='user' color='orange' size='large' fitted/></span> </label> }
-              componentFilters={ {forPersonsRange: 1} }
+              componentFilters={ {forOnePerson: true} }
              />
           </Menu.Item>
           <Menu.Item>
