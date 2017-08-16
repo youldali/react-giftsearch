@@ -54,6 +54,15 @@ const IconRating = ({rating, numberOfReviews}: {rating: number | string, numberO
 }
 
 export
+const IconPopular = () => {
+  return (
+		<Popup trigger={<Icon name='star' color='yellow' size='large' />} >
+	    Un de nos coffrets les plus populaires !
+	  </Popup>  	
+  );
+}
+
+export
 const IconEBox = () => {
   return (
 		<Popup 

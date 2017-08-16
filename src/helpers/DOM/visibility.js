@@ -13,10 +13,10 @@ const isElementInViewport = (el: HTMLElement): boolean => {
 };
 
 export
-const isElementBottomVisible = (el: HTMLElement): boolean => {
+const isElementBottomVisible = (el: HTMLElement, offsetBottomDetection: ?number): boolean => {
     var rect = el.getBoundingClientRect();
-    
+    console.log(offsetBottomDetection);
     return (
-        rect.bottom <= window.innerHeight
+        rect.bottom <= (window.innerHeight + (offsetBottomDetection || 0) )
     );
 };

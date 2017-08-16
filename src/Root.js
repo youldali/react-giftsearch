@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
 import App from './routes/App';
-//import { MuiThemeProvider } from 'material-ui/styles';
+import {BrowserRouter as Router, Route} from 'react-router-dom'
 
 const store = configureStore();
 
@@ -10,9 +10,9 @@ export default class Root extends Component {
   render() {
     return (
       <Provider store={store}>
-      	{/*<MuiThemeProvider>*/}
-        	<App />
-        {/*</MuiThemeProvider>*/}
+      	<Router>
+      		<Route path="/:universe" component={App}/>
+        </Router>
       </Provider>
     )
   }

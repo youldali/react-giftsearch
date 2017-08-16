@@ -16,5 +16,5 @@ export default displayReducer;
 
 export 
 const selectors = {
-	getDisplaySelector: (state: Object) => (state.giftSearch.display)
+	getDisplay: (state: Object) => (state.giftSearch.display)
 }

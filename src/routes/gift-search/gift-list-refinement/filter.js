@@ -1,7 +1,7 @@
 //@flow
 
 import { connect } from 'react-redux';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { selectors } from 'modules/gift-search/index';
 import * as actions from 'modules/actions/giftListSearchSorting';
 import { Radio, Menu } from 'semantic-ui-react';
@@ -18,7 +18,7 @@ type FilterPriceRangeProps = {
 };
 
 export
-class FilterPriceRange extends Component{
+class FilterPriceRange extends PureComponent{
   state: { value: [number, number] };
   props: FilterPriceRangeProps;
   marks: {number: string};
@@ -42,11 +42,19 @@ class FilterPriceRange extends Component{
   }
 
   componentWillReceiveProps(nextProps: FilterPriceRangeProps){
-    console.log(nextProps);
     let {minPrice, maxPrice} = nextProps.filterState;
-    minPrice = minPrice === undefined ? 0 : minPrice;
-    maxPrice = maxPrice === undefined ? this.props.maxValue : maxPrice;
-    this.setState({value: [minPrice, maxPrice]});
+    if(minPrice !== this.state.value[0] || maxPrice !== this.state.value[1]){
+      minPrice = minPrice === undefined ? 0 : minPrice;
+      maxPrice = maxPrice === undefined ? this.props.maxValue : maxPrice;
+      this.setState({value: [minPrice, maxPrice]});
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+    if(nextProps.filterState.minPrice === this.state.value[0] && nextProps.filterState.maxPrice === this.state.value[1])
+      return false;
+
+    return true;
   }
 
   handleChange(){
@@ -90,7 +98,6 @@ const FilterRadio = (props: FilterRadioProps) => {
       props.setFilters(props.componentFilters);
   }  
 
-  console.log('refresh');
   return (
       <Radio 
         toggle 
@@ -106,12 +113,13 @@ const FilterRadio = (props: FilterRadioProps) => {
 type OwnProps = {componentFilters: Filters};
 const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
 	const { componentFilters } = ownProps;
-	const isActive = componentFilters === undefined ? false : selectors.areFiltersActive(state, Object.keys(componentFilters));
-  const filterState = selectors.getAllFilters(state);
+	const isActive = selectors.areFiltersActive(state, Object.keys(componentFilters));
+  const filterState = ownProps.passFilterValues === true && selectors.getAllFilters(state);
+
 	return {
 		...ownProps,
 		isActive,
-    //filterState
+    ...ownProps.passFilterValues === true && {filterState}
 	}
 }
 

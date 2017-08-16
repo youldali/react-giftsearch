@@ -6,7 +6,10 @@
 
 .gift-card__icons{
 	flex-grow: 1;
+}
 
+.gift-card__icons > span{
+	margin-right: 0.5em;
 }
 
 .extra{
