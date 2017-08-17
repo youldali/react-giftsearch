@@ -21,7 +21,7 @@ export
 class FilterPriceRange extends PureComponent{
   state: { value: [number, number] };
   props: FilterPriceRangeProps;
-  marks: {number: string};
+  marks: {[string]: string | React.Element<*>};
 
   constructor(props: FilterPriceRangeProps) {
     super(props);
@@ -41,20 +41,21 @@ class FilterPriceRange extends PureComponent{
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentWillReceiveProps(nextProps: FilterPriceRangeProps){
-    let {minPrice, maxPrice} = nextProps.filterState;
-    if(minPrice !== this.state.value[0] || maxPrice !== this.state.value[1]){
-      minPrice = minPrice === undefined ? 0 : minPrice;
-      maxPrice = maxPrice === undefined ? this.props.maxValue : maxPrice;
-      this.setState({value: [minPrice, maxPrice]});
-    }
+  componentDidMount() {
+    this.setNewState(this.props);
   }
 
-  shouldComponentUpdate(nextProps, nextState){
-    if(nextProps.filterState.minPrice === this.state.value[0] && nextProps.filterState.maxPrice === this.state.value[1])
-      return false;
+  componentWillReceiveProps(nextProps: FilterPriceRangeProps){
+    this.setNewState(nextProps);
+  }
 
-    return true;
+  setNewState(props: FilterPriceRangeProps){
+    let {minPrice, maxPrice} = props.filterState;
+    if(minPrice !== this.state.value[0] || maxPrice !== this.state.value[1]){
+      minPrice = minPrice === undefined ? 0 : parseInt(minPrice, 10);
+      maxPrice = maxPrice === undefined ? this.props.maxValue : parseInt(maxPrice, 10);
+      this.setState({value: [minPrice, maxPrice]});
+    }    
   }
 
   handleChange(){
@@ -63,7 +64,6 @@ class FilterPriceRange extends PureComponent{
   }
 
   render() {
-    console.log('ff');
     return(
       <RangeWithTooltip 
         min={0} 

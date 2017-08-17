@@ -1,7 +1,7 @@
 //@flow
 
 import type { GiftCollection } from 'modules/actions/types';
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import GiftListContainer from './gift-list/giftList';
 import { Grid, Sticky } from 'semantic-ui-react'
 import FilterContainer from './gift-list-refinement/filterContainer';
@@ -11,7 +11,7 @@ import NavBar from '../common/navBar/navBar';
 import { withRouter } from 'react-router-dom';
 import './giftSearchModule.css';
 
-class GiftSearchContainer extends PureComponent {
+class GiftSearchContainer extends Component {
 	state = {}
   handleContextRefSticky = (contextRefSticky: HTMLElement) => this.setState({ contextRefSticky })
   

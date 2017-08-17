@@ -11,7 +11,7 @@ type ListLazyLoadProps = {
   numberOfItemsDisplayed: number,
   numberOfItems: number,
   children: React.Element<*>,
-  offsetBottomDectection: ?number
+  offsetBottomDetection: ?number
 };
 
 class ListLazyLoad extends PureComponent {

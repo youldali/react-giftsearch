@@ -1,6 +1,6 @@
 //@flow
 
-import type { GiftCollection, Dispatch, DisplayType } from 'modules/actions/types';
+import type { GiftCollection, Dispatch, DisplayType, RouterMatch } from 'modules/actions/types';
 import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { selectors } from 'modules/gift-search/index';
@@ -17,7 +17,8 @@ type GiftListContainerProps = {
   giftCollectionToDisplay: GiftCollection,
   fullGiftCollection: GiftCollection,
   currentPage: number,
-  displayAs: DisplayType
+  displayAs: DisplayType,
+  match: RouterMatch
 };
 
 export
@@ -32,13 +33,12 @@ class GiftListContainer extends PureComponent{
     this.fetchList(this.props.match.params.universe);
   }
 
-  componentWillReceiveProps(nextProps: ListLazyLoadProps){
-    console.log(nextProps.match.params)
+  componentWillReceiveProps(nextProps: GiftListContainerProps){
     if(this.props.match.params.universe !== nextProps.match.params.universe)
       this.fetchList(nextProps.match.params.universe);
   }  
 
-  fetchList(universe){
+  fetchList(universe: string){
     this.props.fetchList(universe);
   }
 
@@ -71,7 +71,7 @@ class GiftListContainer extends PureComponent{
 
 
 //store Connection
-const mapStateToProps = (state: Object): Object => {
+const mapStateToProps = (state: Object, OwnProps): Object => {
 	const giftCollectionToDisplay = selectors.getPaginatedOrderedFilteredList(state);
   const fullGiftCollection = selectors.getOrderedFilteredList(state);
   const currentPage = selectors.getPage(state);
@@ -80,7 +80,8 @@ const mapStateToProps = (state: Object): Object => {
 		giftCollectionToDisplay,
     fullGiftCollection,
     currentPage,
-    displayAs
+    displayAs,
+    ...OwnProps
 	}
 }
 

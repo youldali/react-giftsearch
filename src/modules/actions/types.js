@@ -41,7 +41,7 @@ type GiftCollection = Array<Gift>;
 
 export 
 type Action = 
-		{ type: 'GIFT_LIST_SEARCH/SET_FILTERS', filters: Filters, filtersToReset: Array<string> }
+		{ type: 'GIFT_LIST_SEARCH/SET_FILTERS', filters: Filters }
 	| { type: 'GIFT_LIST_SEARCH/RESET_FILTERS', filtersToReset: Array<string>}
 	| { type: 'GIFT_LIST_SEARCH/SET_ORDER', order: string }
 	| { type: 'GIFT_LIST_SEARCH/SET_UNIVERSE', universe: string }
@@ -61,3 +61,19 @@ type GetState = () => Object;
 
 export 
 type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
+
+export
+type RouterLocation = {
+	key: string, // not with HashHistory!
+  pathname: string,
+  search: string,
+  hash: string
+};
+
+export
+type RouterMatch = {
+	isExact: boolean, // not with HashHistory!
+  params: {[string]: string},
+  path: string,
+  url: string
+}

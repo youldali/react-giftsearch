@@ -7,6 +7,7 @@ export type FilterConfig = { +[string]: {|criterias: Criterias, filterGroup?: st
 export type UniverseToUrlMap = {+[string]: Array<number>};
 export type FieldsToKeep = $ReadOnlyArray<string>;
 
+export
 const universeToUrlMap: UniverseToUrlMap = {
 	"well-being" : [844,864,880,885,924,846],
 	"gastronomy" : [858,859,861,871,860,884,922,923],

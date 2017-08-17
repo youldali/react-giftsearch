@@ -48,7 +48,7 @@ const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
 
 const mapDispatchToProps = (dispatch: Dispatch): Object => {
 	return {
-		setDisplayAs: (displayAs: string) => dispatch(setDisplayAction(displayAs)),
+		setDisplayAs: (displayAs: DisplayType) => dispatch(setDisplayAction(displayAs)),
 	}
 }
 

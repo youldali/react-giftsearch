@@ -10,9 +10,11 @@ import type { Dispatch } from 'modules/actions/types';
 
 type OrderByDropdownProps = {
   setOrderBy: Function,
+  orderState: string
 };
+
 export
-const OrderByDropdown = (props: OrderDropdownProps) => {
+const OrderByDropdown = (props: OrderByDropdownProps) => {
   const handleChange = (e: SyntheticEvent, data: Object) => {
    props.setOrderBy(data.value);
   };
