@@ -1,14 +1,2 @@
-.gift-list-refinement-bar{
-	display: flex;
-	justify-content: flex-end;
-	margin-bottom: 1em;
-}
 
-.gift-list-refinement-bar > div{
-	margin-right: 1em;
-}
-
-.gift-list-refinement-bar > div:last-child{
-	margin-right: 0;
-}
     

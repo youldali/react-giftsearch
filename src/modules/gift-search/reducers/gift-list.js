@@ -16,7 +16,7 @@ type GiftListState = {
 
 const initialState = {
 	collection: [],
-	isFetching: false,
+	isFetching: true,
 	fetchSuccess: true
 }
 
@@ -26,6 +26,7 @@ function giftListReducer (state: GiftListState = initialState, action: Action): 
 			return {
 				...state,
 				collection: [...action.giftList],
+				isFetching: false
 			};
 		case "GIFT_LIST_SEARCH/FETCH_REQUESTED":
 			return {
@@ -46,7 +47,9 @@ function giftListReducer (state: GiftListState = initialState, action: Action): 
 export default giftListReducer;
 
 //selectors
-const getList = (state: Object) => (state.giftSearch.giftList.collection);
+const getList = (state: Object): GiftCollection  => (state.giftSearch.giftList.collection);
+const isFetching = (state: Object): boolean => (state.giftSearch.giftList.isFetching);
+const hasFetchSucceeded = (state: Object): boolean => (state.giftSearch.giftList.fetchSuccess);
 
 const getFilteredList = createSelector(
   [getList, filterSelectors.getAllFilters],
@@ -66,6 +69,8 @@ const getPaginatedOrderedFilteredList = createSelector(
 
 export 
 const selectors = {
+	isFetching,
+	hasFetchSucceeded,
 	getList,
 	getFilteredList,
 	getOrderedFilteredList,

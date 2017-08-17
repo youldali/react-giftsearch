@@ -1,0 +1,17 @@
+.gift-list__status-bar{
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 1em;
+}
+
+.gift-list__status-bar > div{
+	margin-right: 1em;
+}
+
+.gift-list__status-bar > div:last-child{
+	margin-right: 0;
+}
+
+.gift-list__status-bar .gift-list__list-count-wrapper{
+	margin-right: auto;
+}

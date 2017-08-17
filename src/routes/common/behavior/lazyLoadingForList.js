@@ -1,7 +1,7 @@
 //@flow
 
 import React, { PureComponent } from 'react';
-import { Container, Icon } from 'semantic-ui-react';
+import Loader from 'routes/common/loader';
 import { isElementBottomVisible } from 'helpers/DOM/visibility';
 import throttle from 'lodash.throttle';
 
@@ -47,8 +47,10 @@ class ListLazyLoad extends PureComponent {
   }
 
   componentWillUpdate(nextProps: ListLazyLoadProps){
-    if(nextProps.currentPage === 1)
-      window.scrollBy(0, this.wrapperRef.getBoundingClientRect().top);
+    if(nextProps.currentPage === 1){
+      //window.scrollBy(0, this.wrapperRef.getBoundingClientRect().top);
+      window.scrollBy(0, 0);
+    }
   }
 
   bottomReachedCallback(){
@@ -83,14 +85,7 @@ class ListLazyLoad extends PureComponent {
         </div>
 
         {this.props.numberOfItemsDisplayed < this.props.numberOfItems && 
-          <Container textAlign='center'>
-            <Icon 
-              loading 
-              name='spinner'
-              size='huge'
-              color='blue'
-             />
-         </Container>
+          <Loader />
         }
       </div>
     )

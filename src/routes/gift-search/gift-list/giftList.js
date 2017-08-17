@@ -1,15 +1,17 @@
 //@flow
 
 import type { GiftCollection, Dispatch, DisplayType, RouterMatch } from 'modules/actions/types';
-import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { selectors } from 'modules/gift-search/index';
 import * as actions from 'modules/actions/giftListSearchFetch';
 import { incrementPage } from 'modules/actions/giftListSearchSorting';
 import GiftListCards from './listCards';
 import GiftListItems from './listItems';
-import { withRouter } from 'react-router-dom';
-import ListLazyload from '../../common/behavior/lazyLoadingForList';
+import ListLazyload from 'routes/common/behavior/lazyLoadingForList';
+import Loader from 'routes/common/loader';
+import { ErrorLoading, ErrorNoResults } from 'routes/common/error';
 
 type GiftListContainerProps = {
   fetchList: Function,
@@ -18,7 +20,9 @@ type GiftListContainerProps = {
   fullGiftCollection: GiftCollection,
   currentPage: number,
   displayAs: DisplayType,
-  match: RouterMatch
+  match: RouterMatch,
+  isFetching: boolean,
+  hasFetchSucceeded: boolean
 };
 
 export
@@ -43,6 +47,7 @@ class GiftListContainer extends PureComponent{
   }
 
   render(){
+    //gift List to render
     let giftList = null;
     let offsetBottomDetection = 0;
     switch(this.props.displayAs){
@@ -55,33 +60,57 @@ class GiftListContainer extends PureComponent{
         giftList = <GiftListItems giftCollection={this.props.giftCollectionToDisplay} />
     }
 
+    //Component to render
+    let component = null;
+    if(this.props.isFetching)
+      component = <Loader /> ;
+
+    else if(!this.props.hasFetchSucceeded)
+      component = <ErrorLoading actionRetry={() => this.fetchList(this.props.match.params.universe)} /> ;
+
+    else if(this.props.fullGiftCollection.length === 0)
+      component = <ErrorNoResults /> ;  
+
+    else
+      component = 
+        <ListLazyload 
+          onBottomReached={this.props.incrementPage}
+          numberOfItemsDisplayed={this.props.giftCollectionToDisplay.length}
+          numberOfItems={this.props.fullGiftCollection.length}
+          currentPage={this.props.currentPage}
+          offsetBottomDetection={offsetBottomDetection}
+        >
+          {giftList}
+        </ListLazyload> ;
+
   	return (
-      <ListLazyload 
-        onBottomReached={this.props.incrementPage}
-        numberOfItemsDisplayed={this.props.giftCollectionToDisplay.length}
-        numberOfItems={this.props.fullGiftCollection.length}
-        currentPage={this.props.currentPage}
-        offsetBottomDetection={offsetBottomDetection}
-      >
-        {giftList}
-      </ListLazyload>
+      <div>
+      {component}
+      </div>
   	);
   }
 }
 
 
 //store Connection
-const mapStateToProps = (state: Object, OwnProps): Object => {
+type OwnProps = { match: RouterMatch };
+const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
 	const giftCollectionToDisplay = selectors.getPaginatedOrderedFilteredList(state);
   const fullGiftCollection = selectors.getOrderedFilteredList(state);
   const currentPage = selectors.getPage(state);
   const displayAs = selectors.getDisplay(state);
+  const isFetching = selectors.isFetching(state);
+  const hasFetchSucceeded = selectors.hasFetchSucceeded(state);
+  const {match} = ownProps;
+
 	return {
 		giftCollectionToDisplay,
     fullGiftCollection,
     currentPage,
     displayAs,
-    ...OwnProps
+    isFetching,
+    hasFetchSucceeded,
+    match
 	}
 }
 
