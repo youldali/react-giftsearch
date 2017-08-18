@@ -79,9 +79,7 @@ const getFiltersFunctionsCollection = (filters: Filters, criteriasCollection: Cr
 
 	//run through the filters
 	for (const [filterName, filterValue] of Object.entries(filters)) {
-	    if(!criteriasCollection.hasOwnProperty(filterName)
-	    	 || (typeof filterValue !== 'number' && typeof filterValue !== 'string' && typeof filterValue !== 'boolean')
-	    	 )
+	    if(!criteriasCollection.hasOwnProperty(filterName))
 	    	continue;
 
 	    const filterFunction = makeFilterFunction(filterValue, criteriasCollection[filterName].criterias);

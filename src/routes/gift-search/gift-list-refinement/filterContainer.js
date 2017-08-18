@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { Menu, Icon } from 'semantic-ui-react'
 
-import makeConnectedFilter, { FilterPriceRange, FilterRadio } from './filter';
+import makeConnectedFilter, { FilterRadio } from './checkboxFilter';
+import FilterForPrice from './sliderFilter';
 import './css/filterContainer.css';
 
 
 const FiltersContainer = () => {
 
-  const FilterForPrice = makeConnectedFilter(FilterPriceRange);
   const FilterRadioButton = makeConnectedFilter(FilterRadio);
 
   return (
@@ -18,10 +18,7 @@ const FiltersContainer = () => {
           <Menu.Menu>
             <Menu.Item>
               <FilterForPrice 
-                filterLabel='Prix max' 
-                maxValue={500}
                 componentFilters={ {minPrice: undefined, maxPrice: undefined} } 
-                passFilterValues={true}
               />
             </Menu.Item>
           </Menu.Menu>

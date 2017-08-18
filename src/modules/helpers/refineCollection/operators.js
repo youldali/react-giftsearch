@@ -36,7 +36,7 @@ const equalStrict = (a: any, b: any): boolean => {
 export
 const isIncluded = (a: any, b: Array<number | string> | string): boolean => {
 	const typeOfb = Array.isArray(b) ? 'Array' : typeof b;
-
+	console.log(a, b);
 	switch(typeOfb){
 		case 'Array':
 			return b.includes(a);

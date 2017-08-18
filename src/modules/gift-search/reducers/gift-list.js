@@ -7,6 +7,7 @@ import { createSelector } from 'reselect';
 import filterList from 'modules/helpers/refineCollection/filteringListWithCriterias';
 import sortList from 'modules/helpers/refineCollection/sortList';
 import { filterConfig } from 'modules/gift-search/config';
+import { findHighestValueInObjects } from 'helpers/array/array';
 
 type GiftListState = {
 	+collection: GiftCollection,
@@ -66,6 +67,15 @@ const getPaginatedOrderedFilteredList = createSelector(
   (stateGiftListOrderedFiltered: GiftCollection, statePage: number): GiftCollection => stateGiftListOrderedFiltered.slice(0, 10 * statePage)
 );
 
+const getHightestPrice = createSelector(
+	[getList],
+	(stateGiftList: GiftCollection): number => {
+		if(stateGiftList.length === 0)
+			return 0;
+		else
+			return findHighestValueInObjects(stateGiftList, 'rawPrice')
+		}
+);
 
 export 
 const selectors = {
@@ -74,5 +84,6 @@ const selectors = {
 	getList,
 	getFilteredList,
 	getOrderedFilteredList,
-	getPaginatedOrderedFilteredList
+	getPaginatedOrderedFilteredList,
+	getHightestPrice
 };

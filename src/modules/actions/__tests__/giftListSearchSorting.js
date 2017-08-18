@@ -25,8 +25,7 @@ describe('setFilters', () => {
 			type: "GIFT_LIST_SEARCH/SET_FILTERS",
 			filters: {
 				'name': 'jean'
-			},
-			filtersToReset: []
+			}
 		};
 
 		expect(actions.setFilters({'name': 'jean'})).toEqual(expectedAction);
@@ -37,25 +36,10 @@ describe('setFilters', () => {
 			type: "GIFT_LIST_SEARCH/SET_FILTERS",
 			filters: {
 				'maxPrice': 300
-			},
-			filtersToReset: []
+			}
 		};
 
 		expect(actions.setFilters({'maxPrice': 300})).toEqual(expectedAction);
-	});
-
-	test('it should return the "set filter" action creator with related fields to erase for multiple filters  ', () => {
-		const expectedAction = {
-			type: "GIFT_LIST_SEARCH/SET_FILTERS",
-			filters: {
-				'forPersonsRange': 3,
-				'forOneNight': 1,
-				'maxPrice': 300
-			},
-			filtersToReset: ['forPersons', 'forMultipleNights']
-		};
-
-		expect(actions.setFilters({'forPersonsRange': 3, 'forOneNight': 1, 'maxPrice': 300})).toEqual(expectedAction);
 	});
 
 });

@@ -172,15 +172,9 @@ describe('isIncluded', function(){
 		expect(operators['isIncluded'](a, b)).toBe(false);
 	});
 
-	test('it should return true when a == b (number)', function(){
+	test('it should return false when b in not an array', function(){
 		const a = 20;
 		const b = 20;
-		expect(operators['isIncluded'](a, b)).toBe(true);
-	});
-
-	test('it should return false when a != b (number)', function(){
-		const a = 20;
-		const b = 25;
 		expect(operators['isIncluded'](a, b)).toBe(false);
 	});
 	
