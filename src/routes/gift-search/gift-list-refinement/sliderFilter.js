@@ -17,40 +17,50 @@ class FilterPriceRange extends PureComponent{
   state: { value: [number, number] };
   props: FilterPriceRangeProps;
   marks: {[string]: string | React.Element<*>};
+  topLimit: number;
+  step: number;
 
   constructor(props: FilterPriceRangeProps) {
     super(props);
-    this.state = {
-      value: [0, this.props.maxValue]
-    };
-
-    this.marks = {
-      '0': <strong>0€</strong>,
-      '50': '',
-      '100': '100€',
-      '250': '250€',
-      '500': '500€',
-      [this.props.maxValue]: `${this.props.maxValue}€`
-    };
-
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentDidMount() {
-    this.setNewState(this.props);
+    this.step = 10;
+    this.setNewMarks(this.getTopLimit(props.maxValue));
+    this.state = {value: [0, this.topLimit]};
   }
 
   componentWillReceiveProps(nextProps: FilterPriceRangeProps){
+    this.setNewMarks(this.getTopLimit(nextProps.maxValue));
     this.setNewState(nextProps);
   }
 
   setNewState(props: FilterPriceRangeProps){
     let {minPrice, maxPrice} = props.filterState;
-    if(minPrice !== this.state.value[0] || maxPrice !== this.state.value[1]){
-      minPrice = minPrice === undefined ? 0 : parseInt(minPrice, 10);
-      maxPrice = maxPrice === undefined ? this.props.maxValue : parseInt(maxPrice, 10);
-      this.setState({value: [minPrice, maxPrice]});
-    }    
+    if(minPrice === this.state.value[0] && maxPrice === this.state.value[1])
+      return;
+
+    minPrice = minPrice === undefined ? 0 : parseInt(minPrice, 10);
+    maxPrice = maxPrice === undefined ? this.topLimit : parseInt(maxPrice, 10);
+    this.setState({value: [minPrice, maxPrice]});      
+  }
+
+  setNewMarks(nextTopLimit: number){
+    if(this.topLimit === nextTopLimit)
+      return;
+
+    this.topLimit = nextTopLimit;
+    this.marks = {
+      '0': <strong>0€</strong>,
+      '50': '',
+      '100': '100€',
+      '250': '250€'
+    };
+
+    if(nextTopLimit >= 300)
+      this.marks[nextTopLimit] = `${nextTopLimit}€`;
+  }
+
+  getTopLimit(maxValue: number){
+    return Math.ceil(maxValue / this.step) * this.step;
   }
 
   handleChange(){
@@ -62,12 +72,12 @@ class FilterPriceRange extends PureComponent{
     return(
       <RangeWithTooltip 
         min={0} 
-        max={this.props.maxValue} 
+        max={this.topLimit} 
         onChange={value => this.setState({ value })} 
         onAfterChange={this.handleChange} 
         value={this.state.value} 
         marks={this.marks}
-        step={50}
+        step={this.step}
         allowCross={false}
         tipFormatter={value => `${value}€`}
         defaultValue={[0, this.props.maxValue]}
