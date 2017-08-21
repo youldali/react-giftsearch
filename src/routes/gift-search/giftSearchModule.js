@@ -8,6 +8,7 @@ import FilterContainer from './gift-list-refinement/filterContainer';
 import StatusBar from './gift-list-refinement/statusBar';
 import NavBar from '../common/navBar/navBar';
 import { withRouter } from 'react-router-dom';
+import GiftListSearchContainer from 'routes/gift-search/gift-list-refinement/elacticSearch';
 
 const GiftSearchContainer =  () => {
 	const NavBarConnected = withRouter(NavBar);
@@ -32,6 +33,10 @@ const GiftSearchContainer =  () => {
 				  	<Grid.Row>
 				  		<StatusBar />
 				  	</Grid.Row>
+
+						<Grid.Row>
+				    	<GiftListSearchContainer />
+				    </Grid.Row>				  	
 
 				  	<Grid.Row>
 				    	<GiftListContainer />

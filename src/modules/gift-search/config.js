@@ -90,7 +90,11 @@ const filterConfig: FilterConfig = {
 
 	'excluWeb': {
 		criterias: [{ 'field': 'web_exclusive', 'operator': '===', 'value': true }]
-	}	
+	},
+
+	'elasticSearch': {
+		criterias: [{ 'field': 'id', 'operator': 'isIncluded'}],
+	}
 };
 
 
