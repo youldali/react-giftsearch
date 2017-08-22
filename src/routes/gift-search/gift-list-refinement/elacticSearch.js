@@ -27,6 +27,7 @@ class GiftListSearchContainer extends PureComponent{
     super(props);
     this.numberToShow = 5;
     this.handleChange = this.handleChange.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
     this.handleResultSelected = this.handleResultSelected.bind(this);
     this.state={results: []};
 	}
@@ -55,10 +56,11 @@ class GiftListSearchContainer extends PureComponent{
 				const refObject = this.props.giftListFiltered.find(element => element.id === resultsIds[i]);
 				if(refObject !== undefined){
 					const resultObject = {
+            'key': parseInt(resultsIds[i], 10),
 						"title": refObject.name,
 						"price": refObject.price,
 						"image": refObject.img,
-						'id': resultsIds[i]
+            "id": resultsIds[i]
 					};
 					results.push(resultObject);
 				}
@@ -68,7 +70,6 @@ class GiftListSearchContainer extends PureComponent{
 
   handleChange(e: SyntheticEvent, data: Object){
   	const {value} = data;
-  	this.props.resetFilters(['elasticSearch']);
   	if(value.length > 2)
 			this.searchIndex(data.value);
   }
@@ -81,6 +82,10 @@ class GiftListSearchContainer extends PureComponent{
   	this.props.setOrder(this.resultsIds);
   }
 
+  handleFocus(){
+    this.props.resetFilters(['elasticSearch']);
+  }
+
   render(){
   	return (
   		<div>
@@ -90,6 +95,7 @@ class GiftListSearchContainer extends PureComponent{
   				placeholder='Restaurant, Paris ...' 
   				onSearchChange={debounce(this.handleChange, 250)}
   				onResultSelect={this.handleResultSelected}
+          onFocus={this.handleFocus}
   				showNoResults={false}
   				results={this.state.results}
   			/>
