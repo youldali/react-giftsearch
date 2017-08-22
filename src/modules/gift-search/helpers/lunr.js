@@ -1,16 +1,13 @@
 // @flow
-
+import type { GiftCollection } from 'modules/actions/types';
 import lunr from 'lunr';
 import lunrStemmerSupport from 'lunr-languages/lunr.stemmer.support'
 import lunrFr from 'lunr-languages/lunr.fr'
 
-lunrStemmerSupport(lunr);
-lunrFr(lunr);
-
 export const
 createIndex = (collection: Array<Object>): Object => {
 	return lunr(function () {
-		this.use(lunr.fr)
+		this.pipeline.remove(lunr.stemmer)
 	  this.ref('id');
 	  this.field('name', { boost: 10 });
 	  this.field('short_description');
@@ -43,3 +40,9 @@ searchIndex = (searchString: string, lunrIndex: Object): Object => {
 		})
 	);
 };
+
+export const
+getIndex = (giftCollection: GiftCollection, universe: string): Object => {
+	//to change
+	return createIndex(giftCollection);
+}

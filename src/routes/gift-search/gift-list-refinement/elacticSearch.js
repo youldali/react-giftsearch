@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { selectors } from 'modules/gift-search/index';
-import {setFilters as setFiltersAction, resetFilters as resetFiltersAction} from 'modules/actions/giftListSearchSorting';
+import * as actions from 'modules/actions/giftListSearchSorting';
 import * as lunrHelper from 'modules/gift-search/helpers/lunr';
 import { Search } from 'semantic-ui-react'
 import debounce from 'lodash.debounce';
@@ -20,42 +20,39 @@ export
 class GiftListSearchContainer extends PureComponent{
 	props: GiftListSearchProps;
 	lunrIndex: Object;
+	resultsIds: Array<mixed>;
+	state: {results: Array<Object>};
 
 	constructor(props: GiftListSearchProps) {
     super(props);
+    this.numberToShow = 5;
     this.handleChange = this.handleChange.bind(this);
+    this.handleResultSelected = this.handleResultSelected.bind(this);
     this.state={results: []};
 	}
 
   componentDidMount() {
-  	
+		if(this.props.giftCollection.length > 0)
+  		this.lunrIndex = lunrHelper.getIndex(this.props.giftCollection, this.props.match.params.universe);  	
   }
 
   componentWillReceiveProps(nextProps: GiftListSearchProps){
-  	if(nextProps.giftCollection.length > 0)
-  		this.createIndex(nextProps.giftCollection);
-
-    //if(this.props.match.params.universe !== nextProps.match.params.universe)  
-  }
-
-  createIndex(giftCollection: GiftCollection){
-  	this.lunrIndex = lunrHelper.createIndex(giftCollection);
+  	const universe = this.props.match.params.universe;
+  	const nextUniverse = nextProps.match.params.universe;
+  	if(nextProps.giftCollection.length > 0 )
+  		this.lunrIndex = lunrHelper.getIndex(nextProps.giftCollection, nextUniverse);
   }
 
   searchIndex(value: string){
 		const results = lunrHelper.searchIndex(value, this.lunrIndex);
-  	const resultsIds = lunrHelper.getResultsIds(results);
-  	this.props.setFilters({elasticSearch: resultsIds});
-
-
-  	this.getResults(resultsIds);
-  	console.log(results, resultsIds);
+  	this.resultsIds = lunrHelper.getResultsIds(results);
+  	this.setResults(this.resultsIds);
   }
 
-  getResults(resultsIds: Array<mixed>){
+  setResults(resultsIds: Array<mixed>){
   	const results = [];
-		for(let i = 0, length = resultsIds.length ; i < length && i < 5; i++){
-				const refObject = this.getGiftById(resultsIds[i], this.props.giftCollection);
+		for(let i = 0, length = resultsIds.length ; i < length && i <= this.numberToShow; i++){
+				const refObject = this.props.giftListFiltered.find(element => element.id === resultsIds[i]);
 				const resultObject = {
 					"title": refObject.name,
 					"price": refObject.price,
@@ -63,25 +60,23 @@ class GiftListSearchContainer extends PureComponent{
 					'id': resultsIds[i]
 				};
 				results.push(resultObject);
-		}  
-		this.setState({results})
-		console.log('results', this.state);
-  }
-
-  getGiftById(id, collection){
-  	return collection.find( element => element.id === id) 
-  }
-
-  resetFilter(){
-  	this.props.resetFilters(['elasticSearch']);
+		}
+		this.setState({results});
   }
 
   handleChange(e: SyntheticEvent, data: Object){
   	const {value} = data;
-  	if(value.length > 0)
+  	this.props.resetFilters(['elasticSearch']);
+  	if(value.length > 2)
 			this.searchIndex(data.value);
-		else
-			this.resetFilter();
+  }
+
+  handleResultSelected(e: SyntheticEvent, data: Object){
+  	const {id} = data.result;
+  	this.resultsIds.splice(this.resultsIds.indexOf(id), 1);
+  	this.resultsIds.unshift(id);
+  	this.props.setFilters({elasticSearch: this.resultsIds});
+  	this.props.setOrder(this.resultsIds);
   }
 
   render(){
@@ -92,6 +87,7 @@ class GiftListSearchContainer extends PureComponent{
   				fluid 
   				placeholder='Restaurant, Paris ...' 
   				onSearchChange={debounce(this.handleChange, 250)}
+  				onResultSelect={this.handleResultSelected}
   				showNoResults={false}
   				results={this.state.results}
   			/>
@@ -117,8 +113,9 @@ const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
 
 const mapDispatchToProps = (dispatch: Dispatch): Object => {
 	return {
-		setFilters: (filters: Filters) => dispatch(setFiltersAction(filters)),
-		resetFilters: (filters: Array<string>) => dispatch(resetFiltersAction(filters))
+		setFilters: (filters: Filters) => dispatch(actions.setFilters(filters)),
+		resetFilters: (filters: Array<string>) => dispatch(actions.resetFilters(filters)),
+		setOrder: (order: Array<mixed>) => dispatch(actions.setOrder(order))
 	}
 }
 
