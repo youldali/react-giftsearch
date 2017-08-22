@@ -53,13 +53,15 @@ class GiftListSearchContainer extends PureComponent{
   	const results = [];
 		for(let i = 0, length = resultsIds.length ; i < length && i <= this.numberToShow; i++){
 				const refObject = this.props.giftListFiltered.find(element => element.id === resultsIds[i]);
-				const resultObject = {
-					"title": refObject.name,
-					"price": refObject.price,
-					"image": refObject.img,
-					'id': resultsIds[i]
-				};
-				results.push(resultObject);
+				if(refObject !== undefined){
+					const resultObject = {
+						"title": refObject.name,
+						"price": refObject.price,
+						"image": refObject.img,
+						'id': resultsIds[i]
+					};
+					results.push(resultObject);
+				}
 		}
 		this.setState({results});
   }
