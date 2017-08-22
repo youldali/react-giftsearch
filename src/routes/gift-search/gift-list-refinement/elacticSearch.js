@@ -7,11 +7,12 @@ import { withRouter } from 'react-router-dom';
 import { selectors } from 'modules/gift-search/index';
 import {setFilters as setFiltersAction, resetFilters as resetFiltersAction} from 'modules/actions/giftListSearchSorting';
 import * as lunrHelper from 'modules/gift-search/helpers/lunr';
-import { Input } from 'semantic-ui-react'
+import { Search } from 'semantic-ui-react'
 import debounce from 'lodash.debounce';
 
 type GiftListSearchProps = {
   giftCollection: GiftCollection,
+  giftListFiltered: GiftCollection,
   match: RouterMatch,
 };
 
@@ -23,7 +24,8 @@ class GiftListSearchContainer extends PureComponent{
 	constructor(props: GiftListSearchProps) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-  }
+    this.state={results: []};
+	}
 
   componentDidMount() {
   	
@@ -43,7 +45,31 @@ class GiftListSearchContainer extends PureComponent{
   searchIndex(value: string){
 		const results = lunrHelper.searchIndex(value, this.lunrIndex);
   	const resultsIds = lunrHelper.getResultsIds(results);
-  	this.props.setFilters({elasticSearch: resultsIds});  	
+  	this.props.setFilters({elasticSearch: resultsIds});
+
+
+  	this.getResults(resultsIds);
+  	console.log(results, resultsIds);
+  }
+
+  getResults(resultsIds: Array<mixed>){
+  	const results = [];
+		for(let i = 0, length = resultsIds.length ; i < length && i < 5; i++){
+				const refObject = this.getGiftById(resultsIds[i], this.props.giftCollection);
+				const resultObject = {
+					"title": refObject.name,
+					"price": refObject.price,
+					"image": refObject.img,
+					'id': resultsIds[i]
+				};
+				results.push(resultObject);
+		}  
+		this.setState({results})
+		console.log('results', this.state);
+  }
+
+  getGiftById(id, collection){
+  	return collection.find( element => element.id === id) 
   }
 
   resetFilter(){
@@ -61,11 +87,13 @@ class GiftListSearchContainer extends PureComponent{
   render(){
   	return (
   		<div>
-  			<Input 
+  			<Search 
   				icon='search' 
   				fluid 
   				placeholder='Restaurant, Paris ...' 
-  				onChange={debounce(this.handleChange, 250)}
+  				onSearchChange={debounce(this.handleChange, 250)}
+  				showNoResults={false}
+  				results={this.state.results}
   			/>
   		</div>
   	);
@@ -77,10 +105,12 @@ class GiftListSearchContainer extends PureComponent{
 type OwnProps = { match: RouterMatch };
 const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
   const giftCollection = selectors.getList(state);
+  const giftListFiltered = selectors.getFilteredList(state);
   const {match} = ownProps;
 
 	return {
 		giftCollection,
+		giftListFiltered,
     match
 	}
 }
