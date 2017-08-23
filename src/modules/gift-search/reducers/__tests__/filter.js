@@ -16,8 +16,13 @@ describe('GIFT_LIST_SEARCH/SET_FILTERS', () => {
 			},
 			'filtersToReset': []
 		};
+
+		const prevState = {};
 		const newState = filterReducer({}, action);
+
 		expect(newState).toEqual({'name': 'myFilter'});	
+		expect(newState).not.toBe(prevState);
+
 	});
 
 	test('it adds multiple filters', () => {
@@ -30,8 +35,13 @@ describe('GIFT_LIST_SEARCH/SET_FILTERS', () => {
 			},
 			'filtersToReset': []
 		};
-		const newState = filterReducer({}, action);
-		expect(newState).toEqual({'name': 'myFilter', 'price': 1234, 'value': 'val'});	
+
+		const prevState = {};
+		const newState = filterReducer(prevState, action);
+
+		expect(newState).toEqual({'name': 'myFilter', 'price': 1234, 'value': 'val'});
+		expect(newState).not.toBe(prevState);
+
 	});
 
 });
@@ -43,8 +53,12 @@ describe('GIFT_LIST_SEARCH/RESET_FILTERS', () => {
 			type: "GIFT_LIST_SEARCH/RESET_FILTERS",
 			filtersToReset: ['name', 'surname']
 		};
-		const newState = filterReducer({'name': 'myFilterValue', 'lastname': 'myLastname', 'surname': 'mySurname'}, action);
+
+		const prevState = {'name': 'myFilterValue', 'lastname': 'myLastname', 'surname': 'mySurname'};
+		const newState = filterReducer(prevState, action);
+
 		expect(newState).toEqual({'lastname': 'myLastname'});	
+		expect(newState).not.toBe(prevState);
 	});
 
 	test('it resets a filter that does not exist', () => {
@@ -52,8 +66,48 @@ describe('GIFT_LIST_SEARCH/RESET_FILTERS', () => {
 			type: "GIFT_LIST_SEARCH/RESET_FILTERS",
 			filtersToReset: ['name']
 		};
-		const newState = filterReducer({}, action);
+		const prevState = {};
+		const newState = filterReducer(prevState, action);
+
 		expect(newState).toEqual({});	
+		expect(newState).toBe(prevState);	
 	});
+
+test('it resets a filter that does not exist (2)', () => {
+		const action = {
+			type: "GIFT_LIST_SEARCH/RESET_FILTERS",
+			filtersToReset: ['name']
+		};
+		const prevState = {surname: 'test'};
+		const newState = filterReducer(prevState, action);
+
+		expect(newState).toBe(prevState);	
+	});	
+
+});
+
+describe('GIFT_LIST_SEARCH/RESET_ALL_FILTERS', () => {
+
+	test('it resets all filters with filter already existing', () => {
+		const action = {
+			type: "GIFT_LIST_SEARCH/RESET_ALL_FILTERS",
+		};
+		const prevState = {surname: 'test', name: 'andre'};
+		const newState = filterReducer(prevState, action);
+
+		expect(newState).not.toBe(prevState);
+		expect(newState).toEqual({});	
+	});	
+
+test('it resets all filters without filter already existing', () => {
+		const action = {
+			type: "GIFT_LIST_SEARCH/RESET_ALL_FILTERS",
+		};
+		const prevState = {};
+		const newState = filterReducer(prevState, action);
+
+		expect(newState).toBe(prevState);
+		expect(newState).toEqual({});	
+	});		
 
 });

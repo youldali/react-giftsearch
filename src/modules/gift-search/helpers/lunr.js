@@ -3,6 +3,7 @@ import type { GiftCollection } from 'modules/actions/types';
 import lunr from 'lunr';
 import lunrStemmerSupport from 'lunr-languages/lunr.stemmer.support'
 import lunrFr from 'lunr-languages/lunr.fr'
+import { getFromStorage, saveToStorage } from 'helpers/browser-storage/storage';
 
 export const
 createIndex = (collection: Array<Object>): Object => {
@@ -22,7 +23,7 @@ export const
 getResultsIds = (results: Array<Object>): Array<mixed> => {
 	const resultsIds = [];
 	for(let i = 0, length = results.length ; i < length; i++){
-		resultsIds.push(results[i].ref);
+		resultsIds.push(parseInt(results[i].ref, 10));
 	}
 
 	return resultsIds;
@@ -42,7 +43,15 @@ searchIndex = (searchString: string, lunrIndex: Object): Object => {
 };
 
 export const
-getIndex = (giftCollection: GiftCollection, universe: string): Object => {
-	//to change
-	return createIndex(giftCollection);
+getIndex = (universe: string, giftCollection: GiftCollection): Object => {
+	const key = `${universe}-lunr-index`;
+	return (
+		getFromStorage(key)
+			.then( serializedIndex => lunr.Index.load(JSON.parse(serializedIndex)) )
+			.catch( e => {
+				const lunrIndex = createIndex(giftCollection);
+				saveToStorage(key, JSON.stringify(lunrIndex));
+				return lunrIndex;
+			})		
+	);
 }

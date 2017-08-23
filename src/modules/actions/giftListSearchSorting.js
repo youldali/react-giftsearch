@@ -20,6 +20,13 @@ function resetFilters(filtersToReset: Array<string>): Action{
 };
 
 export 
+function resetAllFilters(): Action{
+	return{
+		type: "GIFT_LIST_SEARCH/RESET_ALL_FILTERS",
+	}
+}
+
+export 
 function setOrder(order: string): Action{
 	return{
 		type: "GIFT_LIST_SEARCH/SET_ORDER",

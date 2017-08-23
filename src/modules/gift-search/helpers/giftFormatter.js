@@ -83,8 +83,10 @@ const formatGiftInfos = (giftInfos: Object): Gift => {
 		max_persons: amountOfPersons[1],
 		min_nights: amountOfNight[0],
 		max_nights: amountOfNight[1],
-		rawPrice
+		rawPrice,
+		id: parseInt(gift.id, 10)
 	};
+
 
 	Object.assign(gift, addedProperties);
 

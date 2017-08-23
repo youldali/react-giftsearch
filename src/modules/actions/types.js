@@ -43,6 +43,7 @@ export
 type Action = 
 		{ type: 'GIFT_LIST_SEARCH/SET_FILTERS', filters: Filters }
 	| { type: 'GIFT_LIST_SEARCH/RESET_FILTERS', filtersToReset: Array<string>}
+	| { type: 'GIFT_LIST_SEARCH/RESET_ALL_FILTERS'}
 	| { type: 'GIFT_LIST_SEARCH/SET_ORDER', order: string }
 	| { type: 'GIFT_LIST_SEARCH/SET_UNIVERSE', universe: string }
 	| { type: 'GIFT_LIST_SEARCH/FETCH_REQUESTED', isFetching: boolean }

@@ -133,3 +133,15 @@ describe('setDisplay', () => {
 	});
 
 });
+
+describe('resetAllFilters', () => {
+
+	test('it should return the "reset all filters" action creator', () => {
+		const expectedAction = {
+			type: "GIFT_LIST_SEARCH/RESET_ALL_FILTERS",
+		};
+
+		expect(actions.resetAllFilters()).toEqual(expectedAction);
+	});
+
+});

@@ -34,7 +34,7 @@ const GiftSearchContainer =  () => {
 				  		<StatusBar />
 				  	</Grid.Row>
 
-						<Grid.Row>
+						<Grid.Row style={{marginBottom: '1em'}}>
 				    	<GiftListSearchContainer />
 				    </Grid.Row>				  	
 

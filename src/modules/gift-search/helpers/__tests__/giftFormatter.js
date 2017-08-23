@@ -264,7 +264,7 @@ describe('formatGiftInfos', () => {
 
 	test('it return a Gift Object', () => {
 		const expectedObject = {
-			"id":"239311",
+			"id": 239311,
 			"category":[  "Pour deux personnes","Par region"],
 	   	"price":"279,90 €",
 	   	"min_persons": 1,
@@ -283,7 +283,7 @@ describe('formatGiftCollection', () => {
 
 	test('it return a Gift Collection', () => {
 		const expectedObject1 = {
-			"id":"239311",
+			"id": 239311,
 			"category":[  "Pour deux personnes","Par region"],
 	   	"price":"279,90 €",
 	   	"min_persons": 1,
@@ -294,7 +294,7 @@ describe('formatGiftCollection', () => {
 		};
 
 		const expectedObject2 = {
-			"id":"239329",
+			"id": 239329,
 			"category":["Par region", "Exclusivite web", "Une nuit"],
 	   	"price":"299,90 €",
 	   	"min_persons": 3,

@@ -21,7 +21,7 @@ class GiftListSearchContainer extends PureComponent{
 	props: GiftListSearchProps;
 	lunrIndex: Object;
 	resultsIds: Array<mixed>;
-	state: {results: Array<Object>};
+	state: {giftsMatched: Array<Object>};
 
 	constructor(props: GiftListSearchProps) {
     super(props);
@@ -29,43 +29,50 @@ class GiftListSearchContainer extends PureComponent{
     this.handleChange = this.handleChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleResultSelected = this.handleResultSelected.bind(this);
-    this.state={results: []};
+    this.state={giftsMatched: []};
 	}
 
   componentDidMount() {
 		if(this.props.giftCollection.length > 0)
-  		this.lunrIndex = lunrHelper.getIndex(this.props.giftCollection, this.props.match.params.universe);  	
+  		this.getIndex(this.props.match.params.universe, this.props.giftCollection);
   }
 
   componentWillReceiveProps(nextProps: GiftListSearchProps){
   	const universe = this.props.match.params.universe;
   	const nextUniverse = nextProps.match.params.universe;
-  	if(nextProps.giftCollection.length > 0 )
-  		this.lunrIndex = lunrHelper.getIndex(nextProps.giftCollection, nextUniverse);
+  	if(this.props.giftCollection !== nextProps.giftCollection && nextProps.giftCollection.length  > 0 )
+      this.getIndex(nextUniverse, nextProps.giftCollection);
+  }
+
+  getIndex(universe: string, giftCollection: GiftCollection){
+    lunrHelper.getIndex(universe, giftCollection)
+      .then( index => {this.lunrIndex = index; console.log(universe, this.lunrIndex);})
+      .catch( e => console.log('failed loading the index'));    
   }
 
   searchIndex(value: string){
 		const results = lunrHelper.searchIndex(value, this.lunrIndex);
   	this.resultsIds = lunrHelper.getResultsIds(results);
-  	this.setResults(this.resultsIds);
+  	const giftsMatched = this.setResults(this.resultsIds);
+    this.setState({giftsMatched});
   }
 
   setResults(resultsIds: Array<mixed>){
   	const results = [];
-		for(let i = 0, length = resultsIds.length ; i < length && i <= this.numberToShow; i++){
+		for(let i = 0, length = resultsIds.length ; i < length && i < this.numberToShow; i++){
 				const refObject = this.props.giftListFiltered.find(element => element.id === resultsIds[i]);
 				if(refObject !== undefined){
 					const resultObject = {
-            'key': parseInt(resultsIds[i], 10),
+            'key': resultsIds[i],
+            "id": resultsIds[i],
 						"title": refObject.name,
 						"price": refObject.price,
-						"image": refObject.img,
-            "id": resultsIds[i]
+						"image": refObject.img
 					};
 					results.push(resultObject);
 				}
 		}
-		this.setState({results});
+    return results;
   }
 
   handleChange(e: SyntheticEvent, data: Object){
@@ -90,14 +97,14 @@ class GiftListSearchContainer extends PureComponent{
   	return (
   		<div>
   			<Search 
-  				icon='search' 
+          input={{ icon: 'search', iconPosition: 'left', fluid: true }}
   				fluid 
   				placeholder='Restaurant, Paris ...' 
   				onSearchChange={debounce(this.handleChange, 250)}
   				onResultSelect={this.handleResultSelected}
           onFocus={this.handleFocus}
   				showNoResults={false}
-  				results={this.state.results}
+  				results={this.state.giftsMatched}
   			/>
   		</div>
   	);
