@@ -20,7 +20,7 @@ export
 class GiftListSearchContainer extends PureComponent{
 	props: GiftListSearchProps;
 	lunrIndex: Object;
-	resultsIds: Array<mixed>;
+  searchValue: string;
 	state: {giftsMatched: Array<Object>};
 
 	constructor(props: GiftListSearchProps) {
@@ -30,6 +30,7 @@ class GiftListSearchContainer extends PureComponent{
     this.handleFocus = this.handleFocus.bind(this);
     this.handleResultSelected = this.handleResultSelected.bind(this);
     this.state={giftsMatched: []};
+    this.searchValue = '';
 	}
 
   componentDidMount() {
@@ -51,7 +52,10 @@ class GiftListSearchContainer extends PureComponent{
   }
 
   searchIndex(value: string){
-		const results = lunrHelper.searchIndex(value, this.lunrIndex);
+    if(this.lunrIndex === undefined || value.length < 3)
+      return;
+
+		const results = lunrHelper.searchIndex(value, this.lunrIndex);console.log(results);
   	this.resultsIds = lunrHelper.getResultsIds(results);
   	const giftsMatched = this.setResults(this.resultsIds);
     this.setState({giftsMatched});
@@ -76,9 +80,8 @@ class GiftListSearchContainer extends PureComponent{
   }
 
   handleChange(e: SyntheticEvent, data: Object){
-  	const {value} = data;
-  	if(value.length > 2)
-			this.searchIndex(data.value);
+    this.searchValue = data.value;
+		this.searchIndex(data.value);
   }
 
   handleResultSelected(e: SyntheticEvent, data: Object){
@@ -90,7 +93,10 @@ class GiftListSearchContainer extends PureComponent{
   }
 
   handleFocus(){
+    this.setState({giftsMatched: []});
     this.props.resetFilters(['elasticSearch']);
+    this.props.setOrder('');
+    this.searchIndex(this.searchValue);
   }
 
   render(){
