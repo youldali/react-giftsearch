@@ -94,23 +94,33 @@ class GiftListSearchContainer extends PureComponent{
   	this.props.setOrder(this.resultsIds);
   }
 
-  handleFocus(){
+  handleFocus(e: SyntheticEvent, data: Object){
+    this.input.inputRef.value = this.searchValue;console.log(this.input.inputRef.value);
     this.setState({giftsMatched: []});
     this.props.resetFilters(['elasticSearch']);
     this.props.setOrder('');
     this.searchIndex(this.searchValue);
+    console.log(this.input.inputRef);
   }
 
   render(){
+    const inputProps = { 
+      icon: 'search', 
+      iconPosition: 'left', 
+      fluid: true, 
+      ref: (input) => this.input = input,
+      onFocus: this.handleFocus,
+      value:'restaurant'
+    };
+
   	return (
   		<div>
   			<Search 
-          input={{ icon: 'search', iconPosition: 'left', fluid: true }}
+          input={inputProps}
   				fluid 
   				placeholder='Restaurant, Paris ...' 
   				onSearchChange={debounce(this.handleChange, 250)}
   				onResultSelect={this.handleResultSelected}
-          onFocus={this.handleFocus}
   				showNoResults={false}
   				results={this.state.giftsMatched}
   			/>

@@ -42,9 +42,6 @@ const normaliseSpelling = (builder: Object) => {
 export const
 createIndex = (collection: Array<Object>): Object => {
 	return lunr(function () {
-		//lunr.tokenizer.separator = /[\s]+/;
-		console.log(this);
-
 		//removed natived pipeline functions
 		this.pipeline.remove(lunr.stemmer);
 		this.pipeline.remove(lunr.trimmer);
@@ -79,7 +76,6 @@ searchIndex = (searchString: string, lunrIndex: Object): Object => {
 	return(
 		lunrIndex.query(function (q) {
 			for(let i = 0, length = terms.length ; i < length; i++){
-				console.log(terms[i]);
 				q.term(terms[i], {usePipeline: true, editDistance: 1, wildcard: lunr.Query.wildcard.TRAILING});
 			}		
 		})
