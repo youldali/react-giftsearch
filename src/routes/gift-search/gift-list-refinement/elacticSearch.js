@@ -9,11 +9,13 @@ import * as actions from 'modules/actions/giftListSearchSorting';
 import * as lunrHelper from 'modules/gift-search/helpers/lunr';
 import { Search } from 'semantic-ui-react'
 import debounce from 'lodash.debounce';
+import { Button } from 'semantic-ui-react';
 
 type GiftListSearchProps = {
   giftCollection: GiftCollection,
   giftListFiltered: GiftCollection,
   match: RouterMatch,
+  elasticSearchFilter: ?Array<number>
 };
 
 export
@@ -112,6 +114,11 @@ class GiftListSearchContainer extends PureComponent{
   				showNoResults={false}
   				results={this.state.giftsMatched}
   			/>
+        { this.props.elasticSearchFilter !== undefined &&
+          <div>
+            Coffrets correspondant à la recherche "{this.searchValue}" <Button icon='delete' />
+          </div>
+        }
   		</div>
   	);
   }
@@ -123,11 +130,13 @@ type OwnProps = { match: RouterMatch };
 const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
   const giftCollection = selectors.getList(state);
   const giftListFiltered = selectors.getFilteredList(state);
+  const elasticSearchFilter = selectors.getFilter(state, 'elasticSearch')
   const {match} = ownProps;
 
 	return {
 		giftCollection,
 		giftListFiltered,
+    elasticSearchFilter,
     match
 	}
 }
