@@ -10,44 +10,51 @@ import type { Dispatch } from 'modules/actions/types';
 
 type OrderByDropdownProps = {
   setOrderBy: Function,
-  orderState: string
+  orderBy: string
 };
 
 export
 const OrderByDropdown = (props: OrderByDropdownProps) => {
   const handleChange = (e: SyntheticEvent, data: Object) => {
-   props.setOrderBy(data.value);
+  	if(data.value !== props.orderBy)
+  	 props.setOrderBy(data.value);
   };
  
   const orderByOptions = [
 	  {
-	    text: <span><Icon name='chevron up' /> Prix</span>,
+	    text: <span>Prix<Icon name='chevron up' /></span>,
 	    value: 'rawPrice',
 	  },
 		{
-	    text: <span><Icon name='chevron down' /> Prix</span>,
+	    text: <span>Prix<Icon name='chevron down' /></span>,
 	    value: '-rawPrice',
 	  },
 		{
-	    text: <span><Icon name='chevron up' /> Nom</span>,
+	    text: <span>Nom<Icon name='chevron up' /></span>,
 	    value: 'name',
 	  },
 		{
-	    text: <span><Icon name='chevron down' /> Nom</span>,
+	    text: <span>Nom<Icon name='chevron down' /></span>,
 	    value: '-name',
-	  },	  	  
+	  },
+	  {
+	    text: <span>Pertinence</span>,
+	    value: 'auto',
+	    disabled: 'true'
+	  },	  
   ];
   return (
   	<div>
       <Dropdown 
       	placeholder='Trier par'
       	labeled 
-      	button
+      	button={{color: 'instagram'}}
       	icon='filter'
       	className='icon'
       	options={orderByOptions}
-      	value={props.orderState}
+      	value={props.orderBy}
       	onChange={handleChange}
+      	style={{background: '#49769c', color: '#FFF'}}
       />
      </div>
   );  
@@ -56,8 +63,9 @@ const OrderByDropdown = (props: OrderByDropdownProps) => {
 //Store connection
 const mapStateToProps = (state: Object): Object => {
   const orderState = selectors.getOrder(state);
+  const orderBy = Array.isArray(orderState) ? 'auto' : orderState;
 	return {
-		orderState,
+		orderBy,
 	}
 }
 

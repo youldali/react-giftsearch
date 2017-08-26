@@ -1,5 +1,7 @@
 .gift-list__filter-container{
 	position: fixed;
+	width: inherit;
+	max-width: 300px;
 }
 
 .filter-option__icon{

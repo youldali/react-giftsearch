@@ -9,8 +9,8 @@ const ErrorLoading = ( {actionRetry}: {actionRetry: Function} ) => (
     <Message.Header>Erreur de chargement</Message.Header>
     <p>
 	    Veuillez vérifier votre connexion internet
-	    <Button icon color='blue' style={{'margin-left': '1em'}} >
-	      <Icon name='repeat' onClick={actionRetry} /> Réessayer 
+	    <Button icon color='blue' style={{'margin-left': '1em'}} onClick={actionRetry} >
+	      <Icon name='repeat' /> Réessayer 
 	    </Button>
 	   </p>
   </Message>

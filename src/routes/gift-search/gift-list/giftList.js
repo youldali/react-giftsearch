@@ -66,7 +66,7 @@ class GiftListContainer extends PureComponent{
       component = <Loader /> ;
 
     else if(!this.props.hasFetchSucceeded)
-      component = <ErrorLoading actionRetry={() => this.fetchList(this.props.match.params.universe)} /> ;
+      component = <ErrorLoading actionRetry={() => {console.log('click'); this.props.fetchList(this.props.match.params.universe);} } /> ;
 
     else if(this.props.fullGiftCollection.length === 0)
       component = <ErrorNoResults /> ;  

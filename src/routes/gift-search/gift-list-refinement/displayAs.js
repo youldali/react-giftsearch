@@ -26,6 +26,7 @@ const DisplayAs = (props: DisplayAsProps) => {
   		icon={props.icon} 
   		onClick={handleChange}
   		disabled={props.isActive}
+      color='instagram'
   	/>
   );  
 };

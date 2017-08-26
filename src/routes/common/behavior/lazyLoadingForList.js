@@ -47,10 +47,9 @@ class ListLazyLoad extends PureComponent {
   }
 
   componentWillUpdate(nextProps: ListLazyLoadProps){
-    if(nextProps.currentPage === 1){
-      //window.scrollBy(0, this.wrapperRef.getBoundingClientRect().top);
-      window.scrollBy(0, 0);
-    }
+    const wrappedRedTopPosition = this.wrapperRef.getBoundingClientRect().top;
+    if(nextProps.currentPage === 1 && wrappedRedTopPosition < 0)
+      window.scrollBy(0, wrappedRedTopPosition);
   }
 
   bottomReachedCallback(){

@@ -29,10 +29,10 @@ const normaliseSpelling = (builder: Object) => {
   lunr.Pipeline.registerFunction(pipelineStopWordFilter, 'stopWordFilterCustom');
   lunr.Pipeline.registerFunction(pipelineToLowercase, 'toLowercase');
 
-  builder.pipeline.add(pipelineToLowercase);
-  builder.pipeline.add(pipelineRemoveApostrophe);
-  builder.pipeline.add(pipelineStopWordFilter);
-	builder.pipeline.add(pipelineRemoveDiacritics);
+  builder.pipeline.before(lunr.trimmer, pipelineToLowercase);
+  builder.pipeline.before(lunr.trimmer, pipelineRemoveApostrophe);
+  builder.pipeline.before(lunr.trimmer, pipelineStopWordFilter);
+	builder.pipeline.before(lunr.trimmer, pipelineRemoveDiacritics);
 
 	builder.searchPipeline.add(pipelineToLowercase);
 	builder.searchPipeline.add(pipelineRemoveApostrophe);
@@ -42,9 +42,9 @@ const normaliseSpelling = (builder: Object) => {
 export const
 createIndex = (collection: Array<Object>): Object => {
 	return lunr(function () {
+		console.log(this);
 		//removed natived pipeline functions
 		this.pipeline.remove(lunr.stemmer);
-		this.pipeline.remove(lunr.trimmer);
 		this.searchPipeline.remove(lunr.stemmer);		
 
 		//use custom pipeline
@@ -76,7 +76,7 @@ searchIndex = (searchString: string, lunrIndex: Object): Object => {
 	return(
 		lunrIndex.query(function (q) {
 			for(let i = 0, length = terms.length ; i < length; i++){
-				q.term(terms[i], {usePipeline: true, editDistance: 1, wildcard: lunr.Query.wildcard.TRAILING});
+				q.term(terms[i], {usePipeline: true, wildcard: lunr.Query.wildcard.TRAILING});
 			}		
 		})
 	);

@@ -12,6 +12,7 @@ const navBar = ({location}: {location: RouterLocation}) => {
 		'adventure': "/gift-search/adventure",
 		'well-being': "/gift-search/well-being",
 		'occasion': "/gift-search/occasion",
+		'voyage': "/gift-search/voyage",
 	};
 
 	return(
@@ -27,7 +28,10 @@ const navBar = ({location}: {location: RouterLocation}) => {
 	    </Menu.Item>        	
 	    <Menu.Item name='Occasion' color='yellow' active={links['occasion'] === location.pathname}>
 				<Link to={links['occasion']} >Occasion</Link>
-	    </Menu.Item>        	
+	    </Menu.Item>
+	    <Menu.Item name='Voyage' color='orange' active={links['voyage'] === location.pathname}>
+				<Link to={links['voyage']} >Voyage</Link>
+	    </Menu.Item>       
 	  </Menu>
   );
 }

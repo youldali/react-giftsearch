@@ -50,13 +50,12 @@ class FilterPriceRange extends PureComponent{
     this.topLimit = nextTopLimit;
     this.marks = {
       '0': <strong>0€</strong>,
-      '50': '',
-      '100': '100€',
-      '250': '250€'
+      [nextTopLimit]: <strong>{nextTopLimit}€</strong>
     };
 
-    if(nextTopLimit >= 300)
-      this.marks[nextTopLimit] = `${nextTopLimit}€`;
+    for(let i = 100; i < nextTopLimit; i += 100 ){
+      this.marks[i] = '';
+    }
   }
 
   getTopLimit(maxValue: number){
@@ -65,7 +64,10 @@ class FilterPriceRange extends PureComponent{
 
   handleChange(){
     const [minValue, maxValue] = this.state.value;
-    this.props.setFilters( {'minPrice': minValue, 'maxPrice': maxValue } );
+    if(minValue === 0 && maxValue === this.topLimit)
+      this.props.resetFilters( ['minPrice', 'maxPrice'] );
+    else
+      this.props.setFilters( {'minPrice': minValue, 'maxPrice': maxValue } );
   }
 
   render() {
@@ -101,6 +103,7 @@ const mapStateToProps = (state: Object): Object => {
 const mapDispatchToProps = (dispatch: Dispatch): Object => {
 	return {
 		setFilters: (filters: Filters) => dispatch(actions.setFilters(filters)),
+    resetFilters: (filters: Array<string>) => dispatch(actions.resetFilters(filters))
 	}
 }
 
