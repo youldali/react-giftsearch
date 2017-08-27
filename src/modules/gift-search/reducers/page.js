@@ -14,6 +14,7 @@ function pageReducer(state: PageState = initialState, action: Action): PageState
 			return (state > 0 ? --state : state);
 		case "GIFT_LIST_SEARCH/SET_FILTERS":
 		case "GIFT_LIST_SEARCH/RESET_FILTERS":
+		case "GIFT_LIST_SEARCH/RESET_ALL_FILTERS":
 		case "GIFT_LIST_SEARCH/SET_LIST":
 		case "GIFT_LIST_SEARCH/SET_DISPLAY":
 		case "GIFT_LIST_SEARCH/SET_ORDER":
