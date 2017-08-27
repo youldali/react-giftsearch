@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"onSea",
+				"onSearchValueChange"
+			],
+			[
 				"search",
 				"searchValue"
 			],
@@ -84,10 +88,98 @@
 	"buffers":
 	[
 		{
+			"file": "src/routes/gift-search/gift-list-refinement/sliderFilter.js",
+			"settings":
+			{
+				"buffer_size": 3137,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/routes/gift-search/gift-list-refinement/checkboxFilter.js",
+			"settings":
+			{
+				"buffer_size": 1521,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/routes/gift-search/gift-list-refinement/elacticSearch.js",
+			"settings":
+			{
+				"buffer_size": 6694,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/routes/gift-search/gift-list-refinement/displayAs.js",
+			"settings":
+			{
+				"buffer_size": 1314,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/routes/gift-search/gift-list-refinement/orderBy.js",
+			"settings":
+			{
+				"buffer_size": 1885,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/routes/gift-search/gift-list-refinement/listCount.js",
+			"settings":
+			{
+				"buffer_size": 1125,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/modules/gift-search/reducers/order.js",
+			"settings":
+			{
+				"buffer_size": 427,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/modules/gift-search/reducers/filter.js",
+			"settings":
+			{
+				"buffer_size": 1473,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/routes/common/error.js",
+			"settings":
+			{
+				"buffer_size": 603,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "src/modules/gift-search/config.js",
 			"settings":
 			{
-				"buffer_size": 2420,
+				"buffer_size": 2447,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/routes/common/navBar/navBar.js",
+			"settings":
+			{
+				"buffer_size": 1445,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -121,37 +213,10 @@
 			}
 		},
 		{
-			"file": "src/routes/gift-search/gift-list-refinement/sliderFilter.js",
-			"settings":
-			{
-				"buffer_size": 2939,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/routes/common/error.js",
-			"settings":
-			{
-				"buffer_size": 603,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "src/routes/gift-search/gift-list/giftList.js",
 			"settings":
 			{
 				"buffer_size": 3755,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/routes/gift-search/gift-list-refinement/elacticSearch.js",
-			"settings":
-			{
-				"buffer_size": 5599,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -216,12 +281,12 @@
 				"Git: Commit"
 			],
 			[
-				"status",
-				"Git: Status"
-			],
-			[
 				"add",
 				"Git: Add..."
+			],
+			[
+				"status",
+				"Git: Status"
 			],
 			[
 				"diff",
@@ -697,12 +762,16 @@
 		"/C/projects/react-giftsearch/src/modules",
 		"/C/projects/react-giftsearch/src/modules/actions",
 		"/C/projects/react-giftsearch/src/modules/gift-search",
+		"/C/projects/react-giftsearch/src/modules/gift-search/reducers",
+		"/C/projects/react-giftsearch/src/modules/helpers",
+		"/C/projects/react-giftsearch/src/modules/helpers/refineCollection",
 		"/C/projects/react-giftsearch/src/routes",
 		"/C/projects/react-giftsearch/src/routes/common",
 		"/C/projects/react-giftsearch/src/routes/common/behavior",
 		"/C/projects/react-giftsearch/src/routes/common/navBar",
 		"/C/projects/react-giftsearch/src/routes/gift-search",
-		"/C/projects/react-giftsearch/src/routes/gift-search/gift-list"
+		"/C/projects/react-giftsearch/src/routes/gift-search/gift-list",
+		"/C/projects/react-giftsearch/src/routes/gift-search/gift-list-refinement"
 	],
 	"file_history":
 	[
@@ -897,6 +966,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"ResultRenderer",
+			"searchIndex",
+			"GiftListSearchProps",
 			"createhandleChange",
 			"handleFocus",
 			"handleChange",
@@ -1021,10 +1093,7 @@
 			"next",
 			"Next",
 			"next",
-			"Next",
-			"next",
-			"Next",
-			"next"
+			"Next"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1056,24 +1125,330 @@
 	"groups":
 	[
 		{
-			"selected": 11,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/modules/gift-search/config.js",
+					"file": "src/routes/gift-search/gift-list-refinement/sliderFilter.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2420,
+						"buffer_size": 3137,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								602,
-								602
+								1736,
+								1736
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/routes/gift-search/gift-list-refinement/checkboxFilter.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1521,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1397,
+								1316
+							]
+						],
+						"settings":
+						{
+							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/routes/gift-search/gift-list-refinement/elacticSearch.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6694,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4439,
+								4439
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1890.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/routes/gift-search/gift-list-refinement/displayAs.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1314,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								711,
+								720
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/routes/gift-search/gift-list-refinement/orderBy.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1885,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								584,
+								584
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 90.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/routes/gift-search/gift-list-refinement/listCount.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1125,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								593,
+								593
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/modules/gift-search/reducers/order.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 427,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								276,
+								276
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/modules/gift-search/reducers/filter.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1473,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								383,
+								306
+							]
+						],
+						"settings":
+						{
+							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/routes/common/error.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 603,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								374,
+								374
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/modules/gift-search/config.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2447,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								667,
+								667
 							]
 						],
 						"settings":
@@ -1090,11 +1465,45 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
+					"buffer": 10,
+					"file": "src/routes/common/navBar/navBar.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1445,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1378,
+								1378
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
 					"file": "src/routes/gift-search/gift-list-refinement/filter.js",
 					"semi_transient": false,
 					"settings":
@@ -1125,11 +1534,11 @@
 						"translation.y": 405.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 15,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 12,
 					"file": "src/routes/gift-search/gift-list-refinement/filterContainer.js",
 					"semi_transient": false,
 					"settings":
@@ -1156,14 +1565,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1035.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 13,
 					"file": "src/routes/gift-search/gift-list-refinement/css/filterContainer.css",
 					"semi_transient": false,
 					"settings":
@@ -1191,79 +1600,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "src/routes/gift-search/gift-list-refinement/sliderFilter.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2939,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1723,
-								1723
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 450.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "src/routes/common/error.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 603,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								374,
-								374
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
+					"buffer": 14,
 					"file": "src/routes/gift-search/gift-list/giftList.js",
 					"semi_transient": false,
 					"settings":
@@ -1294,46 +1635,11 @@
 						"translation.y": 180.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
-					"file": "src/routes/gift-search/gift-list-refinement/elacticSearch.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5599,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3082,
-								3082
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"git_savvy.repo_path": "C:\\projects\\react-giftsearch",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 855.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
+					"buffer": 15,
 					"file": "src/routes/common/behavior/lazyLoadingForList.js",
 					"semi_transient": false,
 					"settings":
@@ -1364,11 +1670,11 @@
 						"translation.y": 90.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 16,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 16,
 					"file": "src/helpers/DOM/visibility.js",
 					"semi_transient": false,
 					"settings":
@@ -1398,11 +1704,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 17,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
+					"buffer": 17,
 					"file": "src/routes/gift-search/gift-list-refinement/css/elasticSearch.css",
 					"semi_transient": false,
 					"settings":
@@ -1431,11 +1737,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 18,
 					"type": "text"
 				},
 				{
-					"buffer": 11,
+					"buffer": 18,
 					"file": "src/modules/gift-search/helpers/lunr.js",
 					"semi_transient": false,
 					"settings":
@@ -1447,8 +1753,8 @@
 						"selection":
 						[
 							[
-								2497,
-								2497
+								2950,
+								2950
 							]
 						],
 						"settings":
@@ -1464,11 +1770,11 @@
 						"translation.y": 810.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
-					"buffer": 12,
+					"buffer": 19,
 					"file": "package.json",
 					"semi_transient": false,
 					"settings":
@@ -1498,7 +1804,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 19,
 					"type": "text"
 				}
 			]

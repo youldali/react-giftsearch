@@ -4,11 +4,11 @@ import type { GiftCollection } from 'modules/actions/types';
 import React, { Component } from 'react'
 import GiftListContainer from './gift-list/giftList';
 import { Grid } from 'semantic-ui-react'
-import FilterContainer from './gift-list-refinement/filterContainer';
+import FiltersWrapper from './gift-list-refinement/filtersWrapper';
 import StatusBar from './gift-list-refinement/statusBar';
 import NavBar from '../common/navBar/navBar';
 import { withRouter } from 'react-router-dom';
-import GiftListSearchContainer from 'routes/gift-search/gift-list-refinement/elacticSearch';
+import GiftListElacticSearch from 'routes/gift-search/gift-list-refinement/elacticSearch';
 
 const GiftSearchContainer =  () => {
 	const NavBarConnected = withRouter(NavBar);
@@ -26,7 +26,7 @@ const GiftSearchContainer =  () => {
 				<Grid.Row centered>
 				
 				  <Grid.Column widescreen={3} largeScreen={3} tablet={4}  >
-						<FilterContainer />
+						<FiltersWrapper />
 				  </Grid.Column>
 
 				  <Grid.Column widescreen={8} largeScreen={9} tablet={12}>
@@ -35,7 +35,7 @@ const GiftSearchContainer =  () => {
 				  	</Grid.Row>
 
 						<Grid.Row style={{marginBottom: '1em'}}>
-				    	<GiftListSearchContainer />
+				    	<GiftListElacticSearch />
 				    </Grid.Row>				  	
 
 				  	<Grid.Row>

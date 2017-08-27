@@ -1,4 +1,4 @@
-import * as arrayHelper from '../array';
+import * as arrayHelper from '../utils';
 
 describe('findHighestValueInObjects', () => {
 

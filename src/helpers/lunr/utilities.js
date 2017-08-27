@@ -1,3 +1,5 @@
+//@flow
+
 export const
 removeDiacritics = (str: string): string => {
 

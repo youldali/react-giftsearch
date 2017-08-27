@@ -1,14 +1,18 @@
+//@flow
+
 import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { selectors } from 'modules/gift-search/index';
 import * as actions from 'modules/actions/giftListSearchSorting';
 import { Range, createSliderWithTooltip } from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import type { Dispatch, Filters } from 'modules/actions/types';
 
 const RangeWithTooltip = createSliderWithTooltip(Range);
 type FilterPriceRangeProps = {
   maxValue: number,
   setFilters: Function,
+  resetFilters: Function,
   filterState: Filters
 };
 

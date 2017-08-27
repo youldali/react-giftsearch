@@ -1,6 +1,6 @@
 //@flow
 
-import type { GiftCollection, Dispatch, RouterMatch } from 'modules/actions/types';
+import type { GiftCollection, Dispatch, RouterMatch, Filters } from 'modules/actions/types';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -26,8 +26,9 @@ type GiftSearchResult = {
 };
 type GiftListElacticSearchProps = {
   onFocus: Function,
-  onResultSelect: Function,
+  onResultSelected: Function,
   onSearchChange: Function,
+  onSearchDelete: Function,
   searchValue: string,
   results: Array<GiftSearchResult>,
   isSearchActive: boolean
@@ -56,7 +57,7 @@ const GiftListElacticSearch = (props: GiftListElacticSearchProps) => {
       />
       { props.isSearchActive &&
         <div className='elastic-search__filter-description'>
-          Coffrets correspondant à la recherche <strong><em>{props.searchValue}</em></strong> <Button icon='delete' size='small' circular color='google plus' />
+          Coffrets correspondant à la recherche <strong><em>{props.searchValue}</em></strong> <Button onClick={props.onSearchDelete} icon='delete' size='small' circular color='google plus' />
         </div>
       }
     </div>
@@ -73,7 +74,9 @@ type GiftListElacticSearchContainerProps = {
   giftCollection: GiftCollection,
   giftListFiltered: GiftCollection,
   match: RouterMatch,
-  elasticSearchFilter: ?Array<number>
+  elasticSearchFilter: ?Array<number>,
+  setFilters: Function,
+  resetFilters: Function
 };
 
 
@@ -85,12 +88,15 @@ class GiftListElacticSearchContainer extends PureComponent{
   onSearchValueChange: Function;
   refreshSearch: Function;
   onResultSelected: Function;
+  resetSearch: Function;
+  resultsIds: Array<number>;
 
   constructor(props: GiftListElacticSearchContainerProps) {
     super(props);
     this.numberToShow = 5;
     this.onSearchValueChange = this.createOnSearchValueChange().bind(this);
     this.refreshSearch = this.refreshSearch.bind(this);
+    this.resetSearch = this.resetSearch.bind(this);
     this.onResultSelected = this.onResultSelected.bind(this);
     this.state={giftsMatched: [], searchValue: ''};
   }
@@ -105,13 +111,13 @@ class GiftListElacticSearchContainer extends PureComponent{
     const nextUniverse = nextProps.match.params.universe;
     if(this.props.giftCollection !== nextProps.giftCollection && nextProps.giftCollection.length  > 0 ){
       this.getIndex(nextUniverse, nextProps.giftCollection);
-      this.refreshSearch();
+      this.resetSearch();
     }
   }
 
   getIndex(universe: string, giftCollection: GiftCollection){
     lunrHelper.getIndex(universe, giftCollection)
-      .then( index => {this.lunrIndex = index; console.log(universe, this.lunrIndex);})
+      .then( index => this.lunrIndex = index)
       .catch( e => console.log('failed loading the index'));    
   }
 
@@ -121,11 +127,11 @@ class GiftListElacticSearchContainer extends PureComponent{
 
     const results = lunrHelper.searchIndex(value, this.lunrIndex);
     this.resultsIds = lunrHelper.getResultsIds(results);
-    const giftsMatched = this.setResults(this.resultsIds);
+    const giftsMatched = this.getResultsItems(this.resultsIds);
     this.setState({giftsMatched});
   }
 
-  setResults(resultsIds: Array<mixed>){
+  getResultsItems(resultsIds: Array<number>){
     const results = [];
     for(let i = 0, length = resultsIds.length ; i < length && i < this.numberToShow; i++){
         const refObject = this.props.giftListFiltered.find(element => element.id === resultsIds[i]);
@@ -144,10 +150,13 @@ class GiftListElacticSearchContainer extends PureComponent{
   }
 
   refreshSearch(){
+    this.resetSearch();
+    this.searchIndex(this.state.searchValue);
+  }
+
+  resetSearch(){
     this.setState({giftsMatched: []});
     this.props.resetFilters(['elasticSearch']);
-    this.props.setOrder('');
-    this.searchIndex(this.state.searchValue);
   }
 
   createOnSearchValueChange(){
@@ -170,7 +179,6 @@ class GiftListElacticSearchContainer extends PureComponent{
     this.resultsIds.splice(this.resultsIds.indexOf(selectedGiftId), 1);
     this.resultsIds.unshift(selectedGiftId);
     this.props.setFilters({elasticSearch: this.resultsIds});
-    this.props.setOrder(this.resultsIds);
   }
 
   render(){
@@ -182,6 +190,7 @@ class GiftListElacticSearchContainer extends PureComponent{
         searchValue={this.state.searchValue}
         results={this.state.giftsMatched}
         isSearchActive={this.props.elasticSearchFilter !== undefined}
+        onSearchDelete={this.resetSearch}
       />
     );
   }
@@ -201,15 +210,14 @@ const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
 		giftListFiltered,
     elasticSearchFilter,
     match
-	}
-}
+	};
+};
 
 const mapDispatchToProps = (dispatch: Dispatch): Object => {
 	return {
 		setFilters: (filters: Filters) => dispatch(actions.setFilters(filters)),
 		resetFilters: (filters: Array<string>) => dispatch(actions.resetFilters(filters)),
-		setOrder: (order: Array<mixed>) => dispatch(actions.setOrder(order))
 	}
-}
+};
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GiftListElacticSearchContainer));

@@ -7,7 +7,7 @@ import { createSelector } from 'reselect';
 import filterList from 'modules/helpers/refineCollection/filteringListWithCriterias';
 import sortList from 'modules/helpers/refineCollection/sortList';
 import { filterConfig } from 'modules/gift-search/config';
-import { findHighestValueInObjects } from 'helpers/array/array';
+import { findHighestValueInObjects } from 'helpers/array/utils';
 
 type GiftListState = {
 	+collection: GiftCollection,

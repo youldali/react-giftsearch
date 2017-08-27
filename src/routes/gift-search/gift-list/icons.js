@@ -26,18 +26,17 @@ const IconGroups = ({minPersons, maxPersons}: {minPersons: number, maxPersons: n
 
 export
 const IconPeople = ({minPersons, maxPersons}: {minPersons: number, maxPersons: number}) => {
-	
-	if(maxPersons >= 3){
-		return <IconGroups minPersons={minPersons} maxPersons={maxPersons} />;
-	}
-	else if(maxPersons === 2){
-		if(minPersons === 2)
-			return <IconCouple />;
-		else
-			return <IconGroups minPersons={minPersons} maxPersons={maxPersons} />;
-	}
-	else
+	if(minPersons === 2 && maxPersons === 2)
+		return <IconCouple />;
+
+	else if(minPersons === 1 && maxPersons === 1)
 		return <IconSolo />;
+
+	else if(minPersons === 1 && maxPersons >= 2)
+		return <span><IconSolo /> <IconGroups minPersons={minPersons} maxPersons={maxPersons} /></span>;
+
+	else
+		return <IconGroups minPersons={minPersons} maxPersons={maxPersons} />;
 
 };
 

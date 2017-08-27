@@ -9,11 +9,11 @@ export type FieldsToKeep = $ReadOnlyArray<string>;
 
 export
 const universeToUrlMap: UniverseToUrlMap = {
-	"well-being": [844,864,880,885,924,846],
-	"gastronomy": [858,859,861,871,860,884,922,923],
-	"adventure": [851,867,850,887,879,849,881,925,929, 855],
-	"occasion": [873,882,870,883,877],
-	"voyage": [29, 863, 875, 876]
+	"well-being": [844, 864, 846],
+	"gastronomy": [853, 858, 859, 861, 871, 860, 884, 923],
+	"adventure": [851, 867, 850, 887, 879, 849, 855],
+	"occasion": [873, 883, 877, 882, 870, 934],
+	"voyage": [29, 855, 863, 865, 875, 876, 878, 866]
 }
 
 export 
@@ -84,7 +84,7 @@ const filterConfig: FilterConfig = {
 		criterias: [{ 'field': 'min_persons', 'operator': '===', 'value': 2 }, { 'field': 'max_persons', 'operator': '===', 'value': 2 }],
 		filterGroup: 'person'
 	},
-	
+
 	'mostPopular': {
 		criterias: [{ 'field': 'show_rating', 'operator': '===', 'value': true }, { 'field': 'rating', 'operator': '>=', 'value': '8' }]
 	},

@@ -1,6 +1,6 @@
 // @flow
 import type { Action, Filters, FilterValue } from 'modules/actions/types';
-import { deletePropertiesImmutable } from 'helpers/object/index';
+import { deletePropertiesImmutable } from 'helpers/object/utils';
 
 type FilterState = {
 	+[string]: FilterValue

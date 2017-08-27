@@ -23,7 +23,7 @@ const sorterByField = (sortData: string): SorterFunction => {
 };
 
 export 
-const sortByPredefinedIdList = (idList: Array<mixed>): SorterFunction => {
+const sortByPredefinedIdList = (idList: Array<number | string>): SorterFunction => {
 	return (targetA: Object, targetB: Object): number => {
 		return (idList.indexOf(targetA.id) - idList.indexOf(targetB.id)) * -1
 	};
@@ -39,6 +39,9 @@ const sorterBuilder = (sortData: SortData): Function => {
 
 export default 
 (target: Array<Object>, sortData: SortData): Array<Object> => {
+	if(sortData === undefined || sortData === null || sortData === '')
+		return [...target];
+
 	const sortFunction = sorterBuilder(sortData);
 	const sortedCollection = [...target].sort(sortFunction);
 	return sortedCollection;

@@ -1,7 +1,7 @@
 //@flow
 
 import { connect } from 'react-redux';
-import React from 'react';
+import * as React from 'react';
 import { selectors } from 'modules/gift-search/index';
 import * as actions from 'modules/actions/giftListSearchSorting';
 import { Radio, Menu } from 'semantic-ui-react';
@@ -54,4 +54,4 @@ const mapDispatchToProps = (dispatch: Dispatch): Object => {
 }
 
 export default
-(FilterComponent: React.Element<*>) => connect(mapStateToProps, mapDispatchToProps)(FilterComponent);
+(FilterComponent: React.ComponentType<any>) => connect(mapStateToProps, mapDispatchToProps)(FilterComponent);

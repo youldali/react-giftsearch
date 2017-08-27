@@ -61,7 +61,7 @@ createIndex = (collection: Array<Object>): Object => {
 };
 
 export const
-getResultsIds = (results: Array<Object>): Array<mixed> => {
+getResultsIds = (results: Array<Object>): Array<number> => {
 	const resultsIds = [];
 	for(let i = 0, length = results.length ; i < length; i++){
 		resultsIds.push(parseInt(results[i].ref, 10));
@@ -71,7 +71,7 @@ getResultsIds = (results: Array<Object>): Array<mixed> => {
 };
 
 export const
-searchIndex = (searchString: string, lunrIndex: Object): Object => {
+searchIndex = (searchString: string, lunrIndex: Object): Array<Object> => {
 	const terms = searchString.trim().split(" ");
 	return(
 		lunrIndex.query(function (q) {

@@ -1,3 +1,5 @@
+//@flow
+
 import lunr from 'lunr';
 
 /* remove apostrophe contraction (t'aime => aime; l'elastique => elastique) */

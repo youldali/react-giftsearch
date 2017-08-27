@@ -1,4 +1,4 @@
-import * as objectHelper from '../index';
+import * as objectHelper from '../utils';
 
 describe('deletePropertiesImmutable', () => {
 

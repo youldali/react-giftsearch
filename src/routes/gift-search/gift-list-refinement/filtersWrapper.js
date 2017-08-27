@@ -1,17 +1,35 @@
-import React, { Component } from 'react'
-import { Menu, Icon } from 'semantic-ui-react'
+//@flow
 
+import React, { Component } from 'react'
+import { connect } from 'react-redux';
+import { selectors } from 'modules/gift-search/index';
+import * as actions from 'modules/actions/giftListSearchSorting';
 import makeConnectedFilter, { FilterRadio } from './checkboxFilter';
 import FilterForPrice from './sliderFilter';
+import { Menu, Icon, Button } from 'semantic-ui-react'
 import './css/filterContainer.css';
+import type { Dispatch, Filters } from 'modules/actions/types';
 
 
-const FiltersContainer = () => {
+const FilterRadioButton = makeConnectedFilter(FilterRadio);
 
-  const FilterRadioButton = makeConnectedFilter(FilterRadio);
+type FiltersWrapperProps = {
+  filters: Filters,
+  resetAllFilters: Function
+};
+export const
+FiltersWrapper = ( props: FiltersWrapperProps) => {
+  
+  const isOneFilterActive = !!Object.keys(props.filters).length;
 
   return (
     <div className='gift-list__filter-container'>
+      {
+        isOneFilterActive &&
+        <Button onClick={props.resetAllFilters} icon='delete' color='google plus' >
+          <Icon name='delete' /> Supprimer les filtres
+        </Button>
+      }
       <Menu vertical fluid>
         <Menu.Item>
           <Menu.Header>Budget</Menu.Header>
@@ -104,6 +122,20 @@ const FiltersContainer = () => {
   );
 };
 
-export default FiltersContainer;
-  
-   
+
+//Store connection
+const mapStateToProps = (state: Object): Object => {
+  const filters = selectors.getAllFilters(state);
+  return {
+    filters
+  };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch): Object => {
+  return {
+    resetAllFilters: () => dispatch(actions.resetAllFilters()),
+  };
+};
+
+export default
+connect(mapStateToProps, mapDispatchToProps)(FiltersWrapper);
