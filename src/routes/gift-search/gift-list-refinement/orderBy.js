@@ -1,7 +1,7 @@
 //@flow
 
 import { connect } from 'react-redux';
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { selectors } from 'modules/gift-search/index';
 import {setOrder as setOrderAction} from 'modules/actions/giftListSearchSorting';
 import { Dropdown, Icon } from 'semantic-ui-react';
@@ -40,7 +40,7 @@ const OrderByDropdown = (props: OrderByDropdownProps) => {
 	  {
 	    text: <span>Pertinence</span>,
 	    value: 'auto',
-	    disabled: 'true'
+	    disabled: true
 	  },	  
   ];
   return (
@@ -48,7 +48,7 @@ const OrderByDropdown = (props: OrderByDropdownProps) => {
       <Dropdown 
       	placeholder='Trier par'
       	labeled 
-      	button={{color: 'instagram'}}
+      	button
       	icon='filter'
       	className='icon'
       	options={orderByOptions}

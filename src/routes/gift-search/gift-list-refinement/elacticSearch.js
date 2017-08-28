@@ -9,7 +9,7 @@ import * as actions from 'modules/actions/giftListSearchSorting';
 import * as lunrHelper from 'modules/gift-search/helpers/lunr';
 import { Search } from 'semantic-ui-react'
 import debounce from 'lodash.debounce';
-import { Button, Image } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import './css/elasticSearch.css';
 
 
@@ -107,10 +107,8 @@ class GiftListElacticSearchContainer extends PureComponent{
   }
 
   componentWillReceiveProps(nextProps: GiftListElacticSearchContainerProps){
-    const universe = this.props.match.params.universe;
-    const nextUniverse = nextProps.match.params.universe;
     if(this.props.giftCollection !== nextProps.giftCollection && nextProps.giftCollection.length  > 0 ){
-      this.getIndex(nextUniverse, nextProps.giftCollection);
+      this.getIndex(nextProps.match.params.universe, nextProps.giftCollection);
       this.resetSearch();
     }
   }
@@ -133,7 +131,7 @@ class GiftListElacticSearchContainer extends PureComponent{
 
   getResultsItems(resultsIds: Array<number>){
     const results = [];
-    for(let i = 0, length = resultsIds.length ; i < length && i < this.numberToShow; i++){
+    for(let i = 0, nbDisplayed = 0, length = resultsIds.length ; i < length && nbDisplayed < this.numberToShow; i++){
         const refObject = this.props.giftListFiltered.find(element => element.id === resultsIds[i]);
         if(refObject !== undefined){
           const resultObject = {
@@ -144,6 +142,7 @@ class GiftListElacticSearchContainer extends PureComponent{
             "image": refObject.img
           };
           results.push(resultObject);
+          nbDisplayed++;
         }
     }
     return results;

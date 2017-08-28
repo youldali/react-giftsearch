@@ -15,3 +15,10 @@
 .gift-list__status-bar .gift-list__list-count-wrapper{
 	margin-right: auto;
 }
+
+/* IE ONLY */
+@media all and (-ms-high-contrast:none){
+	.gift-list__status-bar .gift-list__list-count-wrapper{
+		margin-right: 2em;
+	}
+}

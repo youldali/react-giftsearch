@@ -1,7 +1,5 @@
 //@flow
 
-import lunr from 'lunr';
-
 /* remove apostrophe contraction (t'aime => aime; l'elastique => elastique) */
 export const 
 removeApostrophe = (str: string): string => str.replace(/^.('|’)/, '');

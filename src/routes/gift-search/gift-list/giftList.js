@@ -29,10 +29,6 @@ export
 class GiftListContainer extends PureComponent{
 	props: GiftListContainerProps;
 
-	constructor(props: GiftListContainerProps) {
-    super(props)
-  }
-
   componentDidMount() {
     this.fetchList(this.props.match.params.universe);
   }

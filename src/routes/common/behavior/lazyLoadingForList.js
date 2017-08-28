@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import Loader from 'routes/common/loader';
 import { isElementBottomVisible } from 'helpers/DOM/visibility';
-import throttle from 'lodash.throttle';
+//import throttle from 'lodash.throttle';
 
 type ListLazyLoadProps = {
   currentPage: number,

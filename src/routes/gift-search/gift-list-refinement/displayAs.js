@@ -1,10 +1,10 @@
 //@flow
 
 import { connect } from 'react-redux';
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { selectors } from 'modules/gift-search/index';
 import {setDisplay as setDisplayAction} from 'modules/actions/giftListSearchSorting';
-import { Icon, Button } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 
 import type { Dispatch, DisplayType } from 'modules/actions/types';
 

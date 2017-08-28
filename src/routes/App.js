@@ -1,6 +1,6 @@
 //@flow
 
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import GiftSearchModule from './gift-search/giftSearchModule';

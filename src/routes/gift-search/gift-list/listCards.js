@@ -2,7 +2,7 @@
 
 import type { GiftCollection } from 'modules/actions/types';
 import React from 'react';
-import { Card, Icon, Image } from 'semantic-ui-react';
+import { Card, Image } from 'semantic-ui-react';
 import { IconPeople, IconEBox, IconPopular } from './icons';
 import './css/card.css';
 

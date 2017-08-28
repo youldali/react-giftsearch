@@ -1,6 +1,6 @@
 //@flow
 
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux';
 import { selectors } from 'modules/gift-search/index';
 import * as actions from 'modules/actions/giftListSearchSorting';
@@ -26,7 +26,7 @@ FiltersWrapper = ( props: FiltersWrapperProps) => {
     <div className='gift-list__filter-container'>
       {
         isOneFilterActive &&
-        <Button onClick={props.resetAllFilters} icon='delete' color='google plus' >
+        <Button onClick={props.resetAllFilters} color='google plus' >
           <Icon name='delete' /> Supprimer les filtres
         </Button>
       }

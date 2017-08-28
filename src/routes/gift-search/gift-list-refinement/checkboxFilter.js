@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as React from 'react';
 import { selectors } from 'modules/gift-search/index';
 import * as actions from 'modules/actions/giftListSearchSorting';
-import { Radio, Menu } from 'semantic-ui-react';
+import { Radio } from 'semantic-ui-react';
 import type { Filters, Dispatch } from 'modules/actions/types';
 
 type FilterRadioProps = {
