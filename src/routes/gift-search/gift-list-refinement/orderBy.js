@@ -15,7 +15,7 @@ type OrderByDropdownProps = {
 
 export
 const OrderByDropdown = (props: OrderByDropdownProps) => {
-  const handleChange = (e: SyntheticEvent, data: Object) => {
+  const handleChange = (e: SyntheticEvent<HTMLElement>, data: Object) => {
   	if(data.value !== props.orderBy)
   	 props.setOrderBy(data.value);
   };

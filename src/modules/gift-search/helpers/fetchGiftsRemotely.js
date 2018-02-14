@@ -16,7 +16,7 @@ const buildGiftUrl =
 }
 
 export default 
-(universe: string): Promise<GiftCollection> => {
+async (universe: string): Promise<GiftCollection> => {
 	//builds URL
 	const categories = cloudSearchConfig['universeToUrlMap'][universe];
 	if(typeof categories === 'undefined'){
@@ -28,20 +28,12 @@ export default
 		method: 'GET'
 	};	
 	const url = buildGiftUrl(categories);
-	return fetch(url, fetchConfig)
-					.then(response => {
-						if(response.ok) 
-							return response.json();
-						else
-							return Promise.reject(`Status: ${response.status} - ${response.statusText}`);
-					})
-					.then((jsonData: Object) => {
-						const giftCollection = formatGiftCollection(jsonData.items);
-						return giftCollection;
-					})
-					.catch(error => {
-						console.log('Error fetching Gift boxes', error);
-						return Promise.reject(error);
-					});
+
+	const response = await fetch(url, fetchConfig);
+	if(!response.ok) 
+		return Promise.reject(`Status: ${response.status} - ${response.statusText}`);
+	
+	const jsonData = await response.json();
+	return formatGiftCollection(jsonData.items);
 };
 

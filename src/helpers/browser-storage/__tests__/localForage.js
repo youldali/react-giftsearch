@@ -1,4 +1,4 @@
-import * as universeStorage from '../storage';
+import * as universeStorage from '../localForage';
 import localforage from 'localforage';
 
 const storageMock = {

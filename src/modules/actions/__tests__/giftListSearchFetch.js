@@ -2,7 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as actions from '../giftListSearchFetch';
 import * as giftFetcherRemote from 'modules/gift-search/helpers/fetchGiftsRemotely';
-import * as giftFetchLocal from 'helpers/browser-storage/storage';
+import * as giftFetchLocal from 'helpers/browser-storage/localForage';
 
 describe('Plain actions creators', () => {
 
@@ -45,7 +45,6 @@ describe('Plain actions creators', () => {
 
 		expect(actions.setGiftList(myGiftList)).toEqual(expectedAction);
 	});
-
 
 });
 
@@ -111,17 +110,16 @@ describe('thunks', () => {
 		test('it succeeds', () => {
 			//expected actions
 			const expectedActions = [
-	      { type: "GIFT_LIST_SEARCH/FETCH_REQUESTED", isFetching: true },
-	      { type: "GIFT_LIST_SEARCH/FETCH_SUCCEEDED", success: true },
-	      { type: "GIFT_LIST_SEARCH/SET_LIST", giftList: myGiftList_1 }
-	    ];
+				{ type: "GIFT_LIST_SEARCH/FETCH_SUCCEEDED", success: true },
+				{ type: "GIFT_LIST_SEARCH/SET_LIST", giftList: myGiftList_1 }
+			];
 
 			return (
 				store.dispatch(actions.fetchGiftListRemotely('gastronomy'))
 					.then(() => {
 						const actions = store.getActions()
-		      	expect(actions).toEqual(expectedActions);
-		      	expect(spyStorageSaveGifts).toHaveBeenCalled();
+						expect(actions).toEqual(expectedActions);
+						expect(spyStorageSaveGifts).toHaveBeenCalled();
 					})
 			);
 		});
@@ -129,29 +127,29 @@ describe('thunks', () => {
 		test('it fails', () => {
 			//expected actions
 			const expectedActions = [
-	      { type: "GIFT_LIST_SEARCH/FETCH_REQUESTED", isFetching: true },
-	      { type: "GIFT_LIST_SEARCH/FETCH_SUCCEEDED", success: false },
-	    ];
+				{ type: "GIFT_LIST_SEARCH/FETCH_REQUESTED", isFetching: true },
+				{ type: "GIFT_LIST_SEARCH/FETCH_SUCCEEDED", success: false },
+			];
 
 			return (
-				store.dispatch(actions.fetchGiftListRemotely('undefined'))
-					.catch(() => {
-						const actions = store.getActions()
-		      	expect(actions).toEqual(expectedActions);
-					})
+				store.dispatch(actions.handleErrorFetchGiftListRemotely)('error')
+				.then( () => {
+					const actions = store.getActions()
+					expect(actions).toEqual(expectedActions);
+				})
+				.catch(() => {})
 			);
 		});
 
 	});
-
 
 	describe('fetchGiftListLocally', () => {
 
 		test('it succeeds', () => {
 			//expected actions
 			const expectedActions = [
-	      { type: "GIFT_LIST_SEARCH/SET_LIST", giftList: myGiftList_2 }
-	    ];
+				{ type: "GIFT_LIST_SEARCH/SET_LIST", giftList: myGiftList_2 }
+			];
 
 			return (
 				store.dispatch(actions.fetchGiftListLocally('sejour'))
@@ -183,13 +181,15 @@ describe('thunks', () => {
 
 			//expected actions
 			const expectedActions = [
-	      { type: "GIFT_LIST_SEARCH/SET_LIST", giftList: myGiftList_2 }
-	    ];
+				{ type: "GIFT_LIST_SEARCH/FETCH_REQUESTED", isFetching: true },
+				{ type: "GIFT_LIST_SEARCH/SET_LIST", giftList: myGiftList_2 },
+				{ type: "GIFT_LIST_SEARCH/FETCH_REQUESTED", isFetching: false }
+	    	];
 
 			store.dispatch(actions.fetchGiftList('sejour'))
 				.then(() => {
 					const actions = store.getActions()
-	      	expect(actions).toEqual(expectedActions);
+	      			expect(actions).toEqual(expectedActions);
 				});
 		});
 
@@ -197,15 +197,16 @@ describe('thunks', () => {
 
 			//expected actions
 			const expectedActions = [
-	      { type: "GIFT_LIST_SEARCH/FETCH_REQUESTED", isFetching: true },
-	      { type: "GIFT_LIST_SEARCH/FETCH_SUCCEEDED", success: true },
-	      { type: "GIFT_LIST_SEARCH/SET_LIST", giftList: myGiftList_1 }
-	    ];
+				{ type: "GIFT_LIST_SEARCH/FETCH_REQUESTED", isFetching: true },
+				{ type: "GIFT_LIST_SEARCH/FETCH_SUCCEEDED", success: true },
+				{ type: "GIFT_LIST_SEARCH/SET_LIST", giftList: myGiftList_1 },
+				{ type: "GIFT_LIST_SEARCH/FETCH_REQUESTED", isFetching: false }
+			];
 
 			store.dispatch(actions.fetchGiftList('gastronomy'))
 				.then(() => {
 					const actions = store.getActions()
-	      	expect(actions).toEqual(expectedActions);
+	      			expect(actions).toEqual(expectedActions);
 				});
 		});
 
@@ -213,14 +214,15 @@ describe('thunks', () => {
 
 			//expected actions
 			const expectedActions = [
-	      { type: "GIFT_LIST_SEARCH/FETCH_REQUESTED", isFetching: true },
-	      { type: "GIFT_LIST_SEARCH/FETCH_SUCCEEDED", success: false },
-	    ];
+				{ type: "GIFT_LIST_SEARCH/FETCH_REQUESTED", isFetching: true },
+				{ type: "GIFT_LIST_SEARCH/FETCH_SUCCEEDED", success: false },
+				{ type: "GIFT_LIST_SEARCH/FETCH_REQUESTED", isFetching: false }
+	    	];
 
 			store.dispatch(actions.fetchGiftList('undefined'))
 				.catch(() => {
 					const actions = store.getActions()
-	      	expect(actions).toEqual(expectedActions);
+	      			expect(actions).toEqual(expectedActions);
 				});
 		});
 

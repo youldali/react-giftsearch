@@ -51,8 +51,8 @@ const GiftListElacticSearch = (props: GiftListElacticSearchProps) => {
         fluid 
         placeholder='Restaurant, Paris ...' 
         showNoResults={false}
-        onSearchChange={(e: SyntheticEvent, data: Object) => props.onSearchChange(data.value)}
-        onResultSelect={(e: SyntheticEvent, data: Object) => props.onResultSelected(data.result)}
+        onSearchChange={(e: SyntheticEvent<HTMLElement>, data: Object) => props.onSearchChange(data.value)}
+        onResultSelect={(e: SyntheticEvent<HTMLElement>, data: Object) => props.onResultSelected(data.result)}
         results={props.results}
       />
       { props.isSearchActive &&
@@ -79,9 +79,12 @@ type GiftListElacticSearchContainerProps = {
   resetFilters: Function
 };
 
+type GiftListElacticSearchContainerState = {
+  giftsMatched: Array<GiftSearchResult>, 
+  searchValue: string
+};
 
-class GiftListElacticSearchContainer extends PureComponent{
-  props: GiftListElacticSearchContainerProps;
+class GiftListElacticSearchContainer extends PureComponent<GiftListElacticSearchContainerProps, GiftListElacticSearchContainerState>{
   lunrIndex: Object;
   numberToShow: number;
   state: {giftsMatched: Array<GiftSearchResult>, searchValue: string};

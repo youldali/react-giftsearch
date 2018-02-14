@@ -25,8 +25,8 @@ test('it builds the correct url', () => {
 describe('fetch gift boxes remotely', () => {
 
 	afterEach(() => {
-    nock.cleanAll();
-  })
+		nock.cleanAll();
+	})
 
 	test('it returns rejected Promise when categories is undefined', () => {
 		return expect(giftFetcher('undefinedCategory')).rejects.toBeDefined();
@@ -39,7 +39,7 @@ describe('fetch gift boxes remotely', () => {
    		.query(true)
     	.reply(404, 'not found');
 
-    return expect(giftFetcher('gastronomy')).rejects.toBeDefined();
+    	return expect(giftFetcher('gastronomy')).rejects.toBeDefined();
 	});
 
 	test('it returns rejected Promise when http request fails', () => {
@@ -48,7 +48,7 @@ describe('fetch gift boxes remotely', () => {
    		.query(true)
     	.replyWithError('network failure');
 
-    return expect(giftFetcher('gastronomy')).rejects.toBeDefined();
+    	return expect(giftFetcher('gastronomy')).rejects.toBeDefined();
 	});
 	
 	test('it returns GiftBoxes when http request succeeds', () => {

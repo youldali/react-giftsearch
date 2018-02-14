@@ -1,9 +1,9 @@
 // @flow
 import type { GiftCollection } from 'modules/actions/types';
 import lunr from 'lunr';
-import * as lunrUtil from 'helpers/lunr/utilities';
+import * as lunrUtil from 'helpers/lunr/utils';
 import * as lunrFr from 'helpers/lunr/fr';
-import { getFromStorage, saveToStorage } from 'helpers/browser-storage/storage';
+import { getFromStorage, saveToStorage } from 'helpers/browser-storage/localForage';
 
 
 

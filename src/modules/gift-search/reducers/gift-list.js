@@ -73,7 +73,7 @@ const getHightestPrice = createSelector(
 		if(stateGiftList.length === 0)
 			return 0;
 		else
-			return findHighestValueInObjects(stateGiftList, 'rawPrice')
+			return findHighestValueInObjects('rawPrice', stateGiftList)
 		}
 );
 

@@ -1,5 +1,6 @@
 //@flow
 
+import type {Element} from 'react';
 import React, { PureComponent } from 'react';
 import Loader from 'routes/common/loader';
 import { isElementBottomVisible } from 'helpers/DOM/visibility';
@@ -10,19 +11,19 @@ type ListLazyLoadProps = {
   onBottomReached: Function,
   numberOfItemsDisplayed: number,
   numberOfItems: number,
-  children: React.Element<*>,
+  children: Element<any>,
   offsetBottomDetection: ?number
 };
 
-class ListLazyLoad extends PureComponent {
+class ListLazyLoad extends PureComponent<ListLazyLoadProps> {
   props: ListLazyLoadProps;
   hasScrollEventListener: boolean;
   isUpdating: boolean;
-  wrapperRef: HTMLElement;
+  wrapperRef: HTMLElement | null;
 
   constructor(props: ListLazyLoadProps) {
-    super(props)
-    this.bottomReachedCallback = this.bottomReachedCallback.bind(this);
+    super(props);
+    ((this:any)).bottomReachedCallback = this.bottomReachedCallback.bind(this);
     this.hasScrollEventListener = false;
     this.isUpdating = false;
   }
@@ -47,15 +48,19 @@ class ListLazyLoad extends PureComponent {
   }
 
   componentWillUpdate(nextProps: ListLazyLoadProps){
-    const wrappedRedTopPosition = this.wrapperRef.getBoundingClientRect().top;
-    if(nextProps.currentPage === 1 && wrappedRedTopPosition < 0)
-      window.scrollBy(0, wrappedRedTopPosition);
+    if(!this.wrapperRef)
+      return;
+
+    const wrappedRefTopPosition = this.wrapperRef.getBoundingClientRect().top;
+    if(nextProps.currentPage === 1 && wrappedRefTopPosition < 0)
+      window.scrollBy(0, wrappedRefTopPosition);
   }
 
   bottomReachedCallback(){
     if(!this.isUpdating 
+        && this.wrapperRef
         && this.props.numberOfItemsDisplayed < this.props.numberOfItems 
-        && isElementBottomVisible(this.wrapperRef, this.props.offsetBottomDetection )
+        && isElementBottomVisible(this.props.offsetBottomDetection, this.wrapperRef)
       ){
       this.isUpdating = true;
       this.props.onBottomReached();

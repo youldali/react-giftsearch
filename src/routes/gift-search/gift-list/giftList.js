@@ -26,8 +26,7 @@ type GiftListContainerProps = {
 };
 
 export
-class GiftListContainer extends PureComponent{
-	props: GiftListContainerProps;
+class GiftListContainer extends PureComponent<GiftListContainerProps>{
 
   componentDidMount() {
     this.fetchList(this.props.match.params.universe);

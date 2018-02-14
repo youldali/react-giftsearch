@@ -1,10 +1,11 @@
 // @flow
 import type { Action, Filters, FilterValue } from 'modules/actions/types';
-import { deletePropertiesImmutable } from 'helpers/object/utils';
+import { deletePropertiesImmutable, hasOne } from 'helpers/object/utils';
 
 type FilterState = {
 	+[string]: FilterValue
 };
+
 
 
 function filterReducer (state: FilterState = {}, action: Action): FilterState {
@@ -13,19 +14,7 @@ function filterReducer (state: FilterState = {}, action: Action): FilterState {
 			return {...state, ...action.filters};
 
 		case "GIFT_LIST_SEARCH/RESET_FILTERS":
-			const currentFilters = Object.keys(state);
-			let hasFilterToReset = false;
-			for (const filterToReset of action.filtersToReset) {
-				if(currentFilters.indexOf(filterToReset) > -1){
-					hasFilterToReset = true;
-					break;
-				}
-			}
-
-			if(hasFilterToReset)
-				return deletePropertiesImmutable(state, action.filtersToReset);
-			else
-				return state;
+			return hasOne(action.filtersToReset)(state) ? deletePropertiesImmutable(action.filtersToReset)(state) : state;
 
 		case "GIFT_LIST_SEARCH/RESET_ALL_FILTERS":
 			if(Object.keys(state).length === 0)

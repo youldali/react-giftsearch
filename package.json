@@ -11,6 +11,7 @@
     "lodash.throttle": "^4.1.1",
     "lunr": "^2.1.5",
     "lunr-languages": "^1.0.0",
+    "ramda": "^0.25.0",
     "rc-slider": "^8.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

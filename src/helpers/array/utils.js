@@ -1,7 +1,7 @@
 // @flow
 
 export const
-findHighestValueInObjects = (collection: Array<Object>, field: string): any => {
+findHighestValueInObjects = (field: string, collection: Array<Object>): any => {
 	return collection.reduce((accumulator: mixed, currentObject: Object): any => {
 		if(accumulator > currentObject[field])
 			return accumulator;

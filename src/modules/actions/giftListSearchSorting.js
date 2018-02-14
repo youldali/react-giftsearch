@@ -2,71 +2,71 @@
 import type { Action, Filters, DisplayType } from './types';
 
 export 
-function setFilters(filters: Filters): Action {
-	return{
+const setFilters = (filters: Filters): Action => (
+	{
 		type: "GIFT_LIST_SEARCH/SET_FILTERS",
 		filters
 	}
-};
+);
 
 export 
-function resetFilters(filtersToReset: Array<string>): Action{
-	return{
+const resetFilters = (filtersToReset: Array<string>): Action => (
+	{
 		type: "GIFT_LIST_SEARCH/RESET_FILTERS",
 		filtersToReset
 	}
-};
+);
 
 export 
-function resetAllFilters(): Action{
-	return{
+const resetAllFilters = (): Action => (
+	{
 		type: "GIFT_LIST_SEARCH/RESET_ALL_FILTERS",
 	}
-}
+);
 
 export 
-function setOrder(order: string): Action{
-	return{
+const setOrder = (order: string): Action => (
+	{
 		type: "GIFT_LIST_SEARCH/SET_ORDER",
 		order
 	}
-};
+);
 
 export 
-function setUniverse(universe: string): Action{
-	return{
+const setUniverse = (universe: string): Action => (
+	{
 		type: "GIFT_LIST_SEARCH/SET_UNIVERSE",
 		universe
 	}
-}
+);
 
 export 
-function setPage(page: number): Action{
-	return{
+const setPage = (page: number): Action => (
+	{
 		type: "GIFT_LIST_SEARCH/SET_PAGE",
 		page
 	}
-}
+);
 
 export 
-function incrementPage(): Action{
-	return{
+const incrementPage = (): Action => (
+	{
 		type: "GIFT_LIST_SEARCH/INCREMENT_PAGE",
 	}
-}
+);
 
 export 
-function decrementPage(): Action{
-	return{
+const decrementPage = (): Action => (
+	{
 		type: "GIFT_LIST_SEARCH/DECREMENT_PAGE",
 	}
-}
+);
 
 export 
-function setDisplay(display: DisplayType): Action{
-	return{
+const setDisplay = (display: DisplayType): Action => (
+	{
 		type: "GIFT_LIST_SEARCH/SET_DISPLAY",
 		display
 	}
-}
+);
 

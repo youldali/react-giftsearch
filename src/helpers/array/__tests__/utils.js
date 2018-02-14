@@ -19,23 +19,23 @@ describe('findHighestValueInObjects', () => {
 	];	
 
 	test('it should return the highest price', () => {
-		const result = arrayHelper.findHighestValueInObjects(collection, 'price');
+		const result = arrayHelper.findHighestValueInObjects('price', collection);
 		expect(result).toBe(101);
 
-		const result2 = arrayHelper.findHighestValueInObjects(collection2, 'price');
+		const result2 = arrayHelper.findHighestValueInObjects('price', collection2);
 		expect(result2).toBe(5023.37);		
 	});
 
 	test('it should the last name in alphabel sorting', () => {
-		const result = arrayHelper.findHighestValueInObjects(collection, 'name');
+		const result = arrayHelper.findHighestValueInObjects('name', collection);
 		expect(result).toBe('rer');
 
-		const result2 = arrayHelper.findHighestValueInObjects(collection2, 'name');
+		const result2 = arrayHelper.findHighestValueInObjects('name', collection2);
 		expect(result2).toBe('xrewwwwr');		
 	});	
 
 	test('it should the last name in alphabel sorting', () => {
-		const result = arrayHelper.findHighestValueInObjects(collection, 'undefined');
+		const result = arrayHelper.findHighestValueInObjects('undefined', collection);
 		console.log(result);
 	});		
 

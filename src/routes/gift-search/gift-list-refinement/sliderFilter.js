@@ -7,6 +7,7 @@ import * as actions from 'modules/actions/giftListSearchSorting';
 import { Range, createSliderWithTooltip } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import type { Dispatch, Filters } from 'modules/actions/types';
+import type {Element} from 'react';
 
 const RangeWithTooltip = createSliderWithTooltip(Range);
 type FilterPriceRangeProps = {
@@ -16,17 +17,18 @@ type FilterPriceRangeProps = {
   filterState: Filters
 };
 
+type FilterPriceRangePropsState = {
+  value: [number, number]
+};
 export
-class FilterPriceRange extends PureComponent{
-  state: { value: [number, number] };
-  props: FilterPriceRangeProps;
-  marks: {[string]: string | React.Element<*>};
+class FilterPriceRange extends PureComponent<FilterPriceRangeProps, FilterPriceRangePropsState>{
+  marks: {[string]: string | Element<any>};
   topLimit: number;
   step: number;
 
   constructor(props: FilterPriceRangeProps) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
+    ((this:any)).handleChange = this.handleChange.bind(this);
     this.step = 10;
     this.setNewMarks(this.getTopLimit(props.maxValue));
     this.state = {value: [0, this.topLimit]};
