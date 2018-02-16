@@ -1,7 +1,7 @@
  // @flow
 import type { Action } from 'modules/actions/types';
 
-type OrderState = string | Array<string | number>;
+type OrderState = string | Array<number>;
 
 const initialState = '';
 function orderReducer (state: OrderState = initialState, action: Action): OrderState {
@@ -13,11 +13,8 @@ function orderReducer (state: OrderState = initialState, action: Action): OrderS
 		 * in case of elastic search filter, we sort the list by predefined ID (array) (relevance to the search)
 		 */
 		case "GIFT_LIST_SEARCH/SET_FILTERS":
-			const elasticSearchFilter = action.filters.elasticSearch;
-			if(elasticSearchFilter === undefined)
-				return state;
-			else
-				return elasticSearchFilter;
+			const elasticSearchFilter: number[] = (action.filters.elasticSearch: any);
+			return elasticSearchFilter ? elasticSearchFilter : state;
 
 		case "GIFT_LIST_SEARCH/RESET_FILTERS":
 			if(action.filtersToReset.indexOf('elasticSearch') >= 0 && Array.isArray(state))

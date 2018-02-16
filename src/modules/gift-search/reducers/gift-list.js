@@ -69,12 +69,9 @@ const getPaginatedOrderedFilteredList = createSelector(
 
 const getHightestPrice = createSelector(
 	[getList],
-	(stateGiftList: GiftCollection): number => {
-		if(stateGiftList.length === 0)
-			return 0;
-		else
-			return findHighestValueInObjects('rawPrice', stateGiftList)
-		}
+	(stateGiftList: GiftCollection): number => (
+		stateGiftList.length === 0 ? 0 : findHighestValueInObjects('rawPrice', stateGiftList)
+	)
 );
 
 export 

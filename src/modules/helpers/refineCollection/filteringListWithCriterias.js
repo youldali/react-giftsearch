@@ -1,8 +1,11 @@
 //@flow
 
 import "babel-polyfill";
-import operators from './operators'
+import operators from './operators';
+import { map, mapObjIndexed, compose } from 'ramda';
 
+type FilterName = string;
+type FilterGroup = string;
 type FilterValue = number | string | boolean;
 type Filters = { +[string]: FilterValue};
 type Criteria = {|field: string, operator: string, value?: FilterValue|};
@@ -11,6 +14,10 @@ type CriteriasCollection = {+[string]: {criterias: Criterias, +filterGroup?: str
 
 type FilterFunction = (target: Object) => boolean;
 type FilterCollection = Map<?string, Array<FilterFunction>>;
+type FilterObject = {value: FilterValue, criterias: Criterias};
+
+type FilterTuple = [FilterName, FilterFunction];
+type GroupTuple = [FilterGroup, FilterFunction];
 
 /**
  * Return the filter Group label of a particular filter name for a criteriasCollection
@@ -72,16 +79,14 @@ const makeFilterFunction = (filterValueFallback: FilterValue, criterias: Criteri
 
 /**
  * Returns a collection of filter function grouped by 'filterGroup'
- */
+
 export
 const getFiltersFunctionsCollection = (filters: Filters, criteriasCollection: CriteriasCollection): FilterCollection => {
 	const filtersFunctionsCollection = new Map();
 
+
 	//run through the filters
 	for (const [filterName, filterValue] of Object.entries(filters)) {
-	    if(!criteriasCollection.hasOwnProperty(filterName))
-	    	continue;
-
 	    const filterFunction = makeFilterFunction(filterValue, criteriasCollection[filterName].criterias);
 	    const filterGroup = getFilterGroup(criteriasCollection, filterName);
 	    addFilterFunctionToMap(filterGroup, filterFunction, filtersFunctionsCollection);
@@ -89,75 +94,29 @@ const getFiltersFunctionsCollection = (filters: Filters, criteriasCollection: Cr
 
 	return filtersFunctionsCollection;
 };
-
-
-/**
- ** filters an object for a group filter with || operator
  */
-export
-const filterObjectWithFilterGroup = (filterGroupCollection: Array<Function>, target: Object): boolean => {
-	return (function evaluateNextFilterFunction(iterator: Iterator<FilterFunction>): boolean{
-		//condition to get out of recursive call
-		const currentIteratorState = iterator.next();
-			if(currentIteratorState.done)
-				return false;
 
-		//eval the current criteria and ask for eval of the next one
-		const filterFunction = currentIteratorState.value;
-		return filterFunction(target) || evaluateNextFilterFunction(iterator);
-	})(filterGroupCollection[Symbol.iterator]());
+// CriteriasCollection -> FilterValue, filterName -> FilterObject
+const getFilterFunctionFromFilter = (criteriasCollection: CriteriasCollection) => (filterValue: FilterValue, filterName: string): FilterObject => (
+	makeFilterFunction(filterValue, criteriasCollection[filterName].criterias)
+);
+
+// CriteriasCollection -> FilterTuple -> GroupTuple
+const filterGroupAndFunction = (criteriasCollection: CriteriasCollection) => (filterTuple: FilterTuple): GroupTuple => (
+	[getFilterGroup(criteriasCollection, filterTuple[0]), filterTuple[1]]
+);
+
+
+export 
+const getFiltersFunctionsCollection = (filters: Filters, criteriasCollection: CriteriasCollection): FilterCollection => {
+	const mAddCriteriaToFilterObject = mapObjIndexed(addCriteriaToFilterObject(criteriasCollection));
+	const mGetFilterFunctionFromFilter = map(getFilterFunctionFromFilter);
+	const mFilterTuple = Object.entries;
+	const mFilterGroupAndFunction = map(filterGroupAndFunction(criteriasCollection));
+
+	const getFilterFunctionCollection = compose(mFilterGroupAndFunction, mFilterTuple, mGetFilterFunctionFromFilter, mAddCriteriaToFilterObject);
+	
+	return new Map(getFilterFunctionCollection(filters));
 };
 
-
-/**
- ** filters an object for a group filter with && operator
- */
-export
-const filterObjectWithIndependentFilters = (filterGroupCollection: Array<Function>, target: Object): boolean => {
-	return (function evaluateNextFunction(iterator: Iterator<FilterFunction>): boolean{
-		//condition to get out of recursive call
-		const currentIteratorState = iterator.next();
-			if(currentIteratorState.done)
-				return true;
-
-		//eval the current criteria and ask for eval of the next one
-		const filterFunction = currentIteratorState.value;
-		return filterFunction(target) && evaluateNextFunction(iterator);
-	})(filterGroupCollection[Symbol.iterator]());
-};
-
-/**
- * Returns a filter function
- */
-export
-const filterObjectWithFilterCollection = (filterCollection: FilterCollection): FilterFunction => {
-	return (target: Object): boolean => {
-
-		const filterCollectionIterator = filterCollection.entries();
-		return (function evaluateNextFilterGroupCollection(iterator: Iterator<[?string, Array<FilterFunction>]>): boolean{
-			//condition to get out of recursive call
-			const currentIteratorState = iterator.next();
-			if(currentIteratorState.done)
-				return true;
-
-			//eval the current criteria and ask for eval of the next one
-			const [filterGroupName, filterGroupCollection] = currentIteratorState.value;
-			if(filterGroupName === undefined)
-				return filterObjectWithIndependentFilters(filterGroupCollection, target) && evaluateNextFilterGroupCollection(iterator);
-			else
-				return filterObjectWithFilterGroup(filterGroupCollection, target) && evaluateNextFilterGroupCollection(iterator);
-			
-		})(filterCollectionIterator);
-
-	}
-};
-
-
-/**
- * filters an array of object and returns a new array
- */
-export default
-(target: Array<Object>, filters: Filters, criteriasCollection: CriteriasCollection): Array<Object> => {
-	const filterCollection = getFiltersFunctionsCollection(filters, criteriasCollection);
-	return target.filter(filterObjectWithFilterCollection(filterCollection));
-};
+export default getFiltersFunctionsCollection;

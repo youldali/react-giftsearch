@@ -1,6 +1,6 @@
 // @flow
 
-export type FilterValue = number | string | boolean;
+export type FilterValue = number | string | boolean | Array<number>;
 export type Filters = { [string]: FilterValue};
 export type DisplayType = 'list' | 'card';
 

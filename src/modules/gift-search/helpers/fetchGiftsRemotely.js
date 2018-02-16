@@ -29,7 +29,7 @@ async (universe: string): Promise<GiftCollection> => {
 	};	
 	const url = buildGiftUrl(categories);
 
-	const response = await fetch(url, fetchConfig);
+	const response: Response = await fetch(url, fetchConfig);
 	if(!response.ok) 
 		return Promise.reject(`Status: ${response.status} - ${response.statusText}`);
 	

@@ -17,10 +17,7 @@ function filterReducer (state: FilterState = {}, action: Action): FilterState {
 			return hasOne(action.filtersToReset)(state) ? deletePropertiesImmutable(action.filtersToReset)(state) : state;
 
 		case "GIFT_LIST_SEARCH/RESET_ALL_FILTERS":
-			if(Object.keys(state).length === 0)
-				return state;
-			else
-				return {};
+			return Object.keys(state).length === 0 ? state : {};
 
 		default:
 			return state;		
