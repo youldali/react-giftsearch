@@ -1,9 +1,10 @@
 // @flow
 
 import type { FilterValue } from 'modules/actions/types';
-export type Criteria = {|field: string, operator: string, value?: FilterValue|};
-export type Criterias = $ReadOnlyArray<Criteria>;
-export type FilterConfig = { +[string]: {|criterias: Criterias, filterGroup?: string|} };
+export type FilterCriteria = {|field: string, operator: string, value?: FilterValue|};
+export type FiltersCriteriasCollection = {+[string]: $ReadOnlyArray<FilterCriteria>};
+export type FiltersGroupsCollection = { +[string]: string};
+
 export type UniverseToUrlMap = {+[string]: Array<number>};
 export type FieldsToKeep = $ReadOnlyArray<string>;
 
@@ -64,37 +65,22 @@ const formatGiftConfig = {
 };
 
 export
-const filterConfig: FilterConfig = {
-	'maxPrice': {
-		criterias: [{ 'field': 'rawPrice', 'operator': '<=' }],
-	},
-	'minPrice': {
-		criterias: [{ 'field': 'rawPrice', 'operator': '>=' }],
-	},
-
-	'forPersonsRange': {
-		criterias: [{ 'field': 'min_persons', 'operator': '<=' }, { 'field': 'max_persons', 'operator': '>=' }],
-		filterGroup: 'person' 
-	},
-	'forOnePerson': {
-		criterias: [{ 'field': 'min_persons', 'operator': '===', 'value': 1 }, { 'field': 'max_persons', 'operator': '>=', 'value': 1 }],
-		filterGroup: 'person'
-	},
-	'forCouple': {
-		criterias: [{ 'field': 'min_persons', 'operator': '===', 'value': 2 }, { 'field': 'max_persons', 'operator': '===', 'value': 2 }],
-		filterGroup: 'person'
+const filterConfig: {filtersCriterias: FiltersCriteriasCollection, filtersGroups: FiltersGroupsCollection} = {
+	filtersCriterias: {
+		maxPrice: [{ 'field': 'rawPrice', 'operator': '<=' }],
+		minPrice: [{ 'field': 'rawPrice', 'operator': '>=' }],
+		forPersonsRange: [{ 'field': 'min_persons', 'operator': '<=' }, { 'field': 'max_persons', 'operator': '>=' }],
+		forOnePerson: [{ 'field': 'min_persons', 'operator': '===', 'value': 1 }, { 'field': 'max_persons', 'operator': '>=', 'value': 1 }],
+		forCouple: [{ 'field': 'min_persons', 'operator': '===', 'value': 2 }, { 'field': 'max_persons', 'operator': '===', 'value': 2 }],
+		mostPopular: [{ 'field': 'show_rating', 'operator': '===', 'value': true }, { 'field': 'rating', 'operator': '>=', 'value': '8' }],
+		excluWeb: [{ 'field': 'web_exclusive', 'operator': '===', 'value': true }],
+		elasticSearch: [{ 'field': 'id', 'operator': 'isIncluded'}]
 	},
 
-	'mostPopular': {
-		criterias: [{ 'field': 'show_rating', 'operator': '===', 'value': true }, { 'field': 'rating', 'operator': '>=', 'value': '8' }]
-	},
-
-	'excluWeb': {
-		criterias: [{ 'field': 'web_exclusive', 'operator': '===', 'value': true }]
-	},
-
-	'elasticSearch': {
-		criterias: [{ 'field': 'id', 'operator': 'isIncluded'}],
+	filtersGroups: {
+		forPersonsRange: 'person',
+		forOnePerson: 'person',
+		forCouple: 'person',
 	}
 };
 

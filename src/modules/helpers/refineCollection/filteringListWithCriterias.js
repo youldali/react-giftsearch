@@ -2,54 +2,26 @@
 
 import "babel-polyfill";
 import operators from './operators';
-import { map, mapObjIndexed, compose } from 'ramda';
+import { map, mapObjIndexed, compose, sort, concat } from 'ramda';
 
-type FilterName = string;
-type FilterGroup = string;
-type FilterValue = number | string | boolean;
-type Filters = { +[string]: FilterValue};
-type Criteria = {|field: string, operator: string, value?: FilterValue|};
-type Criterias = $ReadOnlyArray<Criteria>;
-type CriteriasCollection = {+[string]: {criterias: Criterias, +filterGroup?: string}};
+import type { FiltersCriteriasCollection, FiltersGroupsCollection, FilterCriteria } from 'modules/gift-search/config';
+import type { FilterName, FilterValue, Filters } from 'modules/actions/types';
 
+type FilterInfos = {|filterName: FilterName, filterGroup: string|};
 type FilterFunction = (target: Object) => boolean;
-type FilterCollection = Map<?string, Array<FilterFunction>>;
-type FilterObject = {value: FilterValue, criterias: Criterias};
-
+type FiltersFunctionsCollection = [[FilterFunction]];
 type FilterTuple = [FilterName, FilterFunction];
-type GroupTuple = [FilterGroup, FilterFunction];
-
-/**
- * Return the filter Group label of a particular filter name for a criteriasCollection
- */
-export
-const getFilterGroup = (criteriasCollection: CriteriasCollection, filterName: string): ?string => {
-	return criteriasCollection[filterName]['filterGroup'];
-};
-
-
-/**
- * Add a filter function to the correct filter group array in the Map
- */
-export
-const addFilterFunctionToMap = (filterGroup: ?string, filterFunction: Function, filterCollection: FilterCollection): void => {
-	let subFilterCollection;
-	if(filterCollection.has(filterGroup)){
-		subFilterCollection = filterCollection.get(filterGroup);
-		subFilterCollection.push(filterFunction);
-	}
-	else{
-		subFilterCollection = [filterFunction];
-	}
-
-	filterCollection.set(filterGroup, subFilterCollection);
-};
+type FiltersFunctionsLookupMap = Map<FilterFunction, FilterInfos>;
+type FiltersData = {
+	filtersFunctionsCollection: FiltersFunctionsCollection, 
+	filtersFunctionsLookupMap: FiltersFunctionsLookupMap
+}
 
 /**
  * evaluate a single criteria
  */
 export
-const evaluateSingleCriteria = (criteria: Criteria, filterValueFallback: FilterValue, target: Object): boolean => {
+const evaluateSingleCriteria = (criteria: FilterCriteria, filterValueFallback: FilterValue, target: Object): boolean => {
 	const {field, operator, value} = criteria;
 	if(!target.hasOwnProperty(field))
 	   return false;
@@ -62,9 +34,9 @@ const evaluateSingleCriteria = (criteria: Criteria, filterValueFallback: FilterV
  * Returns a filter function that evaluates a filter name associated with a list of criterias
  */
 export
-const makeFilterFunction = (filterValueFallback: FilterValue, criterias: Criterias): FilterFunction => {
+const makeFilterFunction = (filterValueFallback: FilterValue, criterias: $ReadOnlyArray<FilterCriteria>): FilterFunction => {
 	return function evaluateCriterias (target: Object): boolean {
-		return (function evaluateNextCriteria (iterator: Iterator<Criteria>): boolean {
+		return (function evaluateNextCriteria (iterator: Iterator<FilterCriteria>): boolean {
 			//condition to get out of recursive call
 			const currentIteratorState = iterator.next();
 			if(currentIteratorState.done)
@@ -77,46 +49,87 @@ const makeFilterFunction = (filterValueFallback: FilterValue, criterias: Criteri
 	}
 };
 
-/**
- * Returns a collection of filter function grouped by 'filterGroup'
+// FiltersCriterias -> FilterValue, FilterName -> FilterFunction
+const getFilterFunctionFromFilter = (filtersCriteriasCollection: FiltersCriteriasCollection) => 
+(filterValue: FilterValue, filterName: FilterName): FilterFunction => (
+	makeFilterFunction(filterValue, filtersCriteriasCollection[filterName])
+);
 
-export
-const getFiltersFunctionsCollection = (filters: Filters, criteriasCollection: CriteriasCollection): FilterCollection => {
-	const filtersFunctionsCollection = new Map();
 
+//FilterGroupObject -> [FilterTuple] -> Map<FilterFunction, FilterInfo>
+const getFiltersFunctionsLookupMap = (filtersGroupsCollection: FiltersGroupsCollection) => 
+(filtersTuples: [FilterTuple]): FiltersFunctionsLookupMap => {
+	const reducer = (lookupMap: FiltersFunctionsLookupMap, [filterName, filterFunction]) => {
+		const filterGroup = filtersGroupsCollection[filterName];
+		return lookupMap.set(filterFunction, {filterName, filterGroup});
+	};
 
-	//run through the filters
-	for (const [filterName, filterValue] of Object.entries(filters)) {
-	    const filterFunction = makeFilterFunction(filterValue, criteriasCollection[filterName].criterias);
-	    const filterGroup = getFilterGroup(criteriasCollection, filterName);
-	    addFilterFunctionToMap(filterGroup, filterFunction, filtersFunctionsCollection);
-	}
-
-	return filtersFunctionsCollection;
+	return filtersTuples.reduce(reducer, new Map());
 };
- */
 
-// CriteriasCollection -> FilterValue, filterName -> FilterObject
-const getFilterFunctionFromFilter = (criteriasCollection: CriteriasCollection) => (filterValue: FilterValue, filterName: string): FilterObject => (
-	makeFilterFunction(filterValue, criteriasCollection[filterName].criterias)
-);
 
-// CriteriasCollection -> FilterTuple -> GroupTuple
-const filterGroupAndFunction = (criteriasCollection: CriteriasCollection) => (filterTuple: FilterTuple): GroupTuple => (
-	[getFilterGroup(criteriasCollection, filterTuple[0]), filterTuple[1]]
-);
+const createFilterFunctionCollectionStructure = () => {
+	const filtersFunctionsBelongingToFilterGroup = {};
+	const filtersFunctionsWithoutGroup = [];
 
+	return {
+		addFilterFunction(filterFunction: FilterFunction, filterGroup: string){
+			return filterGroup ? 
+				this.addFilterFunctionWithFilterGroup(filterFunction, filterGroup) : 
+				this.addFilterFunctionWithoutFilterGroup(filterFunction);
+		},
+
+		addFilterFunctionWithoutFilterGroup(filterFunction: FilterFunction){
+			filtersFunctionsWithoutGroup.push(filterFunction);
+			return this;
+		},
+
+		addFilterFunctionWithFilterGroup(filterFunction: FilterFunction, filterGroup: string){
+			const filterGroupFunctionCollection = filtersFunctionsBelongingToFilterGroup[filterGroup] || [];
+			filterGroupFunctionCollection.push(filterFunction);
+			filtersFunctionsBelongingToFilterGroup[filterGroup] = filterGroupFunctionCollection;
+			return this;
+		},
+
+		getSortedFilterFunctionCollection(): FiltersFunctionsCollection{
+			const sortByLength = (a, b) => {
+				a.length - b.length;
+			};
+			 const sortedArray = sort(sortByLength)(Object.values(filtersFunctionsBelongingToFilterGroup));
+			 return concat(filtersFunctionsWithoutGroup, sortedArray);
+		}
+	};
+};
 
 export 
-const getFiltersFunctionsCollection = (filters: Filters, criteriasCollection: CriteriasCollection): FilterCollection => {
-	const mAddCriteriaToFilterObject = mapObjIndexed(addCriteriaToFilterObject(criteriasCollection));
-	const mGetFilterFunctionFromFilter = map(getFilterFunctionFromFilter);
-	const mFilterTuple = Object.entries;
-	const mFilterGroupAndFunction = map(filterGroupAndFunction(criteriasCollection));
+const getFiltersFunctionsCollection = (filtersGroupsCollection: FiltersGroupsCollection) => 
+(filtersTuples: [FilterTuple]): FiltersFunctionsCollection => {
 
-	const getFilterFunctionCollection = compose(mFilterGroupAndFunction, mFilterTuple, mGetFilterFunctionFromFilter, mAddCriteriaToFilterObject);
-	
-	return new Map(getFilterFunctionCollection(filters));
+	const reducer = (acc, [filterName, filterFunction]) => {
+		const filterGroup = filtersGroupsCollection[filterName];
+		return acc.addFilterFunction(filterFunction, filterGroup);
+	};
+
+	const filterFunctionCollectionStructure = filtersTuples.reduce(reducer, createFilterFunctionCollectionStructure());
+	return filterFunctionCollectionStructure.getSortedFilterFunctionCollection();
 };
 
-export default getFiltersFunctionsCollection;
+
+export
+const getFilteringData = (filtersCriteriasCollection: FiltersCriteriasCollection) =>
+(filtersGroupsCollection: FiltersGroupsCollection) => 
+(filters: Filters): FiltersData => {
+	const mGetFilterFunctionFromFilter = map(getFilterFunctionFromFilter(filtersCriteriasCollection));
+	const getFilterTuples = compose(Object.entries, mGetFilterFunctionFromFilter);
+
+	const filterTuples = getFilterTuples(filters);
+	const filtersFunctionsCollection = getFiltersFunctionsCollection(filtersGroupsCollection)(filterTuples);
+	const filtersFunctionsLookupMap = getFiltersFunctionsLookupMap(filtersGroupsCollection)(filterTuples);
+
+	return {
+		filtersFunctionsCollection,
+		filtersFunctionsLookupMap
+	}
+};
+
+export default getFilteringData;

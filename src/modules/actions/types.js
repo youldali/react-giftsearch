@@ -1,7 +1,8 @@
 // @flow
 
 export type FilterValue = number | string | boolean | Array<number>;
-export type Filters = { [string]: FilterValue};
+export type FilterName = string;
+export type Filters = { [FilterName]: FilterValue};
 export type DisplayType = 'list' | 'card';
 
 export 
@@ -66,15 +67,15 @@ type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
 export
 type RouterLocation = {
 	key: string, // not with HashHistory!
-  pathname: string,
-  search: string,
-  hash: string
+  	pathname: string,
+  	search: string,
+  	hash: string
 };
 
 export
 type RouterMatch = {
 	isExact: boolean, // not with HashHistory!
-  params: {[string]: string},
-  path: string,
-  url: string
+  	params: {[string]: string},
+  	path: string,
+  	url: string
 }
