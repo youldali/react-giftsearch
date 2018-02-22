@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "core-js": "^2.5.3",
     "es6-promise": "^4.2.4",
     "isomorphic-fetch": "^2.2.1",
     "localforage": "^1.5.6",
