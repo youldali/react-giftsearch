@@ -77,12 +77,14 @@ export
 const createFilterFunctionCollectionStructure = () => {
 	const filtersFunctionsBelongingToFilterGroup: {[string]: FilterFunction[]} = {};
 	const filtersFunctionsWithoutGroup: Array<FilterFunction[]> = [];
-
+	const filtersGroupFunctionsLookupMap = new Map();
 	return {
 		addFilterFunction(filterFunction: FilterFunction, filterGroup: ?string){
-			return filterGroup ? 
-				this.addFilterFunctionWithFilterGroup(filterFunction, filterGroup) : 
-				this.addFilterFunctionWithoutFilterGroup(filterFunction);
+			return filterGroup
+					? filtersFunctionsBelongingToFilterGroup[filterGroup]
+						? this.saveFilterIntoFilterGroup(filterFunction, filterGroup)
+						: this.createNewFilterGroup(filterFunction, filterGroup)
+					: this.addFilterFunctionWithFilterGroup(filterFunction, filterGroup);
 		},
 
 		addFilterFunctionWithoutFilterGroup(filterFunction: FilterFunction){
@@ -90,17 +92,27 @@ const createFilterFunctionCollectionStructure = () => {
 			return this;
 		},
 
-		addFilterFunctionWithFilterGroup(filterFunction: FilterFunction, filterGroup: string){
-			const filterGroupFunctionCollection = filtersFunctionsBelongingToFilterGroup[filterGroup] || [];
-			filterGroupFunctionCollection.push(filterFunction);
+		createNewFilterGroup(filterFunction: FilterFunction, filterGroup: string){
+			const filterGroupFunctionCollection = [filterFunction];
 			filtersFunctionsBelongingToFilterGroup[filterGroup] = filterGroupFunctionCollection;
+			filtersGroupFunctionsLookupMap.set(filterGroupFunctionCollection, filterGroup);
 			return this;
 		},
 
-		getSortedFilterFunctionCollection(): FiltersFunctionsCollection{
+		saveFilterIntoFilterGroup(filterFunction: FilterFunction, filterGroup: string){
+			const filterGroupFunctionCollection = filtersFunctionsBelongingToFilterGroup[filterGroup]
+			filterGroupFunctionCollection.push(filterFunction);
+			return this;
+		},
+
+		getFilterData(): FiltersData{
 			const sortByLength = (a, b) => a.length - b.length;
 			const sortedArray = sort(sortByLength)(Object.values(filtersFunctionsBelongingToFilterGroup));
-			return concat(filtersFunctionsWithoutGroup, sortedArray);
+			const filtersFunctionsCollection = concat(filtersFunctionsWithoutGroup, sortedArray);
+			return {
+				filtersFunctionsCollection,
+				filtersGroupFunctionsLookupMap
+			}
 		}
 	};
 };
