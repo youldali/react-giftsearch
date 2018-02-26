@@ -1,6 +1,8 @@
 // @flow
 
 import type { FilterValue } from 'modules/actions/types';
+
+export type FilterGroup = string;
 export type FilterCriteria = {|field: string, operator: string, value?: FilterValue|};
 export type FiltersCriteriasCollection = {+[string]: $ReadOnlyArray<FilterCriteria>};
 export type FiltersGroupsCollection = { +[string]: string};

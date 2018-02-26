@@ -1,4 +1,4 @@
-import {evaluateSingleCriteria, makeFilterFunction, getFilterFunctionFromFilter, getFiltersFunctionsLookupMap, createFilterFunctionCollectionStructure, getFiltersFunctionsCollection, getFilteringData } from '../filterFunctionBuilder';
+import {evaluateSingleCriteria, evaluateCriteriaList, getFilterFunctionFromFilter, createFilterFunctionDataStructure, getFilteringDataFromFiltersTuples, getFilteringDataFromFilters } from '../filterFunctionBuilder';
 
 const gift1 = {'id': 1, 'name': 'Paris', 'price': 205, 'min_persons': 1,'max_persons': 1};
 const gift2 = {'id': 2, 'name': 'Lyon', 'price': 350, 'min_persons': 2,'max_persons': 2};
@@ -37,7 +37,7 @@ describe('evaluateSingleCriteria', () => {
 		const criteria = filtersCriteriasCollection['maxPrice'][0];
 		const filterValueFallback = 500;
 
-		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback, target);
+		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback)(target);
 		expect(isCriteriaFulfilled).toBe(true);
 	});
 
@@ -46,7 +46,7 @@ describe('evaluateSingleCriteria', () => {
 		const criteria = filtersCriteriasCollection['maxPrice'][0];
 		const filterValueFallback = 100;
 
-		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback, target);
+		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback)(target);
 		expect(isCriteriaFulfilled).toBe(false);
 	});		
 
@@ -56,7 +56,7 @@ describe('evaluateSingleCriteria', () => {
 		const criteria = filtersCriteriasCollection['forCouple'][0];
 		const filterValueFallback = undefined;
 
-		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback, target);
+		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback)(target);
 		expect(isCriteriaFulfilled).toBe(true);
 	});		
 
@@ -65,7 +65,7 @@ describe('evaluateSingleCriteria', () => {
 		const criteria = filtersCriteriasCollection['forCouple'][1];
 		const filterValueFallback = undefined;
 
-		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback, target);
+		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback)(target);
 		expect(isCriteriaFulfilled).toBe(false);
 	});		
 
@@ -74,7 +74,7 @@ describe('evaluateSingleCriteria', () => {
 		const criteria = filtersCriteriasCollection['id'][0];
 		const filterValueFallback = [2, 3, 4];
 
-		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback, target);
+		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback)(target);
 		expect(isCriteriaFulfilled).toBe(true);
 	});		
 
@@ -83,19 +83,19 @@ describe('evaluateSingleCriteria', () => {
 		const criteria = filtersCriteriasCollection['id'][0];
 		const filterValueFallback = [2, 4];;
 
-		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback, target);
+		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback)(target);
 		expect(isCriteriaFulfilled).toBe(false);
 	});	
 });
 
 
-describe('makeFilterFunction', () => {
+describe('evaluateCriteriaList', () => {
 	test('it should return true when the filter is fulfilled (1)', () => {
 		const target = gift1;
 		const criterias = filtersCriteriasCollection['maxPrice'];
 		const filterValueFallback = 500;
 
-		const areCriteriasFulfilled = makeFilterFunction(filterValueFallback, criterias)(target);
+		const areCriteriasFulfilled = evaluateCriteriaList(filterValueFallback, criterias)(target);
 		expect(areCriteriasFulfilled).toBe(true);
 	});		
 
@@ -104,7 +104,7 @@ describe('makeFilterFunction', () => {
 		const criterias = filtersCriteriasCollection['maxPrice'];
 		const filterValueFallback = 150;
 
-		const areCriteriasFulfilled = makeFilterFunction(filterValueFallback, criterias)(target);
+		const areCriteriasFulfilled = evaluateCriteriaList(filterValueFallback, criterias)(target);
 		expect(areCriteriasFulfilled).toBe(false);
 	});		
 
@@ -113,7 +113,7 @@ describe('makeFilterFunction', () => {
 		const criterias = filtersCriteriasCollection['forCouple'];
 		const filterValueFallback = undefined;
 
-		const areCriteriasFulfilled = makeFilterFunction(filterValueFallback, criterias)(target);
+		const areCriteriasFulfilled = evaluateCriteriaList(filterValueFallback, criterias)(target);
 		expect(areCriteriasFulfilled).toBe(true);
 	});		
 
@@ -122,7 +122,7 @@ describe('makeFilterFunction', () => {
 		const criterias = filtersCriteriasCollection['forCouple'];
 		const filterValueFallback = undefined;
 
-		const areCriteriasFulfilled = makeFilterFunction(filterValueFallback, criterias)(target);
+		const areCriteriasFulfilled = evaluateCriteriaList(filterValueFallback, criterias)(target);
 		expect(areCriteriasFulfilled).toBe(false);
 	});
 
@@ -131,7 +131,7 @@ describe('makeFilterFunction', () => {
 		const criterias = filtersCriteriasCollection['forPersonsRange'];
 		const filterValueFallback = 4;
 
-		const areCriteriasFulfilled = makeFilterFunction(filterValueFallback, criterias)(target);
+		const areCriteriasFulfilled = evaluateCriteriaList(filterValueFallback, criterias)(target);
 		expect(areCriteriasFulfilled).toBe(true);
 	});		
 
@@ -140,7 +140,7 @@ describe('makeFilterFunction', () => {
 		const criterias = filtersCriteriasCollection['forPersonsRange'];
 		const filterValueFallback = 4;
 
-		const areCriteriasFulfilled = makeFilterFunction(filterValueFallback, criterias)(target);
+		const areCriteriasFulfilled = evaluateCriteriaList(filterValueFallback, criterias)(target);
 		expect(areCriteriasFulfilled).toBe(false);
 	});
 });
@@ -159,35 +159,8 @@ describe('getFilterFunctionFromFilter', () => {
 	});		
 });
 
-describe('getFiltersFunctionsLookupMap', () => {
-	test('it should a lookupMap of the filter function, matching its infos: filterName & filterGroup', () => {
-		const appliedGetFilterFunctionFromFilter = getFilterFunctionFromFilter(filtersCriteriasCollection);
-		const filterFunctionObject = {
-			minPrice: appliedGetFilterFunctionFromFilter(50, 'minPrice'),
-			forCouple: appliedGetFilterFunctionFromFilter(true, 'forCouple'),
-			cityLyon: appliedGetFilterFunctionFromFilter(true, 'cityLyon'),
-		}
-		const filtersTuples = [
-			['minPrice', filterFunctionObject.minPrice],
-			['forCouple', filterFunctionObject.forCouple],
-			['cityLyon', filterFunctionObject.cityLyon]
-		];
-
-		const lookupMap = getFiltersFunctionsLookupMap(filtersGroupsCollection)(filtersTuples);
-		
-		const minPriceFunctionInfo = {filterName: 'minPrice', filterGroup: undefined};
-		expect(lookupMap.get(filterFunctionObject.minPrice)).toEqual(minPriceFunctionInfo);
-
-		const forCoupleFunctionInfo = {filterName: 'forCouple', filterGroup: 'person'};
-		expect(lookupMap.get(filterFunctionObject.forCouple)).toEqual(forCoupleFunctionInfo);
-
-		const cityLyonFunctionInfo = {filterName: 'cityLyon', filterGroup: 'location'};
-		expect(lookupMap.get(filterFunctionObject.cityLyon)).toEqual(cityLyonFunctionInfo);
-	});		
-});
-
-describe('createFilterFunctionCollectionStructure', () => {
-	test('it should return a correctly sorted FiltersFunctionsCollection', () => {
+describe('createFilterFunctionDataStructure', () => {
+	test('it should return an object with correctly sorted filterFunctionListByGroup (group with less function first), and the corresponding Map filterFunctionListMapped', () => {
 		const appliedGetFilterFunctionFromFilter = getFilterFunctionFromFilter(filtersCriteriasCollection);
 		const filterFunctionObject = {
 			minPrice: appliedGetFilterFunctionFromFilter(50, 'minPrice'),
@@ -198,7 +171,7 @@ describe('createFilterFunctionCollectionStructure', () => {
 			id: appliedGetFilterFunctionFromFilter([1,2], 'id'),
 		};
 
-		const filterFunctionStructure = createFilterFunctionCollectionStructure();
+		const filterFunctionStructure = createFilterFunctionDataStructure();
 		filterFunctionStructure.addFilterFunction(filterFunctionObject.minPrice);
 		filterFunctionStructure.addFilterFunction(filterFunctionObject.forCouple, 'person');
 		filterFunctionStructure.addFilterFunction(filterFunctionObject.cityLyon, 'location');
@@ -206,36 +179,41 @@ describe('createFilterFunctionCollectionStructure', () => {
 		filterFunctionStructure.addFilterFunction(filterFunctionObject.forSoloOnly, 'person');
 		filterFunctionStructure.addFilterFunction(filterFunctionObject.id);
 
-		const filtersFunctionsCollection = filterFunctionStructure.getSortedFilterFunctionCollection();
-		expect(filtersFunctionsCollection.length).toBe(5);
+		const {filterFunctionListByGroup, filterFunctionListMapped} = filterFunctionStructure.getFilteringData();
+		expect(filterFunctionListByGroup.length).toBe(5);
 
-		const group0 = filtersFunctionsCollection[0];
+		const group0 = filterFunctionListByGroup[0];
 		expect(group0.length).toBe(1);
 		expect(group0[0]).toBe(filterFunctionObject.minPrice);
+		expect(filterFunctionListMapped.get(group0)).toBeUndefined();
 
-		const group1 = filtersFunctionsCollection[1];
+		const group1 = filterFunctionListByGroup[1];
 		expect(group1.length).toBe(1);
 		expect(group1[0]).toBe(filterFunctionObject.maxPrice);
+		expect(filterFunctionListMapped.get(group1)).toBeUndefined();
 
-		const group2 = filtersFunctionsCollection[2];
+		const group2 = filterFunctionListByGroup[2];
 		expect(group2.length).toBe(1);
 		expect(group2[0]).toBe(filterFunctionObject.id);
+		expect(filterFunctionListMapped.get(group2)).toBeUndefined();
 
-		const group3 = filtersFunctionsCollection[3];
+		const group3 = filterFunctionListByGroup[3];
 		expect(group3.length).toBe(1);
 		expect(group3[0]).toBe(filterFunctionObject.cityLyon);
+		expect(filterFunctionListMapped.get(group3)).toBe('location');
 
-		const group4 = filtersFunctionsCollection[4];
+		const group4 = filterFunctionListByGroup[4];
 		expect(group4.length).toBe(2);
 		expect(group4[0]).toBe(filterFunctionObject.forCouple);
 		expect(group4[1]).toBe(filterFunctionObject.forSoloOnly);
+		expect(filterFunctionListMapped.get(group4)).toBe('person');
 
 	});		
 });
 
 
-describe('getFiltersFunctionsCollection', () => {
-	test('it should return a correctly sorted FiltersFunctionsCollection', () => {
+describe('getFilteringDataFromFiltersTuples', () => {
+	test('it should return get the correct FilterData', () => {
 		const appliedGetFilterFunctionFromFilter = getFilterFunctionFromFilter(filtersCriteriasCollection);
 		const filterFunctionObject = {
 			forCouple: appliedGetFilterFunctionFromFilter(true, 'forCouple'),
@@ -251,28 +229,31 @@ describe('getFiltersFunctionsCollection', () => {
 			['minPrice', filterFunctionObject.minPrice],
 		];
 
-		const filtersFunctionsCollection = getFiltersFunctionsCollection(filtersGroupsCollection)(filtersTuples);
-		expect(filtersFunctionsCollection.length).toBe(3);
+		const {filterFunctionListByGroup, filterFunctionListMapped} = getFilteringDataFromFiltersTuples(filtersGroupsCollection)(filtersTuples);
+		expect(filterFunctionListByGroup.length).toBe(3);
 
-		const group0 = filtersFunctionsCollection[0];
+		const group0 = filterFunctionListByGroup[0];
 		expect(group0.length).toBe(1);
 		expect(group0[0]).toBe(filterFunctionObject.minPrice);
+		expect(filterFunctionListMapped.get(group0)).toBeUndefined();
 
-		const group1 = filtersFunctionsCollection[1];
+		const group1 = filterFunctionListByGroup[1];
 		expect(group1.length).toBe(1);
 		expect(group1[0]).toBe(filterFunctionObject.cityLyon);
+		expect(filterFunctionListMapped.get(group1)).toBe('location');
 
-		const group2 = filtersFunctionsCollection[2];
+		const group2 = filterFunctionListByGroup[2];
 		expect(group2.length).toBe(2);
 		expect(group2[0]).toBe(filterFunctionObject.forCouple);
 		expect(group2[1]).toBe(filterFunctionObject.forSoloOnly);
+		expect(filterFunctionListMapped.get(group2)).toBe('person');
 
 	});	
 });
 
-describe('getFilteringData', () => {
-	test('it should return the filtersFunctionsLookupMap & filtersFunctionsCollection', () => {
-		const appliedGetFilteringData = getFilteringData(filtersCriteriasCollection)(filtersGroupsCollection);
+describe('getFilteringDataFromFilters', () => {
+	test('it should get the correct FilterData', () => {
+		const partiallyAppliedGetFilteringData = getFilteringDataFromFilters(filtersCriteriasCollection, filtersGroupsCollection);
 		const filters = {
 							maxPrice: 500,
 							minPrice: 100,
@@ -280,29 +261,19 @@ describe('getFilteringData', () => {
 							forSoloOnly: true,
 						};
 
-		const {filtersFunctionsCollection, filtersFunctionsLookupMap} = appliedGetFilteringData(filters);
-		expect(filtersFunctionsCollection.length).toBe(3);
+		const {filterFunctionListByGroup, filterFunctionListMapped} = partiallyAppliedGetFilteringData(filters);
+		expect(filterFunctionListByGroup.length).toBe(3);
 		
-		const group0 = filtersFunctionsCollection[0];
-		const filterFunctionMaxPrice = group0[0];
+		const group0 = filterFunctionListByGroup[0];
 		expect(group0.length).toBe(1);
-		expect(filtersFunctionsLookupMap.get(filterFunctionMaxPrice))
-			.toEqual({filterName: 'maxPrice', filterGroup: undefined});
+		expect(filterFunctionListMapped.get(group0)).toBeUndefined();
 
-		const group1 = filtersFunctionsCollection[1];
-		const filterFunctionMinPrice = group1[0];
+		const group1 = filterFunctionListByGroup[1];
 		expect(group1.length).toBe(1);
-		expect(filtersFunctionsLookupMap.get(filterFunctionMinPrice))
-			.toEqual({filterName: 'minPrice', filterGroup: undefined});
+		expect(filterFunctionListMapped.get(group1)).toBeUndefined();
 
-		const group2 = filtersFunctionsCollection[2];
-		const filterFunctionForCouple = group2[0];
-		const filterFunctionForSolo= group2[1];
+		const group2 = filterFunctionListByGroup[2];
 		expect(group2.length).toBe(2);
-		expect(filtersFunctionsLookupMap.get(filterFunctionForCouple))
-			.toEqual({filterName: 'forCouple', filterGroup: 'person'});
-		expect(filtersFunctionsLookupMap.get(filterFunctionForSolo))
-			.toEqual({filterName: 'forSoloOnly', filterGroup: 'person'});
-
+		expect(filterFunctionListMapped.get(group2)).toBe('person');
 	});		
 });
