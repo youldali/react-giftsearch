@@ -1,75 +1,63 @@
-
-import type { FiltersFunctionsLookupMap, FiltersFunctionsCollection } from './filterFunctionBuilder';
-
+//@flow
+import type { FilterFunctionListMapped, FilterFunctionListByGroup, FilterFunction } from './filterFunctionBuilder';
+import type { FilterGroup } from 'modules/gift-search/config';
+type FilteredObjectStatus = {|
+	+pass: boolean,
+	+filterGroupRejected?: FilterGroup
+|};
 
 /**
  ** filters an object for a group filter with || operator
  */
 export
-const filterObjectAgainstFilterGroup = (filterGroupCollection: FilterFunction[], target: Object): boolean => {
-	return
-	(function evaluateNextFilterFunction(iterator: Iterator<FilterFunction>): boolean{
-		//condition to get out of recursive call
-		const currentIteratorState = iterator.next();
-			if(currentIteratorState.done)
-				return false;
-
-		//eval the current criteria and ask for eval of the next one
-		const filterFunction = currentIteratorState.value;
-		return filterFunction(target) || evaluateNextFilterFunction(iterator);
-	})(filterGroupCollection[Symbol.iterator]());
-};
-
-
-export 
-function* evaluateNextGroupOfFilterFunction(iterator: Iterator<FilterFunction[]>): boolean{
+const filterObjectAgainstFilterGroup = 
+(filterFunctionList: FilterFunction[]) => 
+(target: Object): boolean => 
+(function evaluateNextFilterFunction(iterator: Iterator<FilterFunction>): boolean{
 	//condition to get out of recursive call
 	const currentIteratorState = iterator.next();
-	if(currentIteratorState.done)
-		return {pass: true};
+		if(currentIteratorState.done)
+			return false;
 
 	//eval the current criteria and ask for eval of the next one
-	const groupOfFilterFunction = currentIteratorState.value;
+	const filterFunction = currentIteratorState.value;
+	return filterFunction(target) || evaluateNextFilterFunction(iterator);
 
-	return filterObjectAgainstFilterGroup(groupOfFilterFunction, target) 
-			? evaluateNextGroupOfFilterFunction(iterator)
-			: {pass: false, group: groupOfFilterFunction};
-
-};
+	// $FlowFixMe
+})(filterFunctionList[Symbol.iterator]());
 
 /**
  * Returns a filter function
  */
 export
-const filterObjectWithFilterFunctionCollection = 
-(filtersFunctionsCollection: FiltersFunctionsCollection) => 
+const filterObjectAgainstFilterFunctionListByGroup = 
+(filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMapped: FilterFunctionListMapped) => 
 (target: Object) => 
-(function* evaluateNextGroupOfFilterFunction(iterator: Iterator<FilterFunction[]>): boolean{
+(function* evaluateNextGroupOfFilterFunction(iterator: Iterator<FilterFunction[]>): Generator<FilteredObjectStatus, void, Iterator<FilterFunction[]>>{
 	//condition to get out of recursive call
 	const currentIteratorState = iterator.next();
 	if(currentIteratorState.done){
 		yield {pass: true};
 		return;
 	}
-	
+
 	//eval the current criteria and ask for eval of the next one
-	const groupOfFilterFunction = currentIteratorState.value;
-	if(!filterObjectAgainstFilterGroup(groupOfFilterFunction, target) )
-		yield {pass: false, group: groupOfFilterFunction};
+	const filterFunctionListForGroup = currentIteratorState.value;
+	if(!filterObjectAgainstFilterGroup(filterFunctionListForGroup)(target))
+		yield {pass: false, filterGroupRejected: filterFunctionListMapped.get(filterFunctionListForGroup)};
 	
 	yield* evaluateNextGroupOfFilterFunction(iterator);
 
-})(filtersFunctionsCollection[Symbol.iterator]());
-
-
+	// $FlowFixMe
+})(filterFunctionListByGroup[Symbol.iterator]());
 
 
 export
 const filter = 
-(filtersFunctionsCollection: FiltersFunctionsCollection, filtersFunctionsLookupMap: FiltersFunctionsLookupMap) =>
+(filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMapped: FilterFunctionListMapped) =>
 (target: Object) =>
 {
-	return filterObjectWithFilterFunctionCollection(filtersFunctionsCollection)(target);
+	return filterObjectAgainstFilterFunctionListByGroup(filterFunctionListByGroup, filterFunctionListMapped)(target);
 };
 
 export default filter;

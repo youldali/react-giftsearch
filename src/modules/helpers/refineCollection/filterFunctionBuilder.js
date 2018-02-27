@@ -8,11 +8,11 @@ import { mapObjIndexed, compose, sort, concat } from 'ramda';
 import type { FiltersCriteriasCollection, FiltersGroupsCollection, FilterCriteria, FilterGroup } from 'modules/gift-search/config';
 import type { FilterName, FilterValue, Filters } from 'modules/actions/types';
 
-type FilterFunction = (target: Object) => boolean;
-type FilterFunctionListByGroup = Array<FilterFunction[]>;
-type FilterTuple = [FilterName, FilterFunction];
-type FilterFunctionListMapped = Map<FilterFunction[], FilterGroup>;
-type FiltersData = {
+export type FilterFunction = (target: Object) => boolean;
+export type FilterFunctionListByGroup = Array<FilterFunction[]>;
+export type FilterTuple = [FilterName, FilterFunction];
+export type FilterFunctionListMapped = Map<FilterFunction[], FilterGroup>;
+export type FiltersData = {
 	filterFunctionListByGroup: FilterFunctionListByGroup, 
 	filterFunctionListMapped: FilterFunctionListMapped
 }
