@@ -85,3 +85,77 @@ describe('filterObjectAgainstFilterFunctionListByGroup', () => {
 		expect(valueIteration3).toEqual({pass: true});	
 	});				
 });
+
+describe('filter', () => {
+	test('Should return a filterStatus to true if it receives true all', () => {
+		const f1G1 = (target) => ( true );
+		const f2G1 = (target) => ( false );
+		const f3G1 = (target) => ( true );
+		const filterCollectionGroup1 = [f1G1, f2G1, f3G1];	
+
+		const f1G2 = (target) => ( true );
+		const f2G2 = (target) => ( false );
+		const filterCollectionGroup2 = [f1G2, f2G2];
+
+		const filterFunctionListMapped = new Map()
+			.set(filterCollectionGroup1, 'group1')
+			.set(filterCollectionGroup2, 'group2');
+
+		const filterFunctionListByGroup = [filterCollectionGroup1, filterCollectionGroup2];
+		const filterStatus = filter(filterFunctionListByGroup, filterFunctionListMapped)({});
+
+		expect(filterStatus).toEqual({pass: true});
+	});
+
+	test('Should return a filterStatus to false, and the filterGroup that failed if only one failed', () => {
+		const f1G1 = (target) => ( true );
+		const f2G1 = (target) => ( false );
+		const f3G1 = (target) => ( true );
+		const filterCollectionGroup1 = [f1G1, f2G1, f3G1];	
+
+		const f1G2 = (target) => ( false );
+		const f2G2 = (target) => ( true );
+		const filterCollectionGroup2 = [f1G2, f2G2];
+
+		const f1G3 = (target) => ( false );
+		const filterCollectionGroup3 = [f1G3];
+
+		const filterFunctionListMapped = new Map()
+			.set(filterCollectionGroup1, 'group1')
+			.set(filterCollectionGroup2, 'group2')
+			.set(filterCollectionGroup3, 'group3');
+
+		const filterFunctionListByGroup = [filterCollectionGroup1, filterCollectionGroup2, filterCollectionGroup3];
+		const filterStatus = filter(filterFunctionListByGroup, filterFunctionListMapped)({});
+
+		expect(filterStatus).toEqual({pass: false, filterGroupRejected: 'group3'});
+	});
+
+	test('Should return a filterStatus to false and no filter group if at least 2 groups of filter failed', () => {
+		const f1G1 = (target) => ( true );
+		const f2G1 = (target) => ( false );
+		const f3G1 = (target) => ( true );
+		const filterCollectionGroup1 = [f1G1, f2G1, f3G1];	
+
+		const f1G2 = (target) => ( false );
+		const f2G2 = (target) => ( true );
+		const filterCollectionGroup2 = [f1G2, f2G2];
+
+		const f1G3 = (target) => ( false );
+		const filterCollectionGroup3 = [f1G3];
+
+		const f1G4 = (target) => ( false );
+		const filterCollectionGroup4 = [f1G4];
+
+		const filterFunctionListMapped = new Map()
+			.set(filterCollectionGroup1, 'group1')
+			.set(filterCollectionGroup2, 'group2')
+			.set(filterCollectionGroup3, 'group3')
+			.set(filterCollectionGroup4, 'group4');
+
+		const filterFunctionListByGroup = [filterCollectionGroup1, filterCollectionGroup2, filterCollectionGroup3, filterCollectionGroup4];
+		const filterStatus = filter(filterFunctionListByGroup, filterFunctionListMapped)({});
+
+		expect(filterStatus).toEqual({pass: false});
+	});
+});

@@ -1,6 +1,8 @@
 //@flow
 import type { FilterFunctionListMapped, FilterFunctionListByGroup, FilterFunction } from './filterFunctionBuilder';
 import type { FilterGroup } from 'modules/gift-search/config';
+
+export
 type FilteredObjectStatus = {|
 	+pass: boolean,
 	+filterGroupRejected?: FilterGroup
@@ -54,10 +56,22 @@ const filterObjectAgainstFilterFunctionListByGroup =
 
 export
 const filter = 
-(filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMapped: FilterFunctionListMapped) =>
-(target: Object) =>
+(filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMapped: FilterFunctionListMapped) => 
+(target: Object): FilteredObjectStatus =>
 {
-	return filterObjectAgainstFilterFunctionListByGroup(filterFunctionListByGroup, filterFunctionListMapped)(target);
+	const iteratorOnFilter = filterObjectAgainstFilterFunctionListByGroup(filterFunctionListByGroup, filterFunctionListMapped)(target);
+	const filteringStatus = iteratorOnFilter.next().value || {pass: true};
+	const filteringStatus2 = iteratorOnFilter.next().value;
+
+	//case 1: the object pass => we return the 1st iteration {pass: true}
+	//case 2: the object is rejected by 1 filter only: we return the first iteration {pass:false, filterGroupRejected: FilterGroup}
+	//case 3: the object is rejected by 2 filters: we return {pass: false};
+	return ( filteringStatus.pass || (filteringStatus2 && filteringStatus2.pass) 
+			? filteringStatus
+			: {pass: false} 
+	);
+
 };
+
 
 export default filter;

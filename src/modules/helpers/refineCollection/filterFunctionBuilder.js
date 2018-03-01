@@ -67,11 +67,12 @@ const createFilterFunctionDataStructure = () => {
 
 	return {
 		addFilterFunction(filterFunction: FilterFunction, filterGroup: ?string){
-			return filterGroup
-					? filtersFunctionsMappedToFilterGroup[filterGroup]
-						? this.saveFilterFunctionIntoGroup(filterFunction, filterGroup)
-						: this.addFilterFunctionToNewGroup(filterFunction, filterGroup)
-					: this.addFilterFunctionToNoGroupList(filterFunction);
+			return (
+				!filterGroup 
+					? this.addFilterFunctionToNoGroupList(filterFunction) :
+				filtersFunctionsMappedToFilterGroup[filterGroup] 
+					? this.saveFilterFunctionIntoGroup(filterFunction, filterGroup) : this.addFilterFunctionToNewGroup(filterFunction, filterGroup)
+			);
 		},
 
 		addFilterFunctionToNoGroupList(filterFunction: FilterFunction){
