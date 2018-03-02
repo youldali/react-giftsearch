@@ -46,4 +46,10 @@ const createFilterStatisticStructure = () => {
     };
 };
 
+
+export const findNumberForFilter = (loggerMap: LoggerMap, filterGroup: FilterGroup, listValidId: number[]): number => {
+
+    return 0;
+};
+
 export default createFilterStatisticStructure;

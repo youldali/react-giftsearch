@@ -1,4 +1,5 @@
 //@flow
+import { curry } from 'ramda';
 import type { FilterFunctionListMapped, FilterFunctionListByGroup, FilterFunction } from './filterFunctionBuilder';
 import type { FilterGroup } from 'modules/gift-search/config';
 
@@ -11,10 +12,8 @@ type FilteredObjectStatus = {|
 /**
  ** filters an object for a group filter with || operator
  */
-export
-const filterObjectAgainstFilterGroup = 
-(filterFunctionList: FilterFunction[]) => 
-(target: Object): boolean => 
+const _filterObjectAgainstFilterGroup = 
+(filterFunctionList: FilterFunction[], target: Object): boolean => 
 (function evaluateNextFilterFunction(iterator: Iterator<FilterFunction>): boolean{
 	//condition to get out of recursive call
 	const currentIteratorState = iterator.next();
@@ -28,13 +27,14 @@ const filterObjectAgainstFilterGroup =
 	// $FlowFixMe
 })(filterFunctionList[Symbol.iterator]());
 
+export const filterObjectAgainstFilterGroup = curry(_filterObjectAgainstFilterGroup);
+
 /**
  * Returns a filter function
  */
-export
-const filterObjectAgainstFilterFunctionListByGroup = 
-(filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMapped: FilterFunctionListMapped) => 
-(target: Object) => 
+
+const _filterObjectAgainstFilterFunctionListByGroup = 
+(filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMapped: FilterFunctionListMapped, target: Object) => 
 (function* evaluateNextGroupOfFilterFunction(iterator: Iterator<FilterFunction[]>): Generator<FilteredObjectStatus, void, Iterator<FilterFunction[]>>{
 	//condition to get out of recursive call
 	const currentIteratorState = iterator.next();
@@ -53,11 +53,11 @@ const filterObjectAgainstFilterFunctionListByGroup =
 	// $FlowFixMe
 })(filterFunctionListByGroup[Symbol.iterator]());
 
+export const filterObjectAgainstFilterFunctionListByGroup = curry(_filterObjectAgainstFilterFunctionListByGroup);
 
-export
-const filter = 
-(filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMapped: FilterFunctionListMapped) => 
-(target: Object): FilteredObjectStatus =>
+
+const _filter = 
+(filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMapped: FilterFunctionListMapped, target: Object): FilteredObjectStatus =>
 {
 	const iteratorOnFilter = filterObjectAgainstFilterFunctionListByGroup(filterFunctionListByGroup, filterFunctionListMapped)(target);
 	const filteringStatus = iteratorOnFilter.next().value || {pass: true};
@@ -73,5 +73,6 @@ const filter =
 
 };
 
+export const filter = curry(_filter);
 
 export default filter;
