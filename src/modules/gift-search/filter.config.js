@@ -7,8 +7,14 @@ export type FilterCriteria = {|field: string, operator: string, value?: FilterVa
 export type FiltersCriteriasCollection = {+[string]: $ReadOnlyArray<FilterCriteria>};
 export type FiltersGroupsCollection = { +[string]: string};
 
+export type FilterConfig = {
+	filtersCriterias: FiltersCriteriasCollection, 
+	filtersGroups: FiltersGroupsCollection,
+	fieldsToIndex: string[]
+}
+
 export
-const filterConfigBase: {filtersCriterias: FiltersCriteriasCollection, filtersGroups: FiltersGroupsCollection} = {
+const filterConfigBase: FilterConfig = {
 	filtersCriterias: {
 		maxPrice: [{ 'field': 'rawPrice', 'operator': '<=' }],
 		minPrice: [{ 'field': 'rawPrice', 'operator': '>=' }],
@@ -24,10 +30,12 @@ const filterConfigBase: {filtersCriterias: FiltersCriteriasCollection, filtersGr
 		forPersonsRange: 'person',
 		forOnePerson: 'person',
 		forCouple: 'person',
-	}
+	},
+
+	fieldsToIndex: ['id', 'price']
 };
 
-const filterConfigAdventure: {filtersCriterias: FiltersCriteriasCollection, filtersGroups: FiltersGroupsCollection} = {
+const filterConfigAdventure: FilterConfig = {
 	filtersCriterias: {
 		...filterConfigBase.filtersCriterias,
 		extreme: [{ 'field': 'extreme', 'operator': '<=' }],
@@ -35,10 +43,12 @@ const filterConfigAdventure: {filtersCriterias: FiltersCriteriasCollection, filt
 
 	filtersGroups: {
 		...filterConfigBase.filtersGroups
-	}
+	},
+
+	fieldsToIndex: [...filterConfigBase.fieldsToIndex, 'extreme']
 };
 
-const filterConfigSejour: {filtersCriterias: FiltersCriteriasCollection, filtersGroups: FiltersGroupsCollection} = {
+const filterConfigSejour: FilterConfig = {
 	filtersCriterias: {
 		...filterConfigBase.filtersCriterias,
 		oneNight: [{ 'field': 'oneNight', 'operator': '===', 'value': true }],
@@ -50,7 +60,9 @@ const filterConfigSejour: {filtersCriterias: FiltersCriteriasCollection, filters
 		...filterConfigBase.filtersGroups,
 		oneNight: 'night',
 		twoNight: 'night',
-	}
+	},
+
+	fieldsToIndex: [...filterConfigBase.fieldsToIndex, 'oneNight', 'twoNight']
 };
 
 
