@@ -1,14 +1,17 @@
 //@flow
 
-import type { FilterGroup } from 'modules/gift-search/config';
+import type { FilterGroup } from 'modules/gift-search/filter.config';
 import type { FilteredObjectStatus } from './filter';
 
-type LoggerMap = Map<string | boolean, number[]>;
+import { findIntersectionOfSortedArrays } from 'helpers/array/utils'
+import { curry } from 'ramda';
+
+type FilteredObjectIdsMappedByGroup = Map<string | boolean, number[]>;
 
 export
 const createFilterStatisticStructure = () => {
-    const loggerMap: LoggerMap = new Map();
-    loggerMap
+    const filteredObjectIdsMappedByGroup: FilteredObjectIdsMappedByGroup = new Map();
+    filteredObjectIdsMappedByGroup
         .set(true, [])
         .set(false, []);
 
@@ -24,7 +27,7 @@ const createFilterStatisticStructure = () => {
 
         addToBoolean(hasPassed: boolean, id: number){
             // $FlowFixMe
-            loggerMap
+            filteredObjectIdsMappedByGroup
                 .get(hasPassed)
                 .push(id);
             
@@ -32,24 +35,27 @@ const createFilterStatisticStructure = () => {
         },
 
         addToGroup(group: FilterGroup, id: number){
-            const listForGroup = loggerMap.get(group);
+            const listForGroup = filteredObjectIdsMappedByGroup.get(group);
             listForGroup 
                 ? listForGroup.push(id)
-                : loggerMap.set(group, [id]);
+                : filteredObjectIdsMappedByGroup.set(group, [id]);
 
             return this;
         },
 
-        getLoggerMap(group: FilterGroup, id: number): LoggerMap {
-            return new Map(loggerMap);
+        getfilteredObjectIdsMappedByGroup(group: FilterGroup, id: number): FilteredObjectIdsMappedByGroup {
+            return new Map(filteredObjectIdsMappedByGroup);
         }
     };
 };
 
 
-export const findNumberForFilter = (loggerMap: LoggerMap, filterGroup: FilterGroup, listValidId: number[]): number => {
-
-    return 0;
+const _findNumberOfItemMatchingFilter = (filteredObjectIdsMappedByGroup: FilteredObjectIdsMappedByGroup, listOfIdsMatchingFilter: number[], filterGroup: FilterGroup, isFilterSelected: boolean): number[] => {
+    const findIntersectionWithIdsMatchingFilters = findIntersectionOfSortedArrays(listOfIdsMatchingFilter);
+    return (
+        isFilterSelected ? findIntersectionWithIdsMatchingFilters(filteredObjectIdsMappedByGroup.get(true)) :
+        filterGroup === undefined ? findIntersectionWithIdsMatchingFilters(filteredObjectIdsMappedByGroup.get(true)) : findIntersectionWithIdsMatchingFilters(filteredObjectIdsMappedByGroup.get(filterGroup))
+    );
 };
 
-export default createFilterStatisticStructure;
+export const findNumberOfItemMatchingFilter = curry(_findNumberOfItemMatchingFilter);
