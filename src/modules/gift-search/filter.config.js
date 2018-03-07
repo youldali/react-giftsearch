@@ -10,7 +10,6 @@ export type FiltersGroupsCollection = { +[string]: string};
 export type FilterConfig = {
 	filtersCriterias: FiltersCriteriasCollection, 
 	filtersGroups: FiltersGroupsCollection,
-	fieldsToIndex: string[]
 }
 
 export
@@ -31,8 +30,6 @@ const filterConfigBase: FilterConfig = {
 		forOnePerson: 'person',
 		forCouple: 'person',
 	},
-
-	fieldsToIndex: ['id', 'price']
 };
 
 const filterConfigAdventure: FilterConfig = {
@@ -44,8 +41,6 @@ const filterConfigAdventure: FilterConfig = {
 	filtersGroups: {
 		...filterConfigBase.filtersGroups
 	},
-
-	fieldsToIndex: [...filterConfigBase.fieldsToIndex, 'extreme']
 };
 
 const filterConfigSejour: FilterConfig = {
@@ -61,8 +56,6 @@ const filterConfigSejour: FilterConfig = {
 		oneNight: 'night',
 		twoNight: 'night',
 	},
-
-	fieldsToIndex: [...filterConfigBase.fieldsToIndex, 'oneNight', 'twoNight']
 };
 
 

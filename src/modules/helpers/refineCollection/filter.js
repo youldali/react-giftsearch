@@ -1,7 +1,7 @@
 //@flow
 import { curry } from 'ramda';
 import type { FilterFunctionListMapped, FilterFunctionListByGroup, FilterFunction } from './filterFunctionBuilder';
-import type { FilterGroup } from 'modules/gift-search/config';
+import type { FilterGroup } from 'modules/gift-search/filter.config';
 
 export
 type FilteredObjectStatus = {|
