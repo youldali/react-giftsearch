@@ -5,7 +5,7 @@ import 'core-js/fn/object/values';
 import operators from './operators';
 import { mapObjIndexed, compose, sort, concat, curry } from 'ramda';
 
-import type { FiltersCriteriasCollection, FiltersGroupsCollection, FilterCriteria, FilterGroup } from 'modules/gift-search/config';
+import type { FiltersCriteriasCollection, FiltersGroupsCollection, FilterCriteria, FilterGroup } from 'modules/gift-search/filter.config';
 import type { FilterName, FilterValue, Filters } from 'modules/actions/types';
 
 export type FilterFunction = (target: Object) => boolean;
@@ -21,41 +21,18 @@ export type FiltersData = {
  * evaluate a single criteria
  */
 
-const _evaluateSingleCriteria = 
+const _evaluateCriteria = 
 (criteria: FilterCriteria, filterValueFallback: FilterValue, target: Object): boolean => {
 	const {field, operator, value} = criteria;
-	const filterValue = value === undefined ? filterValueFallback : value;
+	const filterValue = value || filterValueFallback;
 	return operators[operator](target[field], filterValue);
 };
-
-export const evaluateSingleCriteria = curry(_evaluateSingleCriteria);
-
-/**
- * Returns a filter function that evaluates a filter name associated with a list of criterias
- */
-
-const _evaluateCriteriaList = 
-(filterValueFallback: FilterValue, criterias: $ReadOnlyArray<FilterCriteria>, target: Object): boolean =>
-(function evaluateNextCriteria (iterator: Iterator<FilterCriteria>): boolean {
-	//condition to get out of recursive call
-	const currentIteratorState = iterator.next();
-	if(currentIteratorState.done)
-		return true;
-
-	//eval the current criteria and ask for eval of the next one
-	const criteria = currentIteratorState.value;
-	return evaluateSingleCriteria(criteria, filterValueFallback)(target) && evaluateNextCriteria(iterator);
-
-	// $FlowFixMe
-})(criterias[Symbol.iterator]());
-
-export const evaluateCriteriaList = curry(_evaluateCriteriaList);
+export const evaluateCriteria = curry(_evaluateCriteria);
 
 // FiltersCriterias -> FilterValue, FilterName -> FilterFunction
-
 const _getFilterFunctionFromFilter = 
 (filtersCriteriasCollection: FiltersCriteriasCollection, filterValue: FilterValue, filterName: FilterName): FilterFunction => 
-evaluateCriteriaList(filterValue, filtersCriteriasCollection[filterName]);
+evaluateCriteria(filtersCriteriasCollection[filterName], filterValue);
 
 export const getFilterFunctionFromFilter = curry(_getFilterFunctionFromFilter);
 
@@ -119,7 +96,6 @@ const _getFilteringDataFromFiltersTuples =
 	const filterFunctionCollectionStructure = filtersTuples.reduce(reducer, createFilterFunctionDataStructure());
 	return filterFunctionCollectionStructure.getFilteringData();
 };
-
 export const getFilteringDataFromFiltersTuples = curry(_getFilteringDataFromFiltersTuples);
 
 

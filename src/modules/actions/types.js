@@ -1,6 +1,8 @@
 // @flow
 
-export type FilterValue = number | string | boolean | Array<number>;
+export type Operator = '<' | '<=' | '>' | '>=' | '==' | '===' | 'isIncluded' | 'hasOneInCommon';
+
+export type FilterValue = number | string | number[] | string[];
 export type FilterName = string;
 export type Filters = { [FilterName]: FilterValue};
 export type DisplayType = 'list' | 'card';

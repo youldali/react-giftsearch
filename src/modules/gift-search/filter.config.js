@@ -1,10 +1,10 @@
 // @flow
 
-import type { FilterValue } from 'modules/actions/types';
+import type { FilterName, FilterValue, Operator } from 'modules/actions/types';
 
 export type FilterGroup = string;
 export type FilterCriteria = {|field: string, operator: string, value?: FilterValue|};
-export type FiltersCriteriasCollection = {+[string]: $ReadOnlyArray<FilterCriteria>};
+export type FiltersCriteriasCollection = {+[FilterName]: FilterCriteria};
 export type FiltersGroupsCollection = { +[string]: string};
 
 export type FilterConfig = {
@@ -15,18 +15,24 @@ export type FilterConfig = {
 export
 const filterConfigBase: FilterConfig = {
 	filtersCriterias: {
-		maxPrice: [{ 'field': 'rawPrice', 'operator': '<=' }],
-		minPrice: [{ 'field': 'rawPrice', 'operator': '>=' }],
-		forPersonsRange: [{ 'field': 'min_persons', 'operator': '<=' }, { 'field': 'max_persons', 'operator': '>=' }],
-		forOnePerson: [{ 'field': 'min_persons', 'operator': '===', 'value': 1 }, { 'field': 'max_persons', 'operator': '>=', 'value': 1 }],
-		forCouple: [{ 'field': 'min_persons', 'operator': '===', 'value': 2 }, { 'field': 'max_persons', 'operator': '===', 'value': 2 }],
-		mostPopular: [{ 'field': 'show_rating', 'operator': '===', 'value': true }, { 'field': 'rating', 'operator': '>=', 'value': '8' }],
-		excluWeb: [{ 'field': 'web_exclusive', 'operator': '===', 'value': true }],
-		elasticSearch: [{ 'field': 'id', 'operator': 'isIncluded'}]
+		priceRange1: { field: 'price', operator: 'inRangeOpenClosed', value: [0, 50]},
+        priceRange2: { field: 'price', operator: 'inRangeOpenClosed', value: [50, 100]},
+        priceRange3: { field: 'price', operator: 'inRangeOpenClosed', value: [100, 200]},
+        priceRange4: { field: 'price', operator: '>', value: 200} ,
+
+        forOnePerson: { field: 'forOnePerson', operator: '===', value: 1 },
+        forCouple: { field: 'forCouple', operator: '===', value: 1 },
+
+        excluWeb: { field: 'webExclusive', operator: '===', value: 1 },
+        experienceType: { field: 'experienceType', operator: 'hasOneInCommon' }
 	},
 
 	filtersGroups: {
-		forPersonsRange: 'person',
+		priceRange1: 'price',
+		priceRange2: 'price',
+		priceRange3: 'price',
+		priceRange4: 'price',
+
 		forOnePerson: 'person',
 		forCouple: 'person',
 	},
@@ -35,7 +41,7 @@ const filterConfigBase: FilterConfig = {
 const filterConfigAdventure: FilterConfig = {
 	filtersCriterias: {
 		...filterConfigBase.filtersCriterias,
-		extreme: [{ 'field': 'extreme', 'operator': '<=' }],
+		extreme: { field: 'extreme', operator: '===', value: 1 }
 	},
 
 	filtersGroups: {
@@ -46,9 +52,8 @@ const filterConfigAdventure: FilterConfig = {
 const filterConfigSejour: FilterConfig = {
 	filtersCriterias: {
 		...filterConfigBase.filtersCriterias,
-		oneNight: [{ 'field': 'oneNight', 'operator': '===', 'value': true }],
-		twoNight: [{ 'field': 'twoNight', 'operator': '===', 'value': true }],
-		theme: [{ 'field': 'theme', 'operator': 'isIncluded' }]
+		oneNight: { field: 'oneNight', operator: '===', value: 1 },
+		twoNight: { field: 'twoNight', operator: '===', value: 1 },
 	},
 
 	filtersGroups: {
@@ -57,5 +62,3 @@ const filterConfigSejour: FilterConfig = {
 		twoNight: 'night',
 	},
 };
-
-

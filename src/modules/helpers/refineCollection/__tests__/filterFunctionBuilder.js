@@ -1,26 +1,29 @@
-import {evaluateSingleCriteria, evaluateCriteriaList, getFilterFunctionFromFilter, createFilterFunctionDataStructure, getFilteringDataFromFiltersTuples, getFilteringDataFromFilters } from '../filterFunctionBuilder';
+import {evaluateCriteria, getFilterFunctionFromFilter, createFilterFunctionDataStructure, getFilteringDataFromFiltersTuples, getFilteringDataFromFilters } from '../filterFunctionBuilder';
 
-const gift1 = {'id': 1, 'name': 'Paris', 'price': 205, 'min_persons': 1,'max_persons': 1};
-const gift2 = {'id': 2, 'name': 'Lyon', 'price': 350, 'min_persons': 2,'max_persons': 2};
-const gift3 = {'id': 3, 'name': 'Barcelona', 'price': 700.5, 'min_persons': 2,'max_persons': 6};
-const gift4 = {'id': 4, 'name': 'Lyon', 'price': 990, 'min_persons': 1,'max_persons': 1};
-const gift5 = {'id': 5, 'name': 'Dublin', 'price': 55, 'min_persons': 2,'max_persons': 2};
-const gift6 = {'id': 6, 'name': 'Lyon', 'price': 700, 'min_persons': 3,'max_persons': 7};
+const gift1 = {'id': 1, 'name': 'Paris', 'price': 25, forOnePerson: 1, forCouple: 0, experienceType: ['boat', 'car', 'parachute']};
+const gift2 = {'id': 2, 'name': 'Lyon', 'price': 40, forOnePerson: 0, forCouple: 1, experienceType: ['car']};
+const gift3 = {'id': 3, 'name': 'Barcelona', 'price': 120, forOnePerson: 1, forCouple: 0, experienceType: ['boat']};
+const gift4 = {'id': 4, 'name': 'Lyon', 'price': 199, forOnePerson: 1, forCouple: 0, experienceType: ['boat', 'plane']};
+const gift5 = {'id': 5, 'name': 'Dublin', 'price': 301, forOnePerson: 1, forCouple: 1, experienceType: ['parachute']};
+const gift6 = {'id': 6, 'name': 'Lyon', 'price': 700, forOnePerson: 0, forCouple: 1, experienceType: ['boat', 'car']};
 
 const giftCollection = [gift1, gift2, gift3, gift4, gift5, gift6];
 
 const filtersCriteriasCollection = {
-	'maxPrice': [{ 'field': 'price', 'operator': '<=' }],
-	'minPrice': [{ 'field': 'price', 'operator': '>=' }],
+	priceRange1: { field: 'price', operator: 'inRangeOpenClosed', value: [0, 50]},
+	priceRange2: { field: 'price', operator: 'inRangeOpenClosed', value: [50, 100]},
+	priceRange3: { field: 'price', operator: 'inRangeOpenClosed', value: [100, 200]},
+ 	priceRange4: { field: 'price', operator: '>', value: 200} ,
 
-	'forPersonsRange': [{ 'field': 'min_persons', 'operator': '<=' }, { 'field': 'max_persons', 'operator': '>=' }],
-	'forSoloOnly': [{ 'field': 'min_persons', 'operator': '===', 'value': 1 }, { 'field': 'max_persons', 'operator': '===', 'value': 1 }],
-	'forCouple': [{ 'field': 'min_persons', 'operator': '===', 'value': 2 }, { 'field': 'max_persons', 'operator': '===', 'value': 2 }],
+	forOnePerson: { field: 'forOnePerson', operator: '===', value: 1 },
+	forCouple: { field: 'forCouple', operator: '===', value: 1 },
 
-	'city': [{ 'field': 'name', 'operator': '===' }],
-	'cityLyon': [{ 'field': 'name', 'operator': '===', 'value': 'Lyon' }],
+	city: { 'field': 'name', 'operator': '===' },
+	cityLyon: { 'field': 'name', 'operator': '===', 'value': 'Lyon' },
 
-	'id': [{ 'field': 'id', 'operator': 'isIncluded'}],
+	id: { 'field': 'id', 'operator': 'isIncluded'},
+	excluWeb: { field: 'webExclusive', operator: '===', value: 1 },
+	experienceType: { field: 'experienceType', operator: 'hasOneInCommon' }
 };
 
 const filtersGroupsCollection = {
@@ -31,120 +34,76 @@ const filtersGroupsCollection = {
 	cityLyon: 'location',
 };
 
-describe('evaluateSingleCriteria', () => {
+describe('evaluateCriteria', () => {
 	test('it should return true when the criteria is fulfilled (1)', () => {
 		const target = gift1;
-		const criteria = filtersCriteriasCollection['maxPrice'][0];
-		const filterValueFallback = 500;
+		const criteria = filtersCriteriasCollection['priceRange1'];
 
-		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback)(target);
+		const isCriteriaFulfilled = evaluateCriteria(criteria, true)(target);
 		expect(isCriteriaFulfilled).toBe(true);
 	});
 
 	test('it should return false when the criteria is not fulfilled (1)', () => {
 		const target = gift1;
-		const criteria = filtersCriteriasCollection['maxPrice'][0];
-		const filterValueFallback = 100;
+		const criteria = filtersCriteriasCollection['priceRange4'];
 
-		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback)(target);
+		const isCriteriaFulfilled = evaluateCriteria(criteria, true)(target);
 		expect(isCriteriaFulfilled).toBe(false);
 	});		
 
 
 	test('it should return true when the criteria is fulfilled (2)', () => {
-		const target = gift3;
-		const criteria = filtersCriteriasCollection['forCouple'][0];
-		const filterValueFallback = undefined;
+		const target = gift5;
+		const criteria = filtersCriteriasCollection['forCouple'];
 
-		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback)(target);
+		const isCriteriaFulfilled = evaluateCriteria(criteria, true)(target);
 		expect(isCriteriaFulfilled).toBe(true);
 	});		
 
 	test('it should return false when the criteria is not fulfilled (2)', () => {
-		const target = gift3;
-		const criteria = filtersCriteriasCollection['forCouple'][1];
-		const filterValueFallback = undefined;
+		const target = gift4;
+		const criteria = filtersCriteriasCollection['forCouple'];
 
-		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback)(target);
+		const isCriteriaFulfilled = evaluateCriteria(criteria, true)(target);
 		expect(isCriteriaFulfilled).toBe(false);
 	});		
 
 	test('it should return true when the criteria is fulfilled (3)', () => {
 		const target = gift3;
-		const criteria = filtersCriteriasCollection['id'][0];
+		const criteria = filtersCriteriasCollection['id'];
 		const filterValueFallback = [2, 3, 4];
-
-		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback)(target);
+		
+		const isCriteriaFulfilled = evaluateCriteria(criteria, filterValueFallback)(target);
 		expect(isCriteriaFulfilled).toBe(true);
 	});		
 
 	test('it should return false when the criteria is not fulfilled (3)', () => {
 		const target = gift3;
-		const criteria = filtersCriteriasCollection['id'][0];
-		const filterValueFallback = [2, 4];;
+		const criteria = filtersCriteriasCollection['id'];
+		const filterValueFallback = [2, 4];
 
-		const isCriteriaFulfilled = evaluateSingleCriteria(criteria, filterValueFallback)(target);
+		const isCriteriaFulfilled = evaluateCriteria(criteria, filterValueFallback)(target);
+		expect(isCriteriaFulfilled).toBe(false);
+	});	
+
+	test('it should return true when the criteria is fulfilled (4)', () => {
+		const target = gift1;
+		const criteria = filtersCriteriasCollection['experienceType'];
+		const filterValueFallback = ['car', 'cycling', 'gaming'];
+		
+		const isCriteriaFulfilled = evaluateCriteria(criteria, filterValueFallback)(target);
+		expect(isCriteriaFulfilled).toBe(true);
+	});
+
+	test('it should return false when the criteria is not fulfilled (4)', () => {
+		const target = gift1;
+		const criteria = filtersCriteriasCollection['experienceType'];
+		const filterValueFallback = ['cycling', 'gaming', 'shooting'];
+		
+		const isCriteriaFulfilled = evaluateCriteria(criteria, filterValueFallback)(target);
 		expect(isCriteriaFulfilled).toBe(false);
 	});	
 });
-
-
-describe('evaluateCriteriaList', () => {
-	test('it should return true when the filter is fulfilled (1)', () => {
-		const target = gift1;
-		const criterias = filtersCriteriasCollection['maxPrice'];
-		const filterValueFallback = 500;
-
-		const areCriteriasFulfilled = evaluateCriteriaList(filterValueFallback, criterias)(target);
-		expect(areCriteriasFulfilled).toBe(true);
-	});		
-
-	test('it should return false when the filter is not fulfilled (1)', () => {
-		const target = gift1;
-		const criterias = filtersCriteriasCollection['maxPrice'];
-		const filterValueFallback = 150;
-
-		const areCriteriasFulfilled = evaluateCriteriaList(filterValueFallback, criterias)(target);
-		expect(areCriteriasFulfilled).toBe(false);
-	});		
-
-	test('it should return true when the filter is fulfilled (2)', () => {
-		const target = gift2;
-		const criterias = filtersCriteriasCollection['forCouple'];
-		const filterValueFallback = undefined;
-
-		const areCriteriasFulfilled = evaluateCriteriaList(filterValueFallback, criterias)(target);
-		expect(areCriteriasFulfilled).toBe(true);
-	});		
-
-	test('it should return false when the filter is not fulfilled (2)', () => {
-		const target = gift1;
-		const criterias = filtersCriteriasCollection['forCouple'];
-		const filterValueFallback = undefined;
-
-		const areCriteriasFulfilled = evaluateCriteriaList(filterValueFallback, criterias)(target);
-		expect(areCriteriasFulfilled).toBe(false);
-	});
-
-	test('it should return true when the filter is fulfilled (2)', () => {
-		const target = gift6;
-		const criterias = filtersCriteriasCollection['forPersonsRange'];
-		const filterValueFallback = 4;
-
-		const areCriteriasFulfilled = evaluateCriteriaList(filterValueFallback, criterias)(target);
-		expect(areCriteriasFulfilled).toBe(true);
-	});		
-
-	test('it should return false when the filter is not fulfilled (2)', () => {
-		const target = gift5;
-		const criterias = filtersCriteriasCollection['forPersonsRange'];
-		const filterValueFallback = 4;
-
-		const areCriteriasFulfilled = evaluateCriteriaList(filterValueFallback, criterias)(target);
-		expect(areCriteriasFulfilled).toBe(false);
-	});
-});
-
 
 describe('getFilterFunctionFromFilter', () => {
 	test('it should return a function', () => {

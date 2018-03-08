@@ -14,8 +14,10 @@ _findHighestValueInObjects = (field: string, collection: Array<Object>): any => 
 export const findHighestValueInObjects = curry(_findHighestValueInObjects);
 
 //[number] -> [number] -> [number]
+
+type ListOfStringOrNumber = number[] | string[];
 const
-_findIntersectionOfSortedArrays = (a: number[], b: number[]): number[] => {
+_findIntersectionOfSortedArrays = (stopAt: number, a: ListOfStringOrNumber, b: ListOfStringOrNumber): ListOfStringOrNumber => {
 	const 
 		length1 = a.length, 
 		length2 = b.length,
@@ -23,9 +25,10 @@ _findIntersectionOfSortedArrays = (a: number[], b: number[]): number[] => {
 
 	let 
 		i = 0, 
-		j = 0;
+		j = 0,
+		numberOfMatch = 0;
 
-	while(i < length1 && j < length2){
+	while(i < length1 && j < length2 && numberOfMatch < stopAt){
 		let aI = a[i], bJ = b[j];
 		if(aI > bJ)
 			j++
@@ -35,6 +38,7 @@ _findIntersectionOfSortedArrays = (a: number[], b: number[]): number[] => {
 			intersection.push(aI);
 			i++;
 			j++;
+			numberOfMatch++;
 		}
 	}
 
