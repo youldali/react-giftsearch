@@ -106,6 +106,6 @@ const _getFilteringDataFromFilters =
 
 	return mGetFilterData(filters);
 };
-
 export const getFilteringDataFromFilters = curry(_getFilteringDataFromFilters);
+
 export default getFilteringDataFromFilters;

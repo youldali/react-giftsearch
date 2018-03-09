@@ -1,6 +1,6 @@
 // @flow
 
-export type Operator = '<' | '<=' | '>' | '>=' | '==' | '===' | 'isIncluded' | 'hasOneInCommon';
+export type Operator = '<' | '<=' | '>' | '>=' | '==' | '===' | 'inRangeClosed' | 'inRangeOpen' | 'inRangeClosedOpen' | 'inRangeOpenClosed' |'isIncluded' | 'hasOneInCommon';
 
 export type FilterValue = number | string | number[] | string[];
 export type FilterName = string;
