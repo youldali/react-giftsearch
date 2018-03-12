@@ -6,7 +6,7 @@ import operators from './operators';
 import { mapObjIndexed, compose, sort, concat, curry } from 'ramda';
 
 import type { FiltersCriteriasCollection, FiltersGroupsCollection, FilterCriteria, FilterGroup } from 'modules/gift-search/filter.config';
-import type { FilterName, FilterValue, Filters } from 'modules/actions/types';
+import type { FilterName, FilterOperand, Filters } from 'modules/actions/types';
 
 export type FilterFunction = (target: Object) => boolean;
 export type FilterFunctionListByGroup = Array<FilterFunction[]>;
@@ -22,17 +22,17 @@ export type FiltersData = {
  */
 
 const _evaluateCriteria = 
-(criteria: FilterCriteria, filterValueFallback: FilterValue, target: Object): boolean => {
-	const {field, operator, value} = criteria;
-	const filterValue = value || filterValueFallback;
-	return operators[operator](target[field], filterValue);
+(criteria: FilterCriteria, filterOperandFallback: FilterOperand, target: Object): boolean => {
+	const {field, operator, operand} = criteria;
+	const filterOperand = operand || filterOperandFallback;
+	return operators[operator](target[field], filterOperand);
 };
 export const evaluateCriteria = curry(_evaluateCriteria);
 
-// FiltersCriterias -> FilterValue, FilterName -> FilterFunction
+// FiltersCriterias -> FilterOperand, FilterName -> FilterFunction
 const _getFilterFunctionFromFilter = 
-(filtersCriteriasCollection: FiltersCriteriasCollection, filterValue: FilterValue, filterName: FilterName): FilterFunction => 
-evaluateCriteria(filtersCriteriasCollection[filterName], filterValue);
+(filtersCriteriasCollection: FiltersCriteriasCollection, filterOperand: FilterOperand, filterName: FilterName): FilterFunction => 
+evaluateCriteria(filtersCriteriasCollection[filterName], filterOperand);
 
 export const getFilterFunctionFromFilter = curry(_getFilterFunctionFromFilter);
 

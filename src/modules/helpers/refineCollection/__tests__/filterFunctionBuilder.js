@@ -10,19 +10,19 @@ const gift6 = {'id': 6, 'name': 'Lyon', 'price': 700, forOnePerson: 0, forCouple
 const giftCollection = [gift1, gift2, gift3, gift4, gift5, gift6];
 
 const filtersCriteriasCollection = {
-	priceRange1: { field: 'price', operator: 'inRangeOpenClosed', value: [0, 50]},
-	priceRange2: { field: 'price', operator: 'inRangeOpenClosed', value: [50, 100]},
-	priceRange3: { field: 'price', operator: 'inRangeOpenClosed', value: [100, 200]},
- 	priceRange4: { field: 'price', operator: '>', value: 200} ,
+	priceRange1: { field: 'price', operator: 'inRangeOpenClosed', operand: [0, 50]},
+	priceRange2: { field: 'price', operator: 'inRangeOpenClosed', operand: [50, 100]},
+	priceRange3: { field: 'price', operator: 'inRangeOpenClosed', operand: [100, 200]},
+ 	priceRange4: { field: 'price', operator: '>', operand: 200} ,
 
-	forOnePerson: { field: 'forOnePerson', operator: '===', value: 1 },
-	forCouple: { field: 'forCouple', operator: '===', value: 1 },
+	forOnePerson: { field: 'forOnePerson', operator: '===', operand: 1 },
+	forCouple: { field: 'forCouple', operator: '===', operand: 1 },
 
-	city: { 'field': 'name', 'operator': '===' },
-	cityLyon: { 'field': 'name', 'operator': '===', 'value': 'Lyon' },
+	city: { field: 'name', operator: '===' },
+	cityLyon: { field: 'name', operator: '===', operand: 'Lyon' },
 
-	id: { 'field': 'id', 'operator': 'isIncluded'},
-	excluWeb: { field: 'webExclusive', operator: '===', value: 1 },
+	id: { field: 'id', operator: 'isIncluded'},
+	excluWeb: { field: 'webExclusive', operator: '===', operand: 1 },
 	experienceType: { field: 'experienceType', operator: 'hasOneInCommon' }
 };
 

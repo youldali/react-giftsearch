@@ -1,9 +1,9 @@
 // @flow
 
-import type { FilterName, FilterValue, Operator } from 'modules/actions/types';
+import type { FilterName, FilterOperand, Operator } from 'modules/actions/types';
 
 export type FilterGroup = string;
-export type FilterCriteria = {|field: string, operator: string, value?: FilterValue|};
+export type FilterCriteria = {|field: string, operator: string, operand?: FilterOperand|};
 export type FiltersCriteriasCollection = {+[FilterName]: FilterCriteria};
 export type FiltersGroupsCollection = { +[string]: string};
 
@@ -15,15 +15,15 @@ export type FilterConfig = {
 export
 const filterConfigBase: FilterConfig = {
 	filtersCriterias: {
-		priceRange1: { field: 'price', operator: 'inRangeOpenClosed', value: [0, 50]},
-        priceRange2: { field: 'price', operator: 'inRangeOpenClosed', value: [50, 100]},
-        priceRange3: { field: 'price', operator: 'inRangeOpenClosed', value: [100, 200]},
-        priceRange4: { field: 'price', operator: '>', value: 200} ,
+		priceRange1: { field: 'price', operator: 'inRangeOpenClosed', operand : [0, 50]},
+        priceRange2: { field: 'price', operator: 'inRangeOpenClosed', operand: [50, 100]},
+        priceRange3: { field: 'price', operator: 'inRangeOpenClosed', operand: [100, 200]},
+        priceRange4: { field: 'price', operator: '>', operand: 200} ,
 
-        forOnePerson: { field: 'forOnePerson', operator: '===', value: 1 },
-        forCouple: { field: 'forCouple', operator: '===', value: 1 },
+        forOnePerson: { field: 'forOnePerson', operator: '===', operand: 1 },
+        forCouple: { field: 'forCouple', operator: '===', operand: 1 },
 
-        excluWeb: { field: 'webExclusive', operator: '===', value: 1 },
+        excluWeb: { field: 'webExclusive', operator: '===', operand: 1 },
         experienceType: { field: 'experienceType', operator: 'hasOneInCommon' }
 	},
 
@@ -41,7 +41,7 @@ const filterConfigBase: FilterConfig = {
 const filterConfigAdventure: FilterConfig = {
 	filtersCriterias: {
 		...filterConfigBase.filtersCriterias,
-		extreme: { field: 'extreme', operator: '===', value: 1 }
+		extreme: { field: 'extreme', operator: '===', operand: 1 }
 	},
 
 	filtersGroups: {
@@ -52,8 +52,8 @@ const filterConfigAdventure: FilterConfig = {
 const filterConfigSejour: FilterConfig = {
 	filtersCriterias: {
 		...filterConfigBase.filtersCriterias,
-		oneNight: { field: 'oneNight', operator: '===', value: 1 },
-		twoNight: { field: 'twoNight', operator: '===', value: 1 },
+		oneNight: { field: 'oneNight', operator: '===', operand: 1 },
+		twoNight: { field: 'twoNight', operator: '===', operand: 1 },
 	},
 
 	filtersGroups: {

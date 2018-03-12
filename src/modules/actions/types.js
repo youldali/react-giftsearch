@@ -2,9 +2,9 @@
 
 export type Operator = '<' | '<=' | '>' | '>=' | '==' | '===' | 'inRangeClosed' | 'inRangeOpen' | 'inRangeClosedOpen' | 'inRangeOpenClosed' |'isIncluded' | 'hasOneInCommon';
 
-export type FilterValue = number | string | number[] | string[];
+export type FilterOperand = number | string | number[] | string[];
 export type FilterName = string;
-export type Filters = { [FilterName]: FilterValue};
+export type Filters = { [FilterName]: FilterOperand};
 export type DisplayType = 'list' | 'card';
 
 export 
