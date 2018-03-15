@@ -3,10 +3,9 @@
 import type { FieldsToIndexByUniverse, FieldsToIndex, IndexConfig } from 'modules/gift-search/storage.config';
 import type { FilterCriteria, FilterGroup } from 'modules/gift-search/filter.config';
 import type { Operator, FilterOperand } from 'modules/actions/types';
-
 import { curry, mapObjIndexed, mergeAll } from 'ramda';
-
 type FilterMatchingIdList = {[string]: [number]};
+const {indexedDB, IDBKeyRange} = window;
 
 const _createUniverseStore = (db: IDBDatabase, fieldsToIndex: FieldsToIndex, universe: string) => {
     const 
@@ -14,7 +13,7 @@ const _createUniverseStore = (db: IDBDatabase, fieldsToIndex: FieldsToIndex, uni
         fieldsToIndexTuples = Object.entries(fieldsToIndex);
 
     //$FlowFixMe
-    fieldsToIndexTuples.forEach( ([indexName, indexConfig]) => objectStore.createIndex(indexName, indexName, indexConfig ) );
+    fieldsToIndexTuples.forEach( ([indexName, indexConfig]) => objectStore.createIndex(indexName, indexName, indexConfig) );
 };
 const createUniverseStore = curry(_createUniverseStore);
 
@@ -26,10 +25,10 @@ const createUniversesStores = curry(_createUniversesStores);
 
 export
 const createOrOpenDatabase = (fieldsToIndexByUniverse: FieldsToIndexByUniverse, dbName: string, dbVersion: number): Promise<IDBDatabase> => {
-    const openDBRequest = window.indexedDB.open(dbName, dbVersion);
+    const openDBRequest = indexedDB.open(dbName, dbVersion);
 
     return new Promise((resolve, reject) => {
-        openDBRequest.onerror = () => reject('error opening DB: ' + openDBRequest.error);
+        openDBRequest.onerror = () => reject(`error opening DB ${dbName}: ${openDBRequest.error}`);
         openDBRequest.onupgradeneeded = () => createUniversesStores(openDBRequest.result, fieldsToIndexByUniverse);
         openDBRequest.onsuccess = () => resolve(openDBRequest.result);
     });
@@ -50,7 +49,7 @@ const _addDataToUniverse = (db: IDBDatabase, universe: string, data: Object[]): 
 export const addDataToUniverse = curry(_addDataToUniverse);
 
 
-const _getFilterMatchingIdList = (db: IDBDatabase, universe: string, filterCriteria: FilterCriteria, filterOperandFallback: FilterOperand): Promise<FilterMatchingIdList> => {
+const _getItemIdListMatchingFilter = (db: IDBDatabase, universe: string, filterCriteria: FilterCriteria, filterOperandFallback: FilterOperand): Promise<FilterMatchingIdList> => {
     const operatorMultiValue = ['isIncluded', 'hasOneInCommon'];
     const 
         {field, operator, operand} = filterCriteria,
@@ -58,17 +57,17 @@ const _getFilterMatchingIdList = (db: IDBDatabase, universe: string, filterCrite
         mOperand = operatorMultiValue.includes(operator) ? nonNullOperand : [nonNullOperand];
 
     //$FlowFixMe
-    const operandNumberListPromise = mOperand.map( operand => 
-        getFieldIds(db, universe, field, getKeyRangeMatchingOperator(operator, operand))
+    const operandIdListPromise = mOperand.map( operand => 
+        getItemIdListMatchingFieldOperand(db, universe, field, getKeyRangeMatchingOperator(operator, operand))
         .then(matchingIdList => ( {[operand.toString()]: matchingIdList} )) 
     );
 
-    return Promise.all(operandNumberListPromise).then((operandNumberList) => mergeAll(operandNumberList));
+    return Promise.all(operandIdListPromise).then((operandIdList) => mergeAll(operandIdList));
 };
-export const getFilterMatchingIdList = curry(_getFilterMatchingIdList);
+export const getFilterMatchingIdList = curry(_getItemIdListMatchingFilter);
 
 
-const _getFieldIds = (db: IDBDatabase, storeName: string, indexName: string, keyRange: IDBKeyRange) => {
+const _getItemIdListMatchingFieldOperand = (db: IDBDatabase, storeName: string, indexName: string, keyRange: IDBKeyRange) => {
     const 
         transaction = db.transaction(storeName, 'readonly'),
         objectStore = transaction.objectStore(storeName),
@@ -80,7 +79,7 @@ const _getFieldIds = (db: IDBDatabase, storeName: string, indexName: string, key
         request.onerror = () => reject('error fetching data: ' + request.error.message);
     });
 };
-export const getFieldIds = curry(_getFieldIds);
+export const getItemIdListMatchingFieldOperand = curry(_getItemIdListMatchingFieldOperand);
 
 
 const _getKeyRangeMatchingOperator = (operator: Operator, operand: FilterOperand) => {
@@ -110,12 +109,11 @@ const _getKeyRangeMatchingOperator = (operator: Operator, operand: FilterOperand
 export const getKeyRangeMatchingOperator = curry(_getKeyRangeMatchingOperator);
 
 
-const _iterateOverBoxesInUniverse = (db: IDBDatabase, universe: string, callBack: Function) => {
+const _iterateOverBoxesInUniverse = (db: IDBDatabase, universe: string, callBack: Function): Promise<any> => {
     const 
         transaction = db.transaction(universe, 'readonly'),
         objectStore = transaction.objectStore(universe),
-        request: IDBRequest = objectStore.openCursor();
-
+        request = objectStore.openCursor();
 
     request.onsuccess = function(event) {
         const cursor = event.target.result;
@@ -132,19 +130,19 @@ const _iterateOverBoxesInUniverse = (db: IDBDatabase, universe: string, callBack
 };
 export const iterateOverBoxesInUniverse = curry(_iterateOverBoxesInUniverse);
 
+
 const _getAllUniqueKeysForIndex = (db: IDBDatabase, universe: string, field: string) => {
     const 
-        transaction = db.transaction(storeName, 'readonly'),
-        objectStore = transaction.objectStore(storeName),
-        index = objectStore.index(indexName),
-        request: IDBRequest = index.openCursor(null, 'nextunique');
-
+        transaction = db.transaction(universe, 'readonly'),
+        objectStore = transaction.objectStore(universe),
+        index = objectStore.index(field),
+        request = index.openKeyCursor(null, 'nextunique');
 
     const keyList = [];
     request.onsuccess = function(event) {
         const cursor = event.target.result;
         if(cursor) {
-            keyList.push(cursor.value);
+            keyList.push(cursor.key);
             cursor.continue();
         }
     };
