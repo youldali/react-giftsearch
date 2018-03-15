@@ -44,11 +44,25 @@ describe('findIntersectionOfSortedArrays', () => {
 		const a1 = [1,2,3,4,5,6,7,8,9,10];
 		const b1 = [2,6,7,9,10];
 		const i1 = [2,6,7,9,10];
-		expect(arrayHelper.findIntersectionOfSortedArrays(a1, b1)).toEqual(i1);
+		expect(arrayHelper.findIntersectionOfSortedArrays(Infinity, a1, b1)).toEqual(i1);
 
 		const a2 = [100, 200, 201, 203, 209, 244, 400, 402, 405, 420, 500];
 		const b2 = [1, 2, 3, 7, 90, 200, 201, 202, 205, 300, 304, 390, 391, 401, 413, 414, 490, 500];
 		const i2 = [200, 201, 500];
-		expect(arrayHelper.findIntersectionOfSortedArrays(a2, b2)).toEqual(i2);
+		expect(arrayHelper.findIntersectionOfSortedArrays(Infinity, a2, b2)).toEqual(i2);
+	});	
+
+	test('it should return the N first intersection of the 2 sorted arrays', () => {
+		const a1 = [1,2,3,4,5,6,7,8,9,10];
+		const b1 = [2,6,7,9,10];
+		const i1 = [2,6,7];
+		expect(arrayHelper.findIntersectionOfSortedArrays(3, a1, b1)).toEqual(i1);
+	});	
+
+	test('it should return the intersection of the 2 sorted arrays (string)', () => {
+		const a1 = ['boat', 'bicycle', 'car', 'helicopter', 'skate'];
+		const b1 = ['car', 'plane', 'skate'];
+		const i1 = ['car', 'skate'];
+		expect(arrayHelper.findIntersectionOfSortedArrays(Infinity, a1, b1)).toEqual(i1);
 	});	
 });

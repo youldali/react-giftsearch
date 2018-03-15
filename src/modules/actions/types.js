@@ -1,10 +1,6 @@
 // @flow
+import type { Filters, FilterName } from 'modules/gift-search/types';
 
-export type Operator = '<' | '<=' | '>' | '>=' | '==' | '===' | 'inRangeClosed' | 'inRangeOpen' | 'inRangeClosedOpen' | 'inRangeOpenClosed' |'isIncluded' | 'hasOneInCommon';
-
-export type FilterOperand = number | string | number[] | string[];
-export type FilterName = string;
-export type Filters = { [FilterName]: FilterOperand};
 export type DisplayType = 'list' | 'card';
 
 export 
@@ -45,7 +41,7 @@ type GiftCollection = Array<Gift>;
 export 
 type Action = 
 	  { type: 'GIFT_LIST_SEARCH/SET_FILTERS', filters: Filters }
-	| { type: 'GIFT_LIST_SEARCH/RESET_FILTERS', filtersToReset: Array<string>}
+	| { type: 'GIFT_LIST_SEARCH/RESET_FILTERS', filtersToReset: Array<FilterName>}
 	| { type: 'GIFT_LIST_SEARCH/RESET_ALL_FILTERS'}
 	| { type: 'GIFT_LIST_SEARCH/SET_ORDER', order: string }
 	| { type: 'GIFT_LIST_SEARCH/SET_UNIVERSE', universe: string }

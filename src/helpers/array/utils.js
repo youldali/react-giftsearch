@@ -1,6 +1,7 @@
 // @flow
 import { curry } from 'ramda';
 
+
 //string -> [object] -> any
 const
 _findHighestValueInObjects = (field: string, collection: Array<Object>): any => {
@@ -13,15 +14,14 @@ _findHighestValueInObjects = (field: string, collection: Array<Object>): any => 
 };
 export const findHighestValueInObjects = curry(_findHighestValueInObjects);
 
-//[number] -> [number] -> [number]
 
-type ListOfStringOrNumber = number[] | string[];
+//number -> [a] -> [a] -> [a]
 const
-_findIntersectionOfSortedArrays = (stopAt: number, a: ListOfStringOrNumber, b: ListOfStringOrNumber): ListOfStringOrNumber => {
+_findIntersectionOfSortedArrays = <T: Array<any>>(stopAt: number, a: T, b: T) => {
 	const 
 		length1 = a.length, 
 		length2 = b.length,
-		intersection: number[] = [];
+		intersection = [];
 
 	let 
 		i = 0, 

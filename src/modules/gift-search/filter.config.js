@@ -2,10 +2,6 @@
 
 import type { FilterName, FilterOperand, Operator } from 'modules/actions/types';
 
-export type FilterGroup = string;
-export type FilterCriteria = {|field: string, operator: string, operand?: FilterOperand|};
-export type FiltersCriteriasCollection = {+[FilterName]: FilterCriteria};
-export type FiltersGroupsCollection = { +[string]: string};
 
 export type FilterConfig = {
 	filtersCriterias: FiltersCriteriasCollection, 

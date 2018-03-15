@@ -1,7 +1,7 @@
 // @flow
 import type { Action, Filters, FilterValue } from 'modules/actions/types';
-import { deletePropertiesImmutable, hasOne } from 'helpers/object/utils';
-
+import { hasOne } from 'helpers/object/utils';
+import { omit } from 'ramda';
 type FilterState = {
 	+[string]: FilterValue
 };
@@ -14,7 +14,7 @@ function filterReducer (state: FilterState = {}, action: Action): FilterState {
 			return {...state, ...action.filters};
 
 		case "GIFT_LIST_SEARCH/RESET_FILTERS":
-			return hasOne(action.filtersToReset)(state) ? deletePropertiesImmutable(action.filtersToReset)(state) : state;
+			return hasOne(action.filtersToReset)(state) ? omit(action.filtersToReset, state) : state;
 
 		case "GIFT_LIST_SEARCH/RESET_ALL_FILTERS":
 			return Object.keys(state).length === 0 ? state : {};
