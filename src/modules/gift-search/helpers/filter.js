@@ -1,13 +1,6 @@
 //@flow
+import type { FilterFunctionListMapped, FilterFunctionListByGroup, FilterFunction, FilterGroup, FilteredObjectStatus } from '../types';
 import { curry } from 'ramda';
-import type { FilterFunctionListMapped, FilterFunctionListByGroup, FilterFunction } from './filterFunctionBuilder';
-import type { FilterGroup } from 'modules/gift-search/filter.config';
-
-export
-type FilteredObjectStatus = {|
-	+pass: boolean,
-	+filterGroupRejected?: FilterGroup
-|};
 
 /**
  ** filters an object for a group filter with || operator

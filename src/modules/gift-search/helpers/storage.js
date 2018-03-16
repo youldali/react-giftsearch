@@ -1,9 +1,8 @@
 //@flow
 
-import type { FieldsToIndexByUniverse, FieldsToIndex, IndexConfig } from 'modules/gift-search/storage.config';
-import type { FilterCriteria, FilterGroup } from 'modules/gift-search/filter.config';
-import type { Operator, FilterOperand } from 'modules/actions/types';
+import type { FieldsToIndexByUniverse, FieldsToIndex, IndexConfig, FilterCriteria, FilterGroup, Operator, FilterOperand } from '../types';
 import { curry, mapObjIndexed, mergeAll } from 'ramda';
+
 type FilterMatchingIdList = {[string]: [number]};
 const {indexedDB, IDBKeyRange} = window;
 

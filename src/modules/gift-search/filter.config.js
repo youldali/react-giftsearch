@@ -1,12 +1,6 @@
 // @flow
 
-import type { FilterName, FilterOperand, Operator } from 'modules/actions/types';
-
-
-export type FilterConfig = {
-	filtersCriterias: FiltersCriteriasCollection, 
-	filtersGroups: FiltersGroupsCollection,
-}
+import type { FilterName, FilterOperand, Operator, FilterConfig } from './types';
 
 export
 const filterConfigBase: FilterConfig = {

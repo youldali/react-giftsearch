@@ -5,17 +5,7 @@ import 'core-js/fn/object/values';
 import operators from './operators';
 import { mapObjIndexed, compose, sort, concat, curry } from 'ramda';
 
-import type { FiltersCriteriasCollection, FiltersGroupsCollection, FilterCriteria, FilterGroup } from 'modules/gift-search/filter.config';
-import type { FilterName, FilterOperand, Filters } from 'modules/actions/types';
-
-export type FilterFunction = (target: Object) => boolean;
-export type FilterFunctionListByGroup = Array<FilterFunction[]>;
-export type FilterTuple = [FilterName, FilterFunction];
-export type FilterFunctionListMapped = Map<FilterFunction[], FilterGroup>;
-export type FiltersData = {
-	filterFunctionListByGroup: FilterFunctionListByGroup, 
-	filterFunctionListMapped: FilterFunctionListMapped
-}
+import type { FilterName, FilterOperand, Filters, FiltersCriteriasCollection, FiltersGroupsCollection, FilterCriteria, FilterGroup, FilterFunction, FilterFunctionListByGroup, FilterTuple, FilterFunctionListMapped, FiltersData } from '../types';
 
 /**
  * evaluate a single criteria

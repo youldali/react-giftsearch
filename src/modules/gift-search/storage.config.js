@@ -1,8 +1,6 @@
 // @flow
 
-export type IndexConfig = ?{|multiEntry?: boolean, unique?: boolean|};
-export type FieldsToIndex = { [string]: IndexConfig };
-export type FieldsToIndexByUniverse = { [string]: FieldsToIndex };
+import type { IndexConfig, FieldsToIndex, FieldsToIndexByUniverse } from '../gift-search/types';
 
 export const dbName = 'smartbox-gift-search';
 export const dbVersion = 1;

@@ -1,8 +1,6 @@
 //@flow
 
-import type { FilterGroup } from 'modules/gift-search/filter.config';
-import type { FilteredObjectStatus } from './filter';
-
+import type { FilterGroup, FilteredObjectStatus } from '../types';
 import { findIntersectionOfSortedArrays } from 'helpers/array/utils'
 import { curry } from 'ramda';
 

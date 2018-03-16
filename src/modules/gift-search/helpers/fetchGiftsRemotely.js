@@ -2,7 +2,6 @@
 import type { GiftCollection } from 'modules/actions/types';
 import { cloudSearchConfig } from 'modules/gift-search/config';
 import fetch from 'isomorphic-fetch';
-import { formatGiftCollection } from './giftFormatter';
 
 export
 const buildGiftUrl = 
@@ -34,6 +33,6 @@ async (universe: string): Promise<GiftCollection> => {
 		return Promise.reject(`Status: ${response.status} - ${response.statusText}`);
 	
 	const jsonData = await response.json();
-	return formatGiftCollection(jsonData.items);
+	return jsonData;
 };
 
