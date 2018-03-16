@@ -71,6 +71,7 @@ const _getItemIdListMatchingFieldOperand = (db: IDBDatabase, storeName: string, 
         transaction = db.transaction(storeName, 'readonly'),
         objectStore = transaction.objectStore(storeName),
         index = objectStore.index(indexName),
+        //$FlowFixMe
         request: IDBRequest = index.getAllKeys(keyRange);
 
     return new Promise((resolve, reject) => {

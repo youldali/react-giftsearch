@@ -1,6 +1,6 @@
 // @flow
 
-import type { FilterName, FilterOperand, Operator, FilterConfig } from './types';
+import type { FilterName, FilterOperand, Operator, FilterConfig } from '../types';
 
 export
 const filterConfigBase: FilterConfig = {

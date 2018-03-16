@@ -1,32 +1,12 @@
 // @flow
 import type { GiftCollection } from 'modules/actions/types';
-import { cloudSearchConfig } from 'modules/gift-search/config';
 import fetch from 'isomorphic-fetch';
 
-export
-const buildGiftUrl = 
-(categories: Array<number>): string => {
-	const universeParameter = categories.reduce(
-		(acc, category) => `${acc}&category[]=${category}`,
-		''
-	);
-	const url = cloudSearchConfig['baseUrl'] + universeParameter;
-	return url;
-}
-
 export default 
-async (universe: string): Promise<GiftCollection> => {
-	//builds URL
-	const categories = cloudSearchConfig['universeToUrlMap'][universe];
-	if(typeof categories === 'undefined'){
-		return Promise.reject('Undefined Gift-List category');
-	}
-
-	//fetches
+async (url: string): Promise<GiftCollection> => {
 	const fetchConfig = {
 		method: 'GET'
 	};	
-	const url = buildGiftUrl(categories);
 
 	const response: Response = await fetch(url, fetchConfig);
 	if(!response.ok) 

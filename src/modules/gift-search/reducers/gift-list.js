@@ -4,9 +4,7 @@ import { selectors as filterSelectors } from './filter';
 import { selectors as orderSelectors } from './order';
 import { selectors as pageSelectors } from './page';
 import { createSelector } from 'reselect';
-import filterList from 'modules/helpers/refineCollection/filteringListWithCriterias';
-import sortList from 'modules/helpers/refineCollection/sortList';
-import { filterConfig } from 'modules/gift-search/config';
+
 import { findHighestValueInObjects } from 'helpers/array/utils';
 
 type GiftListState = {
@@ -25,21 +23,31 @@ function giftListReducer (state: GiftListState = initialState, action: Action): 
 	switch (action.type){
 		case "GIFT_LIST_SEARCH/SET_LIST":
 			return {
-				...state,
-				collection: [...action.giftList],
-				isFetching: false
+				collection: action.giftList,
+				isFetching: false,
+				fetchSuccess: true
 			};
+
+		case "GIFT_LIST_SEARCH/APPEND_TO_LIST":
+			return {
+				collection: [...state.collection, action.giftList],
+				isFetching: false,
+				fetchSuccess: true
+			};
+
 		case "GIFT_LIST_SEARCH/FETCH_REQUESTED":
 			return {
 				...state, 
 				isFetching: action.isFetching
 			};
+
 		case "GIFT_LIST_SEARCH/FETCH_SUCCEEDED":
 			return {
 				...state,
 				isFetching: false,
 				fetchSuccess: action.success				
 			};
+
 		default:
 			return state;		
 	}

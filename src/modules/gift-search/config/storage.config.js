@@ -1,6 +1,6 @@
 // @flow
 
-import type { IndexConfig, FieldsToIndex, FieldsToIndexByUniverse } from '../gift-search/types';
+import type { IndexConfig, FieldsToIndex, FieldsToIndexByUniverse } from '../types';
 
 export const dbName = 'smartbox-gift-search';
 export const dbVersion = 1;

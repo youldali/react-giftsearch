@@ -1,12 +1,12 @@
 // @flow
-import type { Action, Filters, FilterValue } from 'modules/actions/types';
+import type { Action } from 'modules/actions/types';
+import type { Filters, FilterValue } from '../types';
 import { hasOne } from 'helpers/object/utils';
 import { omit } from 'ramda';
+
 type FilterState = {
 	+[string]: FilterValue
 };
-
-
 
 function filterReducer (state: FilterState = {}, action: Action): FilterState {
 	switch (action.type){
