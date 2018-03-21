@@ -9,19 +9,6 @@ function orderReducer (state: OrderState = initialState, action: Action): OrderS
 		case "GIFT_LIST_SEARCH/SET_ORDER":
 			return action.order;
 
-		/**
-		 * in case of elastic search filter, we sort the list by predefined ID (array) (relevance to the search)
-		 */
-		case "GIFT_LIST_SEARCH/SET_FILTERS":
-			const elasticSearchFilter: number[] = (action.filters.elasticSearch: any);
-			return elasticSearchFilter ? elasticSearchFilter : state;
-
-		case "GIFT_LIST_SEARCH/RESET_FILTERS":
-			if(action.filtersToReset.indexOf('elasticSearch') >= 0 && Array.isArray(state))
-				return initialState;
-			else
-				return state;
-
 		default:
 			return state;
 	}

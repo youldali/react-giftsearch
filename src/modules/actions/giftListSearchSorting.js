@@ -1,5 +1,6 @@
  // @flow
-import type { Action, Filters, DisplayType } from './types';
+import type { Action, DisplayType } from './types';
+import type { Filters } from 'modules/gift-search/types';
 
 export 
 const setFilters = (filters: Filters): Action => (
@@ -29,14 +30,6 @@ const setOrder = (order: string): Action => (
 	{
 		type: "GIFT_LIST_SEARCH/SET_ORDER",
 		order
-	}
-);
-
-export 
-const setUniverse = (universe: string): Action => (
-	{
-		type: "GIFT_LIST_SEARCH/SET_UNIVERSE",
-		universe
 	}
 );
 

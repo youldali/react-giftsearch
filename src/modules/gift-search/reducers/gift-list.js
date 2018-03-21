@@ -1,11 +1,7 @@
 // @flow
-import type { Action, GiftCollection, Filters } from 'modules/actions/types';
-import { selectors as filterSelectors } from './filter';
-import { selectors as orderSelectors } from './order';
+import type { Action, GiftCollection } from 'modules/actions/types';
 import { selectors as pageSelectors } from './page';
 import { createSelector } from 'reselect';
-
-import { findHighestValueInObjects } from 'helpers/array/utils';
 
 type GiftListState = {
 	+collection: GiftCollection,
@@ -30,7 +26,7 @@ function giftListReducer (state: GiftListState = initialState, action: Action): 
 
 		case "GIFT_LIST_SEARCH/APPEND_TO_LIST":
 			return {
-				collection: [...state.collection, action.giftList],
+				collection: [...state.collection, ...action.giftList],
 				isFetching: false,
 				fetchSuccess: true
 			};
@@ -60,35 +56,16 @@ const getList = (state: Object): GiftCollection  => (state.giftSearch.giftList.c
 const isFetching = (state: Object): boolean => (state.giftSearch.giftList.isFetching);
 const hasFetchSucceeded = (state: Object): boolean => (state.giftSearch.giftList.fetchSuccess);
 
-const getFilteredList = createSelector(
-  [getList, filterSelectors.getAllFilters],
-  (stateGiftList: GiftCollection, stateGiftFilters: Filters): GiftCollection => filterList(stateGiftList, stateGiftFilters, filterConfig)
-);
-
-const getOrderedFilteredList = createSelector(
-  [getFilteredList, orderSelectors.getOrder],
-  (stateGiftListFiltered: GiftCollection, stateGiftOrder: string): GiftCollection => sortList(stateGiftListFiltered, stateGiftOrder)
-);
-
 const getPaginatedOrderedFilteredList = createSelector(
-  [getOrderedFilteredList, pageSelectors.getPage],
-  (stateGiftListOrderedFiltered: GiftCollection, statePage: number): GiftCollection => stateGiftListOrderedFiltered.slice(0, 10 * statePage)
+  [getList, pageSelectors.getPage],
+  (giftList: GiftCollection, page: number): GiftCollection => giftList.slice(0, 10 * page)
 );
 
-const getHightestPrice = createSelector(
-	[getList],
-	(stateGiftList: GiftCollection): number => (
-		stateGiftList.length === 0 ? 0 : findHighestValueInObjects('rawPrice', stateGiftList)
-	)
-);
 
 export 
 const selectors = {
 	isFetching,
 	hasFetchSucceeded,
 	getList,
-	getFilteredList,
-	getOrderedFilteredList,
 	getPaginatedOrderedFilteredList,
-	getHightestPrice
 };

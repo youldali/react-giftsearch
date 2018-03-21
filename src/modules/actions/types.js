@@ -47,6 +47,7 @@ type Action =
 	| { type: 'GIFT_LIST_SEARCH/SET_UNIVERSE', universe: string }
 	| { type: 'GIFT_LIST_SEARCH/FETCH_REQUESTED', isFetching: boolean }
 	| { type: 'GIFT_LIST_SEARCH/SET_LIST', giftList: GiftCollection }
+	| { type: 'GIFT_LIST_SEARCH/APPEND_TO_LIST', giftList: GiftCollection }
 	| { type: 'GIFT_LIST_SEARCH/FETCH_SUCCEEDED', success: boolean}
 	| { type: 'GIFT_LIST_SEARCH/SET_DISPLAY', display: DisplayType}
 	| { type: 'GIFT_LIST_SEARCH/SET_PAGE', page: number}

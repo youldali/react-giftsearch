@@ -1,7 +1,6 @@
  // @flow
 import type { Action, GiftCollection, Dispatch, ThunkAction } from './types';
 import giftFetcher from '../gift-search/helpers/fetchGiftsRemotely';
-import { getFromStorage, saveToStorage } from 'helpers/browser-storage/localForage';
 import { handleErrorThunkAction } from 'helpers/promise/utils';
 
 export

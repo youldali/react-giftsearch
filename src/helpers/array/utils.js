@@ -44,5 +44,27 @@ _findIntersectionOfSortedArrays = <T: Array<any>>(stopAt: number, a: T, b: T) =>
 
 	return intersection;
 }
-
 export const findIntersectionOfSortedArrays = curry(_findIntersectionOfSortedArrays);
+
+//number -> [a] -> a -> number
+const
+_findElementInSortedArray = (a: Array<any>, searchedElement: any) => {
+	let 
+		startIndex = 0, 
+		endIndex = a.length - 1;
+
+	while(startIndex <= endIndex){
+		let middleIndex = Math.floor( (endIndex - startIndex) / 2 + startIndex);
+		let middleElement = a[middleIndex];
+		if(searchedElement > middleElement)
+			startIndex = middleIndex + 1;
+		else if (searchedElement < middleElement)
+			endIndex = middleIndex - 1;
+		else
+			return middleIndex;
+
+	}
+	return -1;
+
+}
+export const findElementInSortedArray = curry(_findElementInSortedArray);

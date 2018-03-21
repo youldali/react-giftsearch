@@ -71,18 +71,6 @@ describe('resetFilters', () => {
 
 });
 
-describe('setUniverse', () => {
-
-	test('it should return the "set universe" action creator', () => {
-		const expectedAction = {
-			type: "GIFT_LIST_SEARCH/SET_UNIVERSE",
-			universe: 'sejour',
-		};
-
-		expect(actions.setUniverse('sejour')).toEqual(expectedAction);
-	});
-
-});
 
 describe('setPage', () => {
 
