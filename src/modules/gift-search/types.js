@@ -26,10 +26,10 @@ export type Filters = { [FilterName]: FilterOperand};
 export type FilterFunction = (target: Object) => boolean;
 export type FilterFunctionListByGroup = Array<FilterFunction[]>;
 export type FilterTuple = [FilterName, FilterFunction];
-export type FilterFunctionListMapped = Map<FilterFunction[], FilterGroup>;
+export type FilterFunctionListMappedToFilterGroup = Map<FilterFunction[], FilterGroup>;
 export type FiltersData = {
 	filterFunctionListByGroup: FilterFunctionListByGroup, 
-	filterFunctionListMapped: FilterFunctionListMapped
+	filterFunctionListMappedToFilterGroup: FilterFunctionListMappedToFilterGroup
 }
 export type FilteredObjectStatus = {|
 	+pass: boolean,

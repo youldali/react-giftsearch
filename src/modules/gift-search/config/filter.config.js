@@ -2,7 +2,6 @@
 
 import type { FilterName, FilterOperand, Operator, FilterConfig } from '../types';
 
-export
 const filterConfigBase: FilterConfig = {
 	filtersCriterias: {
 		priceRange1: { field: 'price', operator: 'inRangeOpenClosed', operand : [0, 50]},
@@ -28,7 +27,8 @@ const filterConfigBase: FilterConfig = {
 	},
 };
 
-const filterConfigAdventure: FilterConfig = {
+export
+const adventure: FilterConfig = {
 	filtersCriterias: {
 		...filterConfigBase.filtersCriterias,
 		extreme: { field: 'extreme', operator: '===', operand: 1 }
@@ -39,7 +39,8 @@ const filterConfigAdventure: FilterConfig = {
 	},
 };
 
-const filterConfigSejour: FilterConfig = {
+export
+const sejour: FilterConfig = {
 	filtersCriterias: {
 		...filterConfigBase.filtersCriterias,
 		oneNight: { field: 'oneNight', operator: '===', operand: 1 },
@@ -52,3 +53,9 @@ const filterConfigSejour: FilterConfig = {
 		twoNight: 'night',
 	},
 };
+
+export default
+{
+	adventure,
+	sejour
+}

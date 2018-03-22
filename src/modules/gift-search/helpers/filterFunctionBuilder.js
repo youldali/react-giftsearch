@@ -5,7 +5,7 @@ import 'core-js/fn/object/values';
 import operators from './operators';
 import { mapObjIndexed, compose, sort, concat, curry } from 'ramda';
 
-import type { FilterName, FilterOperand, Filters, FiltersCriteriasCollection, FiltersGroupsCollection, FilterCriteria, FilterGroup, FilterFunction, FilterFunctionListByGroup, FilterTuple, FilterFunctionListMapped, FiltersData } from '../types';
+import type { FilterName, FilterOperand, Filters, FiltersCriteriasCollection, FiltersGroupsCollection, FilterCriteria, FilterGroup, FilterFunction, FilterFunctionListByGroup, FilterTuple, FilterFunctionListMappedToFilterGroup, FiltersData } from '../types';
 
 /**
  * evaluate a single criteria
@@ -32,7 +32,7 @@ export
 const createFilterFunctionDataStructure = () => {
 	const filtersFunctionsMappedToFilterGroup: {[string]: FilterFunction[]} = {};
 	const noGroupFilterFunctionList: Array<FilterFunction[]> = [];
-	const filterFunctionListMapped = new Map();
+	const filterFunctionListMappedToFilterGroup = new Map();
 
 	return {
 		addFilterFunction(filterFunction: FilterFunction, filterGroup: ?string){
@@ -52,7 +52,7 @@ const createFilterFunctionDataStructure = () => {
 		addFilterFunctionToNewGroup(filterFunction: FilterFunction, filterGroup: string){
 			const filterGroupFunctionCollection = [filterFunction];
 			filtersFunctionsMappedToFilterGroup[filterGroup] = filterGroupFunctionCollection;
-			filterFunctionListMapped.set(filterGroupFunctionCollection, filterGroup);
+			filterFunctionListMappedToFilterGroup.set(filterGroupFunctionCollection, filterGroup);
 			return this;
 		},
 
@@ -68,7 +68,7 @@ const createFilterFunctionDataStructure = () => {
 			const filterFunctionListByGroup = concat(noGroupFilterFunctionList, sortedFilterFunctionCollectionBelongingToGroup);
 			return {
 				filterFunctionListByGroup,
-				filterFunctionListMapped
+				filterFunctionListMappedToFilterGroup
 			}
 		}
 	};

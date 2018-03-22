@@ -1,5 +1,5 @@
 //@flow
-import type { FilterFunctionListMapped, FilterFunctionListByGroup, FilterFunction, FilterGroup, FilteredObjectStatus } from '../types';
+import type { FilterFunctionListMappedToFilterGroup, FilterFunctionListByGroup, FilterFunction, FilterGroup, FilteredObjectStatus } from '../types';
 import { curry } from 'ramda';
 
 /**
@@ -27,7 +27,7 @@ export const filterObjectAgainstFilterGroup = curry(_filterObjectAgainstFilterGr
  */
 
 const _filterObjectAgainstFilterFunctionListByGroup = 
-(filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMapped: FilterFunctionListMapped, target: Object) => 
+(filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMappedToFilterGroup: FilterFunctionListMappedToFilterGroup, target: Object) => 
 (function* evaluateNextGroupOfFilterFunction(iterator: Iterator<FilterFunction[]>): Generator<FilteredObjectStatus, void, Iterator<FilterFunction[]>>{
 	//condition to get out of recursive call
 	const currentIteratorState = iterator.next();
@@ -39,7 +39,7 @@ const _filterObjectAgainstFilterFunctionListByGroup =
 	//eval the current criteria and ask for eval of the next one
 	const filterFunctionListForGroup = currentIteratorState.value;
 	if(!filterObjectAgainstFilterGroup(filterFunctionListForGroup)(target))
-		yield {pass: false, filterGroupRejected: filterFunctionListMapped.get(filterFunctionListForGroup)};
+		yield {pass: false, filterGroupRejected: filterFunctionListMappedToFilterGroup.get(filterFunctionListForGroup)};
 	
 	yield* evaluateNextGroupOfFilterFunction(iterator);
 
@@ -50,9 +50,9 @@ export const filterObjectAgainstFilterFunctionListByGroup = curry(_filterObjectA
 
 
 const _filter = 
-(filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMapped: FilterFunctionListMapped, target: Object): FilteredObjectStatus =>
+(filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMappedToFilterGroup: FilterFunctionListMappedToFilterGroup, target: Object): FilteredObjectStatus =>
 {
-	const iteratorOnFilter = filterObjectAgainstFilterFunctionListByGroup(filterFunctionListByGroup, filterFunctionListMapped)(target);
+	const iteratorOnFilter = filterObjectAgainstFilterFunctionListByGroup(filterFunctionListByGroup, filterFunctionListMappedToFilterGroup)(target);
 	const filteringStatus = iteratorOnFilter.next().value || {pass: true};
 	const filteringStatus2 = iteratorOnFilter.next().value;
 

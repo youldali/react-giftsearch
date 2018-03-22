@@ -28,13 +28,18 @@ const setGiftList = (giftList: GiftCollection): Action => (
 );
 
 export
+const appendGiftList = (giftList: GiftCollection): Action => (
+	{
+		type: "GIFT_LIST_SEARCH/APPEND_TO_LIST",
+		giftList
+	}		
+);
+
+
+export
 const fetchGiftListRemotely = (universe: string ) => async (dispatch: Dispatch): Promise<GiftCollection> => {
 	const giftList = await giftFetcher(universe);
-	dispatch(fetchGiftListSucceeds(true));
 	dispatch(setGiftList(giftList));
-	saveToStorage(universe, giftList)
-		.catch(e => console.log('Error saving Gift List', e));
-	
 	return giftList;
 };
 
@@ -48,24 +53,28 @@ const handleErrorFetchGiftListRemotely = (dispatch: Dispatch) => (error: Object)
 export const fetchGiftListRemotelyWithErrorhandling = handleErrorThunkAction(handleErrorFetchGiftListRemotely)(fetchGiftListRemotely);
 
 export
-const fetchGiftListLocally = (universe: string ) => async (dispatch: Dispatch): Promise<GiftCollection> => {		
-	const giftList = await getFromStorage(universe);
-	dispatch(setGiftList(giftList));
-	return giftList;
+const createFetchGistListWithWorker = () => {
+	window.Worker 
+	const giftListWorker = new Worker('worker.js');
+
+	return (universe: string) => (dispatch: Dispatch, getState: Function): Promise<any> => {
+
+		const dataForList = {
+			filter: '',
+			order: '',
+			page: ''
+		};
+		giftListWorker.postMessage(dataForList);
+
+		const successActionToDispatch = dataForList.page === 1 ? setGiftList : appendGiftList;
+		return new Promise((resolve, reject) => {
+			giftListWorker.onmessage = event => resolve(dispatch(successActionToDispatch(event.data)));
+			giftListWorker.onerror = event => reject(dispatch(fetchGiftListSucceeds(false)));
+		});
+	};
 };
 
 
-export 
-const fetchGiftList = (universe: string) => (dispatch: Dispatch): Promise<any> => {
-	dispatch(isFetchingGiftList(true));
-	return	(
-		fetchGiftListLocally(universe)(dispatch)
-			.catch( e => {
-				return fetchGiftListRemotelyWithErrorhandling(universe)(dispatch);
-			})
-			.catch ( e => {
-				console.log(`Failed fetching Gift-List for universe ${universe}`);
-			})
-			.then(() => dispatch(isFetchingGiftList(false)) )
-	);
-};
+export
+const createFetchGiftListAction = () => 
+window.Worker ? createFetchGistListWithWorker() : fetchGiftListRemotelyWithErrorhandling;
