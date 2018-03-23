@@ -23,3 +23,9 @@ const fieldsToIndexByUniverse: FieldsToIndexByUniverse = {
         theme: {multiEntry: true}
     }    
 };
+
+export default {
+    dbName,
+    dbVersion,
+    fieldsToIndexByUniverse
+};

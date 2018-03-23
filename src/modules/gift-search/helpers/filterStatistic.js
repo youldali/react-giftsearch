@@ -41,7 +41,7 @@ const createFilterStatisticStructure = () => {
             return this;
         },
 
-        getfilteredObjectIdsMappedByGroup(group: FilterGroup, id: number): FilteredObjectIdsMappedByGroup {
+        getfilteredObjectIdsMappedByGroup(): FilteredObjectIdsMappedByGroup {
             return new Map(filteredObjectIdsMappedByGroup);
         }
     };

@@ -54,7 +54,6 @@ export const fetchGiftListRemotelyWithErrorhandling = handleErrorThunkAction(han
 
 export
 const createFetchGistListWithWorker = () => {
-	window.Worker 
 	const giftListWorker = new Worker('worker.js');
 
 	return (universe: string) => (dispatch: Dispatch, getState: Function): Promise<any> => {

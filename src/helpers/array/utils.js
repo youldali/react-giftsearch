@@ -68,3 +68,7 @@ _findElementInSortedArray = (a: Array<any>, searchedElement: any) => {
 
 }
 export const findElementInSortedArray = curry(_findElementInSortedArray);
+
+const _transformIntoObject = (array: Array<number | string>) => 
+array.reduce( (accumulator, currentValue) => accumulator[currentValue] = currentValue, {});
+export const transformIntoObject = curry(_transformIntoObject);
