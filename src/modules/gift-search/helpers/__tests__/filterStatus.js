@@ -1,4 +1,4 @@
-import {filterObjectAgainstFilterGroup, filterObjectAgainstFilterFunctionListByGroup, filter } from '../filter';
+import {filterObjectAgainstFilterGroup, filterObjectAgainstFilterFunctionListByGroup, filter } from '../filterStatus';
 
 describe('filterObjectAgainstFilterGroup', () => {
 	test('Should return true when at least 1 function returns true', () => {

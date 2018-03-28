@@ -119,7 +119,7 @@ describe('getFilterFunctionFromFilter', () => {
 });
 
 describe('createFilterFunctionDataStructure', () => {
-	test('it should return an object with correctly sorted filterFunctionListByGroup (group with less function first), and the corresponding Map filterFunctionListMapped', () => {
+	test('it should return an object with correctly sorted filterFunctionListByGroup (group with less function first), and the corresponding Map filterFunctionListMappedToFilterGroup', () => {
 		const appliedGetFilterFunctionFromFilter = getFilterFunctionFromFilter(filtersCriteriasCollection);
 		const filterFunctionObject = {
 			minPrice: appliedGetFilterFunctionFromFilter(50, 'minPrice'),
@@ -138,34 +138,34 @@ describe('createFilterFunctionDataStructure', () => {
 		filterFunctionStructure.addFilterFunction(filterFunctionObject.forSoloOnly, 'person');
 		filterFunctionStructure.addFilterFunction(filterFunctionObject.id);
 
-		const {filterFunctionListByGroup, filterFunctionListMapped} = filterFunctionStructure.getFilteringData();
+		const {filterFunctionListByGroup, filterFunctionListMappedToFilterGroup} = filterFunctionStructure.getFilteringData();
 		expect(filterFunctionListByGroup.length).toBe(5);
 
 		const group0 = filterFunctionListByGroup[0];
 		expect(group0.length).toBe(1);
 		expect(group0[0]).toBe(filterFunctionObject.minPrice);
-		expect(filterFunctionListMapped.get(group0)).toBeUndefined();
+		expect(filterFunctionListMappedToFilterGroup.get(group0)).toBeUndefined();
 
 		const group1 = filterFunctionListByGroup[1];
 		expect(group1.length).toBe(1);
 		expect(group1[0]).toBe(filterFunctionObject.maxPrice);
-		expect(filterFunctionListMapped.get(group1)).toBeUndefined();
+		expect(filterFunctionListMappedToFilterGroup.get(group1)).toBeUndefined();
 
 		const group2 = filterFunctionListByGroup[2];
 		expect(group2.length).toBe(1);
 		expect(group2[0]).toBe(filterFunctionObject.id);
-		expect(filterFunctionListMapped.get(group2)).toBeUndefined();
+		expect(filterFunctionListMappedToFilterGroup.get(group2)).toBeUndefined();
 
 		const group3 = filterFunctionListByGroup[3];
 		expect(group3.length).toBe(1);
 		expect(group3[0]).toBe(filterFunctionObject.cityLyon);
-		expect(filterFunctionListMapped.get(group3)).toBe('location');
+		expect(filterFunctionListMappedToFilterGroup.get(group3)).toBe('location');
 
 		const group4 = filterFunctionListByGroup[4];
 		expect(group4.length).toBe(2);
 		expect(group4[0]).toBe(filterFunctionObject.forCouple);
 		expect(group4[1]).toBe(filterFunctionObject.forSoloOnly);
-		expect(filterFunctionListMapped.get(group4)).toBe('person');
+		expect(filterFunctionListMappedToFilterGroup.get(group4)).toBe('person');
 
 	});		
 });
@@ -188,24 +188,24 @@ describe('getFilteringDataFromFiltersTuples', () => {
 			['minPrice', filterFunctionObject.minPrice],
 		];
 
-		const {filterFunctionListByGroup, filterFunctionListMapped} = getFilteringDataFromFiltersTuples(filtersGroupsCollection)(filtersTuples);
+		const {filterFunctionListByGroup, filterFunctionListMappedToFilterGroup} = getFilteringDataFromFiltersTuples(filtersGroupsCollection)(filtersTuples);
 		expect(filterFunctionListByGroup.length).toBe(3);
 
 		const group0 = filterFunctionListByGroup[0];
 		expect(group0.length).toBe(1);
 		expect(group0[0]).toBe(filterFunctionObject.minPrice);
-		expect(filterFunctionListMapped.get(group0)).toBeUndefined();
+		expect(filterFunctionListMappedToFilterGroup.get(group0)).toBeUndefined();
 
 		const group1 = filterFunctionListByGroup[1];
 		expect(group1.length).toBe(1);
 		expect(group1[0]).toBe(filterFunctionObject.cityLyon);
-		expect(filterFunctionListMapped.get(group1)).toBe('location');
+		expect(filterFunctionListMappedToFilterGroup.get(group1)).toBe('location');
 
 		const group2 = filterFunctionListByGroup[2];
 		expect(group2.length).toBe(2);
 		expect(group2[0]).toBe(filterFunctionObject.forCouple);
 		expect(group2[1]).toBe(filterFunctionObject.forSoloOnly);
-		expect(filterFunctionListMapped.get(group2)).toBe('person');
+		expect(filterFunctionListMappedToFilterGroup.get(group2)).toBe('person');
 
 	});	
 });
@@ -220,19 +220,19 @@ describe('getFilteringDataFromFilters', () => {
 							forSoloOnly: true,
 						};
 
-		const {filterFunctionListByGroup, filterFunctionListMapped} = partiallyAppliedGetFilteringData(filters);
+		const {filterFunctionListByGroup, filterFunctionListMappedToFilterGroup} = partiallyAppliedGetFilteringData(filters);
 		expect(filterFunctionListByGroup.length).toBe(3);
 		
 		const group0 = filterFunctionListByGroup[0];
 		expect(group0.length).toBe(1);
-		expect(filterFunctionListMapped.get(group0)).toBeUndefined();
+		expect(filterFunctionListMappedToFilterGroup.get(group0)).toBeUndefined();
 
 		const group1 = filterFunctionListByGroup[1];
 		expect(group1.length).toBe(1);
-		expect(filterFunctionListMapped.get(group1)).toBeUndefined();
+		expect(filterFunctionListMappedToFilterGroup.get(group1)).toBeUndefined();
 
 		const group2 = filterFunctionListByGroup[2];
 		expect(group2.length).toBe(2);
-		expect(filterFunctionListMapped.get(group2)).toBe('person');
+		expect(filterFunctionListMappedToFilterGroup.get(group2)).toBe('person');
 	});		
 });

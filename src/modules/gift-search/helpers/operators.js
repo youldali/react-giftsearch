@@ -1,7 +1,7 @@
 //@flow
 
 import 'core-js/fn/array/includes.js';
-import {findIntersectionOfSortedArrays} from 'helpers/array/utils';
+import {hasOneInCommon as arrayHasOneInCommon} from 'helpers/array/utils';
 
 export
 const inferior = (a: any, b: any): boolean => a < b;
@@ -37,7 +37,7 @@ export
 const isIncluded = <T: string | number>(a: T, b: Array<T>): boolean => b.includes(a);
 
 export
-const hasOneInCommon = <T: string[] | number[]>(a: T, b: T): boolean => !!findIntersectionOfSortedArrays(1, a, b).length;
+const hasOneInCommon = <T: string[] | number[]>(a: T, b: T): boolean => arrayHasOneInCommon(a, b);
 
 export default
 {

@@ -49,7 +49,7 @@ const _filterObjectAgainstFilterFunctionListByGroup =
 export const filterObjectAgainstFilterFunctionListByGroup = curry(_filterObjectAgainstFilterFunctionListByGroup);
 
 
-const _filter = 
+const _getFilterStatusForItem = 
 (filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMappedToFilterGroup: FilterFunctionListMappedToFilterGroup, target: Object): FilteredObjectStatus =>
 {
 	const iteratorOnFilter = filterObjectAgainstFilterFunctionListByGroup(filterFunctionListByGroup, filterFunctionListMappedToFilterGroup)(target);
@@ -66,6 +66,6 @@ const _filter =
 
 };
 
-export const filter = curry(_filter);
+export const getFilterStatusForItem = curry(_getFilterStatusForItem);
 
-export default filter;
+export default getFilterStatusForItem;

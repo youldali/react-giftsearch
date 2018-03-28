@@ -49,10 +49,10 @@ const createFilterStatisticStructure = () => {
 
 
 const _findNumberOfItemMatchingFilter = (filteredObjectIdsMappedByGroup: FilteredObjectIdsMappedByGroup, listOfIdsMatchingFilter: number[], filterGroup: FilterGroup, isFilterSelected: boolean): number[] => {
-    const findIntersectionWithIdsMatchingFilters = findIntersectionOfSortedArrays(listOfIdsMatchingFilter);
+    const appliedFindIntersectionOfSortedArrays = findIntersectionOfSortedArrays(listOfIdsMatchingFilter);
     return (
-        isFilterSelected ? findIntersectionWithIdsMatchingFilters(filteredObjectIdsMappedByGroup.get(true)) :
-        filterGroup === undefined ? findIntersectionWithIdsMatchingFilters(filteredObjectIdsMappedByGroup.get(true)) : findIntersectionWithIdsMatchingFilters(filteredObjectIdsMappedByGroup.get(filterGroup))
+        isFilterSelected ? appliedFindIntersectionOfSortedArrays(filteredObjectIdsMappedByGroup.get(true)) :
+        filterGroup === undefined ? appliedFindIntersectionOfSortedArrays(filteredObjectIdsMappedByGroup.get(true)) : appliedFindIntersectionOfSortedArrays(filteredObjectIdsMappedByGroup.get(filterGroup))
     );
 };
 

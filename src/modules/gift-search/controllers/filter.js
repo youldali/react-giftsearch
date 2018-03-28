@@ -2,11 +2,10 @@
 import type { FilteredObjectIdsMappedByGroup } from '../types';
 
 import getFilteringDataFromFilters from '../helpers/filterFunctionBuilder';
-import filter from '../helpers/filter';
-import { createOrOpenDatabase, iterateOverBoxesInUniverse, getAllUniqueKeysForIndex } from '../helpers/storage';
+import getFilterStatusForItem from '../helpers/filterStatus';
+import { iterateOverBoxesInUniverse } from '../helpers/idbStorage';
 import { createFilterStatisticStructure } from '../helpers/filterStatistic';
-import { curry, compose } from 'ramda';
-import { transformIntoObject } from 'helpers/array/utils';
+import { curry } from 'ramda';
 
 
 const _getFilterItemsStatisticMap = async (db, requestData, filtersCriterias, filtersGroups) => {
@@ -17,7 +16,7 @@ const _getFilterItemsStatisticMap = async (db, requestData, filtersCriterias, fi
 
     //filter
     const 
-        appliedGetFilterStatusForItem = filter(filterFunctionListByGroup, filterFunctionListMappedToFilterGroup),
+        appliedGetFilterStatusForItem = getFilterStatusForItem(filterFunctionListByGroup, filterFunctionListMappedToFilterGroup),
         filterStatisticStructure = createFilterStatisticStructure(),
         appliedIterateOnItemCallback = iterateOnItemCallback(filterStatisticStructure, appliedGetFilterStatusForItem);
 
@@ -33,10 +32,6 @@ const _iterateOnItemCallback = (filterStatisticStructure, getFilterStatusForItem
 };
 const iterateOnItemCallback = curry(_iterateOnItemCallback);
 
-
-const _orderItemIdList = (itemIdListOrdered: number[], itemIdsValidated: {[number]: any}) =>
-itemIdListOrdered.filter( itemId => itemIdsValidated[itemId] !== undefined)
-export const orderItemIdList = curry(_orderItemIdList);
 
 
 

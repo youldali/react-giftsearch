@@ -17,7 +17,7 @@ export const findHighestValueInObjects = curry(_findHighestValueInObjects);
 
 //number -> [a] -> [a] -> [a]
 const
-_findIntersectionOfSortedArrays = <T: Array<any>>(stopAt: number, a: T, b: T) => {
+_findIntersectionOfSortedArrays = <T: Array<any>>(a: T, b: T) => {
 	const 
 		length1 = a.length, 
 		length2 = b.length,
@@ -25,10 +25,9 @@ _findIntersectionOfSortedArrays = <T: Array<any>>(stopAt: number, a: T, b: T) =>
 
 	let 
 		i = 0, 
-		j = 0,
-		numberOfMatch = 0;
+		j = 0;
 
-	while(i < length1 && j < length2 && numberOfMatch < stopAt){
+	while(i < length1 && j < length2){
 		let aI = a[i], bJ = b[j];
 		if(aI > bJ)
 			j++
@@ -38,17 +37,41 @@ _findIntersectionOfSortedArrays = <T: Array<any>>(stopAt: number, a: T, b: T) =>
 			intersection.push(aI);
 			i++;
 			j++;
-			numberOfMatch++;
 		}
 	}
 
 	return intersection;
-}
+};
 export const findIntersectionOfSortedArrays = curry(_findIntersectionOfSortedArrays);
+
+const
+_hasOneInCommon = <T: Array<any>>(a: T, b: T) => {
+	const 
+		length1 = a.length, 
+		length2 = b.length;
+
+	let 
+		i = 0, 
+		j = 0;
+
+	while(i < length1 && j < length2){
+		let aI = a[i], bJ = b[j];
+		if(aI > bJ)
+			j++
+		else if (aI < bJ)
+			i++
+		else{
+			return true;
+		}
+	}
+
+	return false;
+};
+export const hasOneInCommon = curry(_hasOneInCommon);
 
 //number -> [a] -> a -> number
 const
-_findElementInSortedArray = (a: Array<any>, searchedElement: any) => {
+_findElementIndexInSortedArray = (a: Array<any>, searchedElement: any) => {
 	let 
 		startIndex = 0, 
 		endIndex = a.length - 1;
@@ -67,8 +90,13 @@ _findElementInSortedArray = (a: Array<any>, searchedElement: any) => {
 	return -1;
 
 }
-export const findElementInSortedArray = curry(_findElementInSortedArray);
+export const findElementIndexInSortedArray = curry(_findElementIndexInSortedArray);
 
-const _transformIntoObject = (array: Array<number | string>) => 
-array.reduce( (accumulator, currentValue) => accumulator[currentValue] = currentValue, {});
+const _transformIntoObject = (array: Array<number | string>) => {
+	const reducer = (accumulator, currentValue) => {
+		accumulator[currentValue] = currentValue;
+		return accumulator;
+	}
+	return array.reduce(reducer, {});
+}
 export const transformIntoObject = curry(_transformIntoObject);
