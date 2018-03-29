@@ -1,7 +1,7 @@
 //@flow
 
 import type { FieldsToIndexByUniverse, FieldsToIndex, IndexConfig, FilterCriteria, FilterGroup, Operator, FilterOperand } from '../types';
-import { curry, mapObjIndexed, mergeAll } from 'ramda';
+import { curry, mapObjIndexed, mergeAll, reverse } from 'ramda';
 
 type FilterMatchingIdList = {[string]: [number]};
 const {indexedDB, IDBKeyRange} = window;
@@ -153,3 +153,19 @@ const _getAllUniqueKeysForIndex = (db: IDBDatabase, universe: string, field: str
     });
 };
 export const getAllUniqueKeysForIndex = curry(_getAllUniqueKeysForIndex);
+
+
+const _getAllPrimaryKeysForindex = (db: IDBDatabase, universe: string, field: string, reverseDirection: boolean) => {
+    const 
+        transaction = db.transaction(universe, 'readonly'),
+        objectStore = transaction.objectStore(universe),
+        index = objectStore.index(field),
+        //$FlowFixMe
+        request: IDBRequest = index.getAllKeys(keyRange);
+
+    return new Promise((resolve, reject) => {
+        request.onsuccess = () => resolve( reverseDirection ? reverse(request.result) : request.result );
+        request.onerror = () => reject('error fetching data: ' + request.error.message);
+    });
+};
+export const getAllPrimaryKeysForindex = curry(_getAllPrimaryKeysForindex);

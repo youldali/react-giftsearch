@@ -1,4 +1,5 @@
-import { transformIntoObject } from 'helpers/array/utils';
+import { transformIntoObject, filterAgainstObjectKeys } from 'helpers/array/utils';
+import { getAllPrimaryKeysForindex } from '../helpers/idbStorage';
 import { curry, compose } from 'ramda';
 
 const _getOrderedList = async (db, requestData, filteredObjectIdsMappedByGroup: FilteredObjectIdsMappedByGroup) => {
@@ -6,13 +7,8 @@ const _getOrderedList = async (db, requestData, filteredObjectIdsMappedByGroup: 
 
     const 
         validatedItemIdObject = compose(transformIntoObject, filteredObjectIdsMappedByGroup.get(true)),
-        fullObjectListOrder = await getAllUniqueKeysForIndex(db, universe, orderBy);
+        fullObjectListOrdered = await getAllPrimaryKeysForindex(db, universe, orderBy);
 
-    return orderItemIdList(validatedItemIdObject, fullObjectListOrder);
+    return filterAgainstObjectKeys(fullObjectListOrdered, validatedItemIdObject);
 }
 export const getOrderedList = curry(_getOrderedList);
-
-
-const _orderItemIdList = (itemIdListOrdered: number[], itemIdsValidated: {[number]: any}) =>
-itemIdListOrdered.filter( itemId => itemIdsValidated[itemId] !== undefined)
-export const orderItemIdList = curry(_orderItemIdList);

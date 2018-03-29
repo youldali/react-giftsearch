@@ -88,3 +88,32 @@ describe('transformIntoObject', () => {
 	});	
 
 });
+
+describe('filterAgainstObjectKeys', () => {
+	test('it should filter the array according to the keys of the object (number)', () => {
+		const a = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+		const o = {
+			1: 1,
+			2: 2,
+			4: 4,
+			5: 5
+		};
+
+		const expected = [1, 2, 4, 5];
+
+		expect(arrayHelper.filterAgainstObjectKeys(a, o)).toEqual(expected);
+	});	
+
+	test('it should filter the array according to the keys of the object (string)', () => {
+		const a = ['a', 'b', 'c', 'd', 'e'];
+		const o = {
+			'c': 1,
+			'e': 1
+		};
+
+		const expected = ['c', 'e'];
+
+		expect(arrayHelper.filterAgainstObjectKeys(a, o)).toEqual(expected);
+	});	
+
+});

@@ -44,6 +44,7 @@ _findIntersectionOfSortedArrays = <T: Array<any>>(a: T, b: T) => {
 };
 export const findIntersectionOfSortedArrays = curry(_findIntersectionOfSortedArrays);
 
+// [a] -> [a] -> boolean
 const
 _hasOneInCommon = <T: Array<any>>(a: T, b: T) => {
 	const 
@@ -92,6 +93,7 @@ _findElementIndexInSortedArray = (a: Array<any>, searchedElement: any) => {
 }
 export const findElementIndexInSortedArray = curry(_findElementIndexInSortedArray);
 
+// [string | number] -> { [string] : string | number}
 const _transformIntoObject = (array: Array<number | string>) => {
 	const reducer = (accumulator, currentValue) => {
 		accumulator[currentValue] = currentValue;
@@ -100,3 +102,8 @@ const _transformIntoObject = (array: Array<number | string>) => {
 	return array.reduce(reducer, {});
 }
 export const transformIntoObject = curry(_transformIntoObject);
+
+// [a] -> { [string] : a} -> [a]
+const _filterAgainstObjectKeys = (array: Array<any>, object: {} )=>
+array.filter( itemId => object[itemId] !== undefined)
+export const filterAgainstObjectKeys = curry(_filterAgainstObjectKeys);

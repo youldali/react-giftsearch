@@ -1,4 +1,4 @@
-import { curry } from 'ramda';
+import { curry, reverse, sort } from 'ramda';
 
 const idbStorage = jest.genMockFromModule('../idbStorage');
 
@@ -24,3 +24,37 @@ const _iterateOverBoxesInUniverse = (db, universe, callback) => {
     return Promise.resolve();
 }
 export const iterateOverBoxesInUniverse = curry(_iterateOverBoxesInUniverse);
+
+
+const _getAllUniqueKeysForIndex = (db: IDBDatabase, universe: string, field: string) => {
+    const reducerToUniqueSetOfValues = (accumulator, currentElement) => {
+        const 
+            fieldValue = currentElement[field],
+            mFieldValue = Array.isArray(fieldValue) ? fieldValue : [fieldValue];
+
+        //for each elt in the array, we check if the value exist, if not we push it
+        mFieldValue.forEach( singleValue => {
+            accumulator.indexOf(singleValue) === -1 && accumulator.push(singleValue);
+        });
+        
+		return accumulator;
+	}
+	return Promise.resolve(giftCollection.reduce(reducerToUniqueSetOfValues, []) );
+};
+export const getAllUniqueKeysForIndex = curry(_getAllUniqueKeysForIndex);
+
+
+
+const _getAllPrimaryKeysForindex = (db: IDBDatabase, universe: string, field: string, reverseDirection: boolean) => {
+    const reducerToSetOfValues = (accumulator, currentElement) => {
+        accumulator.push(currentElement.id);   
+		return accumulator;
+    };
+    
+    const 
+        sortedGiftCollection = sort( (a, b) => a.price - b.price),
+        arrayOfSortedIds = sortedGiftCollection.reduce(reducerToUniqueSetOfValues, []);
+
+    return Promise.resolve(reverseDirection ? reverse(arrayOfSortedIds) : arrayOfSortedIds);
+};
+export const getAllPrimaryKeysForindex = curry(_getAllPrimaryKeysForindex);

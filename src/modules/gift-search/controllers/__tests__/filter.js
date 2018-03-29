@@ -1,7 +1,6 @@
 jest.mock('../../helpers/idbStorage');
 
 import { getFilterItemsStatisticMap } from '../filter';
-import { curry } from 'ramda';
 
 const filtersCriteriasCollection = {
 	priceRange1: { field: 'price', operator: 'inRangeOpenClosed', operand: [0, 50]},
@@ -32,7 +31,7 @@ const filtersGroupsCollection = {
 	priceRange4: 'price',
 };
 
-describe('_getFilterItemsStatisticMap', () => {
+describe('getFilterItemsStatisticMap', () => {
 	test('Should return filter statistic structure matching the filters applied (1)', () => {
         const 
             filters = {priceRange1: true},

@@ -1,4 +1,4 @@
-import {filterObjectAgainstFilterGroup, filterObjectAgainstFilterFunctionListByGroup, filter } from '../filterStatus';
+import {filterObjectAgainstFilterGroup, filterObjectAgainstFilterFunctionListByGroup, getFilterStatusForItem } from '../filterStatus';
 
 describe('filterObjectAgainstFilterGroup', () => {
 	test('Should return true when at least 1 function returns true', () => {
@@ -86,7 +86,7 @@ describe('filterObjectAgainstFilterFunctionListByGroup', () => {
 	});				
 });
 
-describe('filter', () => {
+describe('_getFilterStatusForItem', () => {
 	test('Should return a filterStatus to true if it receives true all', () => {
 		const f1G1 = (target) => ( true );
 		const f2G1 = (target) => ( false );
@@ -102,7 +102,7 @@ describe('filter', () => {
 			.set(filterCollectionGroup2, 'group2');
 
 		const filterFunctionListByGroup = [filterCollectionGroup1, filterCollectionGroup2];
-		const filterStatus = filter(filterFunctionListByGroup, filterFunctionListMapped)({});
+		const filterStatus = getFilterStatusForItem(filterFunctionListByGroup, filterFunctionListMapped)({});
 
 		expect(filterStatus).toEqual({pass: true});
 	});
@@ -126,7 +126,7 @@ describe('filter', () => {
 			.set(filterCollectionGroup3, 'group3');
 
 		const filterFunctionListByGroup = [filterCollectionGroup1, filterCollectionGroup2, filterCollectionGroup3];
-		const filterStatus = filter(filterFunctionListByGroup, filterFunctionListMapped)({});
+		const filterStatus = getFilterStatusForItem(filterFunctionListByGroup, filterFunctionListMapped)({});
 
 		expect(filterStatus).toEqual({pass: false, filterGroupRejected: 'group3'});
 	});
@@ -154,7 +154,7 @@ describe('filter', () => {
 			.set(filterCollectionGroup4, 'group4');
 
 		const filterFunctionListByGroup = [filterCollectionGroup1, filterCollectionGroup2, filterCollectionGroup3, filterCollectionGroup4];
-		const filterStatus = filter(filterFunctionListByGroup, filterFunctionListMapped)({});
+		const filterStatus = getFilterStatusForItem(filterFunctionListByGroup, filterFunctionListMapped)({});
 
 		expect(filterStatus).toEqual({pass: false});
 	});
