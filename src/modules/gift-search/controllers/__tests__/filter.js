@@ -11,8 +11,8 @@ const filtersCriteriasCollection = {
 	forOnePerson: { field: 'forOnePerson', operator: '===', operand: 1 },
 	forCouple: { field: 'forCouple', operator: '===', operand: 1 },
 
-	city: { field: 'name', operator: '===' },
-	cityLyon: { field: 'name', operator: '===', operand: 'Lyon' },
+	city: { field: 'city', operator: '===' },
+	cityLyon: { field: 'city', operator: '===', operand: 'Lyon' },
 
 	id: { field: 'id', operator: 'isIncluded'},
 	excluWeb: { field: 'webExclusive', operator: '===', operand: 1 },
@@ -61,10 +61,10 @@ describe('getFilterItemsStatisticMap', () => {
 			result = getFilterItemsStatisticMap(db, requestData, filtersCriteriasCollection, filtersGroupsCollection),
 			expected = new Map();
 		expected
-			.set(true, [6,7,8,10])
+			.set(true, [6,7,8])
 			.set(false, [1,2,3,5])
 			.set('price', [4])
-			.set('location', [9]);
+			.set('location', [9, 10]);
 			
 		return expect(result).resolves.toEqual(expected);
 	});		
