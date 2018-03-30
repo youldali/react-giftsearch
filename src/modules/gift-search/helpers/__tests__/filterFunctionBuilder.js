@@ -1,15 +1,18 @@
 import {evaluateCriteria, getFilterFunctionFromFilter, createFilterFunctionDataStructure, getFilteringDataFromFiltersTuples, getFilteringDataFromFilters } from '../filterFunctionBuilder';
 
-const gift1 = {'id': 1, 'name': 'Paris', 'price': 25, forOnePerson: 1, forCouple: 0, experienceType: ['boat', 'car', 'parachute']};
-const gift2 = {'id': 2, 'name': 'Lyon', 'price': 40, forOnePerson: 0, forCouple: 1, experienceType: ['car']};
-const gift3 = {'id': 3, 'name': 'Barcelona', 'price': 120, forOnePerson: 1, forCouple: 0, experienceType: ['boat']};
-const gift4 = {'id': 4, 'name': 'Lyon', 'price': 199, forOnePerson: 1, forCouple: 0, experienceType: ['boat', 'plane']};
-const gift5 = {'id': 5, 'name': 'Dublin', 'price': 301, forOnePerson: 1, forCouple: 1, experienceType: ['parachute']};
-const gift6 = {'id': 6, 'name': 'Lyon', 'price': 700, forOnePerson: 0, forCouple: 1, experienceType: ['boat', 'car']};
+const gift1 = {'id': 1, 'city': 'Paris', 'price': 25, forOnePerson: 1, forCouple: 0, experienceType: ['boat', 'car', 'parachute']};
+const gift2 = {'id': 2, 'city': 'Lyon', 'price': 40, forOnePerson: 0, forCouple: 1, experienceType: ['car']};
+const gift3 = {'id': 3, 'city': 'Barcelona', 'price': 120, forOnePerson: 1, forCouple: 0, experienceType: ['boat']};
+const gift4 = {'id': 4, 'city': 'Lyon', 'price': 199, forOnePerson: 1, forCouple: 0, experienceType: ['boat', 'plane']};
+const gift5 = {'id': 5, 'city': 'Dublin', 'price': 301, forOnePerson: 1, forCouple: 1, experienceType: ['parachute']};
+const gift6 = {'id': 6, 'city': 'Lyon', 'price': 700, forOnePerson: 0, forCouple: 1, experienceType: ['boat', 'car']};
 
 const giftCollection = [gift1, gift2, gift3, gift4, gift5, gift6];
 
 const filtersCriteriasCollection = {
+	minPrice: { field: 'price', operator: '>'},
+	maxPrice: { field: 'price', operator: '<'},
+
 	priceRange1: { field: 'price', operator: 'inRangeOpenClosed', operand: [0, 50]},
 	priceRange2: { field: 'price', operator: 'inRangeOpenClosed', operand: [50, 100]},
 	priceRange3: { field: 'price', operator: 'inRangeOpenClosed', operand: [100, 200]},
@@ -18,8 +21,8 @@ const filtersCriteriasCollection = {
 	forOnePerson: { field: 'forOnePerson', operator: '===', operand: 1 },
 	forCouple: { field: 'forCouple', operator: '===', operand: 1 },
 
-	city: { field: 'name', operator: '===' },
-	cityLyon: { field: 'name', operator: '===', operand: 'Lyon' },
+	city: { field: 'city', operator: '===' },
+	cityLyon: { field: 'city', operator: '===', operand: 'Lyon' },
 
 	id: { field: 'id', operator: 'isIncluded'},
 	excluWeb: { field: 'webExclusive', operator: '===', operand: 1 },
@@ -125,7 +128,7 @@ describe('createFilterFunctionDataStructure', () => {
 			minPrice: appliedGetFilterFunctionFromFilter(50, 'minPrice'),
 			forCouple: appliedGetFilterFunctionFromFilter(true, 'forCouple'),
 			cityLyon: appliedGetFilterFunctionFromFilter(true, 'cityLyon'),
-			maxPrice: appliedGetFilterFunctionFromFilter(100, 'cityLyon'),
+			maxPrice: appliedGetFilterFunctionFromFilter(100, 'maxPrice'),
 			forSoloOnly: appliedGetFilterFunctionFromFilter(true, 'forSoloOnly'),
 			id: appliedGetFilterFunctionFromFilter([1,2], 'id'),
 		};
@@ -212,7 +215,7 @@ describe('getFilteringDataFromFiltersTuples', () => {
 
 describe('getFilteringDataFromFilters', () => {
 	test('it should get the correct FilterData', () => {
-		const partiallyAppliedGetFilteringData = getFilteringDataFromFilters(filtersCriteriasCollection, filtersGroupsCollection);
+		const appliedGetFilteringData = getFilteringDataFromFilters(filtersCriteriasCollection, filtersGroupsCollection);
 		const filters = {
 							maxPrice: 500,
 							minPrice: 100,
@@ -220,7 +223,7 @@ describe('getFilteringDataFromFilters', () => {
 							forSoloOnly: true,
 						};
 
-		const {filterFunctionListByGroup, filterFunctionListMappedToFilterGroup} = partiallyAppliedGetFilteringData(filters);
+		const {filterFunctionListByGroup, filterFunctionListMappedToFilterGroup} = appliedGetFilteringData(filters);
 		expect(filterFunctionListByGroup.length).toBe(3);
 		
 		const group0 = filterFunctionListByGroup[0];

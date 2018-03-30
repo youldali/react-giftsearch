@@ -161,7 +161,7 @@ const _getAllPrimaryKeysForindex = (db: IDBDatabase, universe: string, field: st
         objectStore = transaction.objectStore(universe),
         index = objectStore.index(field),
         //$FlowFixMe
-        request: IDBRequest = index.getAllKeys(keyRange);
+        request = index.getAllKeys();
 
     return new Promise((resolve, reject) => {
         request.onsuccess = () => resolve( reverseDirection ? reverse(request.result) : request.result );
