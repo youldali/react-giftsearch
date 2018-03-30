@@ -14,6 +14,7 @@ const gift8 = {'id': 8, name: 'stay in Lyon 3', 'city': 'Lyon', 'price': 800, fo
 const gift9 = {'id': 9, name: 'eat in Paris', 'city': 'Paris', 'price': 900, forOnePerson: 0, forCouple: 1, experienceType: ['plane']};
 const gift10 = {'id':10, name: 'stay in Berlin', 'city': 'Berlin', 'price': 1000, forOnePerson: 0, forCouple: 1, experienceType: ['boat', 'plane']};
 
+export
 const giftCollection = [gift1, gift2, gift3, gift4, gift5, gift6, gift7, gift8, gift9, gift10];
 
 
@@ -58,3 +59,16 @@ const _getAllPrimaryKeysForindex = (db: IDBDatabase, universe: string, field: st
     return Promise.resolve(reverseDirection ? reverse(arrayOfSortedIds) : arrayOfSortedIds);
 };
 export const getAllPrimaryKeysForindex = curry(_getAllPrimaryKeysForindex);
+
+
+const _getItemList = (db: IDBDatabase, universe: string, idList: number[]): Promise<any> => {
+    const itemList = [];
+
+    idList.forEach( id => {
+        const item = giftCollection.find( element => element.id === id)
+        itemList.push(item);
+    });
+
+    return Promise.resolve(itemList);
+};
+export const getItemList = curry(_getItemList);

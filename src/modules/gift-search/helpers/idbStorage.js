@@ -169,3 +169,23 @@ const _getAllPrimaryKeysForindex = (db: IDBDatabase, universe: string, field: st
     });
 };
 export const getAllPrimaryKeysForindex = curry(_getAllPrimaryKeysForindex);
+
+
+const _getItemList = (db: IDBDatabase, universe: string, idList: number[]): Promise<any> => {
+    const 
+        transaction = db.transaction(universe, 'readonly'),
+        objectStore = transaction.objectStore(universe),
+        itemList = [];
+
+
+    idList.forEach( id => {
+        const request = objectStore.get(id);
+        request.onsuccess = () => itemList.push(request.result);
+    });
+
+    return new Promise((resolve, reject) => {
+        transaction.oncomplete = () => resolve(itemList);
+        transaction.onerror = () => reject('error fetching the items');
+    });
+};
+export const getItemList = curry(_getItemList);

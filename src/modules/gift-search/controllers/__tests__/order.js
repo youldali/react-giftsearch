@@ -17,9 +17,9 @@ describe('getOrderedList', () => {
 			.set(false, [2, 5, 6, 10]);
 
         const 
-            orderedFilteredList = getOrderedList(db, requestData, filteredObjectIdsMappedByGroup),
+            orderedFilteredIdList = getOrderedList(db, requestData, filteredObjectIdsMappedByGroup),
             expected = [1, 3, 4, 7, 8, 9];
-		return expect(orderedFilteredList).resolves.toEqual(expected);
+		return expect(orderedFilteredIdList).resolves.toEqual(expected);
     });
     
     test('Should the filtered list in correct order by price DESC', () => {
@@ -36,9 +36,9 @@ describe('getOrderedList', () => {
 			.set(false, [2, 5, 6, 10]);
 
         const 
-            orderedFilteredList = getOrderedList(db, requestData, filteredObjectIdsMappedByGroup),
+            orderedFilteredIdList = getOrderedList(db, requestData, filteredObjectIdsMappedByGroup),
             expected = [9, 8, 7, 4, 3, 1];
-		return expect(orderedFilteredList).resolves.toEqual(expected);
+		return expect(orderedFilteredIdList).resolves.toEqual(expected);
     });
     
     test('Should the filtered list in correct order by city ASC', () => {
@@ -55,8 +55,8 @@ describe('getOrderedList', () => {
 			.set(false, [1, 4, 8, 9]);
 
         const 
-            orderedFilteredList = getOrderedList(db, requestData, filteredObjectIdsMappedByGroup),
+            orderedFilteredIdList = getOrderedList(db, requestData, filteredObjectIdsMappedByGroup),
             expected = [3, 10, 5, 2, 6, 7];
-		return expect(orderedFilteredList).resolves.toEqual(expected);
+		return expect(orderedFilteredIdList).resolves.toEqual(expected);
 	});
 });
