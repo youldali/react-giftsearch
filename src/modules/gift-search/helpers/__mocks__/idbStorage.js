@@ -1,4 +1,5 @@
 import { curry, reverse, sortBy, prop } from 'ramda';
+import operators from '../operators';
 
 const idbStorage = jest.genMockFromModule('../idbStorage');
 
@@ -72,3 +73,30 @@ const _getItemList = (db: IDBDatabase, universe: string, idList: number[]): Prom
     return Promise.resolve(itemList);
 };
 export const getItemList = curry(_getItemList);
+
+
+const _getPrimaryKeyListMatchingRange = (db: IDBDatabase, storeName: string, indexName: string, keyRange: IDBKeyRange) => {
+    const 
+        { operator, operand } = keyRange,
+        field = indexName;
+
+    const 
+        multiOperator = ['isIncluded', 'hasOneInCommon'],
+        mOperand = multiOperator.includes(operator) ? [operand] : operand;
+
+    const 
+        filteredGiftCollection = giftCollection.filter( item => operators[operator](item[field], mOperand) ),
+        itemIdList = filteredGiftCollection.map( item => item.id);
+
+    return Promise.resolve(itemIdList);
+}
+export const getPrimaryKeyListMatchingRange = curry(_getPrimaryKeyListMatchingRange);
+
+
+const _getKeyRangeMatchingOperator = (operator: Operator, operand: FilterOperand) => (
+    {
+        operator,
+        operand
+    }
+);
+export const getKeyRangeMatchingOperator = curry(_getKeyRangeMatchingOperator);

@@ -1,3 +1,5 @@
+//@flow
+
 import { getItemList } from '../helpers/idbStorage';
 import { curry } from 'ramda';
 

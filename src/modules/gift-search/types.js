@@ -1,4 +1,4 @@
-
+import type { Interval } from 'helpers/dataStruture/interval';
 //OPERATOR
 export type Operator = 
     '<' | '<=' | '>' | '>=' | '==' | '===' | 
@@ -11,7 +11,7 @@ export type FilterGroup = string;
 export type FiltersGroupsCollection = { +[FilterName]: FilterGroup};
 
 //FILTER CRITERIA
-export type FilterOperand = number | string | number[] | string[];
+export type FilterOperand = number | string | number[] | string[] | Interval;
 export type FilterCriteria = {|field: string, operator: string, operand?: FilterOperand|};
 export type FiltersCriteriasCollection = {+[FilterName]: FilterCriteria};
 export type FilterConfig = {

@@ -1,9 +1,8 @@
 //@flow
 
 import type { FieldsToIndexByUniverse, FieldsToIndex, IndexConfig, FilterCriteria, FilterGroup, Operator, FilterOperand } from '../types';
-import { curry, mapObjIndexed, mergeAll, reverse } from 'ramda';
+import { curry, mapObjIndexed, reverse } from 'ramda';
 
-type FilterMatchingIdList = {[string]: [number]};
 const {indexedDB, IDBKeyRange} = window;
 
 const _createUniverseStore = (db: IDBDatabase, fieldsToIndex: FieldsToIndex, universe: string) => {
@@ -48,25 +47,7 @@ const _addDataToUniverse = (db: IDBDatabase, universe: string, data: Object[]): 
 export const addDataToUniverse = curry(_addDataToUniverse);
 
 
-const _getItemIdListMatchingFilter = (db: IDBDatabase, universe: string, filterCriteria: FilterCriteria, filterOperandFallback: FilterOperand): Promise<FilterMatchingIdList> => {
-    const operatorMultiValue = ['isIncluded', 'hasOneInCommon'];
-    const 
-        {field, operator, operand} = filterCriteria,
-        nonNullOperand = operand || filterOperandFallback,
-        mOperand = operatorMultiValue.includes(operator) ? nonNullOperand : [nonNullOperand];
-
-    //$FlowFixMe
-    const operandIdListPromise = mOperand.map( operand => 
-        getItemIdListMatchingFieldOperand(db, universe, field, getKeyRangeMatchingOperator(operator, operand))
-        .then(matchingIdList => ( {[operand.toString()]: matchingIdList} )) 
-    );
-
-    return Promise.all(operandIdListPromise).then((operandIdList) => mergeAll(operandIdList));
-};
-export const getFilterMatchingIdList = curry(_getItemIdListMatchingFilter);
-
-
-const _getItemIdListMatchingFieldOperand = (db: IDBDatabase, storeName: string, indexName: string, keyRange: IDBKeyRange) => {
+const _getPrimaryKeyListMatchingRange= (db: IDBDatabase, storeName: string, indexName: string, keyRange: IDBKeyRange) => {
     const 
         transaction = db.transaction(storeName, 'readonly'),
         objectStore = transaction.objectStore(storeName),
@@ -79,7 +60,7 @@ const _getItemIdListMatchingFieldOperand = (db: IDBDatabase, storeName: string, 
         request.onerror = () => reject('error fetching data: ' + request.error.message);
     });
 };
-export const getItemIdListMatchingFieldOperand = curry(_getItemIdListMatchingFieldOperand);
+export const getPrimaryKeyListMatchingRange = curry(_getPrimaryKeyListMatchingRange);
 
 
 const _getKeyRangeMatchingOperator = (operator: Operator, operand: FilterOperand) => {

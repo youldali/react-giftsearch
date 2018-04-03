@@ -1,6 +1,6 @@
 jest.mock('../../helpers/idbStorage');
 
-import { getPaginatedGiftList } from '../paginate';
+import { getPaginatedGiftList } from '../pagination';
 import { giftCollection } from '../../helpers/__mocks__/idbStorage';
 
 describe('getPaginatedGiftList', () => {

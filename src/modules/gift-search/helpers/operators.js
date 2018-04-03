@@ -1,7 +1,7 @@
 //@flow
 
 import 'core-js/fn/array/includes.js';
-import {hasOneInCommon as arrayHasOneInCommon} from 'helpers/array/utils';
+import { hasOneInCommon as arrayHasOneInCommon } from 'helpers/array/utils';
 
 export
 const inferior = (a: any, b: any): boolean => a < b;

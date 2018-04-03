@@ -48,12 +48,7 @@ const createFilterStatisticStructure = () => {
 };
 
 
-const _findNumberOfItemMatchingFilter = (filteredObjectIdsMappedByGroup: FilteredObjectIdsMappedByGroup, listOfIdsMatchingFilter: number[], filterGroup: FilterGroup, isFilterSelected: boolean): number[] => {
-    const appliedFindIntersectionOfSortedArrays = findIntersectionOfSortedArrays(listOfIdsMatchingFilter);
-    return (
-        isFilterSelected ? appliedFindIntersectionOfSortedArrays(filteredObjectIdsMappedByGroup.get(true)) :
-        filterGroup === undefined ? appliedFindIntersectionOfSortedArrays(filteredObjectIdsMappedByGroup.get(true)) : appliedFindIntersectionOfSortedArrays(filteredObjectIdsMappedByGroup.get(filterGroup))
-    );
-};
+const _findNumberOfItemMatchingFilter = (itemIdListMatchingFilterGroup: number[], listOfIdsMatchingFilterWhenAppliedAlone: number[], isFilterSelected: boolean): number[] => 
+findIntersectionOfSortedArrays(itemIdListMatchingFilterGroup, listOfIdsMatchingFilterWhenAppliedAlone);
 
 export const findNumberOfItemMatchingFilter = curry(_findNumberOfItemMatchingFilter);

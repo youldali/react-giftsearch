@@ -1,3 +1,6 @@
+//@flow
+import type { FilteredObjectIdsMappedByGroup } from '../types';
+
 import { transformIntoObject, filterAgainstObjectKeys } from 'helpers/array/utils';
 import { getAllPrimaryKeysForindex } from '../helpers/idbStorage';
 import { curry } from 'ramda';

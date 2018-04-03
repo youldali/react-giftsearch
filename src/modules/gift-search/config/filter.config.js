@@ -1,12 +1,13 @@
 // @flow
-
 import type { FilterName, FilterOperand, Operator, FilterConfig } from '../types';
+
+import createInterval from 'helpers/dataStruture/interval';
 
 const filterConfigBase: FilterConfig = {
 	filtersCriterias: {
-		priceRange1: { field: 'price', operator: 'inRangeOpenClosed', operand : [0, 50]},
-        priceRange2: { field: 'price', operator: 'inRangeOpenClosed', operand: [50, 100]},
-        priceRange3: { field: 'price', operator: 'inRangeOpenClosed', operand: [100, 200]},
+		priceRange1: { field: 'price', operator: 'inRangeOpenClosed', operand : createInterval(0, 50) },
+        priceRange2: { field: 'price', operator: 'inRangeOpenClosed', operand: createInterval(50, 100) },
+        priceRange3: { field: 'price', operator: 'inRangeOpenClosed', operand: createInterval(100, 200) },
         priceRange4: { field: 'price', operator: '>', operand: 200} ,
 
         forOnePerson: { field: 'forOnePerson', operator: '===', operand: 1 },
