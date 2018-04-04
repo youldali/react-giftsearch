@@ -15,7 +15,9 @@ describe('getItemIdListMatchingFilter', () => {
         const 
             idListMappedToFilter = getItemIdListMatchingFilter(db, universe, filterCriteria, filterName: FilterName),
             expected = {
-                [filterName]: [5, 6, 7, 8, 9, 10]
+                [filterName]: {
+                    "200": [5, 6, 7, 8, 9, 10]
+                }
             };
 
 		return expect(idListMappedToFilter).resolves.toEqual(expected);
@@ -31,13 +33,15 @@ describe('getItemIdListMatchingFilter', () => {
         const 
             idListMappedToFilter = getItemIdListMatchingFilter(db, universe, filterCriteria, filterName: FilterName),
             expected = {
-                [filterName]: [3, 4]
+                [filterName]: {
+                    "[50,200]": [3, 4]
+                }
             };
 
 		return expect(idListMappedToFilter).resolves.toEqual(expected);
     });
 
-    test.only('should return the id list matching each filter for experience type ', () => {
+    test('should return the id list matching each filter for experience type ', () => {
         const 
             universe = 'sejour',
             db = {},

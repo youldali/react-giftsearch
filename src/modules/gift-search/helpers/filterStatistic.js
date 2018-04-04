@@ -1,10 +1,8 @@
 //@flow
 
-import type { FilterGroup, FilteredObjectStatus } from '../types';
+import type { FilterGroup, FilteredObjectStatus, FilteredObjectIdsMappedByGroup } from '../types';
 import { findIntersectionOfSortedArrays } from 'helpers/array/utils'
 import { curry } from 'ramda';
-
-type FilteredObjectIdsMappedByGroup = Map<string | boolean, number[]>;
 
 export
 const createFilterStatisticStructure = () => {
@@ -48,7 +46,13 @@ const createFilterStatisticStructure = () => {
 };
 
 
-const _findNumberOfItemMatchingFilter = (itemIdListMatchingFilterGroup: number[], listOfIdsMatchingFilterWhenAppliedAlone: number[], isFilterSelected: boolean): number[] => 
-findIntersectionOfSortedArrays(itemIdListMatchingFilterGroup, listOfIdsMatchingFilterWhenAppliedAlone);
+const _findNumberOfItemMatchingFilter = (itemIdListMatchingFilterGroup: number[], listOfIdsMatchingFilterWhenAppliedAlone: number[], isFilterSelected: boolean): number[] => {
+    const appliedFindIntersectionOfSortedArrays = findIntersectionOfSortedArrays(listOfIdsMatchingFilter);
+    return (
+        isFilterSelected ? appliedFindIntersectionOfSortedArrays(filteredObjectIdsMappedByGroup.get(true)) :
+        filterGroup === undefined ? appliedFindIntersectionOfSortedArrays(filteredObjectIdsMappedByGroup.get(true)) : appliedFindIntersectionOfSortedArrays(filteredObjectIdsMappedByGroup.get(filterGroup))
+    );
+};
+
 
 export const findNumberOfItemMatchingFilter = curry(_findNumberOfItemMatchingFilter);
