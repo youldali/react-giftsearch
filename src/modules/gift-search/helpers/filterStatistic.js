@@ -44,15 +44,4 @@ const createFilterStatisticStructure = () => {
         }
     };
 };
-
-
-const _findNumberOfItemMatchingFilter = (itemIdListMatchingFilterGroup: number[], listOfIdsMatchingFilterWhenAppliedAlone: number[], isFilterSelected: boolean): number[] => {
-    const appliedFindIntersectionOfSortedArrays = findIntersectionOfSortedArrays(listOfIdsMatchingFilter);
-    return (
-        isFilterSelected ? appliedFindIntersectionOfSortedArrays(filteredObjectIdsMappedByGroup.get(true)) :
-        filterGroup === undefined ? appliedFindIntersectionOfSortedArrays(filteredObjectIdsMappedByGroup.get(true)) : appliedFindIntersectionOfSortedArrays(filteredObjectIdsMappedByGroup.get(filterGroup))
-    );
-};
-
-
-export const findNumberOfItemMatchingFilter = curry(_findNumberOfItemMatchingFilter);
+export default createFilterStatisticStructure;

@@ -107,3 +107,7 @@ export const transformIntoObject = curry(_transformIntoObject);
 const _filterAgainstObjectKeys = (array: Array<any>, object: {} )=>
 array.filter( itemId => object[itemId] !== undefined)
 export const filterAgainstObjectKeys = curry(_filterAgainstObjectKeys);
+
+// a | [a] -> [a]
+export const liftInArray = (a: any): Array<any> => 
+Array.isArray(a) ? a : [a];

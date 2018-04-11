@@ -136,7 +136,7 @@ const _getAllUniqueKeysForIndex = (db: IDBDatabase, universe: string, field: str
 export const getAllUniqueKeysForIndex = curry(_getAllUniqueKeysForIndex);
 
 
-const _getAllPrimaryKeysForindex = (db: IDBDatabase, universe: string, field: string, reverseDirection: boolean) => {
+const _getAllPrimaryKeysForindex = (db: IDBDatabase, universe: string, field: string, reverseDirection: boolean): Promise<number[]> => {
     const 
         transaction = db.transaction(universe, 'readonly'),
         objectStore = transaction.objectStore(universe),

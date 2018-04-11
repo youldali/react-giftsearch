@@ -1,76 +1,44 @@
 //@flow
 
-import type { FiltersGroupsCollection, FilteredObjectIdsMappedByGroup, FilterCriteria, FilterName, FiltersCriteriasCollection } from '../types';
+import type { FiltersGroupsCollection, FilteredObjectIdsMappedByGroup, FilterCriteria, FilterName, FiltersCriteriasCollection, FiltersSelectedState, FilterStructure, FilterStructureMap } from '../types';
+
+import { getPrimaryKeyListMatchingRange, getKeyRangeMatchingOperator } from '../helpers/idbStorage';
+import { getIsFilterOperandSelected } from '../helpers/filterOperandResolver';
+import getFilterOperandStatistic from '../helpers/filterOperandStatistic';
+import { findIntersectionOfSortedArrays, liftInArray } from 'helpers/array/utils';
+import { map, mergeAll, curry } from 'ramda';
+
 type IdListMatchingOperands = {[string] : number};
 type IdListMatchingFilterOperands = {[FilterName]: IdListMatchingOperands};
 
-import { getPrimaryKeyListMatchingRange, getKeyRangeMatchingOperator } from '../helpers/idbStorage';
-import { mapObjIndexed, mergeAll, curry } from 'ramda';
-import { findIntersectionOfSortedArrays } from 'helpers/array/utils';
 
-const _getFilterNextResult = 
-async (filtersGroupsCollection: FiltersGroupsCollection, filtersCriteriasCollection: FiltersCriteriasCollection, db, requestData, filteredObjectIdsMappedByGroup: FilteredObjectIdsMappedByGroup) => {
-    
-    const {filters, universe} = requestData;
+const _getFiltersStatistics = (db: IDBDatabase, requestData, filterStructureMap: FilterStructureMap, filteredObjectIdsMappedByGroup: FilteredObjectIdsMappedByGroup) => 
+    map(getFilterStatistic(db, requestData, filteredObjectIdsMappedByGroup), filterStructureMap);
 
-    return mapObjIndexed( (filterCriteria, filterName) => {
-        const filterInfo = {
-            filterName,
-            filterGroup: filtersGroupsCollection[filterName],
-            filterCriteria
-        };
-        return getItemIdListMatchingFilter(filteredObjectIdsMappedByGroup, db, universe, filterCriteria, filterInfo), filtersCriteriasCollection);
+export const getFiltersStatistics = curry(_getFiltersStatistics);
+
+
+const _getFilterStatistic = (db: IDBDatabase, requestData, filteredObjectIdsMappedByGroup: FilteredObjectIdsMappedByGroup, filterStructure: FilterStructure): Promise<IdListMatchingFilterOperands> => {
+    const 
+        { filtersSelectedState, universe } = requestData,
+        { filterName, filterGroup, field, operator, operand } = filterStructure,
+        operandList = Array.isArray(operand) ? operand : [operand];
+
+    const getOperandStatistic = (operand) => {
+        const isFilterOperandSelected = getIsFilterOperandSelected(filtersSelectedState, filterName, operand);
+            
+        return (
+            getPrimaryKeyListMatchingRange(db, universe, field, getKeyRangeMatchingOperator(operator, operand))
+            .then ( idListMatchingOperand =>  (
+                {
+                    [operand.toString()]: getFilterOperandStatistic(filteredObjectIdsMappedByGroup, idListMatchingOperand, isFilterOperandSelected, filterGroup) 
+                }
+            ))
+        );
     };
 
-}
-export const getFilterNextResult = curry(_getFilterNextResult);
 
-
-const _getItemIdListMatchingFilter = async (filteredObjectIdsMappedByGroup: FilteredObjectIdsMappedByGroup, db: IDBDatabase, requestData, filterInfo): Promise<IdListMatchingFilterOperands> => {
-    const 
-        idListMatchingFilterPromise = getItemIdListMatchingFilterOperands(db, requestData, filterInfo),
-        idListMatchingFilter = await idListMatchingFilterPromise;
-
-    return {[filterName]: idListMatchingFilter};
-    
+    const operandStatisticListPromise = map(getOperandStatistic, operandList);
+    return Promise.all(operandStatisticListPromise).then( operandStatisticList => mergeAll(operandStatisticList) );
 };
-export const getItemIdListMatchingFilter = curry(_getItemIdListMatchingFilter);
-
-
-const _getItemIdListMatchingFilterOperands = (filteredObjectIdsMappedByGroup: FilteredObjectIdsMappedByGroup, requestData, db: IDBDatabase, filterInfo): Promise<IdListMatchingOperands> => {
-    const 
-        { field, operand, operator } = filterCriteria,
-        { filters, universe } = requestData,
-        { filterName, filterGroup, filterCriteria } = filterInfo,
-        mOperand = Array.isArray(operand) ? operand : [operand];
-
-    //$FlowFixMe
-    const allOperandMatchingIdListPromise = mOperand.map( operand => {
-        const 
-            itemIdListMatchingOperandOnly = await getPrimaryKeyListMatchingRange(db, universe, field, getKeyRangeMatchingOperator(operator, operand)),
-            isFilterOperandSelected = isFilterOperandSelected(filters, filterName, operand);
-
-        const appliedFindIntersectionOfSortedArrays = findIntersectionOfSortedArrays(itemIdListMatchingOperandOnly);
-            
-        const nextItemIdListMatchingOperand = isFilterOperandSelected || filterGroup === undefined 
-        ? appliedFindIntersectionOfSortedArrays(filteredObjectIdsMappedByGroup.get(true)) 
-        : appliedFindIntersectionOfSortedArrays(filteredObjectIdsMappedByGroup.get(filterGroup));
-        
-        return {[operand.toString()]: nextItemIdListMatchingOperand}
-    });
-
-    return Promise.all(allOperandMatchingIdListPromise).then( allOperandMatchingIdList => mergeAll(allOperandMatchingIdList) );
-};
-const getItemIdListMatchingFilterOperands = curry(_getItemIdListMatchingFilterOperands);
-
-
-
-
-const isFilterOperandSelected = (filters: Filters, filterName, operand){
-    const filterState = filters[filterName];
-    return (
-        filterState === undefined ? false :
-        Array.isArray(filterState) ? filterState.includes(operand) : true;
-    );
-};
-const isFilterOperandSelected = curry(_isFilterOperandSelected);
+export const getFilterStatistic = curry(_getFilterStatistic);

@@ -1,64 +1,120 @@
 jest.mock('../../helpers/idbStorage');
 
-import { getItemIdListMatchingFilter } from '../filterStatistic';
-import createInterval from 'helpers/dataStruture/interval';
+import { getFilterStatistic } from '../filterStatistic';
 import { giftCollection } from '../../helpers/__mocks__/idbStorage';
+import createInterval from 'helpers/dataStruture/interval';
+import createFilterStructure from '../../domainModel/filterStructure.js';
 
-describe('getItemIdListMatchingFilter', () => {
-	test('should return the id list matching the filter: price > 200', () => {
+describe('getFilterStatistic', () => {
+	test('should return the correct filter statistic for single operand and no group', async () => {
+        const db = {};
+
         const 
+            filtersSelectedState = {priceRange1: createInterval(0, 100)},
             universe = 'sejour',
-            db = {},
-            filterCriteria = { field: 'price', operator: '>', operand: 200 },
-            filterName = 'priceRange4';
+            requestData = {filtersSelectedState, universe};
 
-        const 
-            idListMappedToFilter = getItemIdListMatchingFilter(db, universe, filterCriteria, filterName: FilterName),
-            expected = {
-                [filterName]: {
-                    "200": [5, 6, 7, 8, 9, 10]
-                }
-            };
 
-		return expect(idListMappedToFilter).resolves.toEqual(expected);
+        const
+            filterName = 'priceRange1',
+            filterGroup = 'price',
+            filterCriteria = { field: 'price', operator: 'inRangeOpenClosed', operand : createInterval(0, 100) },
+            filterStructure = await createFilterStructure(universe, filterName, filterGroup, filterCriteria); 
+
+
+        const filteredObjectIdsMappedByGroup = new Map()
+            .set(true, [1, 2, 7, 8, 10]);
+
+
+        const expected = {
+            "[0,100]": { type: 'absolute', idList: [1, 2] }
+        };
+        const filterStatistic = getFilterStatistic(db, requestData, filteredObjectIdsMappedByGroup, filterStructure);
+		return expect(filterStatistic).resolves.toEqual(expected);
     });
 
-    test('should return the id list matching the filter: 50 <= price <= 200', () => {
+
+    test('should return the correct filter statistic for single operand and group', async () => {
+        const db = {};
+
         const 
+            filtersSelectedState = {priceRange2: createInterval(200, 1000)},
             universe = 'sejour',
-            db = {},
-            filterCriteria = { field: 'price', operator: 'inRangeClosed', operand: createInterval(50, 200) },
-            filterName = 'priceRange';
+            requestData = {filtersSelectedState, universe};
 
-        const 
-            idListMappedToFilter = getItemIdListMatchingFilter(db, universe, filterCriteria, filterName: FilterName),
-            expected = {
-                [filterName]: {
-                    "[50,200]": [3, 4]
-                }
-            };
 
-		return expect(idListMappedToFilter).resolves.toEqual(expected);
+        const
+            filterName = 'priceRange1',
+            filterGroup = 'price',
+            filterCriteria = { field: 'price', operator: 'inRangeOpenClosed', operand : createInterval(0, 100) },
+            filterStructure = await createFilterStructure(universe, filterName, filterGroup, filterCriteria); 
+
+
+        const filteredObjectIdsMappedByGroup = new Map()
+            .set(true, [5, 7, 8, 9, 10])
+            .set('price', [1, 2, 3, 4]);
+
+
+        const expected = {
+            "[0,100]": { type: 'relative', idList: [1, 2] }
+        };
+        const filterStatistic = getFilterStatistic(db, requestData, filteredObjectIdsMappedByGroup, filterStructure);
+		return expect(filterStatistic).resolves.toEqual(expected);
     });
 
-    test('should return the id list matching each filter for experience type ', () => {
+    test('should return the correct filter statistic for multiple operand and no group ', async () => {
+        const db = {};
+
         const 
+            filtersSelectedState = {},
             universe = 'sejour',
-            db = {},
-            filterCriteria = { field: 'experienceType', operator: 'hasOneInCommon', operand: ['boat', 'car', 'plane'] },
-            filterName = 'priceRange';
+            requestData = {filtersSelectedState, universe};
 
-        const 
-            idListMappedToFilter = getItemIdListMatchingFilter(db, universe, filterCriteria, filterName: FilterName),
-            expected = {
-                [filterName]: {
-                    boat: [1, 3, 4, 6, 7, 8, 10],
-                    car: [1, 2, 6, 7, 8],
-                    plane: [4, 7, 9, 10]
-                }
-            };
 
-		return expect(idListMappedToFilter).resolves.toEqual(expected);
+        const
+            filterName = 'experienceType',
+            filterGroup = undefined,
+            filterCriteria = { field: 'experienceType', operator: 'hasOneInCommon', operand : ['boat', 'car', 'plane'] },
+            filterStructure = await createFilterStructure(universe, filterName, filterGroup, filterCriteria); 
+
+
+        const filteredObjectIdsMappedByGroup = new Map()
+            .set(true, [2, 3, 5, 6, 7, 9, 10]);
+
+        const expected = {
+            "boat": { type: 'absolute', idList: [3, 6, 7, 10] },
+            "car": { type: 'absolute', idList: [2, 6, 7] },
+            "plane": { type: 'absolute', idList: [7, 9, 10] },
+        };
+        const filterStatistic = getFilterStatistic(db, requestData, filteredObjectIdsMappedByGroup, filterStructure);
+		return expect(filterStatistic).resolves.toEqual(expected);
     });
 
+    test('should return the correct filter statistic for multiple operand and group ', async () => {
+        const db = {};
+
+        const 
+            filtersSelectedState = {experienceType: ['parachute']},
+            universe = 'sejour',
+            requestData = {filtersSelectedState, universe};
+
+
+        const
+            filterName = 'experienceType',
+            filterGroup = undefined,
+            filterCriteria = { field: 'experienceType', operator: 'hasOneInCommon', operand : ['boat', 'car', 'plane'] },
+            filterStructure = await createFilterStructure(universe, filterName, filterGroup, filterCriteria); 
+
+
+        const filteredObjectIdsMappedByGroup = new Map()
+            .set(true, [1, 5]);
+
+        const expected = {
+            "boat": { type: 'relative', idList: [3, 6, 7, 10] },
+            "car": { type: 'relative', idList: [2, 6, 7] },
+            "plane": { type: 'relative', idList: [7, 9, 10] },
+        };
+        const filterStatistic = getFilterStatistic(db, requestData, filteredObjectIdsMappedByGroup, filterStructure);
+		return expect(filterStatistic).resolves.toEqual(expected);
+    });
 });

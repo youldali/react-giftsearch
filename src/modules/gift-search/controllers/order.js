@@ -5,13 +5,13 @@ import { transformIntoObject, filterAgainstObjectKeys } from 'helpers/array/util
 import { getAllPrimaryKeysForindex } from '../helpers/idbStorage';
 import { curry } from 'ramda';
 
-const _getOrderedList = async (db, requestData, filteredObjectIdsMappedByGroup: FilteredObjectIdsMappedByGroup) => {
+const _getOrderedList = async (db, requestData, itemIdListValidated: number[]) => {
     const {universe, orderBy, isOrderByReversed} = requestData;
 
     const 
-        validatedItemIdObject = transformIntoObject(filteredObjectIdsMappedByGroup.get(true)),
-        fullItemListOrdered = await getAllPrimaryKeysForindex(db, universe, orderBy, isOrderByReversed);
+        validatedItemIdObject = transformIntoObject(itemIdListValidated),
+        fullItemIdListOrdered = await getAllPrimaryKeysForindex(db, universe, orderBy, isOrderByReversed);
 
-    return filterAgainstObjectKeys(fullItemListOrdered, validatedItemIdObject);
+    return filterAgainstObjectKeys(fullItemIdListOrdered, validatedItemIdObject);
 }
 export const getOrderedList = curry(_getOrderedList);
