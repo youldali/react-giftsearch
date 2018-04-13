@@ -1,58 +1,32 @@
 // @flow
-import type { FilterName, FilterOperand, Operator, FilterConfig } from '../types';
+import type { FilterConfig, FilterConfigList } from '../types';
 import createInterval from 'helpers/dataStruture/interval';
+import { generateFilterForEachOperand } from '../helpers/filterConfigResolver';
 
-const filterConfigBase: FilterConfig = {
-	filtersCriterias: {
-		priceRange1: { field: 'price', operator: 'inRangeOpenClosed', operand : createInterval(0, 50) },
-        priceRange2: { field: 'price', operator: 'inRangeOpenClosed', operand: createInterval(50, 100) },
-        priceRange3: { field: 'price', operator: 'inRangeOpenClosed', operand: createInterval(100, 200) },
-        priceRange4: { field: 'price', operator: '>', operand: 200} ,
-
-        forOnePerson: { field: 'forOnePerson', operator: '===', operand: 1 },
-        forCouple: { field: 'forCouple', operator: '===', operand: 1 },
-
-        excluWeb: { field: 'webExclusive', operator: '===', operand: 1 },
-        experienceType: { field: 'experienceType', operator: 'hasOneInCommon' }
-	},
-
-	filtersGroups: {
-		priceRange1: 'price',
-		priceRange2: 'price',
-		priceRange3: 'price',
-		priceRange4: 'price',
-
-		forOnePerson: 'person',
-		forCouple: 'person',
-	},
-};
+const filterConfigBase: FilterConfigList = [
+	{ filterName:'priceRange1', filterGroup: 'price', field: 'price', operator: 'inRangeOpenClosed', operand : createInterval(0, 50) },
+	{ filterName:'priceRange2', filterGroup: 'price', field: 'price', operator: 'inRangeOpenClosed', operand: createInterval(50, 100) },
+	{ filterName:'priceRange3', filterGroup: 'price', field: 'price', operator: 'inRangeOpenClosed', operand: createInterval(100, 200) },
+	{ filterName:'priceRange4', filterGroup: 'price', field: 'price', operator: '>', operand: 200 } ,
+	
+	{ filterName:'forOnePerson', filterGroup: 'person', field: 'forOnePerson', operator: '===', operand: 1 },
+	{ filterName:'forCouple', filterGroup: 'person', field: 'forCouple', operator: '===', operand: 1 },
+	
+	generateFilterForEachOperand({ filterBaseName: 'experienceType', field: 'experienceType', operator: 'contains'})
+];
 
 export
-const adventure: FilterConfig = {
-	filtersCriterias: {
-		...filterConfigBase.filtersCriterias,
-		extreme: { field: 'extreme', operator: '===', operand: 1 }
-	},
-
-	filtersGroups: {
-		...filterConfigBase.filtersGroups
-	},
-};
+const adventure: FilterConfigList = [
+	...filterConfigBase,
+	{ filterName:'extreme', field: 'extreme', operator: '===', operand: 1 }
+];
 
 export
-const sejour: FilterConfig = {
-	filtersCriterias: {
-		...filterConfigBase.filtersCriterias,
-		oneNight: { field: 'oneNight', operator: '===', operand: 1 },
-		twoNight: { field: 'twoNight', operator: '===', operand: 1 },
-	},
-
-	filtersGroups: {
-		...filterConfigBase.filtersGroups,
-		oneNight: 'night',
-		twoNight: 'night',
-	},
-};
+const sejour: FilterConfigList = [
+	...filterConfigBase.filtersCriterias,
+	{ filterName:'oneNight', filterGroup: 'night', field: 'oneNight', operator: '===', operand: 1 },
+	{ filterName:'twoNight', filterGroup: 'night', field: 'twoNight', operator: '===', operand: 1 },
+];
 
 export default
 {

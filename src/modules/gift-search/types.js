@@ -3,12 +3,11 @@ import type { Interval } from 'helpers/dataStruture/interval';
 export type Operator = 
     '<' | '<=' | '>' | '>=' | '==' | '===' | 
     'inRangeClosed' | 'inRangeOpen' | 'inRangeClosedOpen' | 'inRangeOpenClosed' |
-    'isIncluded' | 'hasOneInCommon';
+    'isIncluded' | 'contains' | 'hasOneInCommon';
 
 //FILTERS
 export type FilterName = string;
-export type FilterGroup = string;
-export type FiltersGroupsCollection = { +[FilterName]: FilterGroup};
+export type FilterGroup = ?string;
 export type FilterStructure = {
 	filterName: FilterName,
 	FilterGroup: FilterGroup,
@@ -18,15 +17,17 @@ export type FilterStructure = {
 };
 export type FilterStructureMap = { [FilterName]: FilterStructure };
 
-//FILTER CRITERIA
+//FILTER Config
 export type FilterOperand = number | string | number[] | string[] | Interval;
-export type CreateFilterOperand = () => Promise<FilterOperand>;
-export type FilterCriteria = {|field: string, operator: string, operand?: FilterOperand | CreateFilterOperand |};
-export type FiltersCriteriasCollection = {+[FilterName]: FilterCriteria};
+export type ResolveFilterOperand = (universe: string, field: string) => Promise<FilterOperand>;
 export type FilterConfig = {
-	filtersCriterias: FiltersCriteriasCollection, 
-	filtersGroups: FiltersGroupsCollection,
-}
+	filterName: FilterName,
+	FilterGroup?: FilterGroup,
+	operator: string,
+	field: string,
+	operand: FilterOperand | ResolveFilterOperand
+};
+export type FilterConfigList = FilterConfig[];
 
 //FILTER STATE
 export type FiltersSelectedState = { [FilterName]: FilterOperand};

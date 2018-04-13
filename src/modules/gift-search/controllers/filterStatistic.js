@@ -25,7 +25,8 @@ const _getFilterStatistic = (db: IDBDatabase, requestData, filteredObjectIdsMapp
         operandList = Array.isArray(operand) ? operand : [operand];
 
     const getOperandStatistic = (operand) => {
-        const isFilterOperandSelected = getIsFilterOperandSelected(filtersSelectedState, filterName, operand);
+        //!!!
+        const isFilterOperandSelected = getIsFilterOperandSelected(filtersSelectedState, filterName);
             
         return (
             getPrimaryKeyListMatchingRange(db, universe, field, getKeyRangeMatchingOperator(operator, operand))

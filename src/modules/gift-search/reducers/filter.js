@@ -1,8 +1,8 @@
 // @flow
 import type { Action } from 'modules/actions/types';
-import type { Filters, FilterValue } from '../types';
+import type { Filters, FilterValue, FilterName, FilterOperand, FiltersSelectedState } from '../types';
 import { hasOne } from 'helpers/object/utils';
-import { omit } from 'ramda';
+import { omit, curry } from 'ramda';
 
 type FilterState = {
 	+[string]: FilterValue
@@ -27,6 +27,12 @@ function filterReducer (state: FilterState = {}, action: Action): FilterState {
 export default filterReducer;
 
 //selectors
+
+const _getIsFilterSelected = (filtersSelectedState: FiltersSelectedState, filterName: FilterName) => 
+    filtersSelectedState[filterName] === undefined ? false : true;
+export const getIsFilterSelected = curry(_getIsFilterSelected);
+
+
 const getAllFilters = (state: Object): Filters => (state.giftSearch.filter);
 const getFilter = (state: Object, filterName: string): FilterValue  => (state.giftSearch.filter[filterName]);
 const areFiltersActive = (state: Object, filterNames: Array<string> ): boolean => {

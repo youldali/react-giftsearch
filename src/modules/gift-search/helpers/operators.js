@@ -1,7 +1,7 @@
 //@flow
 
 import 'core-js/fn/array/includes.js';
-import { hasOneInCommon as arrayHasOneInCommon } from 'helpers/array/utils';
+import { getHasOneInCommon, findElementIndexInSortedArray } from 'helpers/array/utils';
 
 export
 const inferior = (a: any, b: any): boolean => a < b;
@@ -34,10 +34,13 @@ export
 const inRangeClosedOpen = (a: number, b: [number, number]): boolean => a >= b[0] && a < b[1];
 
 export
-const isIncluded = <T: string | number>(a: T, b: Array<T>): boolean => b.includes(a);
+const isIncluded = <T: string | number>(a: T, b: Array<T>): boolean => findElementIndexInSortedArray(b, a) >= 0;
 
 export
-const hasOneInCommon = <T: string[] | number[]>(a: T, b: T): boolean => arrayHasOneInCommon(a, b);
+const contains = <T: string | number>(a: Array<T>, b: T): boolean => findElementIndexInSortedArray(a, b) >= 0;
+
+export
+const hasOneInCommon = <T: string[] | number[]>(a: T, b: T): boolean => getHasOneInCommon(a, b);
 
 export default
 {

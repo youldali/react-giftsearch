@@ -46,7 +46,7 @@ export const findIntersectionOfSortedArrays = curry(_findIntersectionOfSortedArr
 
 // [a] -> [a] -> boolean
 const
-_hasOneInCommon = <T: Array<any>>(a: T, b: T) => {
+_getHasOneInCommon = <T: Array<any>>(a: T, b: T) => {
 	const 
 		length1 = a.length, 
 		length2 = b.length;
@@ -68,7 +68,7 @@ _hasOneInCommon = <T: Array<any>>(a: T, b: T) => {
 
 	return false;
 };
-export const hasOneInCommon = curry(_hasOneInCommon);
+export const getHasOneInCommon = curry(_getHasOneInCommon);
 
 //number -> [a] -> a -> number
 const
