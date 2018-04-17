@@ -1,7 +1,7 @@
 //@flow
 import type { FilterName, FilterGroup, FilterCriteria, CreateFilterOperand, FilterOperand, FiltersSelectedState, FilterStructureMap, FilterConfig, FilterConfigList  } from '../types';
 import { getAllUniqueKeysForIndex } from './idbStorage';
-import { curry, compose, merge } from 'ramda';
+import { curry, composeP, merge } from 'ramda';
 import 'core-js/fn/array/includes.js';
 import createFilterStructure from '../domainModel/filterStructure';
 type GetOperandAsync = (universe: string, field: string) => Promise<FilterOperand>;
@@ -19,7 +19,7 @@ const _getOperand = (field: string, universe: string) =>
 export const getOperand = curry(_getOperand);
 
 
-const _generateFilterForEachOperand = async (universe: string, filterBaseInfos): Object => {
+const _generateFilterConfigForEachOperand = async (filterBaseInfos, universe: string): Promise<Object> => {
 	const { filterBaseName, filterGroup, field, operator } = filterBaseInfos;
 	const operandList = await getOperand(field, universe);
 
@@ -28,19 +28,21 @@ const _generateFilterForEachOperand = async (universe: string, filterBaseInfos):
 		return {filterName, filterGroup, field, operator, operand};
 	});
 }
-export const generateFilterForEachOperand = curry(_generateFilterForEachOperand);
+export const generateFilterConfigForEachOperand = curry(_generateFilterConfigForEachOperand);
 
 
 const _getFilterStructureMap = (universe: string, filterConfigList: FilterConfigList): Promise<FilterStructureMap> => {
-    const reducer = (filterStructureMap: FilterStructureMap, filterConfig: FilterConfig) => {
+    const reducer = async (filterStructureMapPromise: FilterStructureMap, filterConfig: FilterConfig) => {
+        const filterStructureMap = await filterStructureMapPromise;
+
         typeof filterConfig === 'function' 
-        ? compose( merge(filterStructureMap), getFilterStructureMap(universe), filterConfig)(universe)
+        ? filterStructureMapPromise = composeP( merge(filterStructureMap), getFilterStructureMap(universe), filterConfig )(universe)
         : filterStructureMap[filterConfig.filterName] = createFilterStructure(filterConfig);
 
-        return filterStructureMap;
+        return filterStructureMapPromise;
     };
 
-    return filterConfigList.reduce(reducer, {});
+    return filterConfigList.reduce(reducer, Promise.resolve({}));
 };
 export const getFilterStructureMap = curry(_getFilterStructureMap);
 
