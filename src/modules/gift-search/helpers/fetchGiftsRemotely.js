@@ -3,7 +3,7 @@ import type { GiftCollection } from 'modules/actions/types';
 import fetch from 'isomorphic-fetch';
 
 export default 
-async (url: string): Promise<GiftCollection> => {
+async (universe: string): Promise<GiftCollection> => {
 	const fetchConfig = {
 		method: 'GET'
 	};	

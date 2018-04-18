@@ -1,27 +1,21 @@
 //@flow
 import type { FilterName, FilterGroup, FilterCriteria, CreateFilterOperand, FilterOperand, FiltersSelectedState, FilterStructureMap, FilterConfig, FilterConfigList  } from '../types';
-import { getAllUniqueKeysForIndex } from './idbStorage';
+import { getOperandList as locallyGetOperandList } from './idbStorage';
 import { curry, composeP, merge } from 'ramda';
 import 'core-js/fn/array/includes.js';
 import createFilterStructure from '../domainModel/filterStructure';
 type GetOperandAsync = (universe: string, field: string) => Promise<FilterOperand>;
 
 
-//!!!
-const _getOperandsLocally = (field, universe, ): Promise<FilterOperand> => 
-     getAllUniqueKeysForIndex({}, universe, field);
-const getOperandsLocally = curry(_getOperandsLocally);
 
-
-
-const _getOperand = (field: string, universe: string) => 
-    getOperandsLocally(field, universe);
-export const getOperand = curry(_getOperand);
+const _getOperandList = (universe: string, field: string) => 
+    locallyGetOperandList(universe, field);
+export const getOperandList = curry(_getOperandList);
 
 
 const _generateFilterConfigForEachOperand = async (filterBaseInfos, universe: string): Promise<Object> => {
 	const { filterBaseName, filterGroup, field, operator } = filterBaseInfos;
-	const operandList = await getOperand(field, universe);
+	const operandList = await getOperandList(universe, field);
 
 	return operandList.map(operand => {
 		const filterName = `${filterBaseName}_${operand}`;
