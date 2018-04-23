@@ -140,3 +140,31 @@ const _getItemList = (db: IDBDatabase, storeName: string, idList: number[]): Pro
     });
 };
 export const getItemList = curry(_getItemList);
+
+
+const _getKeyRangeMatchingOperator = (operator: Operator, value: any) => {
+    switch(operator){
+        case '===':
+        case 'isIncluded':
+        case 'hasOneInCommon':
+        case 'contains':
+            return IDBKeyRange.only(value);
+        case '<':
+            return IDBKeyRange.upperBound(value, true);
+        case '<=':
+            return IDBKeyRange.upperBound(value);
+        case '>':
+            return IDBKeyRange.lowerBound(value, true);
+        case '>=':
+            return IDBKeyRange.lowerBound(value);
+        case 'inRangeClosed':
+            return IDBKeyRange.bound(value[0], value[1]);
+        case 'inRangeOpen':
+            return IDBKeyRange.bound(value[0], value[1], true, true);
+        case 'inRangeOpenClosed':
+            return IDBKeyRange.bound(value[0], value[1], true, false);
+        case 'inRangeClosedOpen':
+            return IDBKeyRange.bound(value[0], value[1], false, true);
+    }
+}
+export const getKeyRangeMatchingOperator = curry(_getKeyRangeMatchingOperator);

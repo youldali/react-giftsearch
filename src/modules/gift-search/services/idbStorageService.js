@@ -2,13 +2,12 @@
 
 import type { FieldsToIndexByUniverse, FieldsToIndex, Operator, FilterOperand, FilterStructure } from '../types';
 
-import { createOrOpenDatabase, addDataToStore, getNumberOfItemsInStore, getPrimaryKeyListMatchingRange, getItemList, getAllUniqueKeysForIndex } from 'helpers/storage/idbStorage';
+import { createOrOpenDatabase, addDataToStore, getNumberOfItemsInStore, getPrimaryKeyListMatchingRange, getItemList, getAllUniqueKeysForIndex, getKeyRangeMatchingOperator } from 'helpers/storage/idbStorage';
 import { curry, mapObjIndexed, reverse } from 'ramda';
 import storageConfig from '../config/storage.config';
 import fetchGiftRemotely from '../helpers/fetchGiftsRemotely';
 
 const { dbName, dbVersion, fieldsToIndexByUniverse } = storageConfig;
-const { indexedDB, IDBKeyRange } = window;
 
 const _createUniversesStores = (fieldsToIndexByUniverse: FieldsToIndexByUniverse, db: IDBDatabase) => {
     const createUniverseStore = (fieldsToIndex: FieldsToIndex, universe: string) => {
@@ -57,34 +56,6 @@ export const getOperandList = curry(_getOperandList);
 
 const _getBoxesList = async (universe: string, idList: number[]) => {
     const db = await openGiftSearchDatabase(universe);
-    return getItemList(db, universe, universe, idList);
+    return getItemList(db, universe, idList);
 }
 export const getBoxesList = curry(_getBoxesList);
-
-
-const _getKeyRangeMatchingOperator = (operator: Operator, operand: FilterOperand) => {
-    switch(operator){
-        case '===':
-        case 'isIncluded':
-        case 'hasOneInCommon':
-        case 'contains':
-            return IDBKeyRange.only(operand);
-        case '<':
-            return IDBKeyRange.upperBound(operand, true);
-        case '<=':
-            return IDBKeyRange.upperBound(operand);
-        case '>':
-            return IDBKeyRange.lowerBound(operand, true);
-        case '>=':
-            return IDBKeyRange.lowerBound(operand);
-        case 'inRangeClosed':
-            return IDBKeyRange.bound(operand[0], operand[1]);
-        case 'inRangeOpen':
-            return IDBKeyRange.bound(operand[0], operand[1], true, true);
-        case 'inRangeOpenClosed':
-            return IDBKeyRange.bound(operand[0], operand[1], true, false);
-        case 'inRangeClosedOpen':
-            return IDBKeyRange.bound(operand[0], operand[1], false, true);
-    }
-}
-export const getKeyRangeMatchingOperator = curry(_getKeyRangeMatchingOperator);

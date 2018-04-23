@@ -1,5 +1,7 @@
-import { getOperandList } from '../idbStorageService';
+import { getOperandList, getItemIdListMatchingSingleFilter, getBoxesList } from '../idbStorageService';
 import * as giftFetcherRemote from '../../helpers/fetchGiftsRemotely';
+import createFilterStructure from '../../domainModel/filterStructure'
+import createInterval from 'helpers/dataStructure/interval';
 
 jest.mock('helpers/storage/idbStorage');
 //jest.mock('../../../../../../helpers/storage/idbStorage');
@@ -23,8 +25,35 @@ beforeAll(() => {
     jest.spyOn(giftFetcherRemote, 'default').mockImplementation( universe => Promise.resolve(giftCollection) );
 });
 
-describe.only('getOperandList', () => {
-	test('it gives the list of operand', () => {
+
+describe('getItemIdListMatchingSingleFilter', () => {
+	test('get the item id matching the filter structure passed (1)', () => {
+        const
+            universe = 'sejour',
+            filterStructure = createFilterStructure({ filterName:'priceRange1', filterGroup: 'price', field: 'price', operator: 'inRangeOpenClosed', operand : createInterval(0, 50) });
+
+        const 
+            matchingItemsIdList = getItemIdListMatchingSingleFilter(universe, filterStructure),
+            expected = [1, 2];
+
+        expect(matchingItemsIdList).resolves.toEqual(expected);
+    });
+    
+    test('get the item id matching the filter structure passed (2)', () => {
+        const
+            universe = 'sejour',
+            filterStructure = createFilterStructure({ filterName:'priceRange1', filterGroup: '', field: 'experienceType', operator: 'contains', operand : 'plane' });
+
+        const 
+            matchingItemsIdList = getItemIdListMatchingSingleFilter(universe, filterStructure),
+            expected = [4, 7, 9, 10];
+
+        expect(matchingItemsIdList).resolves.toEqual(expected);
+	});
+});
+
+describe('getOperandList', () => {
+	test('it gives the list of operand (1)', () => {
         const
             universe = 'sejour',
             field = 'city';
@@ -34,5 +63,35 @@ describe.only('getOperandList', () => {
             expected = ['Barcelona', 'Berlin', 'Dublin', 'Lyon', 'Paris'];
 
         expect(operands).resolves.toEqual(expected);
+    });
+    
+    test('it gives the list of operand (2)', () => {
+        const
+            universe = 'sejour',
+            field = 'experienceType';
+
+        const 
+            operands = getOperandList(universe, field),
+            expected = ['boat', 'car', 'parachute', 'plane'];
+
+        expect(operands).resolves.toEqual(expected);
 	});
 });
+
+
+describe('getBoxesList', () => {
+	test('it gives the list of item matching the ids passed', () => {
+        const
+            universe = 'sejour',
+            idList = [2, 3, 5];
+
+        const 
+            items = getBoxesList(universe, idList),
+            expected = [gift2, gift3, gift5];
+
+        expect(items).resolves.toEqual(expected);
+    });
+});
+
+
+

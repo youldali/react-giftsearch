@@ -1,5 +1,4 @@
 //@flow
-export type Interval = {'0': number, '1': number}
 
 const createInterval = (begin: number, end: number): Interval => {
     const getBeginAndEndAfterCheck = (begin: number, end: number) => begin > end ? {intervalBegin: 0, intervalEnd: 0} : {intervalBegin: begin, intervalEnd: end};

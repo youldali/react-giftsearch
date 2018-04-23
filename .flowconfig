@@ -3,6 +3,7 @@
 [include]
 
 [libs]
+./src/flow-typed/
 
 [options]
 module.system.node.resolve_dirname=node_modules

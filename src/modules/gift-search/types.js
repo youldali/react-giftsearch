@@ -1,9 +1,4 @@
 import type { Interval } from 'helpers/dataStruture/interval';
-//OPERATOR
-export type Operator = 
-    '<' | '<=' | '>' | '>=' | '==' | '===' | 
-    'inRangeClosed' | 'inRangeOpen' | 'inRangeClosedOpen' | 'inRangeOpenClosed' |
-    'isIncluded' | 'contains' | 'hasOneInCommon';
 
 //FILTERS
 export type FilterName = string;
