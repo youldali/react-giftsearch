@@ -1,10 +1,14 @@
 // @flow
-import type { Filters, FilterName } from 'modules/gift-search/types';
+import type { Filters, FilterName } from 'modules/boxSearch/types';
 
 export type DisplayType = 'list' | 'card';
 
+export type FilterStatistic = { type: 'absolute' | 'relative', stat: number };
+
+export type FiltersStatisticsByFilter = { [FilterName]: FilterStatistic };
+
 export 
-type Gift = {
+type Box = {
 	id: string,
 	activity_name: string,
 	category: Array<string>,
@@ -36,23 +40,24 @@ type Gift = {
 };
 
 export
-type GiftCollection = Array<Gift>;
+type BoxCollection = Array<Box>;
 
 export 
 type Action = 
-	  { type: 'GIFT_LIST_SEARCH/SET_FILTERS', filters: Filters }
-	| { type: 'GIFT_LIST_SEARCH/RESET_FILTERS', filtersToReset: Array<FilterName>}
-	| { type: 'GIFT_LIST_SEARCH/RESET_ALL_FILTERS'}
-	| { type: 'GIFT_LIST_SEARCH/SET_ORDER', order: string }
-	| { type: 'GIFT_LIST_SEARCH/SET_UNIVERSE', universe: string }
-	| { type: 'GIFT_LIST_SEARCH/FETCH_REQUESTED', isFetching: boolean }
-	| { type: 'GIFT_LIST_SEARCH/SET_LIST', giftList: GiftCollection }
-	| { type: 'GIFT_LIST_SEARCH/APPEND_TO_LIST', giftList: GiftCollection }
-	| { type: 'GIFT_LIST_SEARCH/FETCH_SUCCEEDED', success: boolean}
-	| { type: 'GIFT_LIST_SEARCH/SET_DISPLAY', display: DisplayType}
-	| { type: 'GIFT_LIST_SEARCH/SET_PAGE', page: number}
-	| { type: 'GIFT_LIST_SEARCH/INCREMENT_PAGE'}
-	| { type: 'GIFT_LIST_SEARCH/DECREMENT_PAGE'};
+	  { type: 'BOX_LIST_SEARCH/SET_FILTERS', filters: Filters }
+	| { type: 'BOX_LIST_SEARCH/RESET_FILTERS', filtersToReset: Array<FilterName>}
+	| { type: 'BOX_LIST_SEARCH/RESET_ALL_FILTERS'}
+	| { type: 'BOX_LIST_SEARCH/SET_ORDER', order: string }
+	| { type: 'BOX_LIST_SEARCH/SET_UNIVERSE', universe: string }
+	| { type: 'BOX_LIST_SEARCH/FETCH_REQUESTED', isFetching: boolean }
+	| { type: 'BOX_LIST_SEARCH/SET_LIST', boxList: BoxCollection }
+	| { type: 'BOX_LIST_SEARCH/APPEND_TO_LIST', boxList: BoxCollection }
+	| { type: 'BOX_LIST_SEARCH/FETCH_SUCCEEDED', success: boolean}
+	| { type: 'BOX_LIST_SEARCH/SET_DISPLAY', display: DisplayType}
+	| { type: 'BOX_LIST_SEARCH/SET_PAGE', page: number}
+	| { type: 'BOX_LIST_SEARCH/INCREMENT_PAGE'}
+	| { type: 'BOX_LIST_SEARCH/DECREMENT_PAGE'}
+	| { type: 'BOX_LIST_SEARCH/SET_FILTERS_STATISTICS', filtersStatistics: FiltersStatisticsByFilter };
 
 export 
 type Dispatch = (action: Action | ThunkAction | Promise<Action> | Array<Action>) => any;

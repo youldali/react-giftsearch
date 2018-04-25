@@ -1,4 +1,4 @@
-import orderReducer from '../order.js';
+import orderReducer from '../orderBy.js';
 
 const initialState = '';
 describe('initial state', () => {

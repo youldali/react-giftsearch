@@ -1,4 +1,4 @@
-import filterReducer from '../filter.js';
+import filterReducer from '../selectedFilters.js';
 
 test('it initializes state', () => {
 	const newState = filterReducer(undefined, {});

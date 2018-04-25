@@ -1,12 +1,15 @@
 // @flow
-import type { GiftCollection } from 'modules/actions/types';
+import type { BoxCollection } from 'modules/actions/types';
 import fetch from 'isomorphic-fetch';
+import { boxesEndpointURL } from '../config/api.config'
 
 export default 
-async (universe: string): Promise<GiftCollection> => {
-	const fetchConfig = {
-		method: 'GET'
-	};	
+async (universe: string): Promise<BoxCollection> => {
+	const 
+		fetchConfig = {
+			method: 'GET'
+		},
+		url = boxesEndpointURL + '?' + universe;
 
 	const response: Response = await fetch(url, fetchConfig);
 	if(!response.ok) 

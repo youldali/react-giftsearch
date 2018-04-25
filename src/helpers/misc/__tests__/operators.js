@@ -172,3 +172,18 @@ describe('hasOneInCommon', function(){
 		expect(operators['hasOneInCommon'](a, b)).toBe(false);
 	});
 });
+
+
+describe('contains', function(){
+	test('it should return true when a (array) contains b', function(){
+		const a = [10, 20, 30];
+		const b = 20;
+		expect(operators['contains'](a, b)).toBe(true);
+	});
+
+	test('it should return false when a (array) does not contain b', function(){
+		const a = [10, 20, 30];
+		const b = 21;
+		expect(operators['contains'](a, b)).toBe(false);
+	});
+});

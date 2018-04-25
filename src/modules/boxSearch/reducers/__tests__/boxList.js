@@ -1,4 +1,4 @@
-import giftListReducer from '../gift-list';
+import giftListReducer from '../giftList';
 
 const initialState = {
 	collection: [],

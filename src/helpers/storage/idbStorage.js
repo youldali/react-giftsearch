@@ -66,7 +66,7 @@ const _iterateOverStore = (db: IDBDatabase, storeName: string, callBack: Functio
         objectStore = transaction.objectStore(storeName),
         request = objectStore.openCursor();
 
-    request.onsuccess = function(event) {
+    request.onsuccess = event => {
         const cursor = event.target.result;
         if(cursor) {
             callBack(cursor.primaryKey, cursor.value);
@@ -90,7 +90,7 @@ const _getAllUniqueKeysForIndex = (db: IDBDatabase, storeName: string, indexName
         request = index.openKeyCursor(null, 'nextunique');
 
     const keyList = [];
-    request.onsuccess = function(event) {
+    request.onsuccess = event => {
         const cursor = event.target.result;
         if(cursor) {
             keyList.push(cursor.key);

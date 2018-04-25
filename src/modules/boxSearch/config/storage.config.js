@@ -2,7 +2,7 @@
 
 import type { IndexConfig, FieldsToIndex, FieldsToIndexByUniverse } from '../types';
 
-export const dbName = 'smartbox-gift-search';
+export const dbName = 'smartbox-box-search';
 export const dbVersion = 1;
 
 const fieldsToIndexBase = {

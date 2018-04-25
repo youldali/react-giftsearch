@@ -5,7 +5,7 @@ type DisplayState = 'list' | 'card';
 
 function displayReducer(state: DisplayState = 'list', action: Action): DisplayState{
 	switch (action.type){
-		case "GIFT_LIST_SEARCH/SET_DISPLAY":
+		case "BOX_LIST_SEARCH/SET_DISPLAY":
 			return action.display;
 		default:
 			return state;

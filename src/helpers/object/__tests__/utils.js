@@ -14,5 +14,4 @@ describe('hasOne', () => {
 		const hasProperty = objectHelper.hasOne(propertiesToLookup)(object);
 		expect(hasProperty).toBe(false)
 	});
-
 });

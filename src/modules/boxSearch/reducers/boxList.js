@@ -17,27 +17,27 @@ const initialState = {
 
 function giftListReducer (state: GiftListState = initialState, action: Action): GiftListState {
 	switch (action.type){
-		case "GIFT_LIST_SEARCH/SET_LIST":
+		case "BOX_LIST_SEARCH/SET_LIST":
 			return {
 				collection: action.giftList,
 				isFetching: false,
 				fetchSuccess: true
 			};
 
-		case "GIFT_LIST_SEARCH/APPEND_TO_LIST":
+		case "BOX_LIST_SEARCH/APPEND_TO_LIST":
 			return {
 				collection: [...state.collection, ...action.giftList],
 				isFetching: false,
 				fetchSuccess: true
 			};
 
-		case "GIFT_LIST_SEARCH/FETCH_REQUESTED":
+		case "BOX_LIST_SEARCH/FETCH_REQUESTED":
 			return {
 				...state, 
 				isFetching: action.isFetching
 			};
 
-		case "GIFT_LIST_SEARCH/FETCH_SUCCEEDED":
+		case "BOX_LIST_SEARCH/FETCH_SUCCEEDED":
 			return {
 				...state,
 				isFetching: false,

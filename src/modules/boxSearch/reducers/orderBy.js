@@ -6,7 +6,7 @@ type OrderState = string | Array<number>;
 const initialState = '';
 function orderReducer (state: OrderState = initialState, action: Action): OrderState {
 	switch (action.type){
-		case "GIFT_LIST_SEARCH/SET_ORDER":
+		case "BOX_LIST_SEARCH/SET_ORDER":
 			return action.order;
 
 		default:
@@ -18,5 +18,5 @@ export default orderReducer;
 
 export 
 const selectors = {
-	getOrder: (state: Object) => (state.giftSearch.order)
+	getOrderBy: (state: Object) => (state.giftSearch.order)
 };

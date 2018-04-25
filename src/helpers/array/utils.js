@@ -103,10 +103,12 @@ const _transformIntoObject = (array: Array<number | string>) => {
 }
 export const transformIntoObject = curry(_transformIntoObject);
 
+
 // [a] -> { [string] : a} -> [a]
 const _filterAgainstObjectKeys = (array: Array<any>, object: {} )=>
 array.filter( itemId => object[itemId] !== undefined)
 export const filterAgainstObjectKeys = curry(_filterAgainstObjectKeys);
+
 
 // a | [a] -> [a]
 export const liftInArray = (a: any): Array<any> => 

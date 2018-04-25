@@ -1,4 +1,4 @@
-import displayReducer from '../display.js';
+import displayReducer from '../displayBy.js';
 
 test('it initializes state', () => {
 	const newState = displayReducer(undefined, {});
