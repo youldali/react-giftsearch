@@ -8,7 +8,7 @@
  function filtersStatisticsReducer (state: FiltersStatisticsState = initialState, action: Action): FiltersStatisticsState {
      switch (action.type){
          case "BOX_LIST_SEARCH/SET_FILTERS_STATISTICS":
-             return action.filtersStatistics;
+             return action.filtersStatisticsByFilter;
          default:
              return state;
      }

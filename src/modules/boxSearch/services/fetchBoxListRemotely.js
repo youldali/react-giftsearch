@@ -1,5 +1,5 @@
 // @flow
-import type { BoxCollection } from 'modules/actions/types';
+import type { BoxCollection } from '../types';
 import fetch from 'isomorphic-fetch';
 import { boxesEndpointURL } from '../config/api.config'
 

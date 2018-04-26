@@ -1,4 +1,4 @@
-import giftFetcher from '../fetchGiftsRemotely';
+import boxFetcher from '../fetchBoxListRemotely';
 import { boxesEndpointURL } from 'modules/gift-search/config/api.config';
 import nock from 'nock';
 
@@ -13,7 +13,7 @@ describe('fetch gift boxes remotely', () => {
    		.query(true)
     	.reply(404, 'not found');
 
-    	return expect(giftFetcher('gastronomy')).rejects.toBeDefined();
+    	return expect(boxFetcher('gastronomy')).rejects.toBeDefined();
 	});
 
 	test('it returns rejected Promise when http request fails', () => {
@@ -22,7 +22,7 @@ describe('fetch gift boxes remotely', () => {
    		.query(true)
     	.replyWithError('network failure');
 
-    	return expect(giftFetcher('gastronomy')).rejects.toBeDefined();
+    	return expect(boxFetcher('gastronomy')).rejects.toBeDefined();
 	});
 	
 	test('it returns GiftBoxes when http request succeeds', () => {
@@ -38,6 +38,6 @@ describe('fetch gift boxes remotely', () => {
    		.query(true)
     	.reply(200, responseBody);
     	
-		return expect(giftFetcher('gastronomy')).resolves.toEqual(responseBody);
+		return expect(boxFetcher('gastronomy')).resolves.toEqual(responseBody);
 	});
 })

@@ -18,5 +18,5 @@ export default orderReducer;
 
 export 
 const selectors = {
-	getOrderBy: (state: Object) => (state.giftSearch.order)
+	getOrderBy: (state: Object) => (state.boxSearch.orderBy)
 };

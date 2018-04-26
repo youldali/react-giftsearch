@@ -3,5 +3,5 @@ import giftSearch from './gift-search/';
 
 export default 
 combineReducers({
-	giftSearch
+	boxSearch
 });

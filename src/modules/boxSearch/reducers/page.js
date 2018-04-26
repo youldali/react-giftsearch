@@ -15,7 +15,7 @@ function pageReducer(state: PageState = initialState, action: Action): PageState
 		case "BOX_LIST_SEARCH/SET_FILTERS":
 		case "BOX_LIST_SEARCH/RESET_FILTERS":
 		case "BOX_LIST_SEARCH/RESET_ALL_FILTERS":
-		case "BOX_LIST_SEARCH/SET_LIST":
+		case "BOX_LIST_SEARCH/SET_BOX_LIST":
 		case "BOX_LIST_SEARCH/SET_DISPLAY":
 		case "BOX_LIST_SEARCH/SET_ORDER":
 			return initialState;
@@ -28,5 +28,5 @@ export default pageReducer;
 
 export 
 const selectors = {
-	getPage: (state: Object) => (state.giftSearch.page)
+	getPage: (state: Object) => (state.boxSearch.page)
 }

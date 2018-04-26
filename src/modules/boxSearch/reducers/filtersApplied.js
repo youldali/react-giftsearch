@@ -28,14 +28,14 @@ export default filterReducer;
 
 //selectors
 
-const _getIsFilterSelected = (filtersSelectedState: FiltersSelectedState, filterName: FilterName) => 
+const _getIsFilterApplied = (filtersSelectedState: FiltersSelectedState, filterName: FilterName) => 
     filtersSelectedState[filterName] === undefined ? false : true;
-export const getIsFilterSelected = curry(_getIsFilterSelected);
+export const getIsFilterSelected = curry(_getIsFilterApplied);
 
 
-const getAllSelectedFilters = (state: Object): Filters => (state.giftSearch.filtersSelected);
-const getFilterValue = (state: Object, filterName: string): FilterValue  => (state.giftSearch.filter[filterName]);
-const areFiltersActive = (state: Object, filterNames: Array<string> ): boolean => {
+const getAllAppliedFilters = (state: Object): Filters => (state.boxSearch.filtersSelected);
+const getFilterValue = (state: Object, filterName: string): FilterValue  => (state.boxSearch.filter[filterName]);
+const areFiltersApplied = (state: Object, filterNames: Array<string> ): boolean => {
 	for (const filterName of filterNames){
     if(getFilterValue(state, filterName) === undefined)
       return false;
@@ -46,6 +46,6 @@ const areFiltersActive = (state: Object, filterNames: Array<string> ): boolean =
 export 
 const selectors = {
 	getFilterValue,
-	getAllSelectedFilters,
-	areFiltersActive
+	getAllAppliedFilters,
+	areFiltersApplied
 };

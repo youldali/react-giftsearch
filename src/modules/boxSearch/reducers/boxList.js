@@ -17,16 +17,16 @@ const initialState = {
 
 function giftListReducer (state: GiftListState = initialState, action: Action): GiftListState {
 	switch (action.type){
-		case "BOX_LIST_SEARCH/SET_LIST":
+		case "BOX_LIST_SEARCH/SET_BOX_LIST":
 			return {
-				collection: action.giftList,
+				collection: action.boxList,
 				isFetching: false,
 				fetchSuccess: true
 			};
 
-		case "BOX_LIST_SEARCH/APPEND_TO_LIST":
+		case "BOX_LIST_SEARCH/APPEND_TO_BOX_LIST":
 			return {
-				collection: [...state.collection, ...action.giftList],
+				collection: [...state.collection, ...action.boxList],
 				isFetching: false,
 				fetchSuccess: true
 			};
@@ -52,13 +52,13 @@ function giftListReducer (state: GiftListState = initialState, action: Action): 
 export default giftListReducer;
 
 //selectors
-const getList = (state: Object): GiftCollection  => (state.giftSearch.giftList.collection);
-const isFetching = (state: Object): boolean => (state.giftSearch.giftList.isFetching);
-const hasFetchSucceeded = (state: Object): boolean => (state.giftSearch.giftList.fetchSuccess);
+const getList = (state: Object): GiftCollection  => (state.boxSearch.boxList.collection);
+const isFetching = (state: Object): boolean => (state.boxSearch.boxList.isFetching);
+const hasFetchSucceeded = (state: Object): boolean => (state.boxSearch.boxList.fetchSuccess);
 
 const getPaginatedOrderedFilteredList = createSelector(
   [getList, pageSelectors.getPage],
-  (giftList: GiftCollection, page: number): GiftCollection => giftList.slice(0, 10 * page)
+  (boxList: GiftCollection, page: number): GiftCollection => boxList.slice(0, 10 * page)
 );
 
 
