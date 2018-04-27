@@ -1,6 +1,7 @@
 // @flow
 import type { BoxCollection, FilterName, FilterOperand } from 'modules/boxSearch/types';
 export type { BoxCollection } from 'modules/boxSearch/types';
+import { LOCATION_CHANGE } from 'react-router-redux';
 
 export type DisplayType = 'list' | 'card';
 
@@ -15,7 +16,7 @@ export type BoxCollectionRequestData = {
 	page: number
 };
 
-export type WorkerBoxCollectionResponseData = 
+export type WorkerResponseDataForBoxCollectionRequest = 
 	  { type: 'BOX_LIST', boxList: BoxCollection }
 	| { type: 'FILTERS_STATISTICS', filtersStatisticsByFilter: FiltersStatisticsByFilter };
 
@@ -34,7 +35,8 @@ type Action =
 	| { type: 'BOX_LIST_SEARCH/SET_PAGE', page: number}
 	| { type: 'BOX_LIST_SEARCH/INCREMENT_PAGE'}
 	| { type: 'BOX_LIST_SEARCH/DECREMENT_PAGE'}
-	| { type: 'BOX_LIST_SEARCH/SET_FILTERS_STATISTICS', filtersStatisticsByFilter: FiltersStatisticsByFilter };
+	| { type: 'BOX_LIST_SEARCH/SET_FILTERS_STATISTICS', filtersStatisticsByFilter: FiltersStatisticsByFilter }
+	| { type: LOCATION_CHANGE, payload: Object };
 
 export 
 type Dispatch = (action: Action | ThunkAction | Promise<Action> | Array<Action>) => any;

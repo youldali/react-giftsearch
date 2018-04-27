@@ -1,36 +1,154 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import * as actions from '../fetchBoxListActions';
+import * as actions from '../boxSearch';
 import * as boxListFetcher from 'modules/boxSearch/services/fetchBoxListRemotely';
+import * as featureDetection from 'helpers/misc/featureDetection';
 import { curry } from 'ramda';
 
+jest.mock('../../boxSearch/services/webWorkers');
+
 const 
-		middlewares = [thunk],
-		mockStore = configureMockStore(middlewares),
-		myBoxList = [
-			{
-				id: 100,
-				name: 'adrenaline',
-				price: 550
-			},
-			{
-				id: 101,
-				name: 'sejour in europe',
-				price: 100
-			},		
-		];
+	middlewares = [thunk],
+	mockStore = configureMockStore(middlewares),
+	myBoxList = [
+		{
+			id: 100,
+			name: 'adrenaline',
+			price: 550
+		},
+		{
+			id: 101,
+			name: 'sejour in europe',
+			price: 100
+		},		
+	];
 
 let store;
+
 
 beforeEach(() => {
 	store = mockStore({
 		boxSearch: {
 			boxList: [],
+			displayBy: 'list',
 			filtersApplied: {},
 			orderBy: '',
 			page: 1,
-			displayBy: 'list'
+			router: {universe: 'sejour'}
 		}
+	});
+
+	jest.spyOn(featureDetection, 'hasIndexedDB').mockReturnValue(true);
+	jest.spyOn(featureDetection, 'hasWebWorker').mockReturnValue(true);
+
+	const responseData = {
+		data: {
+			type: 'BOX_LIST',
+			boxList: myBoxList
+		}
+	};
+});
+
+describe.only('setAppliedFilters', () => {
+	test.only('it should return the "set filter" action creator with no related field to erase for filter: name', () => {
+
+		const expectedActions = [
+			{
+				type: "BOX_LIST_SEARCH/SET_APPLIED_FILTERS",
+				filtersApplied: {'name': 'jean'},
+			},
+			{
+				type: "BOX_LIST_SEARCH/SET_BOX_LIST",
+				boxList: myBoxList,
+			}
+		];
+
+
+		store.dispatch(actions.setAppliedFilters({'name': 'jean'}))
+			.then( () => {
+				const actions = store.getActions();
+				expect(actions).toEqual(expectedActions);
+			})
+	});
+
+	test('it should return the "set filter" action creator with no related field to erase for filter: maxPrice', () => {
+		const expectedAction = {
+			type: "BOX_LIST_SEARCH/SET_APPLIED_FILTERS",
+			filtersApplied: {
+				'maxPrice': 300
+			}
+		};
+
+		expect(actions.setAppliedFilters({'maxPrice': 300})).toEqual(expectedAction);
+	});
+});
+
+
+describe('resetAppliedFilters', () => {
+	test('it should return the "reset filter" action creator', () => {
+		const expectedAction = {
+			type: "BOX_LIST_SEARCH/RESET_APPLIED_FILTERS",
+			filtersAppliedToReset: ['prenom', 'nom'],
+		};
+
+		expect(actions.resetAppliedFilters(['prenom', 'nom'])).toEqual(expectedAction);
+	});
+});
+
+
+describe('resetAllAppliedFilters', () => {
+	test('it should return the "reset all filters" action creator', () => {
+		const expectedAction = {
+			type: "BOX_LIST_SEARCH/RESET_ALL_APPLIED_FILTERS",
+		};
+
+		expect(actions.resetAllAppliedFilters()).toEqual(expectedAction);
+	});
+});
+
+
+describe('setPage', () => {
+	test('it should return the "set page" action creator', () => {
+		const expectedAction = {
+			type: "BOX_LIST_SEARCH/SET_PAGE",
+			page: 3,
+		};
+
+		expect(actions.setPage(3)).toEqual(expectedAction);
+	});
+});
+
+
+describe('incrementPage', () => {
+	test('it should return the "increment page" action creator', () => {
+		const expectedAction = {
+			type: "BOX_LIST_SEARCH/INCREMENT_PAGE",
+		};
+
+		expect(actions.incrementPage()).toEqual(expectedAction);
+	});
+});
+
+
+describe('decrementPage', () => {
+	test('it should return the "decrement page" action creator', () => {
+		const expectedAction = {
+			type: "BOX_LIST_SEARCH/DECREMENT_PAGE",
+		};
+
+		expect(actions.decrementPage()).toEqual(expectedAction);
+	});
+});
+
+
+describe('setDisplay', () => {
+	test('it should return the "set display" action creator', () => {
+		const expectedAction = {
+			type: "BOX_LIST_SEARCH/SET_DISPLAY_BY",
+			displayBy: 'card',
+		};
+
+		expect(actions.setDisplayBy('card')).toEqual(expectedAction);
 	});
 });
 
@@ -153,14 +271,7 @@ describe('tryFetchBoxListRemotely', () => {
 
 describe('createFetchBoxListWithWorkerAction', () => {
 
-	const createWebWorkerMock = (throwError, responseData) => 
-		class{
-			postMessage(requestData) {
-				throwError ? this.onerror('error') : this.onmessage(responseData);
-			}
-			onmessage() {}
-			onerror() {}
-		};
+	
 
 	test('get the box list though the web worker', () => {
 		const responseData = {

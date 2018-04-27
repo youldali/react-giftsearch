@@ -2,7 +2,7 @@ import { comparator, compose, curry, filter, map, prop, reduce, reverse, sort, s
 import operators from 'helpers/misc/operators';
 import createInterval from 'helpers/dataStructure/interval';
 
-const idbStorage = jest.genMockFromModule('../idbStorage');
+jest.genMockFromModule('../idbStorage');
 let itemCollection = {};
 
 const _createOrOpenDatabase = (dbName: string, dbVersion: number, onUpgradeCallback: Function): Promise<IDBDatabase> => 

@@ -6,15 +6,17 @@ import filtersApplied, { selectors as filtersAppliedSelectors } from './reducers
 import boxList, { selectors as boxListSelectors } from './reducers/boxList';
 import page, { selectors as pageSelectors } from './reducers/page';
 import displayBy, { selectors as displayBySelectors } from './reducers/displayBy';
+import router, { selectors as routerSelectors } from './reducers/router';
 
 export default
 combineReducers({
 	boxList,
+	displayBy,
 	filtersApplied,
 	orderBy,
 	page,
-	displayBy
+	router
 });
 
-export { orderBySelectors, filtersAppliedSelectors, boxListSelectors, pageSelectors, displayBySelectors };
+export { orderBySelectors, displayBySelectors, filtersAppliedSelectors, boxListSelectors, pageSelectors, routerSelectors };
 
