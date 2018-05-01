@@ -1,10 +1,9 @@
 // @flow
 import type { BoxCollection, FilterName, FilterOperand } from 'modules/boxSearch/types';
-export type { BoxCollection } from 'modules/boxSearch/types';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
+export type { BoxCollection } from 'modules/boxSearch/types';
 export type DisplayType = 'list' | 'card';
-
 export type FilterStatistic = { type: 'absolute' | 'relative', stat: number };
 export type FiltersStatisticsByFilter = { [FilterName]: FilterStatistic };
 export type FiltersAppliedState = { [FilterName]: FilterOperand};
@@ -20,6 +19,7 @@ export type WorkerResponseDataForBoxCollectionRequest =
 	  { type: 'BOX_LIST', boxList: BoxCollection }
 	| { type: 'FILTERS_STATISTICS', filtersStatisticsByFilter: FiltersStatisticsByFilter };
 
+	
 export 
 type Action = 
 	  { type: 'BOX_LIST_SEARCH/SET_APPLIED_FILTERS', filtersApplied: FiltersAppliedState }
@@ -30,7 +30,7 @@ type Action =
 	| { type: 'BOX_LIST_SEARCH/FETCH_REQUESTED', isFetching: boolean }
 	| { type: 'BOX_LIST_SEARCH/SET_BOX_LIST', boxList: BoxCollection }
 	| { type: 'BOX_LIST_SEARCH/APPEND_TO_BOX_LIST', boxList: BoxCollection }
-	| { type: 'BOX_LIST_SEARCH/FETCH_SUCCEEDED', success: boolean}
+	| { type: 'BOX_LIST_SEARCH/HAS_FETCH_SUCCEEDED', success: boolean}
 	| { type: 'BOX_LIST_SEARCH/SET_DISPLAY_BY', displayBy: DisplayType}
 	| { type: 'BOX_LIST_SEARCH/SET_PAGE', page: number}
 	| { type: 'BOX_LIST_SEARCH/INCREMENT_PAGE'}

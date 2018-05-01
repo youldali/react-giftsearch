@@ -19,49 +19,57 @@ const setAppliedFilters = (filtersApplied: FiltersAppliedState) => (dispatch: Di
 };
 
 export 
-const resetAppliedFilters = (filtersAppliedToReset: Array<string>): Action => (
-	{
+const resetAppliedFilters = (filtersAppliedToReset: Array<string>) => (dispatch: Dispatch): Action => {
+	dispatch({
 		type: "BOX_LIST_SEARCH/RESET_APPLIED_FILTERS",
 		filtersAppliedToReset
-	}
-);
+	});
+
+	return dispatch(fetchBoxListAction);
+};
+
 
 export 
-const resetAllAppliedFilters = (): Action => (
-	{
+const resetAllAppliedFilters = () => (dispatch: Dispatch): Action => {
+	dispatch({
 		type: "BOX_LIST_SEARCH/RESET_ALL_APPLIED_FILTERS",
-	}
-);
+	});
+
+	return dispatch(fetchBoxListAction);
+};
+
 
 export 
-const setOrder = (orderBy: string): Action => (
-	{
+const setOrderBy = (orderBy: string) => (dispatch: Dispatch): Action => {
+	dispatch({
 		type: "BOX_LIST_SEARCH/SET_ORDER_BY",
 		orderBy
-	}
-);
+	});
+
+	return dispatch(fetchBoxListAction);
+};
+
 
 export 
-const setPage = (page: number): Action => (
-	{
+const setPage = (page: number) => (dispatch: Dispatch): Action => {
+	dispatch({
 		type: "BOX_LIST_SEARCH/SET_PAGE",
 		page
-	}
-);
+	});
+
+	return dispatch(fetchBoxListAction);
+};
+
 
 export 
-const incrementPage = (): Action => (
-	{
+const incrementPage = () => (dispatch: Dispatch): Action => {
+	dispatch({
 		type: "BOX_LIST_SEARCH/INCREMENT_PAGE",
-	}
-);
+	});
 
-export 
-const decrementPage = (): Action => (
-	{
-		type: "BOX_LIST_SEARCH/DECREMENT_PAGE",
-	}
-);
+	return dispatch(fetchBoxListAction);
+};
+
 
 export 
 const setDisplayBy = (displayBy: DisplayType): Action => (
@@ -83,7 +91,7 @@ const isFetchingBoxList = (isFetching: boolean): Action => (
 export
 const fetchBoxListSucceeds = (success: boolean): Action => (
 	{
-		type: "BOX_LIST_SEARCH/FETCH_SUCCEEDED",
+		type: "BOX_LIST_SEARCH/HAS_FETCH_SUCCEEDED",
 		success
 	}	
 );
@@ -152,7 +160,7 @@ const _onWebWorkerResponse = (dispatch: Dispatch, requestData: BoxCollectionRequ
 }
 const onWebWorkerResponse = curry(_onWebWorkerResponse)
 
-export
+
 const fetchBoxListWithWorkerAction = (dispatch: Dispatch, getState: Function): Promise<any> => {
 	const 
 		boxListWorker = getFetchBoxListWebWorker(),

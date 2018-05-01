@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import giftSearch from './gift-search/';
+import boxSearch from './boxSearch/';
 
 export default 
 combineReducers({

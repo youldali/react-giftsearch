@@ -1,10 +1,11 @@
 // @flow
-import type { Action, GiftCollection } from 'modules/actions/types';
+import type { Action } from 'modules/actions/types';
+import type { BoxCollection } from '../types';
 import { selectors as pageSelectors } from './page';
 import { createSelector } from 'reselect';
 
 type GiftListState = {
-	+collection: GiftCollection,
+	+collection: BoxCollection,
 	+isFetching: boolean,
 	+fetchSuccess: boolean
 };
@@ -37,7 +38,7 @@ function giftListReducer (state: GiftListState = initialState, action: Action): 
 				isFetching: action.isFetching
 			};
 
-		case "BOX_LIST_SEARCH/FETCH_SUCCEEDED":
+		case "BOX_LIST_SEARCH/HAS_FETCH_SUCCEEDED":
 			return {
 				...state,
 				isFetching: false,
@@ -52,13 +53,13 @@ function giftListReducer (state: GiftListState = initialState, action: Action): 
 export default giftListReducer;
 
 //selectors
-const getList = (state: Object): GiftCollection  => (state.boxSearch.boxList.collection);
+const getList = (state: Object): BoxCollection  => (state.boxSearch.boxList.collection);
 const isFetching = (state: Object): boolean => (state.boxSearch.boxList.isFetching);
 const hasFetchSucceeded = (state: Object): boolean => (state.boxSearch.boxList.fetchSuccess);
 
 const getPaginatedOrderedFilteredList = createSelector(
   [getList, pageSelectors.getPage],
-  (boxList: GiftCollection, page: number): GiftCollection => boxList.slice(0, 10 * page)
+  (boxList: BoxCollection, page: number): BoxCollection => boxList.slice(0, 10 * page)
 );
 
 

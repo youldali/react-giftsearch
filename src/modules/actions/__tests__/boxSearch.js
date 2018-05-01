@@ -4,24 +4,14 @@ import * as actions from '../boxSearch';
 import * as boxListFetcher from 'modules/boxSearch/services/fetchBoxListRemotely';
 import * as featureDetection from 'helpers/misc/featureDetection';
 import { curry } from 'ramda';
+import { myBoxList } from '../../boxSearch/services/__mocks__/webWorkers';
+import rootReducer from '../../rootReducer';
 
 jest.mock('../../boxSearch/services/webWorkers');
 
 const 
 	middlewares = [thunk],
-	mockStore = configureMockStore(middlewares),
-	myBoxList = [
-		{
-			id: 100,
-			name: 'adrenaline',
-			price: 550
-		},
-		{
-			id: 101,
-			name: 'sejour in europe',
-			price: 100
-		},		
-	];
+	mockStore = configureMockStore(middlewares);
 
 let store;
 
@@ -38,19 +28,14 @@ beforeEach(() => {
 		}
 	});
 
+	store.replaceReducer(rootReducer);
+	
 	jest.spyOn(featureDetection, 'hasIndexedDB').mockReturnValue(true);
 	jest.spyOn(featureDetection, 'hasWebWorker').mockReturnValue(true);
-
-	const responseData = {
-		data: {
-			type: 'BOX_LIST',
-			boxList: myBoxList
-		}
-	};
 });
 
-describe.only('setAppliedFilters', () => {
-	test.only('it should return the "set filter" action creator with no related field to erase for filter: name', () => {
+describe('setAppliedFilters', () => {
+	test('it should set the new filter and fetch the box list (1)', () => {
 
 		const expectedActions = [
 			{
@@ -71,78 +56,151 @@ describe.only('setAppliedFilters', () => {
 			})
 	});
 
-	test('it should return the "set filter" action creator with no related field to erase for filter: maxPrice', () => {
-		const expectedAction = {
-			type: "BOX_LIST_SEARCH/SET_APPLIED_FILTERS",
-			filtersApplied: {
-				'maxPrice': 300
+	test('it should set the new filter and fetch the box list (2)', () => {
+		const expectedActions = [
+			{
+				type: "BOX_LIST_SEARCH/SET_APPLIED_FILTERS",
+				filtersApplied: {'maxPrice': 300},
+			},
+			{
+				type: "BOX_LIST_SEARCH/SET_BOX_LIST",
+				boxList: myBoxList,
 			}
-		};
+		];
 
-		expect(actions.setAppliedFilters({'maxPrice': 300})).toEqual(expectedAction);
+		store.dispatch(actions.setAppliedFilters({'maxPrice': 300}))
+			.then( () => {
+				const actions = store.getActions();
+				expect(actions).toEqual(expectedActions);
+			})
 	});
 });
 
 
 describe('resetAppliedFilters', () => {
-	test('it should return the "reset filter" action creator', () => {
-		const expectedAction = {
-			type: "BOX_LIST_SEARCH/RESET_APPLIED_FILTERS",
-			filtersAppliedToReset: ['prenom', 'nom'],
-		};
+	test('it should reset the filters passed and fetch the box list', () => {
+		const expectedActions = [
+			{
+				type: "BOX_LIST_SEARCH/RESET_APPLIED_FILTERS",
+				filtersAppliedToReset: ['prenom', 'nom'],
+			},
+			{
+				type: "BOX_LIST_SEARCH/SET_BOX_LIST",
+				boxList: myBoxList,
+			}
+		];
 
-		expect(actions.resetAppliedFilters(['prenom', 'nom'])).toEqual(expectedAction);
+		store.dispatch(actions.resetAppliedFilters(['prenom', 'nom']))
+			.then( () => {
+				const actions = store.getActions();
+				expect(actions).toEqual(expectedActions);
+			});
 	});
 });
 
 
 describe('resetAllAppliedFilters', () => {
-	test('it should return the "reset all filters" action creator', () => {
-		const expectedAction = {
-			type: "BOX_LIST_SEARCH/RESET_ALL_APPLIED_FILTERS",
-		};
+	test('it should reset all filters and fetch the box list', () => {
+		const expectedActions = [
+			{
+				type: "BOX_LIST_SEARCH/RESET_ALL_APPLIED_FILTERS",
+			},
+			{
+				type: "BOX_LIST_SEARCH/SET_BOX_LIST",
+				boxList: myBoxList,
+			}
+		];
 
-		expect(actions.resetAllAppliedFilters()).toEqual(expectedAction);
+		store.dispatch(actions.resetAllAppliedFilters())
+			.then( () => {
+				const actions = store.getActions();
+				expect(actions).toEqual(expectedActions);
+			});
+	});
+});
+
+
+describe('setOrderBy', () => {
+	test('it should set the new order and fetch the box list', () => {
+		const expectedActions = [
+			{
+				type: "BOX_LIST_SEARCH/SET_ORDER_BY",
+				orderBy: 'price'
+			},
+			{
+				type: "BOX_LIST_SEARCH/SET_BOX_LIST",
+				boxList: myBoxList,
+			}
+		];
+
+		store.dispatch(actions.setOrderBy('price'))
+			.then( () => {
+				const actions = store.getActions();
+				expect(actions).toEqual(expectedActions);
+			});
 	});
 });
 
 
 describe('setPage', () => {
-	test('it should return the "set page" action creator', () => {
-		const expectedAction = {
-			type: "BOX_LIST_SEARCH/SET_PAGE",
-			page: 3,
-		};
+	test('it should set the new page and set the box list', () => {
+		const expectedActions = [
+			{
+				type: "BOX_LIST_SEARCH/SET_PAGE",
+				page: 3,
+			},
+			{
+				type: "BOX_LIST_SEARCH/SET_BOX_LIST",
+				boxList: myBoxList,
+			}
+		];
 
-		expect(actions.setPage(3)).toEqual(expectedAction);
+		store.dispatch(actions.setPage(3))
+			.then( () => {
+				const actions = store.getActions();
+				expect(actions).toEqual(expectedActions);
+			});
 	});
 });
 
 
 describe('incrementPage', () => {
-	test('it should return the "increment page" action creator', () => {
-		const expectedAction = {
-			type: "BOX_LIST_SEARCH/INCREMENT_PAGE",
-		};
 
-		expect(actions.incrementPage()).toEqual(expectedAction);
+	beforeEach(() => {
+		store = mockStore({
+			boxSearch: {
+				boxList: [],
+				displayBy: 'list',
+				filtersApplied: {},
+				orderBy: '',
+				page: 2,
+				router: {universe: 'sejour'}
+			}
+		});
+	});
+
+	test('it should increment the page and append the box list', () => {
+		const expectedActions = [
+			{
+				type: "BOX_LIST_SEARCH/INCREMENT_PAGE",
+			},
+			{
+				type: "BOX_LIST_SEARCH/APPEND_TO_BOX_LIST",
+				boxList: myBoxList,
+			}
+		];
+
+		store.dispatch(actions.incrementPage())
+			.then( () => {
+				const actions = store.getActions();
+				expect(actions).toEqual(expectedActions);
+			});
 	});
 });
 
 
-describe('decrementPage', () => {
-	test('it should return the "decrement page" action creator', () => {
-		const expectedAction = {
-			type: "BOX_LIST_SEARCH/DECREMENT_PAGE",
-		};
-
-		expect(actions.decrementPage()).toEqual(expectedAction);
-	});
-});
-
-
-describe('setDisplay', () => {
-	test('it should return the "set display" action creator', () => {
+describe('setDisplayBy', () => {
+	test('it should return the "set display by" action creator', () => {
 		const expectedAction = {
 			type: "BOX_LIST_SEARCH/SET_DISPLAY_BY",
 			displayBy: 'card',
@@ -164,6 +222,19 @@ describe('isFetchingBoxList', () => {
 });
 
 
+
+describe('fetchBoxListSucceeds', () => {
+	test('it should return "BOX_LIST_SEARCH/HAS_FETCH_SUCCEEDED" action creator to true', () => {
+		const expectedAction = {
+			type: "BOX_LIST_SEARCH/HAS_FETCH_SUCCEEDED",
+			success: true
+		};
+
+		expect(actions.fetchBoxListSucceeds(true)).toEqual(expectedAction);
+	});
+});
+
+
 describe('setBoxList', () => {
 	test('it should return "BOX_LIST_SEARCH/SET_LIST" action creator', () => {
 		const expectedAction = {
@@ -172,18 +243,6 @@ describe('setBoxList', () => {
 		};
 
 		expect(actions.setBoxList(myBoxList)).toEqual(expectedAction);
-	});
-});
-
-
-describe('fetchBoxListSucceeds', () => {
-	test('it should return "BOX_LIST_SEARCH/FETCH_SUCCEEDED" action creator to true', () => {
-		const expectedAction = {
-			type: "BOX_LIST_SEARCH/FETCH_SUCCEEDED",
-			success: true
-		};
-
-		expect(actions.fetchBoxListSucceeds(true)).toEqual(expectedAction);
 	});
 });
 
@@ -217,6 +276,7 @@ describe('setFiltersStatistics', () => {
 });
 
 
+/*
 describe('tryFetchBoxListRemotely', () => {
 	const myBoxList_1 = [
 		{id: 100, name: 'adrenaline', price: 550},
@@ -267,82 +327,4 @@ describe('tryFetchBoxListRemotely', () => {
 		);
 	});
 });
-
-
-describe('createFetchBoxListWithWorkerAction', () => {
-
-	
-
-	test('get the box list though the web worker', () => {
-		const responseData = {
-			data: {
-				type: 'BOX_LIST',
-				boxList: myBoxList
-			}
-		}
-
-		global.Worker = createWebWorkerMock(false, responseData);
-		const fetchBoxListWithWorkerAction = actions.createFetchBoxListWithWorkerAction();
-
-		const expectedActions = [
-			{ type: "BOX_LIST_SEARCH/SET_BOX_LIST", boxList: myBoxList },
-		];
-
-		return (
-			store.dispatch(fetchBoxListWithWorkerAction('gastronomy'))
-			.then( () => {
-				const actions = store.getActions();
-				expect(actions).toEqual(expectedActions);
-			})
-		);
-
-	});
-
-	test('get the filters statistics though the web worker', () => {
-		const responseData = {
-			data: {
-				type: 'FILTERS_STATISTICS',
-				filtersStatisticsByFilter: {
-					'price1': 19,
-					'forOnePerson': 22
-				}
-			}
-		}
-
-		global.Worker = createWebWorkerMock(false, responseData);
-		const fetchBoxListWithWorkerAction = actions.createFetchBoxListWithWorkerAction();
-
-		const expectedActions = [
-			{ type: "BOX_LIST_SEARCH/SET_FILTERS_STATISTICS", filtersStatisticsByFilter: responseData.data.filtersStatisticsByFilter },
-		];
-
-		return (
-			store.dispatch(fetchBoxListWithWorkerAction('gastronomy'))
-			.then( () => {
-				const actions = store.getActions();
-				expect(actions).toEqual(expectedActions);
-			})
-		);
-
-	});
-
-	test('web worker throws an error', () => {
-		const responseData = {}
-
-		global.Worker = createWebWorkerMock(true, responseData);
-		const fetchBoxListWithWorkerAction = actions.createFetchBoxListWithWorkerAction();
-
-		const expectedActions = [
-			{ type: "BOX_LIST_SEARCH/FETCH_SUCCEEDED", success: false },
-		];
-
-		return (
-			store.dispatch(fetchBoxListWithWorkerAction('gastronomy'))
-			.then( () => {
-				const actions = store.getActions();
-				expect(actions).toEqual(expectedActions);
-			})
-		);
-
-	});
-});
+*/
