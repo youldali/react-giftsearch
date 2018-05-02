@@ -1,22 +1,23 @@
 // @flow
-import type { Action } from 'modules/actions/types';
-import type { Filters, FilterValue, FilterName, FilterOperand, FiltersSelectedState } from '../types';
+import type { Action, State } from 'modules/actions/types';
+import type { Filters, FiltersAppliedState, FilterName, FilterOperand } from '../types';
 import { hasOne } from 'helpers/object/utils';
 import { omit, curry } from 'ramda';
 
-type FilterState = {
-	+[string]: FilterValue
+export 
+type FilterAppliedState = {
+	+[string]: FilterOperand
 };
 
-function filterReducer (state: FilterState = {}, action: Action): FilterState {
+function filterReducer (state: FilterAppliedState = {}, action: Action): FilterAppliedState {
 	switch (action.type){
-		case "BOX_LIST_SEARCH/SET_FILTERS":
-			return {...state, ...action.filters};
+		case "BOX_LIST_SEARCH/SET_APPLIED_FILTERS":
+			return {...state, ...action.filtersToApply};
 
-		case "BOX_LIST_SEARCH/RESET_FILTERS":
+		case "BOX_LIST_SEARCH/RESET_APPLIED_FILTERS":
 			return hasOne(action.filtersToReset)(state) ? omit(action.filtersToReset, state) : state;
 
-		case "BOX_LIST_SEARCH/RESET_ALL_FILTERS":
+		case "BOX_LIST_SEARCH/RESET_ALL_APPLIED_FILTERS":
 			return Object.keys(state).length === 0 ? state : {};
 
 		default:
@@ -27,25 +28,27 @@ function filterReducer (state: FilterState = {}, action: Action): FilterState {
 export default filterReducer;
 
 //selectors
+const _getIsFilterApplied = (filtersAppliedState: FiltersAppliedState, filterName: FilterName) => 
+	filtersAppliedState[filterName] === undefined ? false : true;
+export const getIsFilterApplied = curry(_getIsFilterApplied);
 
-const _getIsFilterApplied = (filtersSelectedState: FiltersSelectedState, filterName: FilterName) => 
-    filtersSelectedState[filterName] === undefined ? false : true;
-export const getIsFilterSelected = curry(_getIsFilterApplied);
 
+const getAllAppliedFilters = (state: State): Filters => (state.boxSearch.filtersApplied);
 
-const getAllAppliedFilters = (state: Object): Filters => (state.boxSearch.filtersSelected);
-const getFilterValue = (state: Object, filterName: string): FilterValue  => (state.boxSearch.filter[filterName]);
-const areFiltersApplied = (state: Object, filterNames: Array<string> ): boolean => {
+const getFilterValue = (state: State, filterName: string): FilterOperand  => (state.boxSearch.filtersApplied[filterName]);
+
+const areFiltersApplied = (state: State, filterNames: Array<string> ): boolean => {
 	for (const filterName of filterNames){
-    if(getFilterValue(state, filterName) === undefined)
-      return false;
-  }
-  return true;
+		if(getFilterValue(state, filterName) === undefined)
+			return false;
+	}
+  	return true;
 };
 
 export 
 const selectors = {
 	getFilterValue,
 	getAllAppliedFilters,
-	areFiltersApplied
+	areFiltersApplied,
+	getIsFilterApplied
 };

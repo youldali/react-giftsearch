@@ -1,13 +1,14 @@
  // @flow
-import type { Action } from 'modules/actions/types';
+import type { Action, State } from 'modules/actions/types';
 
-type OrderState = string | Array<number>;
+export
+type OrderByState = string | Array<number>;
 
 const initialState = '';
-function orderReducer (state: OrderState = initialState, action: Action): OrderState {
+function orderReducer (state: OrderByState = initialState, action: Action): OrderByState {
 	switch (action.type){
-		case "BOX_LIST_SEARCH/SET_ORDER":
-			return action.order;
+		case "BOX_LIST_SEARCH/SET_ORDER_BY":
+			return action.orderBy;
 
 		default:
 			return state;
@@ -18,5 +19,5 @@ export default orderReducer;
 
 export 
 const selectors = {
-	getOrderBy: (state: Object) => (state.boxSearch.orderBy)
+	getOrderBy: (state: State) => (state.boxSearch.orderBy)
 };

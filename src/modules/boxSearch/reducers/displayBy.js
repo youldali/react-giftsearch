@@ -1,12 +1,13 @@
 // @flow
-import type { Action } from 'modules/actions/types';
+import type { Action, State } from 'modules/actions/types';
 
-type DisplayState = 'list' | 'card';
+export
+type DisplayByState = 'list' | 'card';
 
-function displayReducer(state: DisplayState = 'list', action: Action): DisplayState{
+function displayReducer(state: DisplayByState = 'list', action: Action): DisplayByState{
 	switch (action.type){
-		case "BOX_LIST_SEARCH/SET_DISPLAY":
-			return action.display;
+		case "BOX_LIST_SEARCH/SET_DISPLAY_BY":
+			return action.displayBy;
 		default:
 			return state;
 	}
@@ -16,5 +17,5 @@ export default displayReducer;
 
 export 
 const selectors = {
-	getDisplay: (state: Object) => (state.boxSearch.displayBy)
+	getDisplay: (state: State) => (state.boxSearch.displayBy)
 }

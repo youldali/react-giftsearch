@@ -1,7 +1,9 @@
 // @flow
-import type { Action } from 'modules/actions/types';
+import type { Action, State } from 'modules/actions/types';
 
+export
 type PageState = number;
+
 const initialState = 1;
 
 function pageReducer(state: PageState = initialState, action: Action): PageState{
@@ -10,14 +12,12 @@ function pageReducer(state: PageState = initialState, action: Action): PageState
 			return action.page;
 		case "BOX_LIST_SEARCH/INCREMENT_PAGE":
 			return ++state;
-		case "BOX_LIST_SEARCH/DECREMENT_PAGE":
-			return (state > 0 ? --state : state);
-		case "BOX_LIST_SEARCH/SET_FILTERS":
-		case "BOX_LIST_SEARCH/RESET_FILTERS":
-		case "BOX_LIST_SEARCH/RESET_ALL_FILTERS":
+		case "BOX_LIST_SEARCH/SET_APPLIED_FILTERS":
+		case "BOX_LIST_SEARCH/RESET_APPLIED_FILTERS":
+		case "BOX_LIST_SEARCH/RESET_ALL_APPLIED_FILTERS":
 		case "BOX_LIST_SEARCH/SET_BOX_LIST":
-		case "BOX_LIST_SEARCH/SET_DISPLAY":
-		case "BOX_LIST_SEARCH/SET_ORDER":
+		case "BOX_LIST_SEARCH/SET_DISPLAY_BY":
+		case "BOX_LIST_SEARCH/SET_ORDER_BY":
 			return initialState;
 		default:
 			return state;
@@ -28,5 +28,5 @@ export default pageReducer;
 
 export 
 const selectors = {
-	getPage: (state: Object) => (state.boxSearch.page)
+	getPage: (state: State) => (state.boxSearch.page)
 }

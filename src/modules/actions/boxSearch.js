@@ -1,5 +1,5 @@
  // @flow
-import type { Action, BoxCollection, BoxCollectionRequestData, Dispatch, DisplayType, FiltersAppliedState, FiltersStatisticsByFilter, ThunkAction, WorkerResponseDataForBoxCollectionRequest} from './types';
+import type { Action, BoxCollection, BoxCollectionRequestData, Dispatch, DisplayType, FiltersApplied, FiltersStatisticsByFilter, ThunkAction, WorkerResponseDataForBoxCollectionRequest} from './types';
  
 import boxFetcher from '../boxSearch/services/fetchBoxListRemotely';
 import { handleErrorThunkAction } from 'helpers/promise/utils';
@@ -9,20 +9,20 @@ import { getFetchBoxListWebWorker } from '../boxSearch/services/webWorkers';
 import { curry } from 'ramda';
 
 export 
-const setAppliedFilters = (filtersApplied: FiltersAppliedState) => (dispatch: Dispatch) : Action => {
+const setAppliedFilters = (filtersToApply: FiltersApplied) => (dispatch: Dispatch) : Action => {
 	dispatch({
 		type: "BOX_LIST_SEARCH/SET_APPLIED_FILTERS",
-		filtersApplied
+		filtersToApply
 	});
 
 	return dispatch(fetchBoxListAction);
 };
 
 export 
-const resetAppliedFilters = (filtersAppliedToReset: Array<string>) => (dispatch: Dispatch): Action => {
+const resetAppliedFilters = (filtersToReset: Array<string>) => (dispatch: Dispatch): Action => {
 	dispatch({
 		type: "BOX_LIST_SEARCH/RESET_APPLIED_FILTERS",
-		filtersAppliedToReset
+		filtersToReset
 	});
 
 	return dispatch(fetchBoxListAction);

@@ -1,10 +1,11 @@
 // @flow
-import type { Action } from 'modules/actions/types';
+import type { Action, State } from 'modules/actions/types';
 import type { BoxCollection } from '../types';
 import { selectors as pageSelectors } from './page';
 import { createSelector } from 'reselect';
 
-type GiftListState = {
+export
+type BoxListState = {
 	+collection: BoxCollection,
 	+isFetching: boolean,
 	+fetchSuccess: boolean
@@ -16,7 +17,7 @@ const initialState = {
 	fetchSuccess: true
 }
 
-function giftListReducer (state: GiftListState = initialState, action: Action): GiftListState {
+function giftListReducer (state: BoxListState = initialState, action: Action): BoxListState {
 	switch (action.type){
 		case "BOX_LIST_SEARCH/SET_BOX_LIST":
 			return {
@@ -53,9 +54,9 @@ function giftListReducer (state: GiftListState = initialState, action: Action): 
 export default giftListReducer;
 
 //selectors
-const getList = (state: Object): BoxCollection  => (state.boxSearch.boxList.collection);
-const isFetching = (state: Object): boolean => (state.boxSearch.boxList.isFetching);
-const hasFetchSucceeded = (state: Object): boolean => (state.boxSearch.boxList.fetchSuccess);
+const getList = (state: State): BoxCollection  => (state.boxSearch.boxList.collection);
+const isFetching = (state: State): boolean => (state.boxSearch.boxList.isFetching);
+const hasFetchSucceeded = (state: State): boolean => (state.boxSearch.boxList.fetchSuccess);
 
 const getPaginatedOrderedFilteredList = createSelector(
   [getList, pageSelectors.getPage],

@@ -1,4 +1,21 @@
 import type { Interval } from 'helpers/dataStruture/interval';
+import type { BoxListState } from './reducers/boxList';
+import type { DisplayByState } from './reducers/displayBy';
+import type { FilterAppliedState } from './reducers/filtersApplied';
+import type { FilterAppliedState } from './reducers/filtersApplied';
+import type { OrderByState } from './reducers/orderBy';
+import type { PageState } from './reducers/page';
+import type { RouterState } from './reducers/router';
+
+export type BoxSearchModuleState = {|
+	boxList: BoxListState,
+	displayBy: DisplayByState,
+	filtersApplied: FilterAppliedState,
+	FiltersStatistics: FiltersStatisticsState,
+	orderBy: OrderByState,
+	page: PageState,
+	router: RouterState
+|};
 
 //FILTERS
 export type FilterName = string;
@@ -50,7 +67,6 @@ export type FieldsToIndexByUniverse = { [string]: FieldsToIndex };
 
 //Filter statistic
 export type FilterOperandStatistic = { type: 'absolute' | 'relative', idList: number[]};
-
 
 //BOX
 export 

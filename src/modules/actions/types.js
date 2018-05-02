@@ -1,16 +1,16 @@
 // @flow
-import type { BoxCollection, FilterName, FilterOperand } from 'modules/boxSearch/types';
+import type { BoxCollection, BoxSearchModuleState, FilterName, FilterOperand } from 'modules/boxSearch/types';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 export type { BoxCollection } from 'modules/boxSearch/types';
 export type DisplayType = 'list' | 'card';
 export type FilterStatistic = { type: 'absolute' | 'relative', stat: number };
 export type FiltersStatisticsByFilter = { [FilterName]: FilterStatistic };
-export type FiltersAppliedState = { [FilterName]: FilterOperand};
+export type FiltersApplied = { [FilterName]: FilterOperand};
 
 export type BoxCollectionRequestData = {
 	universe: string,
-	filtersApplied: FiltersAppliedState,
+	filtersApplied: FiltersApplied,
 	orderBy: string,
 	page: number
 };
@@ -19,11 +19,15 @@ export type WorkerResponseDataForBoxCollectionRequest =
 	  { type: 'BOX_LIST', boxList: BoxCollection }
 	| { type: 'FILTERS_STATISTICS', filtersStatisticsByFilter: FiltersStatisticsByFilter };
 
+
+export type State = {|
+	boxSearch: BoxSearchModuleState
+|};
 	
 export 
 type Action = 
-	  { type: 'BOX_LIST_SEARCH/SET_APPLIED_FILTERS', filtersApplied: FiltersAppliedState }
-	| { type: 'BOX_LIST_SEARCH/RESET_APPLIED_FILTERS', filtersAppliedToReset: Array<FilterName>}
+	  { type: 'BOX_LIST_SEARCH/SET_APPLIED_FILTERS', filtersToApply: FiltersApplied }
+	| { type: 'BOX_LIST_SEARCH/RESET_APPLIED_FILTERS', filtersToReset: Array<FilterName>}
 	| { type: 'BOX_LIST_SEARCH/RESET_ALL_APPLIED_FILTERS'}
 	| { type: 'BOX_LIST_SEARCH/SET_ORDER_BY', orderBy: string }
 	| { type: 'BOX_LIST_SEARCH/SET_UNIVERSE', universe: string }
@@ -36,7 +40,7 @@ type Action =
 	| { type: 'BOX_LIST_SEARCH/INCREMENT_PAGE'}
 	| { type: 'BOX_LIST_SEARCH/DECREMENT_PAGE'}
 	| { type: 'BOX_LIST_SEARCH/SET_FILTERS_STATISTICS', filtersStatisticsByFilter: FiltersStatisticsByFilter }
-	| { type: LOCATION_CHANGE, payload: Object };
+	| { type: "@@router/LOCATION_CHANGE", payload: Object };
 
 export 
 type Dispatch = (action: Action | ThunkAction | Promise<Action> | Array<Action>) => any;

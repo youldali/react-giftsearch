@@ -1,7 +1,8 @@
  // @flow
- import type { Action, FilterStatistic, FiltersStatisticsByFilter } from 'modules/actions/types';
+ import type { Action, FilterStatistic, FiltersStatisticsByFilter, State } from 'modules/actions/types';
  import type { FilterName } from '../types';
 
+ export
  type FiltersStatisticsState = FiltersStatisticsByFilter;
  
  const initialState = {};
@@ -18,7 +19,7 @@
  
  export 
  const selectors = {
-     getFiltersStatistics: (state: Object) => state.boxSearch.filtersStatistics,
-     getFilterStatisticForFilter: (state: Object, filterName: FilterName) => state.boxSearch.filtersStatistics[filterName]
+     getFiltersStatistics: (state: State): FiltersStatisticsState => state.boxSearch.filtersStatistics,
+     getFilterStatisticForFilter: (state: State, filterName: FilterName): FilterStatistic => state.boxSearch.filtersStatistics[filterName]
  };
  

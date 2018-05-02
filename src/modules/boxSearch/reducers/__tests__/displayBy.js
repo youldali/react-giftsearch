@@ -1,15 +1,15 @@
-import displayReducer from '../displayBy.js';
+import displayByReducer from '../displayBy.js';
 
 test('it initializes state', () => {
-	const newState = displayReducer(undefined, {});
+	const newState = displayByReducer(undefined, {});
 	expect(newState).toBe('list');
 });
 
 test('it changes the display state', () => {
 	const action = {
-		type: "GIFT_LIST_SEARCH/SET_DISPLAY",
-		display: 'card'
+		type: "BOX_LIST_SEARCH/SET_DISPLAY_BY",
+		displayBy: 'card'
 	};
-	const newState = displayReducer('list', action);
+	const newState = displayByReducer('list', action);
 	expect(newState).toBe('card');
 });

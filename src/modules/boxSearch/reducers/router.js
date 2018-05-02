@@ -1,7 +1,8 @@
 // @flow
-import type { Action } from 'modules/actions/types';
+import type { Action, State } from 'modules/actions/types';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
+export
 type RouterState = {
 	universe: string
 };
@@ -24,5 +25,5 @@ export default routerReducer;
 
 export 
 const selectors = {
-	getUniverse: (state: Object) => (state.boxSearch.router.universe)
+	getUniverse: (state: State) => (state.boxSearch.router.universe)
 }
