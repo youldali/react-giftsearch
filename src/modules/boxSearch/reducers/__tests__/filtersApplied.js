@@ -18,7 +18,6 @@ describe('BOX_LIST_SEARCH/SET_APPLIED_FILTERS', () => {
 
 		expect(newState).toEqual({'name': 'myFilter'});	
 		expect(newState).not.toBe(prevState);
-
 	});
 
 	test('it adds multiple filters', () => {

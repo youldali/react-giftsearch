@@ -1,5 +1,5 @@
-import boxFetcher from '../fetchBoxListRemotely';
-import { boxesEndpointURL } from 'modules/gift-search/config/api.config';
+import boxFetcher from '../fetchBoxListService';
+import { boxesEndpointURL } from 'modules/boxSearch/config/api.config';
 import nock from 'nock';
 
 describe('fetch gift boxes remotely', () => {

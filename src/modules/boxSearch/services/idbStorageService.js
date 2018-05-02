@@ -5,7 +5,7 @@ import type { FieldsToIndex, FieldsToIndexByUniverse, FilterOperand, FilterStruc
 import { createOrOpenDatabase, addDataToStore, getNumberOfItemsInStore, getPrimaryKeyListMatchingRange, getItemList, getAllUniqueKeysForIndex, getKeyRangeMatchingOperator } from 'helpers/storage/idbStorage';
 import { curry, mapObjIndexed, reverse } from 'ramda';
 import storageConfig from '../config/storage.config';
-import fetchBoxListRemotely from './fetchBoxListRemotely';
+import fetchBoxListService from './fetchBoxListService';
 
 const { dbName, dbVersion, fieldsToIndexByUniverse } = storageConfig;
 
@@ -25,7 +25,7 @@ const createUniversesStores = curry(_createUniversesStores);
 
 
 const addDataToUniverse = async (db: IDBDatabase, universe: string) => {
-    const itemList = await fetchBoxListRemotely(universe);
+    const itemList = await fetchBoxListService(universe);
     return addDataToStore(db, universe, itemList);
 }
 

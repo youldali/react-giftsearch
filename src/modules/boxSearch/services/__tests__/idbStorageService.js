@@ -1,5 +1,5 @@
 import { getOperandList, getItemIdListMatchingSingleFilter, getBoxesList } from '../idbStorageService';
-import * as giftFetcherRemote from '../../helpers/fetchGiftsRemotely';
+import * as fetchBoxListService from '../fetchBoxListService';
 import createFilterStructure from '../../domainModel/filterStructure'
 import createInterval from 'helpers/dataStructure/interval';
 
@@ -22,7 +22,7 @@ const giftCollection = [gift1, gift2, gift3, gift4, gift5, gift6, gift7, gift8, 
 
 
 beforeAll(() => {
-    jest.spyOn(giftFetcherRemote, 'default').mockImplementation( universe => Promise.resolve(giftCollection) );
+    jest.spyOn(fetchBoxListService, 'default').mockImplementation( universe => Promise.resolve(giftCollection) );
 });
 
 
