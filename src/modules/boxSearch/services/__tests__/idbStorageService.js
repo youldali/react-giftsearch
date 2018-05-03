@@ -1,30 +1,11 @@
-import { getOperandList, getItemIdListMatchingSingleFilter, getBoxesList } from '../idbStorageService';
+import { getBoxesList, getItemIdListMatchingSingleFilter, getOperandList } from '../idbStorageService';
 import * as fetchBoxListService from '../fetchBoxListService';
 import createFilterStructure from '../../domainModel/filterStructure'
 import createInterval from 'helpers/dataStructure/interval';
+import { boxCollection, boxes } from '../__mocks__/fetchBoxListService';
 
 jest.mock('helpers/storage/idbStorage');
-//jest.mock('../../../../../../helpers/storage/idbStorage');
-
-const gift1 = {'id': 1, name: 'stay in Paris', 'city': 'Paris', 'price': 25, forOnePerson: 1, forCouple: 0, experienceType: ['boat', 'car', 'parachute']};
-const gift2 = {'id': 2, name: 'stay in Lyon', 'city': 'Lyon', 'price': 40, forOnePerson: 0, forCouple: 1, experienceType: ['car']};
-const gift3 = {'id': 3, name: 'stay in barcelona', 'city': 'Barcelona', 'price': 120, forOnePerson: 1, forCouple: 0, experienceType: ['boat']};
-const gift4 = {'id': 4, name: 'eat in Lyon', 'city': 'Lyon', 'price': 199, forOnePerson: 1, forCouple: 0, experienceType: ['boat', 'plane']};
-const gift5 = {'id': 5, name: 'stay in Dublin', 'city': 'Dublin', 'price': 301, forOnePerson: 1, forCouple: 1, experienceType: ['parachute']};
-const gift6 = {'id': 6, name: 'cycle in Lyon', 'city': 'Lyon', 'price': 600, forOnePerson: 0, forCouple: 1, experienceType: ['boat', 'car']};
-const gift7 = {'id': 7, name: 'stay in Lyon 2', 'city': 'Lyon', 'price': 700, forOnePerson: 0, forCouple: 1, experienceType: ['boat', 'car', 'plane']};
-const gift8 = {'id': 8, name: 'stay in Lyon 3', 'city': 'Lyon', 'price': 800, forOnePerson: 0, forCouple: 1, experienceType: ['boat', 'car']};
-const gift9 = {'id': 9, name: 'eat in Paris', 'city': 'Paris', 'price': 900, forOnePerson: 0, forCouple: 1, experienceType: ['plane']};
-const gift10 = {'id':10, name: 'stay in Berlin', 'city': 'Berlin', 'price': 1000, forOnePerson: 0, forCouple: 1, experienceType: ['boat', 'plane']};
-
-export
-const giftCollection = [gift1, gift2, gift3, gift4, gift5, gift6, gift7, gift8, gift9, gift10];
-
-
-beforeAll(() => {
-    jest.spyOn(fetchBoxListService, 'default').mockImplementation( universe => Promise.resolve(giftCollection) );
-});
-
+jest.mock('../fetchBoxListService');
 
 describe('getItemIdListMatchingSingleFilter', () => {
 	test('get the item id matching the filter structure passed (1)', () => {
@@ -87,7 +68,7 @@ describe('getBoxesList', () => {
 
         const 
             items = getBoxesList(universe, idList),
-            expected = [gift2, gift3, gift5];
+            expected = [boxes.box2, boxes.box3, boxes.box5];
 
         expect(items).resolves.toEqual(expected);
     });

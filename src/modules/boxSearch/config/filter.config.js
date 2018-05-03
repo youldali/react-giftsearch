@@ -1,6 +1,6 @@
 // @flow
 import type { FilterConfig, FilterConfigList } from '../types';
-import createInterval from 'helpers/dataStruture/interval';
+import createInterval from 'helpers/dataStructure/interval';
 import { generateFilterConfigForEachOperand } from '../helpers/filterConfigResolver';
 
 const filterConfigBase: FilterConfigList = [

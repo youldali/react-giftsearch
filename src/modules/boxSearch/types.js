@@ -21,14 +21,21 @@ export type BoxSearchModuleState = {|
 export type FilterName = string;
 export type FilterGroup = ?string;
 export type FilterOperand = number | string | number[] | string[] | Interval;
-export type FilterStructure = {
+export type FilterStructure = {|
 	filterName: FilterName,
 	FilterGroup: FilterGroup,
 	operator: string,
 	field: string,
 	operand: FilterOperand
-};
+|};
 export type FilterStructureMap = { [FilterName]: FilterStructure };
+
+export type FilterBaseInfos = {
+	filterBaseName: FilterName,
+	FilterGroup: FilterGroup,
+	operator: string,
+	field: string,
+};
 
 //FILTER Config
 export type ResolveFilterOperand = (universe: string, field: string) => Promise<FilterOperand>;
@@ -42,7 +49,7 @@ export type FilterConfig = {
 export type FilterConfigList = FilterConfig[];
 
 //FILTER STATE
-export type FiltersAppliedState = { [FilterName]: FilterOperand};
+export type FiltersApplied = { [FilterName]: FilterOperand};
 
 //FILTER FUNCTION BUILDER
 export type FilterFunction = (target: Object) => boolean;

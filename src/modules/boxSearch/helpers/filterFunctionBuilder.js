@@ -2,70 +2,59 @@
 
 import 'core-js/fn/object/entries';
 import 'core-js/fn/object/values';
-import operators from './operators';
-import { mapObjIndexed, compose, sort, concat, curry } from 'ramda';
+import operators from 'helpers/misc/operators';
+import { compose, concat, curry, mapObjIndexed, sort } from 'ramda';
 
-import type { FilterName, FilterOperand, Filters, FiltersCriteriasCollection, FiltersGroupsCollection, FilterCriteria, FilterGroup, FilterFunction, FilterFunctionListByGroup, FilterTuple, FilterFunctionListMappedToFilterGroup, FiltersData } from '../types';
+import type { FilterStructure, FilterStructureMap, FilterName, FilterOperand, FilterGroup, FilterFunction, FilterFunctionListByGroup, FilterTuple, FilterFunctionListMappedToFilterGroup, FiltersData, FiltersApplied } from '../types';
 
 /**
  * evaluate a single criteria
  */
 
 const _evaluateCriteria = 
-(criteria: FilterCriteria, filterOperandFallback: FilterOperand, target: Object): boolean => {
-	const {field, operator, operand} = criteria;
-	const filterOperand = operand || filterOperandFallback;
-	return operators[operator](target[field], filterOperand);
+(filterStructure: FilterStructure, filterOperand: FilterOperand, target: Object): boolean => {
+	const {field, operator, operand} = filterStructure;
+	return operators[operator](target[field], operand);
 };
 export const evaluateCriteria = curry(_evaluateCriteria);
 
-// FiltersCriterias -> FilterOperand, FilterName -> FilterFunction
-const _getFilterFunctionFromFilter = 
-(filtersCriteriasCollection: FiltersCriteriasCollection, filterOperand: FilterOperand, filterName: FilterName): FilterFunction => 
-evaluateCriteria(filtersCriteriasCollection[filterName], filterOperand);
 
-export const getFilterFunctionFromFilter = curry(_getFilterFunctionFromFilter);
 
 //store filters functions according to group
 //return a sorted filter function collection
 export
 const createFilterFunctionDataStructure = () => {
-	const filtersFunctionsMappedToFilterGroup: {[string]: FilterFunction[]} = {};
-	const noGroupFilterFunctionList: Array<FilterFunction[]> = [];
-	const filterFunctionListMappedToFilterGroup = new Map();
+	const 
+		filtersFunctionsMappedToFilterGroup: {[string]: FilterFunction[]} = {},
+		noGroupFilterFunctionList: Array<FilterFunction[]> = [],
+		filterFunctionListMappedToFilterGroup = new Map(),
 
-	return {
-		addFilterFunction(filterFunction: FilterFunction, filterGroup: ?string){
-			return (
-				!filterGroup 
-					? this.addFilterFunctionToNoGroupList(filterFunction) :
-				filtersFunctionsMappedToFilterGroup[filterGroup] 
-					? this.saveFilterFunctionIntoGroup(filterFunction, filterGroup) : this.addFilterFunctionToNewGroup(filterFunction, filterGroup)
-			);
-		},
+		addFilterFunctionToNoGroupList = (filterFunction: FilterFunction) => noGroupFilterFunctionList.push([filterFunction]),
 
-		addFilterFunctionToNoGroupList(filterFunction: FilterFunction){
-			noGroupFilterFunctionList.push([filterFunction]);
-			return this;
-		},
-
-		addFilterFunctionToNewGroup(filterFunction: FilterFunction, filterGroup: string){
+		addFilterFunctionToNewGroup = (filterFunction: FilterFunction, filterGroup: string) => {
 			const filterGroupFunctionCollection = [filterFunction];
 			filtersFunctionsMappedToFilterGroup[filterGroup] = filterGroupFunctionCollection;
 			filterFunctionListMappedToFilterGroup.set(filterGroupFunctionCollection, filterGroup);
-			return this;
 		},
 
-		saveFilterFunctionIntoGroup(filterFunction: FilterFunction, filterGroup: string){
-			const filterGroupFunctionCollection = filtersFunctionsMappedToFilterGroup[filterGroup]
-			filterGroupFunctionCollection.push(filterFunction);
+		saveFilterFunctionIntoGroup = (filterFunction: FilterFunction, filterGroup: string) => filtersFunctionsMappedToFilterGroup[filterGroup].push(filterFunction);
+
+	return {
+		addFilterFunction(filterFunction: FilterFunction, filterGroup: ?string){
+			!filterGroup 
+				? addFilterFunctionToNoGroupList(filterFunction) :
+			filtersFunctionsMappedToFilterGroup[filterGroup] 
+				? saveFilterFunctionIntoGroup(filterFunction, filterGroup) : addFilterFunctionToNewGroup(filterFunction, filterGroup)
+			
 			return this;
 		},
 
 		getFilteringData(): FiltersData{
-			const sortByLength = (a, b) => a.length - b.length;
-			const sortedFilterFunctionCollectionBelongingToGroup= sort(sortByLength)(Object.values(filtersFunctionsMappedToFilterGroup));
-			const filterFunctionListByGroup = concat(noGroupFilterFunctionList, sortedFilterFunctionCollectionBelongingToGroup);
+			const 
+				sorterByLength = (a, b) => a.length - b.length,
+				sortedFilterFunctionCollectionBelongingToGroup = compose(sort(sorterByLength), Object.values)(filtersFunctionsMappedToFilterGroup),
+				filterFunctionListByGroup = concat(noGroupFilterFunctionList, sortedFilterFunctionCollectionBelongingToGroup);
+
 			return {
 				filterFunctionListByGroup,
 				filterFunctionListMappedToFilterGroup
@@ -74,27 +63,31 @@ const createFilterFunctionDataStructure = () => {
 	};
 };
 
- 
-const _getFilteringDataFromFiltersTuples = 
-(filtersGroupsCollection: FiltersGroupsCollection, filtersTuples: [FilterTuple]): FiltersData => {
-
-	const reducer = (acc, [filterName, filterFunction]) => {
-		const filterGroup = filtersGroupsCollection[filterName];
-		return acc.addFilterFunction(filterFunction, filterGroup);
-	};
-
-	const filterFunctionCollectionStructure = filtersTuples.reduce(reducer, createFilterFunctionDataStructure());
-	return filterFunctionCollectionStructure.getFilteringData();
-};
-export const getFilteringDataFromFiltersTuples = curry(_getFilteringDataFromFiltersTuples);
 
 
 const _getFilteringDataFromFilters = 
-(filtersCriteriasCollection: FiltersCriteriasCollection, filtersGroupsCollection: FiltersGroupsCollection, filters: Filters): FiltersData => {
-	const mGetFilterFunctionFromFilter = mapObjIndexed(getFilterFunctionFromFilter(filtersCriteriasCollection));
-	const mGetFilterData = compose(getFilteringDataFromFiltersTuples(filtersGroupsCollection), Object.entries, mGetFilterFunctionFromFilter);
+(filterStructureMap: FilterStructureMap, filtersApplied: FiltersApplied): FiltersData => {
 
-	return mGetFilterData(filters);
+	const 
+		getFilteringDataFromFiltersTuples = (filtersTuples: [FilterTuple]): FiltersData => {
+
+			const reducer = (filterFunctionDataStructure, [filterName, filterFunction]) => {
+				const { filterGroup } = filterStructureMap[filterName];
+				return filterFunctionDataStructure.addFilterFunction(filterFunction, filterGroup);
+			};
+
+			const filterFunctionCollectionStructure = filtersTuples.reduce(reducer, createFilterFunctionDataStructure());
+			return filterFunctionCollectionStructure.getFilteringData();
+		},
+
+		getFilterFunctionFromAppliedFilter = (filterOperand: FilterOperand, filterName: FilterName): FilterFunction => evaluateCriteria(filterStructureMap[filterName], filterOperand);
+
+
+	const 
+		mGetFilterFunctionFromAppliedFilter = mapObjIndexed(getFilterFunctionFromAppliedFilter),
+		filterData = compose(getFilteringDataFromFiltersTuples, Object.entries, mGetFilterFunctionFromAppliedFilter)(filtersApplied);
+
+	return filterData;
 };
 export const getFilteringDataFromFilters = curry(_getFilteringDataFromFilters);
 

@@ -1,7 +1,7 @@
  // @flow
 import type { Action, BoxCollection, BoxCollectionRequestData, Dispatch, DisplayType, FiltersApplied, FiltersStatisticsByFilter, ThunkAction, WorkerResponseDataForBoxCollectionRequest} from './types';
  
-import boxFetcher from '../boxSearch/services/fetchBoxListRemotely';
+import fetchBoxListService from '../boxSearch/services/fetchBoxListService';
 import { handleErrorThunkAction } from 'helpers/promise/utils';
 import { filtersAppliedSelectors, orderBySelectors, pageSelectors, routerSelectors } from '../boxSearch/index';
 import { hasIndexedDB, hasWebWorker } from 'helpers/misc/featureDetection';
@@ -123,7 +123,7 @@ const setFiltersStatistics = (filtersStatisticsByFilter: FiltersStatisticsByFilt
 
 
 const _fetchBoxListRemotely = async (universe: string, dispatch: Dispatch): Promise<BoxCollection> => {
-	const boxList = await boxFetcher(universe);
+	const boxList = await fetchBoxListService(universe);
 	dispatch(setBoxList(boxList));
 	return boxList;
 };

@@ -1,19 +1,20 @@
 //@flow
-import type { FilterName, FilterGroup, FilterCriteria, CreateFilterOperand, FilterOperand, FiltersSelectedState, FilterStructureMap, FilterConfig, FilterConfigList  } from '../types';
-import { getOperandList as locallyGetOperandList } from './idbStorage';
+import type { FilterBaseInfos, FilterConfig, FilterConfigList, FilterOperand, FilterStructureMap  } from '../types';
+
+import { getOperandList as getOperandListFromIDB } from '../services/idbStorageService';
 import { curry, composeP, merge } from 'ramda';
 import 'core-js/fn/array/includes.js';
 import createFilterStructure from '../domainModel/filterStructure';
+
 type GetOperandAsync = (universe: string, field: string) => Promise<FilterOperand>;
 
 
-
 const _getOperandList = (universe: string, field: string) => 
-    locallyGetOperandList(universe, field);
+    getOperandListFromIDB(universe, field);
 export const getOperandList = curry(_getOperandList);
 
 
-const _generateFilterConfigForEachOperand = async (filterBaseInfos, universe: string): Promise<Object> => {
+const _generateFilterConfigForEachOperand = async (filterBaseInfos: FilterBaseInfos, universe: string): Promise<Object> => {
 	const { filterBaseName, filterGroup, field, operator } = filterBaseInfos;
 	const operandList = await getOperandList(universe, field);
 

@@ -1,17 +1,19 @@
-jest.mock('../../helpers/idbStorage');
-import { giftCollection } from '../../helpers/__mocks__/idbStorage';
-import { getOperand, generateFilterConfigForEachOperand, getFilterStructureMap } from '../filterConfigResolver';
-import createInterval from 'helpers/dataStruture/interval';
+//import { giftCollection } from '../../services/__mocks__/idbStorage';
+import { getOperandList, generateFilterConfigForEachOperand, getFilterStructureMap } from '../filterConfigResolver';
+import createInterval from 'helpers/dataStructure/interval';
 import createFilterStructure from '../../domainModel/filterStructure'
 
-describe('getOperand', () => {
+jest.mock('helpers/storage/idbStorage');
+jest.mock('../../services/fetchBoxListService');
+
+describe('getOperandList', () => {
 	test('Should return the operand list matching field and universe (1)', () => {
         const 
             field = 'experienceType',
             universe = 'sejour';
             
         const expected = ["boat", "car", "parachute", "plane"];
-        const operandList = getOperand(field, universe);
+        const operandList = getOperandList(universe, field);
         return expect(operandList).resolves.toEqual(expected);
     });
 
@@ -20,8 +22,8 @@ describe('getOperand', () => {
             field = 'forOnePerson',
             universe = 'sejour';
             
-        const expected = [1, 0];
-        const operandList = getOperand(field, universe);
+        const expected = [0, 1];
+        const operandList = getOperandList(universe, field);
         return expect(operandList).resolves.toEqual(expected);
     });
 });
