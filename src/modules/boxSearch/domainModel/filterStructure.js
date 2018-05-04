@@ -1,5 +1,5 @@
 //@flow
-import type { FilterName, CreateFilterOperand, FilterOperand, FilterConfig  } from '../types';
+import type { FilterConfig  } from '../types';
 import { curry } from 'ramda';
 
 const createFilterStructure = (filterConfig: FilterConfig ) => 

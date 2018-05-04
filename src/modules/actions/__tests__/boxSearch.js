@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as actions from '../boxSearch';
-import * as boxListFetcher from 'modules/boxSearch/services/fetchBoxListRemotely';
+import * as boxListFetcher from 'modules/boxSearch/services/fetchBoxListService';
 import * as featureDetection from 'helpers/misc/featureDetection';
 import { curry } from 'ramda';
 import { myBoxList } from '../../boxSearch/services/__mocks__/webWorkers';
@@ -40,7 +40,7 @@ describe('setAppliedFilters', () => {
 		const expectedActions = [
 			{
 				type: "BOX_LIST_SEARCH/SET_APPLIED_FILTERS",
-				filtersApplied: {'name': 'jean'},
+				filtersToApply: {'name': 'jean'},
 			},
 			{
 				type: "BOX_LIST_SEARCH/SET_BOX_LIST",
@@ -60,7 +60,7 @@ describe('setAppliedFilters', () => {
 		const expectedActions = [
 			{
 				type: "BOX_LIST_SEARCH/SET_APPLIED_FILTERS",
-				filtersApplied: {'maxPrice': 300},
+				filtersToApply: {'maxPrice': 300},
 			},
 			{
 				type: "BOX_LIST_SEARCH/SET_BOX_LIST",
@@ -82,7 +82,7 @@ describe('resetAppliedFilters', () => {
 		const expectedActions = [
 			{
 				type: "BOX_LIST_SEARCH/RESET_APPLIED_FILTERS",
-				filtersAppliedToReset: ['prenom', 'nom'],
+				filtersToReset: ['prenom', 'nom'],
 			},
 			{
 				type: "BOX_LIST_SEARCH/SET_BOX_LIST",

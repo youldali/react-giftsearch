@@ -2,7 +2,7 @@
 import type { Action, State } from 'modules/actions/types';
 
 export
-type OrderByState = string | Array<number>;
+type OrderByState = string;
 
 const initialState = '';
 function orderReducer (state: OrderByState = initialState, action: Action): OrderByState {

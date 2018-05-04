@@ -1,19 +1,20 @@
 // @flow
+
 import type { BoxCollection, BoxSearchModuleState, FilterName, FilterOperand } from 'modules/boxSearch/types';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 export type { BoxCollection } from 'modules/boxSearch/types';
 export type DisplayType = 'list' | 'card';
 export type FilterStatistic = { type: 'absolute' | 'relative', stat: number };
-export type FiltersStatisticsByFilter = { [FilterName]: FilterStatistic };
-export type FiltersApplied = { [FilterName]: FilterOperand};
+export type FiltersStatisticsByFilter = { +[FilterName]: FilterStatistic };
+export type FiltersApplied = { +[FilterName]: FilterOperand};
 
-export type BoxCollectionRequestData = {
+export type BoxCollectionRequestData = {|
 	universe: string,
 	filtersApplied: FiltersApplied,
 	orderBy: string,
 	page: number
-};
+|};
 
 export type WorkerResponseDataForBoxCollectionRequest = 
 	  { type: 'BOX_LIST', boxList: BoxCollection }

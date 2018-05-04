@@ -1,5 +1,5 @@
 //@flow
-import type { FilterFunctionListMappedToFilterGroup, FilterFunctionListByGroup, FilterFunction, FilterGroup, FilteredObjectStatus } from '../types';
+import type { FilteredBoxStatus, FilterGroup, FilterFunction, FilterFunctionListByGroup, FilterFunctionListMappedToFilterGroup } from '../types';
 import { curry } from 'ramda';
 
 /**
@@ -28,7 +28,7 @@ export const filterObjectAgainstFilterGroup = curry(_filterObjectAgainstFilterGr
 
 const _filterObjectAgainstFilterFunctionListByGroup = 
 (filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMappedToFilterGroup: FilterFunctionListMappedToFilterGroup, target: Object) => 
-(function* evaluateNextGroupOfFilterFunction(iterator: Iterator<FilterFunction[]>): Generator<FilteredObjectStatus, void, Iterator<FilterFunction[]>>{
+(function* evaluateNextGroupOfFilterFunction(iterator: Iterator<FilterFunction[]>): Generator<FilteredBoxStatus, void, Iterator<FilterFunction[]>>{
 	//condition to get out of recursive call
 	const currentIteratorState = iterator.next();
 	if(currentIteratorState.done){
@@ -50,7 +50,7 @@ export const filterObjectAgainstFilterFunctionListByGroup = curry(_filterObjectA
 
 
 const _getFilterStatusForItem = 
-(filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMappedToFilterGroup: FilterFunctionListMappedToFilterGroup, target: Object): FilteredObjectStatus =>
+(filterFunctionListByGroup: FilterFunctionListByGroup, filterFunctionListMappedToFilterGroup: FilterFunctionListMappedToFilterGroup, target: Object): FilteredBoxStatus =>
 {
 	const iteratorOnFilter = filterObjectAgainstFilterFunctionListByGroup(filterFunctionListByGroup, filterFunctionListMappedToFilterGroup)(target);
 	const filteringStatus = iteratorOnFilter.next().value || {pass: true};

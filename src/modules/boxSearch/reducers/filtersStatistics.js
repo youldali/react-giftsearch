@@ -1,9 +1,9 @@
  // @flow
- import type { Action, FilterStatistic, FiltersStatisticsByFilter, State } from 'modules/actions/types';
+ import type { Action, FilterStatistic, State } from 'modules/actions/types';
  import type { FilterName } from '../types';
 
  export
- type FiltersStatisticsState = FiltersStatisticsByFilter;
+ type FiltersStatisticsState = { +[FilterName]: FilterStatistic };
  
  const initialState = {};
  function filtersStatisticsReducer (state: FiltersStatisticsState = initialState, action: Action): FiltersStatisticsState {

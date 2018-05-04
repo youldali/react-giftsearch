@@ -23,7 +23,7 @@ const adventure: FilterConfigList = [
 
 export
 const sejour: FilterConfigList = [
-	...filterConfigBase.filtersCriterias,
+	...filterConfigBase,
 	{ filterName:'oneNight', filterGroup: 'night', field: 'oneNight', operator: '===', operand: 1 },
 	{ filterName:'twoNight', filterGroup: 'night', field: 'twoNight', operator: '===', operand: 1 },
 ];

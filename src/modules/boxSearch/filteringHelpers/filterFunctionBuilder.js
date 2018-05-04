@@ -5,16 +5,16 @@ import 'core-js/fn/object/values';
 import operators from 'helpers/misc/operators';
 import { compose, concat, curry, mapObjIndexed, sort } from 'ramda';
 
-import type { FilterStructure, FilterStructureMap, FilterName, FilterOperand, FilterGroup, FilterFunction, FilterFunctionListByGroup, FilterTuple, FilterFunctionListMappedToFilterGroup, FiltersData, FiltersApplied } from '../types';
+import type { FilterName, FilterGroup, FilterFunction, FilterOperand, FilterStructure, FilterStructureMap, FiltersApplied, FiltersData, FilterTuple } from '../types';
 
 /**
  * evaluate a single criteria
  */
 
 const _evaluateCriteria = 
-(filterStructure: FilterStructure, filterOperand: FilterOperand, target: Object): boolean => {
-	const {field, operator, operand} = filterStructure;
-	return operators[operator](target[field], operand);
+(filterStructure: FilterStructure, filterValue: FilterOperand, target: Object): boolean => {
+	const {field, operator} = filterStructure;
+	return operators[operator](target[field], filterValue);
 };
 export const evaluateCriteria = curry(_evaluateCriteria);
 
@@ -31,16 +31,16 @@ const createFilterFunctionDataStructure = () => {
 
 		addFilterFunctionToNoGroupList = (filterFunction: FilterFunction) => noGroupFilterFunctionList.push([filterFunction]),
 
-		addFilterFunctionToNewGroup = (filterFunction: FilterFunction, filterGroup: string) => {
+		addFilterFunctionToNewGroup = (filterFunction: FilterFunction, filterGroup: FilterGroup) => {
 			const filterGroupFunctionCollection = [filterFunction];
 			filtersFunctionsMappedToFilterGroup[filterGroup] = filterGroupFunctionCollection;
 			filterFunctionListMappedToFilterGroup.set(filterGroupFunctionCollection, filterGroup);
 		},
 
-		saveFilterFunctionIntoGroup = (filterFunction: FilterFunction, filterGroup: string) => filtersFunctionsMappedToFilterGroup[filterGroup].push(filterFunction);
+		saveFilterFunctionIntoGroup = (filterFunction: FilterFunction, filterGroup: FilterGroup) => filtersFunctionsMappedToFilterGroup[filterGroup].push(filterFunction);
 
 	return {
-		addFilterFunction(filterFunction: FilterFunction, filterGroup: ?string){
+		addFilterFunction(filterFunction: FilterFunction, filterGroup: ?FilterGroup){
 			!filterGroup 
 				? addFilterFunctionToNoGroupList(filterFunction) :
 			filtersFunctionsMappedToFilterGroup[filterGroup] 
@@ -62,7 +62,6 @@ const createFilterFunctionDataStructure = () => {
 		}
 	};
 };
-
 
 
 const _getFilteringDataFromFilters = 

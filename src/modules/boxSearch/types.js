@@ -1,55 +1,59 @@
-import type { Interval } from 'helpers/dataStruture/interval';
+//@flow
+
 import type { BoxListState } from './reducers/boxList';
 import type { DisplayByState } from './reducers/displayBy';
 import type { FilterAppliedState } from './reducers/filtersApplied';
-import type { FilterAppliedState } from './reducers/filtersApplied';
+import type { FiltersStatisticsState } from './reducers/filtersStatistics';
 import type { OrderByState } from './reducers/orderBy';
 import type { PageState } from './reducers/page';
 import type { RouterState } from './reducers/router';
 
+
+//STATE
+export type FiltersApplied = { +[FilterName]: FilterOperand};
 export type BoxSearchModuleState = {|
 	boxList: BoxListState,
 	displayBy: DisplayByState,
 	filtersApplied: FilterAppliedState,
-	FiltersStatistics: FiltersStatisticsState,
+	filtersStatistics: FiltersStatisticsState,
 	orderBy: OrderByState,
 	page: PageState,
 	router: RouterState
 |};
 
-//FILTERS
+//FILTER
 export type FilterName = string;
-export type FilterGroup = ?string;
+export type FilterGroup = string;
 export type FilterOperand = number | string | number[] | string[] | Interval;
-export type FilterStructure = {|
-	filterName: FilterName,
-	FilterGroup: FilterGroup,
-	operator: string,
-	field: string,
-	operand: FilterOperand
-|};
-export type FilterStructureMap = { [FilterName]: FilterStructure };
 
+//FILTER CONFIG
 export type FilterBaseInfos = {
 	filterBaseName: FilterName,
-	FilterGroup: FilterGroup,
+	filterGroup: FilterGroup,
 	operator: string,
 	field: string,
 };
-
-//FILTER Config
-export type ResolveFilterOperand = (universe: string, field: string) => Promise<FilterOperand>;
 export type FilterConfig = {
 	filterName: FilterName,
-	FilterGroup?: FilterGroup,
+	filterGroup?: FilterGroup,
 	operator: string,
 	field: string,
 	operand: FilterOperand | ResolveFilterOperand
 };
 export type FilterConfigList = FilterConfig[];
 
-//FILTER STATE
-export type FiltersApplied = { [FilterName]: FilterOperand};
+
+//FILTER RESOLVER
+export type FilterStructure = {|
+	filterName: FilterName,
+	filterGroup: ?FilterGroup,
+	operator: string,
+	field: string,
+	operand: FilterOperand
+|};
+export type FilterStructureMap = { [FilterName]: FilterStructure };
+export type ResolveFilterOperand = (universe: string, field: string) => Promise<FilterOperand>;
+
 
 //FILTER FUNCTION BUILDER
 export type FilterFunction = (target: Object) => boolean;
@@ -60,20 +64,22 @@ export type FiltersData = {
 	filterFunctionListByGroup: FilterFunctionListByGroup, 
 	filterFunctionListMappedToFilterGroup: FilterFunctionListMappedToFilterGroup
 }
-export type FilteredObjectStatus = {|
+
+//FILTER STATUS / STATISTIC
+export type FilteredBoxStatus = {|
 	+pass: boolean,
 	+filterGroupRejected?: FilterGroup
 |};
 
-type FilteredObjectIdsMappedByGroup = Map<string | boolean, number[]>;
+export type BoxesIdMappedByFilteredStatus = Map<string | boolean, number[]>;
+export type FilterStatistic = { type: 'absolute' | 'relative', idList: number[]};
 
-//STORAGE IDB
+
+//STORAGE IDB CONFIG
 export type IndexConfig = ?{multiEntry?: boolean, unique?: boolean};
 export type FieldsToIndex = { [string]: IndexConfig };
 export type FieldsToIndexByUniverse = { [string]: FieldsToIndex };
 
-//Filter statistic
-export type FilterOperandStatistic = { type: 'absolute' | 'relative', idList: number[]};
 
 //BOX
 export 

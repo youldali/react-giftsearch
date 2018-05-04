@@ -13,14 +13,14 @@ describe('createFilterStructure', () => {
             universe = 'sejour';
        
         const expectedStructure = {
-            filterName,
-            filterGroup,
-            field,
-            operator,
-            operand
+            filterName: filterConfig.filterName,
+            filterGroup: filterConfig.filterGroup,
+            field: filterConfig.field,
+            operator: filterConfig.operator,
+            operand: filterConfig.operand
         };
         
-        const filterStructure = createFilterStructure(universe, filterConfig);
+        const filterStructure = createFilterStructure(filterConfig);
 		return expect(filterStructure).toEqual(expectedStructure);
     });
 });

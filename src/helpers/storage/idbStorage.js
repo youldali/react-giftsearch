@@ -23,6 +23,7 @@ export const _getNumberOfItemsInStore = (db: IDBDatabase, storeName: string):Pro
         countRequest = objectStore.count();
 
     return new Promise((resolve, reject) => {
+        //$FlowFixMe
         countRequest.onsuccess = () => resolve(countRequest.result);
         countRequest.onerror = () => reject('error fetching data: ' + countRequest.error.message);
     });
