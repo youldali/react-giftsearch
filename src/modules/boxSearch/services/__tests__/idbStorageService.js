@@ -1,4 +1,4 @@
-import { getBoxesList, getItemIdListMatchingSingleFilter, getOperandList } from '../idbStorageService';
+import { getBoxesList, getItemIdListMatchingSingleFilter, getOperandList, iterateOverBoxes } from '../idbStorageService';
 import * as fetchBoxListService from '../fetchBoxListService';
 import createFilterStructure from '../../domainModel/filterStructure'
 import createInterval from 'helpers/dataStructure/interval';
@@ -75,4 +75,19 @@ describe('getBoxesList', () => {
 });
 
 
+describe('iterateOverBoxes', () => {
+	test('it executes the function over all boxes in universe', async () => {
+        const
+            universe = 'sejour',
+            numberList = [],
+            callback = (id, element) => numberList.push(id * 2);
+
+        const 
+            promise = iterateOverBoxes(universe, callback),
+            expected = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20];
+
+        await promise;
+        expect(numberList).toEqual(expected);
+    });
+});
 

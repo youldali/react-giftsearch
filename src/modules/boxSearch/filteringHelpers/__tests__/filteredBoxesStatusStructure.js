@@ -1,4 +1,4 @@
-import createBoxesFilteredStatusStructure from '../filteredStatusStructure';
+import createBoxesFilteredStatusStructure from '../filteredBoxesStatusStructure';
 
 describe('filterStatistic', () => {
 	test('Should return the proper statistic of each status', () => {

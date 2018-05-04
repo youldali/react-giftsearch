@@ -60,7 +60,7 @@ export type FilterFunction = (target: Object) => boolean;
 export type FilterFunctionListByGroup = Array<FilterFunction[]>;
 export type FilterTuple = [FilterName, FilterFunction];
 export type FilterFunctionListMappedToFilterGroup = Map<FilterFunction[], FilterGroup>;
-export type FiltersData = {
+export type FiltersFunctionsData = {
 	filterFunctionListByGroup: FilterFunctionListByGroup, 
 	filterFunctionListMappedToFilterGroup: FilterFunctionListMappedToFilterGroup
 }

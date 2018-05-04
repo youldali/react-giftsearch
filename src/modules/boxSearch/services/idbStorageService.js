@@ -2,7 +2,7 @@
 
 import type { FieldsToIndex, FieldsToIndexByUniverse, FilterOperand, FilterStructure } from '../types';
 
-import { createOrOpenDatabase, addDataToStore, getNumberOfItemsInStore, getPrimaryKeyListMatchingRange, getItemList, getAllUniqueKeysForIndex, getKeyRangeMatchingOperator } from 'helpers/storage/idbStorage';
+import { createOrOpenDatabase, addDataToStore, getNumberOfItemsInStore, getPrimaryKeyListMatchingRange, getItemList, getAllUniqueKeysForIndex, getKeyRangeMatchingOperator, iterateOverStore } from 'helpers/storage/idbStorage';
 import { curry, mapObjIndexed, reverse } from 'ramda';
 import storageConfig from '../config/storage.config';
 import fetchBoxListService from './fetchBoxListService';
@@ -59,3 +59,10 @@ const _getBoxesList = async (universe: string, idList: number[]) => {
     return getItemList(db, universe, idList);
 }
 export const getBoxesList = curry(_getBoxesList);
+
+
+const _iterateOverBoxes = async (universe: string, callBack: Function)=> {
+    const db = await openGiftSearchDatabase(universe);
+    return iterateOverStore(db, universe, callBack)
+}
+export const iterateOverBoxes = curry(_iterateOverBoxes);

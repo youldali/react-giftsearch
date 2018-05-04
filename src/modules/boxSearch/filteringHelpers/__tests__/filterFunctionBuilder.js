@@ -1,5 +1,5 @@
-import {evaluateCriteria, getFilterFunctionFromFilter, createFilterFunctionDataStructure, getFilteringDataFromFiltersTuples, getFilteringDataFromFilters } from '../filterFunctionBuilder';
-import getFilterStructureMap from '../filterConfigResolver'
+import {evaluateCriteria, getFilterFunctionFromFilter, createFilterFunctionDataStructure, getFilterFunctionsDataTuples, getFilterFunctionsData } from '../filterFunctionBuilder';
+import getFilterStructureMap from '../../configHelpers/filterConfigResolver'
 import createInterval from 'helpers/dataStructure/interval';
 
 const box1 = {'id': 1, 'city': 'Paris', 'price': 25, forOnePerson: 1, forCouple: 0, experienceType: ['boat', 'car', 'parachute']};
@@ -139,7 +139,7 @@ describe('createFilterFunctionDataStructure', () => {
 });
 
 
-describe('getFilteringDataFromFilters', () => {
+describe('getFilterFunctionsData', () => {
 	test('it should get the correct FilterData', async () => {
 		const 
 			filterStructureMap = await filterStructureMapPromise,
@@ -150,7 +150,7 @@ describe('getFilteringDataFromFilters', () => {
 				cityLyon: 1
 			};
 
-		const {filterFunctionListByGroup, filterFunctionListMappedToFilterGroup} = getFilteringDataFromFilters(filterStructureMap, appliedFilters);
+		const {filterFunctionListByGroup, filterFunctionListMappedToFilterGroup} = getFilterFunctionsData(filterStructureMap, appliedFilters);
 		expect(filterFunctionListByGroup.length).toBe(3);
 		
 		const group0 = filterFunctionListByGroup[0];

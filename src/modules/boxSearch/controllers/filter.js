@@ -1,30 +1,32 @@
 //@flow
-import type { FilteredObjectIdsMappedByGroup } from '../types';
+import type { BoxesIdMappedByFilteredStatus, FilterStructureMap } from '../types';
+import type { BoxCollectionRequestData } from 'modules/actions/types';
 
-import getFilteringDataFromFilters from '../helpers/filterFunctionBuilder';
-import getFilterStatusForItem from '../helpers/filterStatus';
-import { iterateOverBoxesInUniverse } from '../helpers/idbStorage';
-import { createFilterStatisticStructure } from '../helpers/filterStatistic';
+import getFilterFunctionsData from '../filteringHelpers/filterFunctionBuilder';
+import getFilterStatusForItem from '../filteringHelpers/filterStatus';
+import createBoxesFilteredStatusStructure from '../filteringHelpers/filteredBoxesStatusStructure';
+import { iterateOverBoxes } from '../services/idbStorageService';
 import { curry } from 'ramda';
 
 
-const _getFilterItemsStatisticMap = async (db, requestData, filtersCriterias, filtersGroups) => {
-    const {universe, filters} = requestData;
+const _getFilterItemsStatisticMap = async (requestData: BoxCollectionRequestData, filterStructureMap: FilterStructureMap): Promise<BoxesIdMappedByFilteredStatus> => {
+    const {universe, filtersApplied} = requestData;
     
     //filter function builder
-    const {filterFunctionListByGroup, filterFunctionListMappedToFilterGroup} = getFilteringDataFromFilters(filtersCriterias, filtersGroups, filters);
+    const {filterFunctionListByGroup, filterFunctionListMappedToFilterGroup} = getFilterFunctionsData(filterStructureMap, filtersApplied);
 
-    //filter
+    //filtering
     const 
         appliedGetFilterStatusForItem = getFilterStatusForItem(filterFunctionListByGroup, filterFunctionListMappedToFilterGroup),
-        filterStatisticStructure = createFilterStatisticStructure(),
+        filterStatisticStructure = createBoxesFilteredStatusStructure(),
         appliedIterateOnItemCallback = iterateOnItemCallback(filterStatisticStructure, appliedGetFilterStatusForItem);
 
-    await iterateOverBoxesInUniverse (db, universe, appliedIterateOnItemCallback);
+    await iterateOverBoxes(universe, appliedIterateOnItemCallback);
 
-    return filterStatisticStructure.getfilteredObjectIdsMappedByGroup();
+    return filterStatisticStructure.getBoxesIdMappedByFilteredStatus();
 };
 export const getFilterItemsStatisticMap = curry(_getFilterItemsStatisticMap);
+
 
 const _iterateOnItemCallback = (filterStatisticStructure, getFilterStatusForItem, itemId, item) =>  {
     const status = getFilterStatusForItem(item);

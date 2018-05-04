@@ -5,7 +5,7 @@ import 'core-js/fn/object/values';
 import operators from 'helpers/misc/operators';
 import { compose, concat, curry, mapObjIndexed, sort } from 'ramda';
 
-import type { FilterName, FilterGroup, FilterFunction, FilterOperand, FilterStructure, FilterStructureMap, FiltersApplied, FiltersData, FilterTuple } from '../types';
+import type { FilterName, FilterGroup, FilterFunction, FilterOperand, FilterStructure, FilterStructureMap, FiltersApplied, FiltersFunctionsData, FilterTuple } from '../types';
 
 /**
  * evaluate a single criteria
@@ -49,7 +49,7 @@ const createFilterFunctionDataStructure = () => {
 			return this;
 		},
 
-		getFilteringData(): FiltersData{
+		getFilteringData(): FiltersFunctionsData{
 			const 
 				sorterByLength = (a, b) => a.length - b.length,
 				sortedFilterFunctionCollectionBelongingToGroup = compose(sort(sorterByLength), Object.values)(filtersFunctionsMappedToFilterGroup),
@@ -64,11 +64,11 @@ const createFilterFunctionDataStructure = () => {
 };
 
 
-const _getFilteringDataFromFilters = 
-(filterStructureMap: FilterStructureMap, filtersApplied: FiltersApplied): FiltersData => {
+const _getFilterFunctionsData = 
+(filterStructureMap: FilterStructureMap, filtersApplied: FiltersApplied): FiltersFunctionsData => {
 
 	const 
-		getFilteringDataFromFiltersTuples = (filtersTuples: [FilterTuple]): FiltersData => {
+		getFilteringDataFromFiltersTuples = (filtersTuples: [FilterTuple]): FiltersFunctionsData => {
 
 			const reducer = (filterFunctionDataStructure, [filterName, filterFunction]) => {
 				const { filterGroup } = filterStructureMap[filterName];
@@ -88,6 +88,6 @@ const _getFilteringDataFromFilters =
 
 	return filterData;
 };
-export const getFilteringDataFromFilters = curry(_getFilteringDataFromFilters);
+export const getFilterFunctionsData = curry(_getFilterFunctionsData);
 
-export default getFilteringDataFromFilters;
+export default getFilterFunctionsData;

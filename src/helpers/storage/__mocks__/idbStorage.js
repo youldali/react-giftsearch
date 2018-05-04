@@ -38,7 +38,7 @@ export const getPrimaryKeyListMatchingRange = curry(_getPrimaryKeyListMatchingRa
 
 
 const _iterateOverStore = (db: IDBDatabase, storeName: string, callBack: Function)=> {
-    itemCollection[storeName].forEach(element => callback(element.id, element) );
+    itemCollection[storeName].forEach(element => callBack(element.id, element) );
     return Promise.resolve();
 }
 export const iterateOverStore = curry(_iterateOverStore);
