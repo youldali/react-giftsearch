@@ -1,4 +1,4 @@
-import { getBoxesList, getItemIdListMatchingSingleFilter, getOperandList, iterateOverBoxes } from '../idbStorageService';
+import { getAllBoxesIdOrderByField, getBoxesList, getItemIdListMatchingSingleFilter, getOperandList, iterateOverBoxes } from '../idbStorageService';
 import * as fetchBoxListService from '../fetchBoxListService';
 import createFilterStructure from '../../domainModel/filterStructure'
 import createInterval from 'helpers/dataStructure/interval';
@@ -90,4 +90,36 @@ describe('iterateOverBoxes', () => {
         expect(numberList).toEqual(expected);
     });
 });
+
+
+describe('getAllBoxesIdOrderByField', () => {
+	test('it returns all boxes id sorted according to the field passed', async () => {
+        const
+            universe = 'sejour',
+            field = 'city',
+            isReversedDirection = false;
+
+        const 
+            itemIds = getAllBoxesIdOrderByField(universe, field, isReversedDirection),
+            expected = [3, 10, 5, 2, 4, 6, 7, 8, 1, 9];
+
+        expect(itemIds).resolves.toEqual(expected);
+    });
+
+
+    test('it returns all boxes id sorted according to the field passed, in reversed direction', async () => {
+        const
+            universe = 'sejour',
+            field = 'city',
+            isReversedDirection = true;
+
+        const 
+            itemIds = getAllBoxesIdOrderByField(universe, field, isReversedDirection),
+            expected = [9, 1, 8, 7, 6, 4, 2, 5, 10, 3];
+
+        expect(itemIds).resolves.toEqual(expected);
+    });
+
+});
+
 

@@ -1,8 +1,8 @@
 //@flow
 
-import type { FieldsToIndex, FieldsToIndexByUniverse, FilterOperand, FilterStructure } from '../types';
+import type { BoxId, Box, FieldsToIndex, FieldsToIndexByUniverse, FilterOperand, FilterStructure } from '../types';
 
-import { createOrOpenDatabase, addDataToStore, getNumberOfItemsInStore, getPrimaryKeyListMatchingRange, getItemList, getAllUniqueKeysForIndex, getKeyRangeMatchingOperator, iterateOverStore } from 'helpers/storage/idbStorage';
+import { createOrOpenDatabase, addDataToStore, getAllPrimaryKeysForindex, getNumberOfItemsInStore, getPrimaryKeyListMatchingRange, getItemList, getAllUniqueKeysForIndex, getKeyRangeMatchingOperator, iterateOverStore } from 'helpers/storage/idbStorage';
 import { curry, mapObjIndexed, reverse } from 'ramda';
 import storageConfig from '../config/storage.config';
 import fetchBoxListService from './fetchBoxListService';
@@ -37,7 +37,7 @@ const openGiftSearchDatabase = async (universe: string) => {
 }
 
 
-const _getItemIdListMatchingSingleFilter = async (universe: string, filterStructure: FilterStructure) => {
+const _getItemIdListMatchingSingleFilter = async (universe: string, filterStructure: FilterStructure): Promise<BoxId[]> => {
     const 
         db = await openGiftSearchDatabase(universe),
         { field, operator, operand } = filterStructure;
@@ -47,22 +47,29 @@ const _getItemIdListMatchingSingleFilter = async (universe: string, filterStruct
 export const getItemIdListMatchingSingleFilter = curry(_getItemIdListMatchingSingleFilter);
 
 
-const _getOperandList = async (universe: string, field: string) => {
+const _getOperandList = async (universe: string, field: string): Promise<any> => {
     const db = await openGiftSearchDatabase(universe);
     return getAllUniqueKeysForIndex(db, universe, field);
 }
 export const getOperandList = curry(_getOperandList);
 
 
-const _getBoxesList = async (universe: string, idList: number[]) => {
+const _getBoxesList = async (universe: string, idList: BoxId[]): Promise<Box[]> => {
     const db = await openGiftSearchDatabase(universe);
     return getItemList(db, universe, idList);
 }
 export const getBoxesList = curry(_getBoxesList);
 
 
-const _iterateOverBoxes = async (universe: string, callBack: Function)=> {
+const _iterateOverBoxes = async (universe: string, callBack: Function): Promise<any> => {
     const db = await openGiftSearchDatabase(universe);
     return iterateOverStore(db, universe, callBack)
 }
 export const iterateOverBoxes = curry(_iterateOverBoxes);
+
+
+const _getAllBoxesIdOrderByField = async (universe: string, field: string, isReversedDirection: boolean): Promise<BoxId[]> => {
+    const db = await openGiftSearchDatabase(universe);
+    return getAllPrimaryKeysForindex(db, universe, field, isReversedDirection);
+}
+export const getAllBoxesIdOrderByField = curry(_getAllBoxesIdOrderByField)

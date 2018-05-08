@@ -82,6 +82,7 @@ export type FieldsToIndexByUniverse = { [string]: FieldsToIndex };
 
 
 //BOX
+export type BoxId = number;
 export 
 type Box = {
 	id: string,

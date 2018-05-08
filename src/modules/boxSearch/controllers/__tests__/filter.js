@@ -15,10 +15,11 @@ const
 		{ filterName:'forOnePerson', filterGroup: 'person', field: 'forOnePerson', operator: '===', operand: 1 },
 		{ filterName:'forCouple', filterGroup: 'person', field: 'forCouple', operator: '===', operand: 1 },
 
-		{ filterName:'cityLyon', field: 'city', operator: '===', operand: 1 },
+		{ filterName:'city', field: 'city', operator: '===', operand: undefined },
 		{ filterName:'boatExperience', filterGroup: 'experienceType', field: 'experienceType', operator: 'contains', operand: 'boat' },
 		{ filterName:'carExperience', filterGroup: 'experienceType', field: 'experienceType', operator: 'contains', operand: 'car' },
-		{ filterName:'planeExperience', filterGroup: 'experienceType', field: 'experienceType', operator: 'contains', operand: 'plane' }
+		{ filterName:'planeExperience', filterGroup: 'experienceType', field: 'experienceType', operator: 'contains', operand: 'plane' },
+		{ filterName:'parachuteExperience', filterGroup: 'experienceType', field: 'experienceType', operator: 'contains', operand: 'parachute' }
 	],
 	universe = 'sejour',
 	filterStructureMapPromise = getFilterStructureMap(universe, filterConfigList);
@@ -46,7 +47,7 @@ describe('getFilterItemsStatisticMap', () => {
 	test('Should return filter statistic structure matching the filters applied (2)', async () => {
 		const 
 			filterStructureMap = await filterStructureMapPromise,
-            filtersApplied = {priceRange4: true, cityLyon: 1, boatExperience: 'boat', planeExperience: 'plane'},
+            filtersApplied = {priceRange4: 200, city: "Lyon", parachuteExperience: 'parachute', planeExperience: 'plane'},
             requestData = {filtersApplied, universe};
 
 		const 
@@ -54,10 +55,10 @@ describe('getFilterItemsStatisticMap', () => {
 			expectedMap = new Map();
 
 			expectedMap
-			.set(true, [6,7,8])
-			.set(false, [1,2,3,5])
+			.set(true, [7])
+			.set(false, [1, 2, 3, 5, 9, 10])
 			.set('price', [4])
-			.set('location', [9, 10]);
+			.set('experienceType', [6, 8]);
 			
 		return expect(result).resolves.toEqual(expectedMap);
 	});		

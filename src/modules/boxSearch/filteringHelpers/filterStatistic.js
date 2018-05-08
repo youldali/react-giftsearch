@@ -1,12 +1,12 @@
 //@flow
-import type { BoxesIdMappedByFilteredStatus, FilterGroup, FilterStatistic } from '../types';
+import type { BoxId, BoxesIdMappedByFilteredStatus, FilterGroup, FilterStatistic } from '../types';
 
 import { findIntersectionOfSortedArrays } from 'helpers/array/utils.js'
 import { curry } from 'ramda';
 
 const _getFilterStatistic = 
 (   boxesIdMappedByFilteredStatus: BoxesIdMappedByFilteredStatus, 
-    boxesIdMatchingFilter: number[], 
+    boxesIdMatchingFilter: BoxId[], 
     isFilterSelected: boolean, 
     filterGroup: FilterGroup
 ): FilterStatistic => {

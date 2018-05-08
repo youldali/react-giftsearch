@@ -1,34 +1,32 @@
-jest.mock('../../helpers/idbStorage');
+jest.mock('helpers/storage/idbStorage');
+jest.mock('../../services/fetchBoxListService');
 
-import { getOrderedList } from '../order';
+import { getOrderedBoxIdList } from '../order';
 
-describe('getOrderedList', () => {
+describe('getOrderedBoxIdList', () => {
 	test('Should return the filtered list in correct order by price ASC', () => {
         const 
             orderBy = 'price',
-            isOrderByReversed = false,
             universe = 'sejour',
-            requestData = {orderBy, isOrderByReversed, universe},
-            db = {},
+            requestData = {orderBy, universe},
             itemIdListValidated = [1, 3, 4, 7, 8, 9];
 
         const 
-            orderedFilteredIdList = getOrderedList(db, requestData, itemIdListValidated),
+            orderedFilteredIdList = getOrderedBoxIdList(requestData, itemIdListValidated),
             expected = [1, 3, 4, 7, 8, 9];
+
 		return expect(orderedFilteredIdList).resolves.toEqual(expected);
     });
     
     test('Should return the filtered list in correct order by price DESC', () => {
         const 
-            orderBy = 'price',
-            isOrderByReversed = true,
+            orderBy = '-price',
             universe = 'sejour',
-            requestData = {orderBy, isOrderByReversed, universe},
-            db = {},
+            requestData = {orderBy, universe},
             itemIdListValidated = [1, 3, 4, 7, 8, 9];
 
         const 
-            orderedFilteredIdList = getOrderedList(db, requestData, itemIdListValidated),
+            orderedFilteredIdList = getOrderedBoxIdList(requestData, itemIdListValidated),
             expected = [9, 8, 7, 4, 3, 1];
 		return expect(orderedFilteredIdList).resolves.toEqual(expected);
     });
@@ -36,14 +34,12 @@ describe('getOrderedList', () => {
     test('Should return the filtered list in correct order by city ASC', () => {
         const 
             orderBy = 'city',
-            isOrderByReversed = false,
             universe = 'sejour',
-            requestData = {orderBy, isOrderByReversed, universe},
-            db = {},
+            requestData = {orderBy, universe},
             itemIdListValidated = [2, 3, 5, 6, 7, 10];
 
         const 
-            orderedFilteredIdList = getOrderedList(db, requestData, itemIdListValidated),
+            orderedFilteredIdList = getOrderedBoxIdList(requestData, itemIdListValidated),
             expected = [3, 10, 5, 2, 6, 7];
 		return expect(orderedFilteredIdList).resolves.toEqual(expected);
 	});

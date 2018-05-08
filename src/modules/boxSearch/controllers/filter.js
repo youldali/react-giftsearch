@@ -1,5 +1,5 @@
 //@flow
-import type { BoxesIdMappedByFilteredStatus, FilterStructureMap } from '../types';
+import type { BoxId, Box, BoxesIdMappedByFilteredStatus, FilterStructureMap } from '../types';
 import type { BoxCollectionRequestData } from 'modules/actions/types';
 
 import getFilterFunctionsData from '../filteringHelpers/filterFunctionBuilder';
@@ -28,7 +28,7 @@ const _getFilterItemsStatisticMap = async (requestData: BoxCollectionRequestData
 export const getFilterItemsStatisticMap = curry(_getFilterItemsStatisticMap);
 
 
-const _iterateOnItemCallback = (filterStatisticStructure, getFilterStatusForItem, itemId, item) =>  {
+const _iterateOnItemCallback = (filterStatisticStructure: Object, getFilterStatusForItem: Function, itemId: BoxId, item: Box): void =>  {
     const status = getFilterStatusForItem(item);
     filterStatisticStructure.addFilteredObjectStatus(status, itemId);
 };
