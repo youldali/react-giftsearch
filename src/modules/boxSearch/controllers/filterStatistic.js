@@ -3,28 +3,30 @@
 import type { BoxesIdMappedByFilteredStatus, FilterStructure, FilterStructureMap } from '../types';
 import type { BoxCollectionRequestData } from 'modules/actions/types';
 
-import { getPrimaryKeyListMatchingRange, getKeyRangeMatchingOperator } from '../helpers/idbStorage';
-import { getIsFilterOperandSelected } from '../helpers/filterOperandResolver';
-import helperGetFilterStatistic  from '../helpers/filterStatistic';
+import { getItemIdListMatchingSingleFilter } from '../services/idbStorageService';
+import helperGetFilterStatistic  from '../filteringHelpers/filterStatistic';
 import { findIntersectionOfSortedArrays, liftInArray } from 'helpers/array/utils';
-import { map, mergeAll, curry } from 'ramda';
+import { has, map, mergeAll, curry } from 'ramda';
+import 'core-js/fn/object/values';
 
-type IdListMatchingFilter= {[FilterName] : number};
+type BoxesIdMatchingFilter= {[FilterName] : number};
 
-const _getFiltersStatistics = (requestData: BoxCollectionRequestData, filterStructureMap: FilterStructureMap, boxesIdMappedByFilteredStatus: BoxesIdMappedByFilteredStatus) => {
-
+const _getFiltersStatistics = (requestData: BoxCollectionRequestData, filterStructureMap: FilterStructureMap, boxesIdMappedByFilteredStatus: BoxesIdMappedByFilteredStatus): Promise<BoxesIdMatchingFilter> => {
     const { filtersApplied, universe } = requestData;
 
-    const getFilterStatistic = async (filterStructure: FilterStructure): Promise<IdListMatchingFilter> => {
+    const getFilterStatistic = async (filterStructure: FilterStructure): Promise<BoxesIdMatchingFilter> => {
         const 
-            { filterName, filterGroup} = filterStructure,
-            isFilterSelected = filtersApplied[filterName],
-            idListMatchingFilter = await getItemIdListMatchingSingleFilter(universe, filterStructure);
-            return helperGetFilterStatistic(boxesIdMappedByFilteredStatus, idListMatchingFilter, isFilterSelected, filterGroup)
+            {filterName, filterGroup} = filterStructure,
+            isFilterSelected = has(filterName, filtersApplied) ? true : false,
+            boxesIdMatchingFilter = await getItemIdListMatchingSingleFilter(universe, filterStructure);
+            return {
+                [filterName]: helperGetFilterStatistic(boxesIdMappedByFilteredStatus, boxesIdMatchingFilter, isFilterSelected, filterGroup)
+            };
     };
 
-    map(getFilterStatistic, filterStructureMap);
-
+    const filterStatisticsPromise = map(getFilterStatistic, Object.values(filterStructureMap));
+    return Promise.all(filterStatisticsPromise)
+            .then(filterStatisticList => mergeAll(filterStatisticList));
 }
 
 export const getFiltersStatistics = curry(_getFiltersStatistics);

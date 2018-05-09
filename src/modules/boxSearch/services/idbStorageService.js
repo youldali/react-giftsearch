@@ -24,10 +24,21 @@ const _createUniversesStores = (fieldsToIndexByUniverse: FieldsToIndexByUniverse
 const createUniversesStores = curry(_createUniversesStores);
 
 
-const addDataToUniverse = async (db: IDBDatabase, universe: string) => {
-    const itemList = await fetchBoxListService(universe);
-    return addDataToStore(db, universe, itemList);
-}
+const addDataToUniverse = (() => {
+    const isFetching = {};
+
+    return async (db: IDBDatabase, universe: string) => {
+        if(isFetching[universe])
+            return;
+        
+        isFetching[universe] = true;
+        const itemList = await fetchBoxListService(universe);
+        addDataToStore(db, universe, itemList);
+        isFetching[universe] = false;
+
+        return true;
+    }
+})();
 
 
 const openGiftSearchDatabase = async (universe: string) => {

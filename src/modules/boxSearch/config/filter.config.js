@@ -1,7 +1,7 @@
 // @flow
 import type { FilterConfig, FilterConfigList } from '../types';
 import createInterval from 'helpers/dataStructure/interval';
-import { generateFilterConfigForEachOperand } from '../helpers/filterConfigResolver';
+import { generateFilterConfigForEachOperand } from '../configHelpers/filterConfigResolver';
 
 const filterConfigBase: FilterConfigList = [
 	{ filterName:'priceRange1', filterGroup: 'price', field: 'price', operator: 'inRangeOpenClosed', operand : createInterval(0, 50) },

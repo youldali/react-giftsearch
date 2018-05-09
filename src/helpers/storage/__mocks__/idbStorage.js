@@ -16,7 +16,7 @@ export const getNumberOfItemsInStore = curry(_getNumberOfItemsInStore);
 
 
 const _addDataToStore = (db: IDBDatabase, storeName: string, data: Object[] = []): Promise<any> => {
-    itemCollection[storeName] === undefined ? itemCollection[storeName] = data : itemCollection[storeName].push(data);
+    itemCollection[storeName] === undefined ? itemCollection[storeName] = data : itemCollection[storeName] = itemCollection[storeName].concat(data);
     return Promise.resolve();
 };
 export const addDataToStore = curry(_addDataToStore);
