@@ -31,5 +31,21 @@ describe('filterStatistic', () => {
             .set('group2', [11,12,13,14]);
 
         expect(boxesFilteredStatusStructure.getBoxesIdMappedByFilteredStatus()).toEqual(expectedMap);
+    });
+    
+    test('Should set the status of a list of Ids', () => {
+        const boxesFilteredStatusStructure = createBoxesFilteredStatusStructure();
+
+        boxesFilteredStatusStructure.setStatusValue({pass: true}, [1, 2, 3, 4, 5]);
+        boxesFilteredStatusStructure.setStatusValue({pass: false, filterGroupRejected: 'price'}, [6, 7, 8]);
+        boxesFilteredStatusStructure.setStatusValue({pass: false}, [9]);
+
+        const expectedMap = new Map();
+        expectedMap
+            .set(true, [1, 2, 3, 4, 5])
+            .set(false, [9])
+            .set('price', [6,7,8]);
+
+        expect(boxesFilteredStatusStructure.getBoxesIdMappedByFilteredStatus()).toEqual(expectedMap);
 	});
 });

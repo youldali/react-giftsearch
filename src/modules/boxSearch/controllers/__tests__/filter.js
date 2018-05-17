@@ -1,7 +1,7 @@
 jest.mock('helpers/storage/idbStorage');
 jest.mock('../../services/fetchBoxListService');
 
-import { getFilterItemsStatisticMap } from '../filter';
+import getBoxesIdMappedByFilterStatus from '../filter';
 import getFilterStructureMap from '../../configHelpers/filterConfigResolver'
 import createInterval from 'helpers/dataStructure/interval';
 
@@ -25,7 +25,25 @@ const
 	filterStructureMapPromise = getFilterStructureMap(universe, filterConfigList);
 	
 
-describe('getFilterItemsStatisticMap', () => {
+describe('getBoxesIdMappedByFilterStatus', () => {
+	test('Should return filter statistic structure when no filter is applied', async () => {
+		const 
+			filterStructureMap = await filterStructureMapPromise,
+            filtersApplied = {},
+            requestData = {filtersApplied, universe};
+
+		const 
+			result = getBoxesIdMappedByFilterStatus(requestData, filterStructureMap),
+			expectedMap = new Map();
+
+			expectedMap
+			.set(true, [1,2, 3,4,5,6,7,8,9,10])
+			.set(false, []);
+
+		return expect(result).resolves.toEqual(expectedMap);
+	});
+
+
 	test('Should return filter statistic structure matching the filters applied (1)', async () => {
 		const 
 			filterStructureMap = await filterStructureMapPromise,
@@ -33,7 +51,7 @@ describe('getFilterItemsStatisticMap', () => {
             requestData = {filtersApplied, universe};
 
 		const 
-			result = getFilterItemsStatisticMap(requestData, filterStructureMap),
+			result = getBoxesIdMappedByFilterStatus(requestData, filterStructureMap),
 			expectedMap = new Map();
 
 			expectedMap
@@ -51,7 +69,7 @@ describe('getFilterItemsStatisticMap', () => {
             requestData = {filtersApplied, universe};
 
 		const 
-			result = getFilterItemsStatisticMap(requestData, filterStructureMap),
+			result = getBoxesIdMappedByFilterStatus(requestData, filterStructureMap),
 			expectedMap = new Map();
 
 			expectedMap

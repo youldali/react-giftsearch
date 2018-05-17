@@ -1,7 +1,7 @@
 jest.mock('helpers/storage/idbStorage');
 jest.mock('../../services/fetchBoxListService');
 
-import { getOrderedBoxIdList } from '../order';
+import getOrderedBoxIdList from '../order';
 
 describe('getOrderedBoxIdList', () => {
 	test('Should return the filtered list in correct order by price ASC', () => {

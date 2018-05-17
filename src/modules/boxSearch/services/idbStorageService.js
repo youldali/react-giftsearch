@@ -79,8 +79,15 @@ const _iterateOverBoxes = async (universe: string, callBack: Function): Promise<
 export const iterateOverBoxes = curry(_iterateOverBoxes);
 
 
-const _getAllBoxesIdOrderByField = async (universe: string, field: string, isReversedDirection: boolean): Promise<BoxId[]> => {
+export
+const getAllBoxesIdOrderByField = async (universe: string, field: string, isReversedDirection: boolean): Promise<BoxId[]> => {
     const db = await openGiftSearchDatabase(universe);
     return getAllPrimaryKeysForindex(db, universe, field, isReversedDirection);
 }
-export const getAllBoxesIdOrderByField = curry(_getAllBoxesIdOrderByField)
+
+
+export
+const getAllBoxesId = async (universe: string, isReversedDirection: boolean): Promise<BoxId[]> => {
+    const db = await openGiftSearchDatabase(universe);
+    return getAllPrimaryKeysForindex(db, universe, 'id', isReversedDirection);
+}

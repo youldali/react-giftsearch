@@ -73,7 +73,7 @@ export type FilteredBoxStatus = {|
 
 export type BoxesIdMappedByFilteredStatus = Map<string | boolean, number[]>;
 export type FilterStatistic = { type: 'absolute' | 'relative', idList: number[]};
-
+export type BoxesIdMatchingFilter= {[FilterName] : BoxId};
 
 //STORAGE IDB CONFIG
 export type IndexConfig = ?{multiEntry?: boolean, unique?: boolean};

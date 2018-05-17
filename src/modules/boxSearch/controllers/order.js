@@ -22,7 +22,7 @@ const _getOrderedBoxIdList = async (requestData: BoxCollectionRequestData, itemI
 
     return filterAgainstObjectKeys(allBoxIdListOrdered, validatedBoxIdObject);
 }
-export const getOrderedBoxIdList = curry(_getOrderedBoxIdList);
+const getOrderedBoxIdList = curry(_getOrderedBoxIdList);
 
    
 const getOrderByData = (orderBy: string): OrderByData => {
@@ -34,3 +34,6 @@ const getOrderByData = (orderBy: string): OrderByData => {
         isReversed
     };
 };
+
+
+export default getOrderedBoxIdList;

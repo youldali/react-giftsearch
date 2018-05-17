@@ -1,6 +1,6 @@
 //@flow
 
-import type { BoxesIdMappedByFilteredStatus, FilteredBoxStatus, FilterGroup } from '../types';
+import type { BoxId, BoxesIdMappedByFilteredStatus, FilteredBoxStatus, FilterGroup } from '../types';
 import { findIntersectionOfSortedArrays } from 'helpers/array/utils'
 import { curry } from 'ramda';
 
@@ -31,13 +31,19 @@ const createBoxesFilteredStatusStructure = () => {
         };
 
     return {
-        addFilteredObjectStatus(FilteredBoxStatus: FilteredBoxStatus, id: number){
+        addFilteredObjectStatus(filteredBoxStatus: FilteredBoxStatus, id: BoxId){
             return (
-                FilteredBoxStatus.pass 
+                filteredBoxStatus.pass 
                     ? addToBoolean(true, id) :
-                FilteredBoxStatus.filterGroupRejected 
-                    ? addToGroup(FilteredBoxStatus.filterGroupRejected, id) : addToBoolean(false, id)
+                filteredBoxStatus.filterGroupRejected 
+                    ? addToGroup(filteredBoxStatus.filterGroupRejected, id) : addToBoolean(false, id)
             );
+        },
+
+        setStatusValue(filteredBoxStatus: FilteredBoxStatus, idList: BoxId[]){
+            filteredBoxStatus.filterGroupRejected ? boxesIdMappedByFilteredStatus.set(filteredBoxStatus.filterGroupRejected, idList) : boxesIdMappedByFilteredStatus.set(filteredBoxStatus.pass, idList);
+
+            return this;
         },
 
         getBoxesIdMappedByFilteredStatus(): BoxesIdMappedByFilteredStatus {

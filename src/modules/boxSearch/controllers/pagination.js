@@ -1,9 +1,11 @@
 //@flow
+import type { Box, BoxId, FilterStructure, FilterStructureMap } from '../types';
+import type { BoxCollectionRequestData } from 'modules/actions/types';
 
-import { getItemList } from '../helpers/idbStorage';
+import { getBoxesList } from '../services/idbStorageService';
 import { curry } from 'ramda';
 
-const _getPaginatedGiftList = (db, requestData, perPage: number, orderedFilteredIdList: number[]): Promise<any> => {
+const _getPaginatedBoxList = (requestData: BoxCollectionRequestData, perPage: number, orderedFilteredIdList: BoxId[]): Promise<Box[]> => {
     const {universe, page} = requestData;
 
     const 
@@ -11,6 +13,8 @@ const _getPaginatedGiftList = (db, requestData, perPage: number, orderedFiltered
         end = page * perPage,
         paginatedIdList = orderedFilteredIdList.slice(begin, end);
 
-    return getItemList(db, universe, paginatedIdList);
-}
-export const getPaginatedGiftList = curry(_getPaginatedGiftList);
+    return getBoxesList(universe, paginatedIdList);
+};
+const getPaginatedBoxList = curry(_getPaginatedBoxList);
+
+export default getPaginatedBoxList;

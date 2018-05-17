@@ -1,7 +1,7 @@
 jest.mock('helpers/storage/idbStorage');
 jest.mock('../../services/fetchBoxListService');
 
-import { getFiltersStatistics } from '../filterStatistic';
+import getFiltersStatistics from '../filterStatistic';
 import getFilterStructureMap from '../../configHelpers/filterConfigResolver'
 import createInterval from 'helpers/dataStructure/interval';
 

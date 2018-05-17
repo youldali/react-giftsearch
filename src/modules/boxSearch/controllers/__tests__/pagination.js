@@ -1,21 +1,21 @@
-jest.mock('../../helpers/idbStorage');
+jest.mock('helpers/storage/idbStorage');
+jest.mock('../../services/fetchBoxListService');
 
-import { getPaginatedGiftList } from '../pagination';
-import { giftCollection } from '../../helpers/__mocks__/idbStorage';
+import getPaginatedBoxList from '../pagination';
+import { boxCollection } from '../../services/__mocks__/fetchBoxListService';
 
-describe('getPaginatedGiftList', () => {
+describe('getPaginatedBoxList', () => {
 	test('Should return the items matching the IDs of the correct slice of the list', () => {
         const 
             page = 1,
             perPage = 3,
             universe = 'sejour',
             requestData = {universe, page},
-            db = {},
             orderedFilteredIdList = [5,1,3,9,8];
 
         const 
-            paginatedGiftList = getPaginatedGiftList(db, requestData, perPage, orderedFilteredIdList),
-            expected = [giftCollection[4], giftCollection[0], giftCollection[2]];
+            paginatedGiftList = getPaginatedBoxList(requestData, perPage, orderedFilteredIdList),
+            expected = [boxCollection[4], boxCollection[0], boxCollection[2]];
 		return expect(paginatedGiftList).resolves.toEqual(expected);
     });
 
@@ -25,12 +25,11 @@ describe('getPaginatedGiftList', () => {
             perPage = 4,
             universe = 'sejour',
             requestData = {universe, page},
-            db = {},
             orderedFilteredIdList = [5, 1, 3, 9, 8, 2, 10];
 
         const 
-            paginatedGiftList = getPaginatedGiftList(db, requestData, perPage, orderedFilteredIdList),
-            expected = [giftCollection[7], giftCollection[1], giftCollection[9]];
+            paginatedGiftList = getPaginatedBoxList(requestData, perPage, orderedFilteredIdList),
+            expected = [boxCollection[7], boxCollection[1], boxCollection[9]];
 		return expect(paginatedGiftList).resolves.toEqual(expected);
     });
 });

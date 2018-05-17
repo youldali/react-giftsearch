@@ -1,4 +1,4 @@
-import { getAllBoxesIdOrderByField, getBoxesList, getItemIdListMatchingSingleFilter, getOperandList, iterateOverBoxes } from '../idbStorageService';
+import { getAllBoxesId, getAllBoxesIdOrderByField, getBoxesList, getItemIdListMatchingSingleFilter, getOperandList, iterateOverBoxes } from '../idbStorageService';
 import * as fetchBoxListService from '../fetchBoxListService';
 import createFilterStructure from '../../domainModel/filterStructure'
 import createInterval from 'helpers/dataStructure/interval';
@@ -122,4 +122,32 @@ describe('getAllBoxesIdOrderByField', () => {
 
 });
 
+
+describe('getAllBoxesId', () => {
+	test('it returns all boxes id', async () => {
+        const
+            universe = 'sejour',
+            isReversedDirection = false;
+
+        const 
+            itemIds = getAllBoxesId(universe, isReversedDirection),
+            expected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+        expect(itemIds).resolves.toEqual(expected);
+    });
+
+
+    test('it returns all boxes id sorted according to the field passed, in reversed direction', async () => {
+        const
+            universe = 'sejour',
+            isReversedDirection = true;
+
+        const 
+            itemIds = getAllBoxesId(universe, isReversedDirection),
+            expected = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+
+        expect(itemIds).resolves.toEqual(expected);
+    });
+
+});
 
