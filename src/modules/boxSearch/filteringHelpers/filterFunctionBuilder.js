@@ -69,7 +69,6 @@ const _getFilterFunctionsData =
 
 	const 
 		getFilteringDataFromFiltersTuples = (filtersTuples: [FilterTuple]): FiltersFunctionsData => {
-
 			const reducer = (filterFunctionDataStructure, [filterName, filterFunction]) => {
 				const { filterGroup } = filterStructureMap[filterName];
 				return filterFunctionDataStructure.addFilterFunction(filterFunction, filterGroup);

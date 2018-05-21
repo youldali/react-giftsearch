@@ -9,8 +9,7 @@ let lastRequestData = {};
 
 const perPage = 10;
 
-export
-const onMessage = async (event) => {
+self.onMessage = async (event) => {
     const 
         requestData = event.data,
         { filtersApplied, orderBy, page, universe } = requestData,
@@ -43,9 +42,6 @@ const onOrderChanged = async () => {
 const _getFilterItemsStatisticMap = async () => {
 
 };
-
-window.onmessage = onMessage;
-
 
 
 

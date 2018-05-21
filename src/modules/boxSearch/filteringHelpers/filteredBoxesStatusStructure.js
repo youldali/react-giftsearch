@@ -12,7 +12,7 @@ const createBoxesFilteredStatusStructure = () => {
         .set(false, []);
 
     const
-        addToBoolean = (hasPassed: boolean, id: number) => {
+        addToBoolean = (hasPassed: boolean, id: BoxId) => {
             // $FlowFixMe
             boxesIdMappedByFilteredStatus
                 .get(hasPassed)
@@ -21,7 +21,7 @@ const createBoxesFilteredStatusStructure = () => {
             return this;
         },
 
-        addToGroup = (group: FilterGroup, id: number) => {
+        addToGroup = (group: FilterGroup, id: BoxId) => {
             const listForGroup = boxesIdMappedByFilteredStatus.get(group);
             listForGroup 
                 ? listForGroup.push(id)
