@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "smartbox-gift-finder"
+    "default": "smartbox-box-search",
+    "smartbox-box-search": "smartbox-box-search"
   }
 }

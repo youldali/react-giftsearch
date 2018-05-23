@@ -2,11 +2,15 @@
 
 # dependencies
 /node_modules
+/functions/node_modules
 .sublime-project
 .sublime-workspace
 
 # testing
 /coverage
+
+#logs
+*.log
 
 # production
 /build
