@@ -1,11 +1,9 @@
 //@flow
 
 import React from 'react';
-import './App.css';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import GiftSearchModule from './gift-search/giftSearchModule';
+import BoxSearchLayout from './boxSearch/boxSearchLayout';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { universeToUrlMap } from 'modules/gift-search/config';
 import type { RouterMatch } from 'modules/actions/types';
 
 // Needed for onTouchTap
@@ -15,10 +13,13 @@ injectTapEventPlugin();
 const App = () => {
 
 	const isGiftSearchUniverseValid = (universe) => {
+		return true;
+		/*
 		if(universeToUrlMap[universe] !== undefined)
 			return true;
 
 		return false;
+		*/
 	};
 
   return (
@@ -28,7 +29,7 @@ const App = () => {
     			path="/gift-search/:universe" 
     			render={( {match}: {match: RouterMatch} ) => {
     				const component = isGiftSearchUniverseValid(match.params.universe) 
-    					? <GiftSearchModule /> 
+    					? <BoxSearchLayout /> 
     					: <Redirect to="/gift-search/gastronomy"/>;
 
     				return component;
