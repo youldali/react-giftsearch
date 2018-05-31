@@ -123,9 +123,11 @@ const setFiltersStatistics = (filtersStatisticsByFilter: FiltersStatisticsByFilt
 
 
 const _fetchBoxListRemotely = async (universe: string, dispatch: Dispatch): Promise<BoxCollection> => {
+	/*
 	const boxList = await fetchBoxListService(universe);
 	dispatch(setBoxList(boxList));
 	return boxList;
+	*/
 };
 const fetchBoxListRemotely = curry(_fetchBoxListRemotely)
 

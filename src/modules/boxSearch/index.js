@@ -9,6 +9,9 @@ import page, { selectors as pageSelectors } from './reducers/page';
 import displayBy, { selectors as displayBySelectors } from './reducers/displayBy';
 import router, { selectors as routerSelectors } from './reducers/router';
 
+import filterConfig from './config/filter.config';
+import getFilterStructureMap from './configHelpers/filterConfigResolver';
+
 export default
 combineReducers({
 	boxList,
@@ -21,4 +24,6 @@ combineReducers({
 });
 
 export { boxListSelectors, displayBySelectors, filtersAppliedSelectors, filtersStatisticsSelectors, orderBySelectors, pageSelectors, routerSelectors };
+
+export {filterConfig, getFilterStructureMap};
 

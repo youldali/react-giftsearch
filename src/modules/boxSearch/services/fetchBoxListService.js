@@ -3,11 +3,15 @@ import type { BoxCollection } from '../types';
 import fetch from 'isomorphic-fetch';
 import { boxesEndpointURL } from '../config/api.config'
 
+type APIResponse = {
+	data: BoxCollection
+};
+
 export default 
-async (universe: string): Promise<BoxCollection> => {
+async (universe: string): Promise<APIResponse> => {
 	const 
 		fetchConfig = {
-			method: 'GET'
+			method: 'GET',
 		},
 		url = boxesEndpointURL + '?' + universe;
 

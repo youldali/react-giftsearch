@@ -1,11 +1,11 @@
 
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Sort from '@material-ui/icons/Sort';
+import MenuButton from './menuButton';
 
-class SimpleMenu extends React.Component {
+class OrderByMenu extends React.Component {
   state = {
     anchorEl: null,
   };
@@ -22,31 +22,24 @@ class SimpleMenu extends React.Component {
     const { anchorEl } = this.state;
 
     return (
-      <div>
-        <Button
-          aria-owns={anchorEl ? 'simple-menu' : null}
-          aria-haspopup="true"
+      <React.Fragment>
+        <MenuButton 
+          text='Trier par' 
           onClick={this.handleClick}
-          variant="raised" 
-          color="secondary"
-          fullWidth={true}
-        >
-          <Sort />
-          Filter 
-        </Button>
+          icon={<Sort />}
+        />
         <Menu
           id="simple-menu"
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-          <MenuItem onClick={this.handleClose}>My account</MenuItem>
-          <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+          <MenuItem onClick={this.handleClose}>Prix ASC</MenuItem>
+          <MenuItem onClick={this.handleClose}>Prix DESC</MenuItem>
         </Menu>
-      </div>
+      </React.Fragment>
     );
   }
 }
 
-export default SimpleMenu;
+export default OrderByMenu;

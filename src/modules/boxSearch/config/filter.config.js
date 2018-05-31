@@ -12,7 +12,7 @@ const filterConfigBase: FilterConfigList = [
 	{ filterName:'forOnePerson', filterGroup: 'person', field: 'forOnePerson', operator: '===', operand: 1 },
 	{ filterName:'forCouple', filterGroup: 'person', field: 'forCouple', operator: '===', operand: 1 },
 	
-	generateFilterConfigForEachOperand({ filterBaseName: 'experienceType', field: 'experienceType', operator: 'contains', filterGroup: 'experienceType'})
+	generateFilterConfigForEachOperand({ filterBaseName: 'experienceType', field: 'experienceTypes', operator: 'contains', filterGroup: 'experienceType'})
 ];
 
 export

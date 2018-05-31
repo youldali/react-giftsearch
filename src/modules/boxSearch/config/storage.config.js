@@ -18,9 +18,14 @@ const fieldsToIndexByUniverse: FieldsToIndexByUniverse = {
     },
     sejour: { 
         ...fieldsToIndexBase, 
-        oneNight: null,
-        twoNight: null,
-        theme: {multiEntry: true}
+        numberOfNights: null,
+        numberOfPeopleMin: null,
+        numberOfPeopleMax: null,
+        rating: null,
+        price: null,
+        experienceTypes: {multiEntry: true},
+        regions: {multiEntry: true},
+        boxType: {multiEntry: true},
     }    
 };
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import FilterList from '@material-ui/icons/FilterList';
-
+import FilterListIcon from '@material-ui/icons/FilterList';
+import MenuButton from './menuButton';
+import FilterList from './filterList';
 class FilterMenu extends React.Component {
     state = {
       isDrawerOpen: false,
@@ -18,28 +18,23 @@ class FilterMenu extends React.Component {
     render() {
   
       return (
-        <div>
-          <Button
-            aria-haspopup="true"
+        <React.Fragment>
+          <MenuButton 
+            text="Filter"
             onClick={this.toggleDrawer(true)}
-            variant="raised" 
-            color="primary"
-            fullWidth={true}
-          >
-            <FilterList />
-            Filter 
-          </Button>
-          <Drawer open={this.state.isDrawerOpen} onClose={this.toggleDrawer(false)}>
+            icon={<FilterListIcon />}
+          />
+          <Drawer anchor="right"  open={this.state.isDrawerOpen} onClose={this.toggleDrawer(false)}>
             <div
                 tabIndex={0}
                 role="button"
                 onClick={this.toggleDrawer(false)}
                 onKeyDown={this.toggleDrawer(false)}
             >
-                element
+              <FilterList />
             </div>
           </Drawer>
-        </div>
+        </React.Fragment>
       );
     }
   }

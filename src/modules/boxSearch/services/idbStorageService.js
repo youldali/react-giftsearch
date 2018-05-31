@@ -32,8 +32,8 @@ const addDataToUniverse = (() => {
             return;
         
         isFetching[universe] = true;
-        const itemList = await fetchBoxListService(universe);
-        addDataToStore(db, universe, itemList);
+        const response = await fetchBoxListService(universe);
+        addDataToStore(db, universe, response.data);
         isFetching[universe] = false;
 
         return true;

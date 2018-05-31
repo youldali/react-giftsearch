@@ -2,19 +2,25 @@
 import type { RouterLocation } from 'modules/actions/types';
 
 import React from 'react'
-import SimpleMenu from './orderByButton';
+import OrderByMenu from './orderByMenu';
+import UniverseMenu from './universeMenu';
 import FilterMenu from './filterButton';
 import Grid from '@material-ui/core/Grid';
 
+const menuStyles = {
+  button: {
+    height: '100%',
+  },
+};
 
-const navBar = ({location}: {location: RouterLocation}) => {
+const navBar = () => {
 	return(
 		<Grid container spacing={8}>
 			<Grid item xs={4}>
-				<SimpleMenu />
+				<UniverseMenu />
 			</Grid>
 			<Grid item xs={4}>
-				<SimpleMenu />
+				<OrderByMenu menuStyles={menuStyles} />
 			</Grid>
 			<Grid item xs={4}>
 				<FilterMenu />

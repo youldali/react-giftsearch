@@ -44,7 +44,7 @@ exports.listBoxes = functions.https.onRequest( (req, res) => {
     // Grab the text parameter.
     const original = req.query.text;
     
-
+    res.append('Access-Control-Allow-Origin', '*');
     return (
         getAllBoxes()
         .then(data => res.json({data}))
