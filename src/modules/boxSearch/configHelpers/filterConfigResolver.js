@@ -1,5 +1,5 @@
 //@flow
-import type { FilterBaseInfos, FilterConfig, FilterConfigList, FilterStructureMap } from '../types';
+import type { FilterBaseInfos, FilterConfig, FilterConfigList, FilterStructureByFilterGroup, FilterStructure, FilterStructureMap } from '../types';
 
 import { getOperandList as getOperandListFromIDB } from '../services/idbStorageService';
 import { curry, composeP, merge } from 'ramda';
@@ -16,8 +16,11 @@ const _generateFilterConfigForEachOperand = async (filterBaseInfos: FilterBaseIn
 	const operandList = await getOperandList(universe, field);
 
 	return operandList.map(operand => {
-		const filterName = `${filterBaseName}_${operand}`;
-		return {filterName, filterGroup, field, operator, operand};
+        const 
+            filterName = `${filterBaseName}_${operand}`,
+            label = operand;
+
+		return {filterName, filterGroup, field, operator, operand, label};
 	});
 }
 export const generateFilterConfigForEachOperand = curry(_generateFilterConfigForEachOperand);
@@ -37,6 +40,28 @@ const _getFilterStructureMap = (universe: string, filterConfigList: FilterConfig
     return filterConfigList.reduce(reducer, Promise.resolve({}));
 };
 export const getFilterStructureMap = curry(_getFilterStructureMap);
+
+
+export
+const transformToFilterStructureByGroup = (filterStructureMap: FilterStructureMap): FilterStructureByFilterGroup => {
+    const filterStructureByFilterGroup = new Map();
+
+    Object.values(filterStructureMap).forEach( filterStructure => {
+        const 
+            {filterGroup} = ((filterStructure: any): FilterStructure),
+            filterStructureList = filterStructureByFilterGroup.get(filterGroup) || filterStructureByFilterGroup.set(filterGroup, []).get(filterGroup);
+
+        //$FlowFixMe
+        filterStructureList.push(filterStructure);
+    });
+
+    return filterStructureByFilterGroup;
+};
+
+export
+const _getFilterStructureByFilterGroup = (universe: string, filterConfigList: FilterConfigList): Promise<FilterStructureByFilterGroup> => 
+    composeP(transformToFilterStructureByGroup, getFilterStructureMap(universe))(filterConfigList);
+export const getFilterStructureByFilterGroup = curry(_getFilterStructureByFilterGroup);
 
 
 export default getFilterStructureMap;

@@ -28,8 +28,6 @@ class FilterMenu extends React.Component {
             <div
                 tabIndex={0}
                 role="button"
-                onClick={this.toggleDrawer(false)}
-                onKeyDown={this.toggleDrawer(false)}
             >
               <FilterList />
             </div>

@@ -10,7 +10,7 @@ const BoxSearchLayout =  () => {
 		<div>
 			<Grid container spacing={24}>
 				<Grid item xs={12}>
-          <NavBar />
+          			<NavBar />
 				</Grid>
 			</Grid>
 		</div>

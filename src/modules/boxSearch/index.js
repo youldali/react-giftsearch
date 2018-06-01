@@ -10,7 +10,8 @@ import displayBy, { selectors as displayBySelectors } from './reducers/displayBy
 import router, { selectors as routerSelectors } from './reducers/router';
 
 import filterConfig from './config/filter.config';
-import getFilterStructureMap from './configHelpers/filterConfigResolver';
+import filterBlockConfig from './config/filterBlock.config';
+import {getFilterStructureMap, getFilterStructureByFilterGroup} from './configHelpers/filterConfigResolver';
 
 export default
 combineReducers({
@@ -23,7 +24,12 @@ combineReducers({
 	router
 });
 
-export { boxListSelectors, displayBySelectors, filtersAppliedSelectors, filtersStatisticsSelectors, orderBySelectors, pageSelectors, routerSelectors };
+export 
+const selectors = { boxListSelectors, displayBySelectors, filtersAppliedSelectors, filtersStatisticsSelectors, orderBySelectors, pageSelectors, routerSelectors };
 
-export {filterConfig, getFilterStructureMap};
+export 
+const config = {filterConfig, filterBlockConfig};
+
+export 
+const helpers = {getFilterStructureMap, getFilterStructureByFilterGroup};
 

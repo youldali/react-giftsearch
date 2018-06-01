@@ -9,6 +9,7 @@ const createFilterStructure = (filterConfig: FilterConfig ) =>
         filterName: filterConfig.filterName,
         operand: filterConfig.operand,
         operator: filterConfig.operator,
+        label: filterConfig.label,
     });
 
 export default createFilterStructure;

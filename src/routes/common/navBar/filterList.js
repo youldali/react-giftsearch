@@ -3,49 +3,78 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { filterConfig, getFilterStructureMap } from 'modules/boxSearch';
+import Typography from '@material-ui/core/Typography';
+import { config, helpers } from 'modules/boxSearch';
+import {compose} from 'ramda';
+import { withRouter } from 'react-router'
+import FilterBlock from './filterBlock';
 
+const {filterBlockConfig, filterConfig} = config;
 
 const styles = {
-  button: {
-    height: '100%',
-  },
+    filterList: {
+         padding: '0 2rem',
+         marginTop: '2rem',
+    },
 };
 
+class FilterListContainer extends React.Component {
+    constructor(props){
+      super(props);
+      const universe = props.match.params.universe;
 
+      this.state = {filterStructureByFilterGroup: [], filterBlockConfig: filterBlockConfig['sejour']};
+      this.getFilterStructureByFilterGroup(props).then( filterStructureByFilterGroup => this.setState({filterStructureByFilterGroup}));
+    }
 
-class FilterList extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {filterMap: {}};
-    getFilterStructureMap('sejour', filterConfig['sejour']).then(filterStructure => this.setState({filterMap: filterStructure}));
-  }
+    getFilterStructureByFilterGroup(props){
+        return helpers.getFilterStructureByFilterGroup('sejour', filterConfig['sejour']);
+    }
 
-  render() {
-    const {filterMap} = this.state;
-    console.log(filterMap);
-    return (
-      <FormControl component="fieldset">
-        <FormLabel component="legend">Assign responsibility</FormLabel>
-          {Object.values(filterMap).map( filter => 
-            <FormControlLabel
-              key={filter.filterName}
-              control={
-                <Checkbox
-                  checked={false}
-                  onChange={() => {}}
-                  value=""
-                />
-              }
-              label={filter.filterName}
+    componentDidUpdate(prevProps){
+        const 
+            universe = this.props.match.params.universe,
+            prevUniverse = prevProps.match.params.universe;
+
+        if(universe !== prevUniverse){
+            this.setState({filterBlockConfig: filterBlockConfig['sejour']});
+            this.getFilterStructureByFilterGroup(this.props).then( filterStructureByFilterGroup => this.setState({filterStructureByFilterGroup}));
+        }
+    }
+  
+    render() {
+        return (
+            <FilterList 
+                filterBlockConfig={this.state.filterBlockConfig}
+                filterStructureByFilterGroup={this.state.filterStructureByFilterGroup}
+                {...this.props}
             />
-          )}
-      </FormControl>
-    );
+        );
+    }
   }
+
+
+
+const FilterList = (props) => {
+    const {filterStructureByFilterGroup, filterBlockConfig} = props;
+
+    const filterBlocksComponents = [];
+    filterStructureByFilterGroup.forEach( (filterStructureList, filterGroup) => {
+        filterBlocksComponents.push(
+            <FilterBlock
+                key={filterGroup}
+                filterGroupConfig={filterBlockConfig.get(filterGroup)} 
+                filterStructureList={filterStructureList}
+            />
+        );
+    });
+
+    return (
+        <FormControl component="fieldset" className={props.classes.filterList}>
+            <FormLabel component="legend"><Typography variant="title">Filtres</Typography></FormLabel>
+            {filterBlocksComponents}
+        </FormControl>
+    );
 }
 
-
-export default withStyles(styles)(FilterList);
+export default compose(withStyles(styles), withRouter)(FilterListContainer);

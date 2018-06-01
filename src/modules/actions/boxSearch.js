@@ -3,7 +3,7 @@ import type { Action, BoxCollection, BoxCollectionRequestData, Dispatch, Display
  
 import fetchBoxListService from '../boxSearch/services/fetchBoxListService';
 import { handleErrorThunkAction } from 'helpers/promise/utils';
-import { filtersAppliedSelectors, orderBySelectors, pageSelectors, routerSelectors } from '../boxSearch/index';
+import { selectors } from '../boxSearch/index';
 import { hasIndexedDB, hasWebWorker } from 'helpers/misc/featureDetection';
 import { getFetchBoxListWebWorker } from '../boxSearch/services/webWorkers';
 import { curry } from 'ramda';
@@ -122,7 +122,7 @@ const setFiltersStatistics = (filtersStatisticsByFilter: FiltersStatisticsByFilt
 );
 
 
-const _fetchBoxListRemotely = async (universe: string, dispatch: Dispatch): Promise<BoxCollection> => {
+const _fetchBoxListRemotely = async (universe: string, dispatch: Dispatch) => {
 	/*
 	const boxList = await fetchBoxListService(universe);
 	dispatch(setBoxList(boxList));
@@ -145,10 +145,10 @@ export const tryFetchBoxListRemotely = handleErrorThunkAction(handleErrorFetchBo
 
 const getRequestData = (state: Object): BoxCollectionRequestData => (
 	{
-		universe: routerSelectors.getUniverse(state),
-		filtersApplied: filtersAppliedSelectors.getAllAppliedFilters(state),
-		orderBy: orderBySelectors.getOrderBy(state),
-		page: pageSelectors.getPage(state)
+		universe: selectors.routerSelectors.getUniverse(state),
+		filtersApplied: selectors.filtersAppliedSelectors.getAllAppliedFilters(state),
+		orderBy: selectors.orderBySelectors.getOrderBy(state),
+		page: selectors.pageSelectors.getPage(state)
 	}
 )
 

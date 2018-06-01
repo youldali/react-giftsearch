@@ -38,7 +38,8 @@ export type FilterConfig = {
 	filterGroup?: FilterGroup,
 	operator: string,
 	field: string,
-	operand: FilterOperand | ResolveFilterOperand
+	operand: FilterOperand | ResolveFilterOperand,
+	label: string
 };
 export type FilterConfigList = FilterConfig[];
 
@@ -49,9 +50,11 @@ export type FilterStructure = {|
 	filterGroup: ?FilterGroup,
 	operator: string,
 	field: string,
-	operand: FilterOperand
+	operand: FilterOperand,
+	label: string
 |};
 export type FilterStructureMap = { [FilterName]: FilterStructure };
+export type FilterStructureByFilterGroup = { [FilterGroup]: FilterStructure[] };
 export type ResolveFilterOperand = (universe: string, field: string) => Promise<FilterOperand>;
 
 

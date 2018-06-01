@@ -18,4 +18,4 @@ export
 const boxCollection = [box1, box2, box3, box4, box5, box6, box7, box8, box9, box10];
 
 export default 
-async (universe: string): Promise<BoxCollection> => Promise.resolve(boxCollection);
+async (universe) => Promise.resolve({data: boxCollection});
