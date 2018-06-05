@@ -30,7 +30,7 @@ const App = () => {
     			render={( {match}: {match: RouterMatch} ) => {
     				const component = isGiftSearchUniverseValid(match.params.universe) 
     					? <BoxSearchLayout /> 
-    					: <Redirect to="/gift-search/gastronomy"/>;
+    					: <Redirect to="/gift-search/mock-1000"/>;
 
     				return component;
     			}} 

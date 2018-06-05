@@ -20,15 +20,16 @@ const styles = {
 
 class FilterListContainer extends React.Component {
     constructor(props){
-      super(props);
-      const universe = props.match.params.universe;
+        console.log(props);
+        super(props);
+        const universe = props.match.params.universe;
 
-      this.state = {filterStructureByFilterGroup: [], filterBlockConfig: filterBlockConfig['sejour']};
-      this.getFilterStructureByFilterGroup(props).then( filterStructureByFilterGroup => this.setState({filterStructureByFilterGroup}));
+        this.state = {filterStructureByFilterGroup: [], filterBlockConfig: filterBlockConfig[universe]};
+        this.getFilterStructureByFilterGroup(universe).then( filterStructureByFilterGroup => this.setState({filterStructureByFilterGroup}));
     }
 
-    getFilterStructureByFilterGroup(props){
-        return helpers.getFilterStructureByFilterGroup('sejour', filterConfig['sejour']);
+    getFilterStructureByFilterGroup(universe){
+        return helpers.getFilterStructureByFilterGroup(universe, filterConfig[universe]);
     }
 
     componentDidUpdate(prevProps){
@@ -37,8 +38,8 @@ class FilterListContainer extends React.Component {
             prevUniverse = prevProps.match.params.universe;
 
         if(universe !== prevUniverse){
-            this.setState({filterBlockConfig: filterBlockConfig['sejour']});
-            this.getFilterStructureByFilterGroup(this.props).then( filterStructureByFilterGroup => this.setState({filterStructureByFilterGroup}));
+            this.setState({filterBlockConfig: filterBlockConfig[universe]});
+            this.getFilterStructureByFilterGroup(universe).then( filterStructureByFilterGroup => this.setState({filterStructureByFilterGroup}));
         }
     }
   

@@ -26,7 +26,18 @@ const fieldsToIndexByUniverse: FieldsToIndexByUniverse = {
         experienceTypes: {multiEntry: true},
         regions: {multiEntry: true},
         boxType: {multiEntry: true},
-    }    
+    },
+    "mock-1000": { 
+        ...fieldsToIndexBase, 
+        numberOfNights: null,
+        numberOfPeopleMin: null,
+        numberOfPeopleMax: null,
+        rating: null,
+        price: null,
+        experienceTypes: {multiEntry: true},
+        regions: {multiEntry: true},
+        boxType: {multiEntry: true},
+    },
 };
 
 export default {

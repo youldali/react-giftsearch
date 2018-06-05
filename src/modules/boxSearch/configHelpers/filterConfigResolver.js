@@ -2,7 +2,7 @@
 import type { FilterBaseInfos, FilterConfig, FilterConfigList, FilterStructureByFilterGroup, FilterStructure, FilterStructureMap } from '../types';
 
 import { getOperandList as getOperandListFromIDB } from '../services/idbStorageService';
-import { curry, composeP, merge } from 'ramda';
+import { curry, composeP, merge, memoizeWith, identity } from 'ramda';
 import createFilterStructure from '../domainModel/filterStructure';
 
 
@@ -61,7 +61,7 @@ const transformToFilterStructureByGroup = (filterStructureMap: FilterStructureMa
 export
 const _getFilterStructureByFilterGroup = (universe: string, filterConfigList: FilterConfigList): Promise<FilterStructureByFilterGroup> => 
     composeP(transformToFilterStructureByGroup, getFilterStructureMap(universe))(filterConfigList);
-export const getFilterStructureByFilterGroup = curry(_getFilterStructureByFilterGroup);
+export const getFilterStructureByFilterGroup = memoizeWith(identity, curry(_getFilterStructureByFilterGroup));
 
 
 export default getFilterStructureMap;

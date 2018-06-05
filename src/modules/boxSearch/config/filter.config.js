@@ -27,8 +27,16 @@ const sejour: FilterConfigList = [
 	{ filterName:'twoNight', filterGroup: 'night', field: 'numberOfNights', operator: '===', operand: 2 , label: 'Deux nuit' },
 ];
 
+export
+const mock1000: FilterConfigList = [
+	...filterConfigBase,
+	{ filterName:'oneNight', filterGroup: 'night', field: 'numberOfNights', operator: '===', operand: 1, label: 'Une nuit' },
+	{ filterName:'twoNight', filterGroup: 'night', field: 'numberOfNights', operator: '===', operand: 2 , label: 'Deux nuit' },
+];
+
 export default
 {
 	adventure,
-	sejour
+	sejour,
+	"mock-1000": mock1000,
 };
