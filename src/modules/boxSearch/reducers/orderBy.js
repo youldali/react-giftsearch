@@ -4,7 +4,7 @@ import type { Action, State } from 'modules/actions/types';
 export
 type OrderByState = string;
 
-const initialState = '';
+const initialState = 'id';
 function orderReducer (state: OrderByState = initialState, action: Action): OrderByState {
 	switch (action.type){
 		case "BOX_LIST_SEARCH/SET_ORDER_BY":

@@ -1,7 +1,9 @@
 //@flow
 import { curry, mapObjIndexed, reverse } from 'ramda';
 
-const {indexedDB, IDBKeyRange} = window;
+//eslint-disable-next-line
+const globalScope = typeof window !== "undefined" ? window : self;
+const {indexedDB, IDBKeyRange} = globalScope;
 
 
 const _createOrOpenDatabase = (dbName: string, dbVersion: number, onUpgradeCallback: Function): Promise<IDBDatabase> => {

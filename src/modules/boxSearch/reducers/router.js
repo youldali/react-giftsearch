@@ -8,7 +8,7 @@ type RouterState = {
 };
 
 const initialState = {
-	universe: ''
+	universe: 'mock-1000'
 };
 
 function routerReducer(state: RouterState = initialState, action: Action): RouterState{

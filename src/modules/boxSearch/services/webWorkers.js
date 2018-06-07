@@ -1,6 +1,6 @@
 // @flow
 
-import Worker from '../controllers/worker.js';
+import Worker from '../controllers/main.worker.js';
 
 let fetchBoxListWebWorker;
 

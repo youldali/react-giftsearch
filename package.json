@@ -127,6 +127,7 @@
   },
   "babel": {
     "presets": [
+      "flow",
       "react-app"
     ]
   },

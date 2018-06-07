@@ -127,6 +127,11 @@ module.exports = {
         // match the requirements. When no loader matches it will fall
         // back to the "file" loader at the end of the loader list.
         oneOf: [
+          //worker loader
+          {
+            test: /\.worker\.js$/,
+            use: { loader: 'worker-loader' }
+          },
           // "url" loader works like "file" loader except that it embeds assets
           // smaller than specified limit in bytes as data URLs to avoid requests.
           // A missing `test` is equivalent to a match.
@@ -187,11 +192,6 @@ module.exports = {
                 },
               },
             ],
-          },
-          //worker loader
-          {
-            test: /\.worker\.js$/,
-            use: { loader: 'worker-loader' }
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.

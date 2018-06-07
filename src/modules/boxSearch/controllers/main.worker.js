@@ -9,7 +9,8 @@ let lastRequestData = {};
 
 const perPage = 10;
 
-self.onMessage = async (event) => {
+//eslint-disable-next-line
+self.onmessage = async (event) => {
     const 
         requestData = event.data,
         { filtersApplied, orderBy, page, universe } = requestData,
@@ -21,10 +22,14 @@ self.onMessage = async (event) => {
         boxesIdMappedByFilteredStatus = await getBoxesIdMappedByFilterStatus(requestData, filterStructureMap),
         orderedBoxIdList = await getOrderedBoxIdList(requestData, boxesIdMappedByFilteredStatus.get(true)),
         paginatedBoxList = await getPaginatedBoxList(requestData, perPage, orderedBoxIdList);
+
+    //eslint-disable-next-line
     self.postMessage({ type: 'BOX_LIST', boxList: paginatedBoxList });
         
 
     const filtersStatisticsByFilter = await getFiltersStatistics(requestData, filterStructureMap, boxesIdMappedByFilteredStatus);
+    
+    //eslint-disable-next-line
     self.postMessage({ type: 'FILTERS_STATISTICS', filtersStatisticsByFilter });
 };
 
