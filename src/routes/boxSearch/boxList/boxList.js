@@ -1,14 +1,12 @@
 //@flow
 
-import type { GiftCollection, Dispatch, DisplayType, RouterMatch } from 'modules/actions/types';
+import type { BoxCollection, Dispatch, DisplayType, RouterMatch } from 'modules/actions/types';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { selectors } from 'modules/gift-search/index';
-import * as actions from 'modules/actions/giftListSearchFetch';
-import { incrementPage } from 'modules/actions/giftListSearchSorting';
-import GiftListCards from './listCards';
-import GiftListItems from './listItems';
+import { selectors } from 'modules/boxSearch/index';
+import * as actions from 'modules/actions/boxSearch';
+import BoxListCards from './boxCards';
 import ListLazyload from 'routes/common/behavior/lazyLoadingForList';
 import Loader from 'routes/common/loader';
 import { ErrorLoading, ErrorNoResults } from 'routes/common/error';
@@ -16,8 +14,7 @@ import { ErrorLoading, ErrorNoResults } from 'routes/common/error';
 type GiftListContainerProps = {
   fetchList: Function,
   incrementPage: Function,
-  giftCollectionToDisplay: GiftCollection,
-  fullGiftCollection: GiftCollection,
+  boxList: BoxCollection,
   currentPage: number,
   displayAs: DisplayType,
   match: RouterMatch,
@@ -29,30 +26,26 @@ export
 class GiftListContainer extends PureComponent<GiftListContainerProps>{
 
   componentDidMount() {
-    this.fetchList(this.props.match.params.universe);
+    this.props.fetchList();(this.props.match.params.universe);
   }
 
   componentWillReceiveProps(nextProps: GiftListContainerProps){
     if(this.props.match.params.universe !== nextProps.match.params.universe)
-      this.fetchList(nextProps.match.params.universe);
+      nextProps.fetchList();
   }  
-
-  fetchList(universe: string){
-    this.props.fetchList(universe);
-  }
 
   render(){
     //gift List to render
-    let giftList = null;
+    let boxList = null;
     let offsetBottomDetection = 0;
     switch(this.props.displayAs){
       case 'card':
         offsetBottomDetection = 200;
-        giftList = <GiftListCards giftCollection={this.props.giftCollectionToDisplay} />
+        boxList = <BoxListCards boxCollection={this.props.boxList} />
         break;
       case 'list':
       default:
-        giftList = <GiftListItems giftCollection={this.props.giftCollectionToDisplay} />
+        boxList = <BoxListCards boxCollection={this.props.boxList} />
     }
 
     //Component to render
@@ -61,21 +54,21 @@ class GiftListContainer extends PureComponent<GiftListContainerProps>{
       component = <Loader /> ;
 
     else if(!this.props.hasFetchSucceeded)
-      component = <ErrorLoading actionRetry={() => {console.log('click'); this.props.fetchList(this.props.match.params.universe);} } /> ;
+      component = <ErrorLoading actionRetry={() => {this.props.fetchList(this.props.match.params.universe);} } /> ;
 
-    else if(this.props.fullGiftCollection.length === 0)
+    else if(this.props.boxList.length === 0)
       component = <ErrorNoResults /> ;  
 
     else
       component = 
         <ListLazyload 
           onBottomReached={this.props.incrementPage}
-          numberOfItemsDisplayed={this.props.giftCollectionToDisplay.length}
-          numberOfItems={this.props.fullGiftCollection.length}
+          numberOfItemsDisplayed={this.props.boxList.length}
+          numberOfItems={1000}
           currentPage={this.props.currentPage}
           offsetBottomDetection={offsetBottomDetection}
         >
-          {giftList}
+          {boxList}
         </ListLazyload> ;
 
   	return (
@@ -90,29 +83,30 @@ class GiftListContainer extends PureComponent<GiftListContainerProps>{
 //store Connection
 type OwnProps = { match: RouterMatch };
 const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
-	const giftCollectionToDisplay = selectors.getPaginatedOrderedFilteredList(state);
-  const fullGiftCollection = selectors.getOrderedFilteredList(state);
-  const currentPage = selectors.getPage(state);
-  const displayAs = selectors.getDisplay(state);
-  const isFetching = selectors.isFetching(state);
-  const hasFetchSucceeded = selectors.hasFetchSucceeded(state);
-  const {match} = ownProps;
+  const 
+    boxList = selectors.boxListSelectors.getList(state),
+    isFetching = selectors.boxListSelectors.isFetching(state),
+    hasFetchSucceeded = selectors.boxListSelectors.hasFetchSucceeded(state);
+
+  const 
+    currentPage = selectors.pageSelectors.getPage(state),
+    displayAs = selectors.displayBySelectors.getDisplay(state),
+    {match} = ownProps;
 
 	return {
-		giftCollectionToDisplay,
-    fullGiftCollection,
-    currentPage,
-    displayAs,
+    boxList,
     isFetching,
     hasFetchSucceeded,
+    currentPage,
+    displayAs,
     match
 	}
 }
 
 const mapDispatchToProps = (dispatch: Dispatch): Object => {
 	return {
-		fetchList: (universe: string) => dispatch(actions.fetchGiftList(universe)),
-    incrementPage: () => dispatch(incrementPage())
+		fetchList: () => dispatch(actions.fetchBoxListAction),
+    incrementPage: () => dispatch(actions.incrementPage())
 	}
 }
 

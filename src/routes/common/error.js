@@ -1,26 +1,27 @@
 //@flow
 
 import React from 'react';
-import { Message, Icon, Button } from 'semantic-ui-react';
+import Button from '@material-ui/core/Button';
+import Repeat from '@material-ui/icons/Repeat';
 
 export
 const ErrorLoading = ( {actionRetry}: {actionRetry: Function} ) => (
-	<Message warning>
-    <Message.Header>Erreur de chargement</Message.Header>
+	<div>
+    <div>Erreur de chargement</div>
     <p>
 	    Veuillez vérifier votre connexion internet
-	    <Button icon color='blue' style={{'margin-left': '1em'}} onClick={actionRetry} >
-	      <Icon name='repeat' /> Réessayer 
+	    <Button style={{'marginLeft': '1em'}} onClick={actionRetry} >
+	      <Repeat /> Réessayer 
 	    </Button>
 	   </p>
-  </Message>
+  </div>
 )
 
 export
 const ErrorNoResults = () => (
-	<Message info>
-    <Message.Header>Aucun rėsultat trouvé</Message.Header>
-  </Message>
+	<div>
+    <div>Aucun rėsultat trouvé</div>
+  </div>
 )
 
 

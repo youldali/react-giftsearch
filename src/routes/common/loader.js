@@ -1,17 +1,12 @@
 //@flow
 
 import React from 'react';
-import { Container, Icon } from 'semantic-ui-react';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Loader = () => (
-	<Container textAlign='center'>
-	  <Icon 
-	    loading 
-	    name='spinner'
-	    size='huge'
-	    color='blue'
-	   />
-	</Container>
+	<div style={{textAlign:'center'}}>
+	  <CircularProgress />
+	</div>
 )
 
 export default

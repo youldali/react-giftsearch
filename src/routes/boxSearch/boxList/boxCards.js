@@ -12,7 +12,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader';
 import Typography from '@material-ui/core/Typography';
 import ImageWithPlaceholder from '../../common/ImageWithPlaceholder';
-import CardIcon from './CardIcon';
+import CardIcon, {IconRating} from './CardIcon';
+import Divider from '@material-ui/core/Divider';
 
 type BoxCardType = {
   url: string,
@@ -35,6 +36,13 @@ const boxCardStyles = {
 		display: 'flex',
 		margin: '1rem 0',
 		padding: '0 0.5rem',
+		fontSize: '0.8rem',
+		boxShadow: 'none',
+		borderBottom: '1px solid #CCCCCC'
+	},
+
+	cardContent: {
+		padding: '1em',
 	},
 
 	cardMedia: {
@@ -46,8 +54,14 @@ const boxCardStyles = {
 		width: '100%',
 	},
 
+	cardTitle: {
+		fontSize: '1.2em',
+		fontWeight: 'bold',
+		margin: 0,
+	},
+
 	cardPrice: {
-		fontSize: '1.5rem',
+		fontSize: '1.5em',
 		fontWeight: 'bold',
 	},
 
@@ -55,6 +69,14 @@ const boxCardStyles = {
 		flexGrow: 1,
 	},
 
+	cardRating: {
+		marginBottom: '1em',
+	},
+
+	cardRatingIcon: {
+		color: '#f6b900',
+		fontSize: '1.1em',
+	}
 };
 
 
@@ -87,8 +109,9 @@ const _BoxCard = (props: BoxCardType) => {
 			title={props.name}
 		/>
 		<div>
-			<CardContent>
-				<Typography variant="headline">{props.name}</Typography>
+			<CardContent classes={{root: props.classes.cardContent}}>
+				<h3 className={props.classes.cardTitle}>{props.name}</h3>
+				<div className={props.classes.cardRating}><IconRating rating={props.rating} className={props.classes.cardRatingIcon} /></div>
 				<div>{props.subtitle}</div>
 			</CardContent>
 
