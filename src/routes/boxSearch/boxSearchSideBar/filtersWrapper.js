@@ -23,7 +23,7 @@ FiltersWrapper = ( props: FiltersWrapperProps) => {
   const isOneFilterActive = !!Object.keys(props.filters).length;
 
   return (
-    <div className='gift-list__filter-container'>
+    <div>
       {
         isOneFilterActive &&
         <Button onClick={props.resetAllFilters} color='google plus' >

@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { selectors } from 'modules/boxSearch/index';
 import * as actions from 'modules/actions/boxSearch';
-import BoxListCards from './boxCards';
+import BoxCardList from './boxCardList';
 import ListLazyload from 'routes/common/behavior/lazyLoadingForList';
 import Loader from 'routes/common/loader';
 import { ErrorLoading, ErrorNoResults } from 'routes/common/error';
 
-type GiftListContainerProps = {
+type BoxListContainerProps = {
   fetchList: Function,
   incrementPage: Function,
   boxList: BoxCollection,
@@ -23,29 +23,29 @@ type GiftListContainerProps = {
 };
 
 export
-class GiftListContainer extends PureComponent<GiftListContainerProps>{
+class BoxListContainer extends PureComponent<BoxListContainerProps>{
 
   componentDidMount() {
     this.props.fetchList();(this.props.match.params.universe);
   }
 
-  componentWillReceiveProps(nextProps: GiftListContainerProps){
-    if(this.props.match.params.universe !== nextProps.match.params.universe)
-      nextProps.fetchList();
+  componentDidUpdate(prevProps: BoxListContainerProps){
+    if(this.props.match.params.universe !== prevProps.match.params.universe)
+      this.props.fetchList();
   }  
 
   render(){
-    //gift List to render
+    //box List to render
     let boxList = null;
     let offsetBottomDetection = 0;
     switch(this.props.displayAs){
       case 'card':
         offsetBottomDetection = 200;
-        boxList = <BoxListCards boxCollection={this.props.boxList} />
+        boxList = <BoxCardList boxCollection={this.props.boxList} />
         break;
       case 'list':
       default:
-        boxList = <BoxListCards boxCollection={this.props.boxList} />
+        boxList = <BoxCardList boxCollection={this.props.boxList} />
     }
 
     //Component to render
@@ -110,4 +110,4 @@ const mapDispatchToProps = (dispatch: Dispatch): Object => {
 	}
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GiftListContainer));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BoxListContainer));

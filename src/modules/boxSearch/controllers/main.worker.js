@@ -1,15 +1,17 @@
 //@flow
+/* global location */
+/* eslint no-restricted-globals: ["off", "self"] */
+
 import filterConfig from '../config/filter.config';
 import getFilterStructureMap from '../configHelpers/filterConfigResolver'
 import getBoxesIdMappedByFilterStatus from './filter';
 import getOrderedBoxIdList from './order';
 import getPaginatedBoxList from './pagination';
-import getFiltersStatistics from './filterStatistic';
+import getFiltersStatistics, { getFiltersStatisticsSimplified } from './filterStatistic';
 let lastRequestData = {};
 
 const perPage = 10;
 
-//eslint-disable-next-line
 self.onmessage = async (event) => {
     const 
         requestData = event.data,
@@ -23,14 +25,14 @@ self.onmessage = async (event) => {
         orderedBoxIdList = await getOrderedBoxIdList(requestData, boxesIdMappedByFilteredStatus.get(true)),
         paginatedBoxList = await getPaginatedBoxList(requestData, perPage, orderedBoxIdList);
 
-    //eslint-disable-next-line
     self.postMessage({ type: 'BOX_LIST', boxList: paginatedBoxList });
         
 
-    const filtersStatisticsByFilter = await getFiltersStatistics(requestData, filterStructureMap, boxesIdMappedByFilteredStatus);
+    const 
+        filtersStatisticsDetailedByFilter = await getFiltersStatistics(requestData, filterStructureMap, boxesIdMappedByFilteredStatus),
+        filtersStatisticsSimplifiedByFilter = getFiltersStatisticsSimplified(filtersStatisticsDetailedByFilter)
     
-    //eslint-disable-next-line
-    self.postMessage({ type: 'FILTERS_STATISTICS', filtersStatisticsByFilter });
+    self.postMessage({ type: 'FILTERS_STATISTICS', filtersStatisticsByFilter: filtersStatisticsDetailedByFilter });
 };
 
 

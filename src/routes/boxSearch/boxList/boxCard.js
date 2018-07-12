@@ -15,21 +15,28 @@ import ImageWithPlaceholder from '../../common/ImageWithPlaceholder';
 import CardIcon, {IconRating} from './CardIcon';
 import Divider from '@material-ui/core/Divider';
 
-type BoxCardType = {
-  url: string,
-  img: string,
-  name: string,
-  subtitle: string,
-  minPersons: number,
-  maxPersons: number,
-  price: string,
-  rating: string,
-  showRating: boolean,
-  numberOfReviews: number,  
-  webExclusive: boolean
+
+const cardMediaImageStyles = {
+	root:{
+		minWidth: '150px',
+	},
 };
 
-const styles = {};
+
+type CardMediaImageType = {
+	classes: Object,
+};
+
+const _CardMediaImage = (props) => (
+	<ImageWithPlaceholder
+		maxWidth='280px'
+		ratio='74.28%'
+		classes={{root: props.classes.root, wrapper: props.classes.wrapper}}
+		{...props}
+	/>
+)
+const CardMediaImage = withStyles(cardMediaImageStyles)(_CardMediaImage);
+
 
 const boxCardStyles = {
 	card: {
@@ -39,6 +46,10 @@ const boxCardStyles = {
 		fontSize: '0.8rem',
 		boxShadow: 'none',
 		borderBottom: '1px solid #CCCCCC'
+	},
+
+	cardContentWrapper: {
+		flexGrow: '1',
 	},
 
 	cardContent: {
@@ -79,26 +90,20 @@ const boxCardStyles = {
 	}
 };
 
-
-const CardMediaImageStyles = {
-	root:{
-		margin: 'auto',
-		minWidth: '150px',
-	},
-
+type BoxCardType = {
+	url: string,
+	img: string,
+	name: string,
+	subtitle: string,
+	minPersons: number,
+	maxPersons: number,
+	price: string,
+	rating: string,
+	showRating: boolean,
+	numberOfReviews: number,  
+	webExclusive: boolean,
+	classes: Object,
 };
-
-
-const _CardMediaImage = (props) => (
-	<ImageWithPlaceholder
-		maxWidth='280px'
-		ratio='74.28%'
-		classes={{root: props.classes.root, wrapper: props.classes.wrapper}}
-		{...props}
-	/>
-)
-const CardMediaImage = withStyles(CardMediaImageStyles)(_CardMediaImage);
-
 
 const _BoxCard = (props: BoxCardType) => {
 	console.log(props);
@@ -108,7 +113,7 @@ const _BoxCard = (props: BoxCardType) => {
 			source={props.img || "http://media.smartbox.com/pim/1000000401332886997373.jpg?thumbor=280x0"}
 			title={props.name}
 		/>
-		<div>
+		<div className={props.classes.cardContentWrapper}>
 			<CardContent classes={{root: props.classes.cardContent}}>
 				<h3 className={props.classes.cardTitle}>{props.name}</h3>
 				<div className={props.classes.cardRating}><IconRating rating={props.rating} className={props.classes.cardRatingIcon} /></div>
@@ -124,30 +129,4 @@ const _BoxCard = (props: BoxCardType) => {
 		</div>
   	</Card>
 )};  
-export const BoxCard = withStyles(boxCardStyles)(_BoxCard);
-
-
-const BoxListCards = ({ boxCollection, classes}: {boxCollection: BoxCollection }) => (
-  <div>
-
-    {boxCollection.map((box) =>
-      <BoxCard key={box.id}
-        name={box.name}
-        url={box.url}
-        img={box.img}
-        subtitle={box.subtitle}
-        minPersons={box.min_persons}
-        maxPersons={box.max_persons}
-        price={box.price}
-        webExclusive={box.web_exclusive}
-        rating={box.rating}
-        showRating={box.show_rating}
-        numberOfReviews={box.reviews_count}        
-		description={box.description}
-		classes={classes}
-      />
-    )}
-  </div>
-);
-
-export default withStyles(styles)(BoxListCards);
+export default withStyles(boxCardStyles)(_BoxCard);

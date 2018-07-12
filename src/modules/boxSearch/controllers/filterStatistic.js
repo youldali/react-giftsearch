@@ -1,6 +1,6 @@
 //@flow
 
-import type { BoxesIdMatchingFilter, BoxesIdMappedByFilteredStatus, FilterStructure, FilterStructureMap } from '../types';
+import type {BoxesIdMappedByFilteredStatus, FilterStatisticDetailed, FiltersStatisticsDetailed, FilterStructure, FilterStructureMap } from '../types';
 import type { BoxCollectionRequestData } from 'modules/actions/types';
 
 import { getItemIdListMatchingSingleFilter } from '../services/idbStorageService';
@@ -10,10 +10,10 @@ import { has, map, mergeAll, curry } from 'ramda';
 import 'core-js/fn/object/values';
 
 
-const _getFiltersStatistics = (requestData: BoxCollectionRequestData, filterStructureMap: FilterStructureMap, boxesIdMappedByFilteredStatus: BoxesIdMappedByFilteredStatus): Promise<BoxesIdMatchingFilter> => {
+const _getFiltersStatistics = (requestData: BoxCollectionRequestData, filterStructureMap: FilterStructureMap, boxesIdMappedByFilteredStatus: BoxesIdMappedByFilteredStatus): Promise<FiltersStatisticsDetailed> => {
     const { filtersApplied, universe } = requestData;
 
-    const getFilterStatistic = async (filterStructure: FilterStructure): Promise<BoxesIdMatchingFilter> => {
+    const getFilterStatistic = async (filterStructure: FilterStructure) => {
         const 
             {filterName, filterGroup} = filterStructure,
             isFilterSelected = has(filterName, filtersApplied) ? true : false,
@@ -30,6 +30,17 @@ const _getFiltersStatistics = (requestData: BoxCollectionRequestData, filterStru
 
 const getFiltersStatistics = curry(_getFiltersStatistics);
 
-
 export default getFiltersStatistics;
+
+
+export
+const getFiltersStatisticsSimplified = (filtersStatisticsDetailed: FiltersStatisticsDetailed) => {
+    const simplifyFilterStatistic = (filterStatisticDetailed: FilterStatisticDetailed) => ({
+        type: filterStatisticDetailed.type,
+        number: filterStatisticDetailed.idList.length
+    });
+
+    return map(simplifyFilterStatistic, filtersStatisticsDetailed);
+}
+
 

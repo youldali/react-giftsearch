@@ -1,7 +1,7 @@
 jest.mock('helpers/storage/idbStorage');
 jest.mock('../../services/fetchBoxListService');
 
-import getFiltersStatistics from '../filterStatistic';
+import getFiltersStatistics, { getFiltersStatisticsSimplified } from '../filterStatistic';
 import getFilterStructureMap from '../../configHelpers/filterConfigResolver'
 import createInterval from 'helpers/dataStructure/interval';
 
@@ -87,6 +87,26 @@ describe('getFiltersStatistics', () => {
 
 		return expect(filterStatistic).resolves.toEqual(expected);
     });
+});
 
-   
+
+describe('getFiltersStatisticsSimplified', () => {
+	test('should return the number of box matching each filter', () => {
+        const filtersStatisticsDetailed = {
+            boatExperience: { type: 'absolute', idList: [1, 7, 8, 10] },
+            forOnePerson: { type: 'absolute', idList: [1] },
+            priceRange1: { type: 'absolute', idList: [1, 2] },
+            priceRange2: { type: 'absolute', idList: [] },
+        };
+
+        const expected = {
+            boatExperience: { type: 'absolute', number: 4 },
+            forOnePerson: { type: 'absolute', number: 1 },
+            priceRange1: { type: 'absolute', number: 2 },
+            priceRange2: { type: 'absolute', number: 0 },
+        }
+        const filtersStatisticsSimplified = getFiltersStatisticsSimplified(filtersStatisticsDetailed);
+
+		return expect(filtersStatisticsSimplified).toEqual(expected);
+    });
 });

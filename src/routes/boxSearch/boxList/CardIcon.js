@@ -31,7 +31,7 @@ const IconGroup = (props) => (
 );
 
 export
-const IconRating = ({rating, numberOfReviews, className}: {rating: number, numberOfReviews: number}) => {	
+const IconRating = ({rating, numberOfReviews, className}: {rating: number, numberOfReviews: number, className: string}) => {	
 	const
 		numberBase5 = Math.round(rating) / 2,
 		numberOfFullStars = Math.floor(numberBase5),
