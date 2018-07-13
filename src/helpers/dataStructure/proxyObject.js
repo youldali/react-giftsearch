@@ -1,6 +1,6 @@
 //@flow
 
-const createObjectWithDefault = (object: Object, defaultValue: any) => {
+const createProxyObject = (object: Object, defaultValue: any) => {
     return {
         get(value: string){
             return object[value] ? object[value] : defaultValue;
@@ -8,4 +8,4 @@ const createObjectWithDefault = (object: Object, defaultValue: any) => {
     }
 };
 
-export default createObjectWithDefault;
+export default createProxyObject;

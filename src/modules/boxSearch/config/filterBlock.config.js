@@ -1,8 +1,10 @@
 //@flow
-import createObjectWithDefault from 'helpers/dataStructure/objectWithDefault';
+import type { FilterBlockConfigByFilterGroup, FilterBlockConfigByUniverse } from '../types';
+
+import proxyObject from 'helpers/dataStructure/proxyObject';
 
 const 
-	blockBase = {
+	blockBase: FilterBlockConfigByFilterGroup = {
 		price: {label: 'Par prix'},
 		experienceType: {label: "Par type d' expérience"},
 		boxType: {label: 'Par type de coffret'},
@@ -10,18 +12,18 @@ const
 	defaultBlock = {label: 'Autres critères'};
 
 const 
-	sejourFilterBlock = {
+	sejourFilterBlock: FilterBlockConfigByFilterGroup = {
 		...blockBase,
 		night: {label: 'Par nombre de nuits'},
 	}, 
-	mock1000FilterBlock = {
+	mock1000FilterBlock: FilterBlockConfigByFilterGroup = {
 		...blockBase,
 		night: {label: 'Par nombre de nuits'},
 	};
 
-const filterBlocksPerUniverse = {
-	sejour: createObjectWithDefault(sejourFilterBlock, defaultBlock),
-	"mock-1000": createObjectWithDefault(mock1000FilterBlock, defaultBlock),
+const filterBlocksPerUniverse: FilterBlockConfigByUniverse = {
+	sejour: proxyObject(sejourFilterBlock, defaultBlock),
+	"mock-1000": proxyObject(mock1000FilterBlock, defaultBlock),
 }
 
 export default filterBlocksPerUniverse;

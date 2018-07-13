@@ -22,6 +22,7 @@ export type BoxSearchModuleState = {|
 |};
 
 //FILTER
+export type UniverseName = string;
 export type FilterName = string;
 export type FilterGroup = string;
 export type FilterOperand = number | string | number[] | string[] | Interval;
@@ -42,6 +43,17 @@ export type FilterConfig = {
 	label: string
 };
 export type FilterConfigList = FilterConfig[];
+
+//FILTER BLOCK CONFIG
+export type FilterBlockConfig = {
+	label: string
+};
+export type FilterBlockConfigByFilterGroup = {
+	[FilterGroup]: FilterBlockConfig
+};
+export type FilterBlockConfigByUniverse = {
+	[UniverseName]: ProxyObject<FilterBlockConfigByFilterGroup>
+}
 
 
 //FILTER RESOLVER

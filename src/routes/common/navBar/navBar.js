@@ -1,4 +1,5 @@
 //@flow
+
 import type { RouterLocation } from 'modules/actions/types';
 
 import React from 'react'

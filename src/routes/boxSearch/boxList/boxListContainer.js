@@ -26,7 +26,7 @@ export
 class BoxListContainer extends PureComponent<BoxListContainerProps>{
 
   componentDidMount() {
-    this.props.fetchList();(this.props.match.params.universe);
+    this.props.fetchList();
   }
 
   componentDidUpdate(prevProps: BoxListContainerProps){

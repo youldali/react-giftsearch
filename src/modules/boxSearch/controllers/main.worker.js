@@ -32,7 +32,7 @@ self.onmessage = async (event) => {
         filtersStatisticsDetailedByFilter = await getFiltersStatistics(requestData, filterStructureMap, boxesIdMappedByFilteredStatus),
         filtersStatisticsSimplifiedByFilter = getFiltersStatisticsSimplified(filtersStatisticsDetailedByFilter)
     
-    self.postMessage({ type: 'FILTERS_STATISTICS', filtersStatisticsByFilter: filtersStatisticsDetailedByFilter });
+    self.postMessage({ type: 'FILTERS_STATISTICS', filtersStatisticsByFilter: filtersStatisticsSimplifiedByFilter });
 };
 
 

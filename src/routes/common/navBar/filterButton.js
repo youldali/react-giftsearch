@@ -1,9 +1,11 @@
+//@flow
+
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import MenuButton from './menuButton';
-import FilterList from '../../boxSearch/sidebar/filterList';
+import FilterList from '../../boxSearch/sidebar/filterBlockList';
 class FilterMenu extends React.Component {
     state = {
       isDrawerOpen: false,

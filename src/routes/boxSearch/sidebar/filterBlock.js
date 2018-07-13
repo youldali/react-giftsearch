@@ -1,3 +1,5 @@
+//@flow
+
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import FormGroup from '@material-ui/core/FormGroup';
