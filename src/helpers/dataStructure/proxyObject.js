@@ -1,8 +1,8 @@
 //@flow
 
-const createProxyObject = (object: Object, defaultValue: any) => {
+const createProxyObject = (object: Object, defaultValue: any): ProxyObject<Object> => {
     return {
-        get(value: string){
+        get(value: ?string){
             return object[value] ? object[value] : defaultValue;
         }
     }

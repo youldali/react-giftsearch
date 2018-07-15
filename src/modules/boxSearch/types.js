@@ -66,7 +66,7 @@ export type FilterStructure = {|
 	label: string
 |};
 export type FilterStructureMap = { [FilterName]: FilterStructure };
-export type FilterStructureByFilterGroup = { [FilterGroup]: FilterStructure[] };
+export type FilterStructureByFilterGroup = Map<?string, FilterStructure[]>;
 export type ResolveFilterOperand = (universe: string, field: string) => Promise<FilterOperand>;
 
 

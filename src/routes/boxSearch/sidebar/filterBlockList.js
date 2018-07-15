@@ -29,7 +29,7 @@ class FilterBlockListContainer extends PureComponent<FilterBlockListContainerPro
         super(props);
         const universe = props.match.params.universe;
 
-        this.state = {filterStructureByFilterGroup: [], filterBlockConfigByBlockName: filterBlockConfig[universe]};
+        this.state = {filterStructureByFilterGroup: new Map(), filterBlockConfigByBlockName: filterBlockConfig[universe]};
         this.getFilterStructureByFilterGroup(universe)
             .then( filterStructureByFilterGroup => this.setState({filterStructureByFilterGroup}));
     }
@@ -84,7 +84,7 @@ const _FilterBlockList = (props: FilterBlockListProps) => {
         filterBlocksComponents.push(
             <FilterBlock
                 key={filterGroup}
-                filterGroupConfig={filterBlockConfigByBlockName.get(filterGroup)} 
+                FilterBlockConfig={filterBlockConfigByBlockName.get(filterGroup)} 
                 filterStructureList={filterStructureList}
             />
         );

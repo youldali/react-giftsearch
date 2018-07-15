@@ -7,4 +7,4 @@ declare type Operator =
 
 declare type Interval = {'0': number, '1': number};
 
-declare type ProxyObject<T> = { get: (value: string) => T};
+declare type ProxyObject<T> = { get: (value: ?string) => T};

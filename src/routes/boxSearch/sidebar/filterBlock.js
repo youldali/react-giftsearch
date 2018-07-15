@@ -1,4 +1,5 @@
 //@flow
+import type { FilterBlockConfig, FilterStructure } from 'modules/boxSearch/types';
 
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
@@ -19,11 +20,18 @@ const styles = {
     },
 };
 
-const FilterBlock = (props) => {
-    const {classes, filterGroupConfig, filterStructureList} = props;
+type FilterBlockProps = {
+    filterBlockConfig: FilterBlockConfig,
+    filterStructureList: FilterStructure[],
+    classes: Object
+}
+
+
+const FilterBlock = (props: FilterBlockProps) => {
+    const {classes, filterBlockConfig, filterStructureList} = props;
     return (
         <FormGroup classes={{root: classes.filterGroup}}>
-            <Typography variant="subheading" gutterBottom>{filterGroupConfig['label']}</Typography>
+            <Typography variant="subheading" gutterBottom>{filterBlockConfig['label']}</Typography>
             {filterStructureList.map(filterStructure => 
                 <FormControlLabel
                     key={filterStructure.filterName}

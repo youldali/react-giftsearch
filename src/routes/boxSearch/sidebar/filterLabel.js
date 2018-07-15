@@ -15,7 +15,13 @@ const styles = {
     },
 };
 
-const FilterLabel = (props) => {
+type FilterLabelProps = {
+    text: string,
+    number: number,
+    classes: Object,
+};
+
+const FilterLabel = (props: FilterLabelProps) => {
     return (
         <div className={props.classes.labelContainer}>
             <div className={props.classes.text}>{props.text}</div>
