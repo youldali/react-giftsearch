@@ -14,7 +14,7 @@ class OrderByMenu extends React.Component<Object, OrderByMenuState> {
     anchorEl: null,
   };
 
-  handleClick = event => {
+  handleClick = (event: SyntheticEvent<HTMLButtonElement>) => {
     this.setState({ anchorEl: event.currentTarget });
   };
 

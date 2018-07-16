@@ -18,11 +18,7 @@ class UniverseMenu extends React.Component<Object, UniverseMenuState> {
     anchorEl: null,
   };
 
-  constructor(props){
-    super(props);
-  }
-
-  handleClick = event => {
+  handleClick = (event: SyntheticEvent<HTMLButtonElement>) => {
     this.setState({ anchorEl: event.currentTarget });
   };
 

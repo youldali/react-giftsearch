@@ -1,4 +1,5 @@
 //@flow
+import type { Node } from 'react';
 
 import React from 'react';
 import Button from '@material-ui/core/Button';
@@ -14,7 +15,7 @@ type MenuButton = {
     classes: Object,
     onClick: Function,
     text: string,
-    icon: React.Node,
+    icon: Node,
 };
 
 const menuButton = (props: MenuButton) => {
