@@ -15,9 +15,9 @@ class FilterMenu extends React.Component<Object, FilterMenuState> {
     };
   
     toggleDrawer = (open: boolean) => () => {
-      this.setState({
-        isDrawerOpen: open,
-      });
+        this.setState({
+            isDrawerOpen: open,
+        });
     };
   
     render() {

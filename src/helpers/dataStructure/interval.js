@@ -7,9 +7,6 @@ const createInterval = (begin: number, end: number): Interval => {
     return Object.freeze({
         '0': intervalBegin, 
         '1': intervalEnd,
-        toString(){
-            return `[${begin},${end}]`;
-        }
     }
 )};
 

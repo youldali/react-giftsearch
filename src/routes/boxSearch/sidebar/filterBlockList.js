@@ -84,7 +84,7 @@ const _FilterBlockList = (props: FilterBlockListProps) => {
         filterBlocksComponents.push(
             <FilterBlock
                 key={filterGroup}
-                FilterBlockConfig={filterBlockConfigByBlockName.get(filterGroup)} 
+                filterBlockConfig={filterBlockConfigByBlockName.get(filterGroup)} 
                 filterStructureList={filterStructureList}
             />
         );

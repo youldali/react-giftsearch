@@ -1,26 +1,41 @@
 //@flow
+import type { Dispatch, State } from 'modules/actions/types';
 
 import React from 'react';
+import { connect } from 'react-redux';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Sort from '@material-ui/icons/Sort';
 import MenuButton from './menuButton';
+import { selectors } from 'modules/boxSearch/index';
+import { setOrderBy } from 'modules/actions/boxSearch';
 
 type OrderByMenuState = {
     anchorEl: ?HTMLElement,
 };
-class OrderByMenu extends React.Component<Object, OrderByMenuState> {
+
+type OrderByMenuProps = {
+    orderByState: string,
+    setOrderByState: Function,
+};
+
+class OrderByMenu extends React.PureComponent<OrderByMenuProps, OrderByMenuState> {
   state = {
     anchorEl: null,
   };
 
   handleClick = (event: SyntheticEvent<HTMLButtonElement>) => {
     this.setState({ anchorEl: event.currentTarget });
-  };
+  }
 
   handleClose = () => {
     this.setState({ anchorEl: null });
-  };
+  }
+
+  handleMenuItemClick(event, orderBy){
+      this.props.setOrderByState(orderBy);
+      this.handleClose();
+  }
 
   render() {
     const { anchorEl } = this.state;
@@ -38,12 +53,38 @@ class OrderByMenu extends React.Component<Object, OrderByMenuState> {
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleClose}>Prix ASC</MenuItem>
-          <MenuItem onClick={this.handleClose}>Prix DESC</MenuItem>
+            <MenuItem 
+                onClick={event => this.handleMenuItemClick(event, 'price')}
+                selected={this.props.orderByState === 'price'}
+            >
+                Prix ASC
+            </MenuItem>
+            <MenuItem 
+                onClick={event => this.handleMenuItemClick(event, '-price')}
+                selected={this.props.orderByState === '-price'}
+            >
+                Prix DESC
+            </MenuItem>
         </Menu>
       </React.Fragment>
     );
   }
 }
 
-export default OrderByMenu;
+
+//Store connection
+const mapStateToProps = (state: State): Object => {
+  const orderByState = selectors.orderBySelectors.getOrderBy(state);
+	return {
+		orderByState,
+	}
+}
+
+const mapDispatchToProps = (dispatch: Dispatch): Object => (
+    {
+		setOrderByState: (orderBy: string) => dispatch(setOrderBy(orderBy)),
+	}
+)
+
+export default
+connect(mapStateToProps, mapDispatchToProps)(OrderByMenu);
