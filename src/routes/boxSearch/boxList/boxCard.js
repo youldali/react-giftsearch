@@ -8,13 +8,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardHeader from '@material-ui/core/CardHeader';
-import Typography from '@material-ui/core/Typography';
 import ImageWithPlaceholder from '../../common/ImageWithPlaceholder';
 import CardIcon, {IconRating} from './CardIcon';
-import Divider from '@material-ui/core/Divider';
-
 
 const cardMediaImageStyles = {
 	root:{
@@ -98,7 +93,7 @@ type BoxCardType = {
 	minPersons: number,
 	maxPersons: number,
 	price: string,
-	rating: string,
+	rating: number,
 	showRating: boolean,
 	numberOfReviews: number,  
 	webExclusive: boolean,
@@ -116,7 +111,7 @@ const _BoxCard = (props: BoxCardType) => {
 		<div className={props.classes.cardContentWrapper}>
 			<CardContent classes={{root: props.classes.cardContent}}>
 				<h3 className={props.classes.cardTitle}>{props.name}</h3>
-				<div className={props.classes.cardRating}><IconRating rating={props.rating} className={props.classes.cardRatingIcon} /></div>
+				<div className={props.classes.cardRating}><IconRating rating={props.rating} className={props.classes.cardRatingIcon} numberOfReviews={100} /></div>
 				<div>{props.subtitle}</div>
 			</CardContent>
 

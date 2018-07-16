@@ -10,18 +10,25 @@ const styles = {
   },
 };
 
-const menuButton = (props) => {
+type MenuButton = {
+    classes: Object,
+    onClick: Function,
+    text: string,
+    icon: React.Node,
+};
+
+const menuButton = (props: MenuButton) => {
 	return(
-		<Button
-      aria-haspopup="true"
-      onClick={props.onClick}
-      variant="raised" 
-      color="secondary"
-      fullWidth={true}
-      className={props.classes.button}
-    >
-      {props.icon}
-      {props.text}
+	<Button
+        aria-haspopup="true"
+        onClick={props.onClick}
+        variant="raised" 
+        color="secondary"
+        fullWidth={true}
+        className={props.classes.button}
+        >
+        {props.icon}
+        {props.text}
     </Button>
   );
 }

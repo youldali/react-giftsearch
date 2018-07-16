@@ -112,7 +112,7 @@ type Box = {
 	partner_name: string,
 	price: string,
 	ranking: number,
-	rating: string,
+	rating: number,
 	short_description: string,
 	sku: string,
 	store_id: string,

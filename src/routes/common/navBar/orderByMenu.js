@@ -6,7 +6,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Sort from '@material-ui/icons/Sort';
 import MenuButton from './menuButton';
 
-class OrderByMenu extends React.Component {
+type OrderByMenuState = {
+    anchorEl: ?HTMLElement,
+};
+class OrderByMenu extends React.Component<Object, OrderByMenuState> {
   state = {
     anchorEl: null,
   };

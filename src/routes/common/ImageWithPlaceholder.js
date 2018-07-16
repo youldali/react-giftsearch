@@ -1,4 +1,5 @@
 //@flow
+
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -18,8 +19,16 @@ const styles = {
 	},
 };
 
+
+type ImageWithPlaceholderProps = {
+	classes: Object,
+	maxWidth: string,
+	ratio: string,
+	source: string,
+	title: string,
+}
 export
-const ImageWithPlaceholder = (props) => {
+const ImageWithPlaceholder = (props: ImageWithPlaceholderProps) => {
     console.log(props);
 	return(
 	<div 

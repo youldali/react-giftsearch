@@ -56,6 +56,7 @@ const _getPrimaryKeyListMatchingRange = (db: IDBDatabase, storeName: string, ind
         request: IDBRequest = index.getAllKeys(keyRange);
 
     return new Promise((resolve, reject) => {
+        //$FlowFixMe
         request.onsuccess = () => resolve(keyRange.lower === keyRange.upper ? request.result : request.result.sort( (a, b) => a - b));
         request.onerror = () => reject('error fetching data: ' + request.error.message);
     });

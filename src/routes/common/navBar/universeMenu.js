@@ -9,7 +9,11 @@ import MenuButton from './menuButton';
 
 //{location}: {location: RouterLocation}
 
-class UniverseMenu extends React.Component {
+type UniverseMenuState = {
+  anchorEl: ?HTMLElement,
+};
+
+class UniverseMenu extends React.Component<Object, UniverseMenuState> {
   state = {
     anchorEl: null,
   };
