@@ -1,5 +1,5 @@
  // @flow
-import type { Action, BoxCollection, BoxCollectionRequestData, Dispatch, DisplayType, FiltersApplied, FiltersStatisticsByFilter, ThunkAction, WorkerResponseDataForBoxCollectionRequest} from './types';
+import type { Action, BoxCollection, BoxCollectionRequestData, BoxesStatistics, Dispatch, DisplayType, FiltersApplied, WorkerResponseDataForBoxCollectionRequest} from './types';
  
 import fetchBoxListService from '../boxSearch/services/fetchBoxListService';
 import { handleErrorThunkAction } from 'helpers/promise/utils';
@@ -113,10 +113,10 @@ const appendBoxList = (boxList: BoxCollection): Action => (
 
 
 export
-const setFiltersStatistics = (filtersStatisticsByFilter: FiltersStatisticsByFilter): Action => (
+const setBoxesStatistics = (boxesStatistics: BoxesStatistics): Action => (
 	{
-		type: "BOX_LIST_SEARCH/SET_FILTERS_STATISTICS",
-		filtersStatisticsByFilter
+		type: "BOX_LIST_SEARCH/SET_BOXES_STATISTICS",
+		boxesStatistics
 	}	
 );
 
@@ -155,8 +155,8 @@ const _onWebWorkerResponse = (dispatch: Dispatch, requestData: BoxCollectionRequ
 	switch (responseData.type){
 		case 'BOX_LIST':
 			return requestData.page === 1 ? dispatch(setBoxList(responseData.boxList)) : dispatch(appendBoxList(responseData.boxList));
-		case 'FILTERS_STATISTICS':
-			return dispatch(setFiltersStatistics(responseData.filtersStatisticsByFilter));
+		case 'BOXES_STATISTICS':
+			return dispatch(setBoxesStatistics(responseData.boxesStatistics));
 	}
 }
 const onWebWorkerResponse = curry(_onWebWorkerResponse)

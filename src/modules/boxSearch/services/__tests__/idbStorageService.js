@@ -1,4 +1,4 @@
-import { getAllBoxesId, getAllBoxesIdOrderByField, getBoxesList, getItemIdListMatchingSingleFilter, getOperandList, iterateOverBoxes } from '../idbStorageService';
+import { getAllBoxesId, getAllBoxesIdOrderByField, getBoxesList, getItemIdListMatchingSingleFilter, getNumberOfBoxes, getOperandList, iterateOverBoxes } from '../idbStorageService';
 import * as fetchBoxListService from '../fetchBoxListService';
 import createFilterStructure from '../../domainModel/filterStructure'
 import createInterval from 'helpers/dataStructure/interval';
@@ -71,6 +71,19 @@ describe('getBoxesList', () => {
             expected = [boxes.box2, boxes.box3, boxes.box5];
 
         expect(items).resolves.toEqual(expected);
+    });
+});
+
+
+describe('getNumberOfBoxes', () => {
+	test('it gives number of boxes stores', () => {
+        const universe = 'sejour';
+
+        const 
+            numberOfBoxes = getNumberOfBoxes(universe),
+            expected = boxCollection.length;
+
+        expect(numberOfBoxes).resolves.toEqual(expected);
     });
 });
 

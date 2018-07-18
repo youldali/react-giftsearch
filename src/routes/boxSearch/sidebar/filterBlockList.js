@@ -1,9 +1,9 @@
 //@flow
-
 import type { FilterStructureByFilterGroup, FilterBlockConfigByFilterGroup } from 'modules/boxSearch/types';
-import type { RouterMatch } from 'modules/actions/types';
+import type { RouterMatch, State } from 'modules/actions/types';
 
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -11,6 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import { config, helpers } from 'modules/boxSearch';
 import { withRouter } from 'react-router'
 import FilterBlock from './filterBlock';
+import { selectors } from 'modules/boxSearch/index';
+import { compose } from 'ramda';
+
 
 const {filterBlockConfig, filterConfig} = config;
 
@@ -23,9 +26,8 @@ type FilterBlockListContainerState = {
     filterBlockConfigByBlockName: ProxyObject<FilterBlockConfigByFilterGroup>
 }
 
-class FilterBlockListContainer extends PureComponent<FilterBlockListContainerProps, FilterBlockListContainerState>{
+class FilterBlockListContainer extends PureComponent<FilterBlockListContainerProps, FilterBlockListContainerState> {
     constructor(props){
-        console.log(props);
         super(props);
         const universe = props.match.params.universe;
 
@@ -59,8 +61,8 @@ class FilterBlockListContainer extends PureComponent<FilterBlockListContainerPro
             />
         );
     }
-  }
-
+}
+export default withRouter(FilterBlockListContainer);
 
 
 const styles = {
@@ -71,9 +73,11 @@ const styles = {
 };
 
 type FilterBlockListProps = {
+    classes: Object,
     filterStructureByFilterGroup: FilterStructureByFilterGroup,
     filterBlockConfigByBlockName: ProxyObject<FilterBlockConfigByFilterGroup>,
-    classes: Object,
+    numberOfMatchingBoxes: number,
+    totalNumberOfBoxes: number,
 };
 
 const _FilterBlockList = (props: FilterBlockListProps) => {
@@ -92,11 +96,26 @@ const _FilterBlockList = (props: FilterBlockListProps) => {
 
     return (
         <FormControl component="fieldset" className={props.classes.filterList}>
-            <FormLabel component="legend"><Typography variant="title">Filtres</Typography></FormLabel>
+            <FormLabel component="legend">
+                {props.numberOfMatchingBoxes === props.totalNumberOfBoxes 
+                    ? <Typography variant="subheading">Filtres - {props.totalNumberOfBoxes} coffrets</Typography>
+                    : <Typography variant="subheading">Filtres - {props.numberOfMatchingBoxes} coffrets correspondant sur {props.totalNumberOfBoxes}</Typography>
+                }
+            </FormLabel>
             {filterBlocksComponents}
         </FormControl>
     );
 }
-const FilterBlockList = withStyles(styles)(_FilterBlockList);
 
-export default withRouter(FilterBlockListContainer);
+
+const mapStateToProps = (state: State): Object => {
+    const 
+        numberOfMatchingBoxes = selectors.boxesStatisticsSelectors.getNumberOfMatchingBoxes(state),
+        totalNumberOfBoxes = selectors.boxesStatisticsSelectors.getTotalNumberOfBoxes(state);
+
+	return {
+        numberOfMatchingBoxes,
+        totalNumberOfBoxes,
+    }
+}
+const FilterBlockList = compose(connect(mapStateToProps), withStyles(styles))(_FilterBlockList);

@@ -1,6 +1,6 @@
 import orderByReducer from '../orderBy.js';
 
-const initialState = '';
+const initialState = 'id';
 describe('initial state', () => {
 	test('it initializes state', () => {
 		const newState = orderByReducer(undefined, {});

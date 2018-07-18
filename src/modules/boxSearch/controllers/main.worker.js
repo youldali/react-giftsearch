@@ -8,6 +8,8 @@ import getBoxesIdMappedByFilterStatus from './filter';
 import getOrderedBoxIdList from './order';
 import getPaginatedBoxList from './pagination';
 import getFiltersStatistics, { getFiltersStatisticsSimplified } from './filterStatistic';
+import { getNumberOfBoxes } from '../services/idbStorageService';
+
 let lastRequestData = {};
 
 const perPage = 10;
@@ -30,9 +32,17 @@ self.onmessage = async (event) => {
 
     const 
         filtersStatisticsDetailedByFilter = await getFiltersStatistics(requestData, filterStructureMap, boxesIdMappedByFilteredStatus),
-        filtersStatisticsSimplifiedByFilter = getFiltersStatisticsSimplified(filtersStatisticsDetailedByFilter)
-    
-    self.postMessage({ type: 'FILTERS_STATISTICS', filtersStatisticsByFilter: filtersStatisticsSimplifiedByFilter });
+        filtersStatisticsSimplifiedByFilter = getFiltersStatisticsSimplified(filtersStatisticsDetailedByFilter);
+
+    const 
+        totalNumberOfBoxes = await getNumberOfBoxes(universe),
+        boxesStatistics = {
+            filtersStatisticsByFilter: filtersStatisticsSimplifiedByFilter,
+            numberOfMatchingBoxes: boxesIdMappedByFilteredStatus.get(true).length,
+            totalNumberOfBoxes,
+        };
+
+    self.postMessage({ type: 'BOXES_STATISTICS', boxesStatistics });
 };
 
 

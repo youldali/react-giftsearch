@@ -3,7 +3,7 @@
 import { combineReducers } from 'redux';
 import orderBy, { selectors as orderBySelectors } from './reducers/orderBy';
 import filtersApplied, { selectors as filtersAppliedSelectors } from './reducers/filtersApplied';
-import filtersStatistics, { selectors as filtersStatisticsSelectors } from './reducers/filtersStatistics';
+import boxesStatistics, { selectors as boxesStatisticsSelectors } from './reducers/boxesStatistics';
 import boxList, { selectors as boxListSelectors } from './reducers/boxList';
 import page, { selectors as pageSelectors } from './reducers/page';
 import displayBy, { selectors as displayBySelectors } from './reducers/displayBy';
@@ -15,17 +15,17 @@ import {getFilterStructureMap, getFilterStructureByFilterGroup} from './configHe
 
 export default
 combineReducers({
+	boxesStatistics,
 	boxList,
 	displayBy,
 	filtersApplied,
-	filtersStatistics,
 	orderBy,
 	page,
 	router
 });
 
 export 
-const selectors = { boxListSelectors, displayBySelectors, filtersAppliedSelectors, filtersStatisticsSelectors, orderBySelectors, pageSelectors, routerSelectors };
+const selectors = { boxesStatisticsSelectors, boxListSelectors, displayBySelectors, filtersAppliedSelectors, orderBySelectors, pageSelectors, routerSelectors };
 
 export 
 const config = {filterConfig, filterBlockConfig};

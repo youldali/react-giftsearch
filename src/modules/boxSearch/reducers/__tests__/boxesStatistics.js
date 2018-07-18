@@ -1,6 +1,11 @@
-import filterStatisticsReducer from '../filtersStatistics';
+import filterStatisticsReducer from '../boxesStatistics';
 
-const initialState = {};
+const initialState = {
+    filtersStatisticsByFilter: {},
+    numberOfMatchingBoxes: 0,
+    totalNumberOfBoxes: 0,
+ };
+
 describe('initial state', () => {
 
 	test('it initializes state', () => {
@@ -11,7 +16,7 @@ describe('initial state', () => {
 });
 
 
-describe('SET FILTER STATISTICS', () => {
+describe('SET BOXES STATISTICS', () => {
 	test('it changes the filters Statistics state', () => {
         const filtersStatisticsByFilter = {
             priceRange1: {
@@ -22,13 +27,16 @@ describe('SET FILTER STATISTICS', () => {
                 stat: 90,
                 type: 'absolute'
             }
-        };
+        },
+        numberOfMatchingBoxes = 50,
+        totalNumberOfBoxes = 125,
+        boxesStatistics = {filtersStatisticsByFilter, numberOfMatchingBoxes, totalNumberOfBoxes};
 
 		const action = {
-			type: "BOX_LIST_SEARCH/SET_FILTERS_STATISTICS",
-			filtersStatisticsByFilter
+			type: "BOX_LIST_SEARCH/SET_BOXES_STATISTICS",
+			boxesStatistics
 		};
 		const newState = filterStatisticsReducer({}, action);
-        expect(newState).toEqual(filtersStatisticsByFilter);
+        expect(newState).toEqual(boxesStatistics);
 	});
 });

@@ -8,6 +8,11 @@ export type DisplayType = 'list' | 'card';
 export type FilterStatistic = { type: 'absolute' | 'relative', stat: number };
 export type FiltersStatisticsByFilter = { +[FilterName]: FilterStatistic };
 export type FiltersApplied = { +[FilterName]: FilterOperand};
+export type BoxesStatistics = {|
+	filtersStatisticsByFilter: FiltersStatisticsByFilter,
+	totalNumberOfBoxes: number,
+	numberOfMatchingBoxes: number
+|};
 
 export type BoxCollectionRequestData = {|
 	universe: string,
@@ -18,8 +23,7 @@ export type BoxCollectionRequestData = {|
 
 export type WorkerResponseDataForBoxCollectionRequest = 
 	  { type: 'BOX_LIST', boxList: BoxCollection }
-	| { type: 'FILTERS_STATISTICS', filtersStatisticsByFilter: FiltersStatisticsByFilter };
-
+	| { type: 'BOXES_STATISTICS', boxesStatistics: BoxesStatistics };
 
 export type State = {|
 	boxSearch: BoxSearchModuleState
@@ -39,7 +43,7 @@ type Action =
 	| { type: 'BOX_LIST_SEARCH/SET_DISPLAY_BY', displayBy: DisplayType}
 	| { type: 'BOX_LIST_SEARCH/SET_PAGE', page: number}
 	| { type: 'BOX_LIST_SEARCH/INCREMENT_PAGE'}
-	| { type: 'BOX_LIST_SEARCH/SET_FILTERS_STATISTICS', filtersStatisticsByFilter: FiltersStatisticsByFilter }
+	| { type: 'BOX_LIST_SEARCH/SET_BOXES_STATISTICS', boxesStatistics: BoxesStatistics }
 	| { type: "@@router/LOCATION_CHANGE", payload: Object };
 
 export 

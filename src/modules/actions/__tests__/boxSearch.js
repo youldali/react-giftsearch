@@ -213,11 +213,10 @@ describe('setDisplayBy', () => {
 describe('isFetchingBoxList', () => {
 	test('it should return "BOX_LIST_SEARCH/FETCH_REQUESTED" action creator to true', () => {
 		const expectedAction = {
-			type: "BOX_LIST_SEARCH/FETCH_REQUESTED",
-			isFetching: true
+			type: "BOX_LIST_SEARCH/FETCH_REQUESTED"
 		};
 
-		expect(actions.isFetchingBoxList(true)).toEqual(expectedAction);
+		expect(actions.isFetchingBoxList()).toEqual(expectedAction);
 	});
 });
 
@@ -259,19 +258,23 @@ describe('appendBoxList', () => {
 });
 
 
-describe('setFiltersStatistics', () => {
-	test('it should return "BOX_LIST_SEARCH/SET_FILTERS_STATISTICS" action creator to true', () => {
+describe('setBoxesStatistics', () => {
+	test('it should return "BOX_LIST_SEARCH/SET_BOXES_STATISTICS" action creator to true', () => {
 		const filtersStatisticsByFilter = {
 			'price1': 100,
 			'price2': 32
-		};	
+		},
+		numberOfMatchingBoxes = 300,
+		totalNumberOfBoxes = 500;
+
+		const boxesStatistics = {filtersStatisticsByFilter, numberOfMatchingBoxes, totalNumberOfBoxes}
 
 		const expectedAction = {
-			type: "BOX_LIST_SEARCH/SET_FILTERS_STATISTICS",
-			filtersStatisticsByFilter: filtersStatisticsByFilter
+			type: "BOX_LIST_SEARCH/SET_BOXES_STATISTICS",
+			boxesStatistics
 		};
 
-		expect(actions.setFiltersStatistics(filtersStatisticsByFilter)).toEqual(expectedAction);
+		expect(actions.setBoxesStatistics(boxesStatistics)).toEqual(expectedAction);
 	});
 });
 

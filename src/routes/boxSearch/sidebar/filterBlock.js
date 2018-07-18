@@ -48,7 +48,11 @@ const FilterBlock = (props: FilterBlockProps) => {
         <FormGroup classes={{root: classes.filterGroup}}>
             <Typography variant="subheading" gutterBottom>{filterBlockConfig['label']}</Typography>
             {filterStructureList.map(filterStructure => {
-                const isFilterChecked = props.filtersAppliedState[filterStructure.filterName] !== undefined;
+                const 
+                    isFilterChecked = props.filtersAppliedState[filterStructure.filterName] !== undefined,
+                    filterStatistic = props.filtersStatisticsState[filterStructure.filterName],
+                    filterNumber = !filterStatistic ? '0'
+                                    : filterStatistic.type === 'absolute' ? filterStatistic.number : `+ ${filterStatistic.number}`;
                 return (
                     <FormControlLabel
                         key={filterStructure.filterName}
@@ -59,7 +63,7 @@ const FilterBlock = (props: FilterBlockProps) => {
                             value=""
                             />
                         }
-                        label={<FilterLabel text={filterStructure.label} number={props.filtersStatisticsState[filterStructure.filterName]['number']} />}
+                        label={<FilterLabel text={filterStructure.label} filterNumber={filterNumber} />}
                         classes={{label: classes.filterLabel}}
                     />
                 )}
@@ -74,7 +78,7 @@ const FilterBlock = (props: FilterBlockProps) => {
 const mapStateToProps = (state: State): Object => {
     const 
         filtersAppliedState = selectors.filtersAppliedSelectors.getAllAppliedFilters(state),
-        filtersStatisticsState = selectors.filtersStatisticsSelectors.getFiltersStatistics(state);
+        filtersStatisticsState = selectors.boxesStatisticsSelectors.getFiltersStatistics(state);
 
 	return {
         filtersAppliedState,

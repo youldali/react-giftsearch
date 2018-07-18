@@ -3,7 +3,7 @@
 import type { BoxListState } from './reducers/boxList';
 import type { DisplayByState } from './reducers/displayBy';
 import type { FilterAppliedState } from './reducers/filtersApplied';
-import type { FiltersStatisticsState } from './reducers/filtersStatistics';
+import type { BoxesStatisticsState } from './reducers/boxesStatistics';
 import type { OrderByState } from './reducers/orderBy';
 import type { PageState } from './reducers/page';
 import type { RouterState } from './reducers/router';
@@ -12,10 +12,10 @@ import type { RouterState } from './reducers/router';
 //STATE
 export type FiltersApplied = { +[FilterName]: FilterOperand};
 export type BoxSearchModuleState = {|
+	boxesStatistics: BoxesStatisticsState,
 	boxList: BoxListState,
 	displayBy: DisplayByState,
 	filtersApplied: FilterAppliedState,
-	filtersStatistics: FiltersStatisticsState,
 	orderBy: OrderByState,
 	page: PageState,
 	router: RouterState

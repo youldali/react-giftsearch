@@ -16,16 +16,16 @@ const styles = {
 };
 
 type FilterLabelProps = {
-    text: string,
-    number: number,
     classes: Object,
+    filterNumber: string,
+    text: string,
 };
 
 const FilterLabel = (props: FilterLabelProps) => {
     return (
         <div className={props.classes.labelContainer}>
             <div className={props.classes.text}>{props.text}</div>
-            <div className={props.classes.number}>{props.number}</div>
+            <div className={props.classes.number}>{props.filterNumber}</div>
         </div>
     );
 }

@@ -47,6 +47,12 @@ const openGiftSearchDatabase = async (universe: string) => {
     return db;
 }
 
+export
+const getNumberOfBoxes = async (universe: string) => {
+    const db = await createOrOpenDatabase(dbName, dbVersion, createUniversesStores(fieldsToIndexByUniverse));
+    return getNumberOfItemsInStore(db, universe);
+}
+
 
 const _getItemIdListMatchingSingleFilter = async (universe: string, filterStructure: FilterStructure): Promise<BoxId[]> => {
     const 
