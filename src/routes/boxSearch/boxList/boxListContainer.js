@@ -50,7 +50,7 @@ class BoxListContainer extends PureComponent<BoxListContainerProps>{
 
     //Component to render
     let component = null;
-    if(this.props.isFetching)
+    if(this.props.isFetching && this.props.currentPage === 1)
       component = <Loader /> ;
 
     else if(!this.props.hasFetchSucceeded)
@@ -67,6 +67,7 @@ class BoxListContainer extends PureComponent<BoxListContainerProps>{
           numberOfItems={1000}
           currentPage={this.props.currentPage}
           offsetBottomDetection={offsetBottomDetection}
+          isFetching={this.props.isFetching}
         >
           {boxList}
         </ListLazyload> ;

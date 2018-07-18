@@ -81,10 +81,9 @@ const setDisplayBy = (displayBy: DisplayType): Action => (
 
 
 export
-const isFetchingBoxList = (isFetching: boolean): Action => (
+const isFetchingBoxList = (): Action => (
 	{
 		type: "BOX_LIST_SEARCH/FETCH_REQUESTED",
-		isFetching
 	}
 );
 

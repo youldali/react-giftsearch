@@ -34,9 +34,16 @@ function giftListReducer (state: BoxListState = initialState, action: Action): B
 			};
 
 		case "BOX_LIST_SEARCH/FETCH_REQUESTED":
+		case "BOX_LIST_SEARCH/SET_APPLIED_FILTERS":
+		case "BOX_LIST_SEARCH/RESET_APPLIED_FILTERS":
+		case "BOX_LIST_SEARCH/RESET_ALL_APPLIED_FILTERS":
+		case "BOX_LIST_SEARCH/SET_ORDER_BY":
+		case "BOX_LIST_SEARCH/SET_UNIVERSE":
+		case "BOX_LIST_SEARCH/SET_PAGE":
+		case "BOX_LIST_SEARCH/INCREMENT_PAGE":
 			return {
 				...state, 
-				isFetching: action.isFetching
+				isFetching: true,
 			};
 
 		case "BOX_LIST_SEARCH/HAS_FETCH_SUCCEEDED":
