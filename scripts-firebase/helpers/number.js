@@ -33,6 +33,15 @@ const generateNumbers = (upperBound, nbToGenerate) => {
     return upperBound <= nbToGenerate ? withUpperBoundInferior() : withUpperBoundSuperior();
 };
 
+
+const getRandomValueInArray = array => {
+    const 
+        numberOfElements = array.length,
+        index = generateNumber(numberOfElements);
+
+    return array[index];
+}
+
 const getRandomValuesInArray = array => {
     const 
         numberOfElements = array.length,
@@ -47,5 +56,6 @@ module.exports = {
     generateFloatInRange,
     generateNumber,
     generateNumbers,
-    getRandomValuesInArray
+    getRandomValueInArray,
+    getRandomValuesInArray,
 };

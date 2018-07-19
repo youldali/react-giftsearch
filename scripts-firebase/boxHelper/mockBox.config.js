@@ -10,7 +10,7 @@ const regions = [
     'Corse',
     'Franche-Comté',
     'Haute-Normandie',
-    'Île-de-France',
+    'Ile-de-France',
     'Languedoc-Roussillon',
     'Limousin',
     'Lorraine',
@@ -23,11 +23,13 @@ const regions = [
     'Rhône-Alpes'
 ];
 
-const experienceTypes = ['swimming', 'cycling', 'paragliding', 'golfing', 'ball play', 'driving', 'flying'];
-const boxTypes = ['Coffrets Cadeau', 'e-Coffret', 'Experience unique', 'Excluweb'];
+const experienceTypes = ['cycling', 'driving', 'flying', 'golfing', 'paragliding', 'swimming'];
+const boxTypes = ['coffret cadeau', 'e-coffret', 'experience unique', 'excluweb'];
+const forPeople = ["couple", "group", "solo"];
 
 module.exports = {
     regions,
     experienceTypes,
-    boxTypes
+    boxTypes,
+    forPeople
 };

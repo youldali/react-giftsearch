@@ -29,7 +29,7 @@
     "eslint-plugin-react": "7.4.0",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.5",
-    "firebase-admin": "^5.12.1",
+    "firebase-admin": "^5.13.0",
     "firebase-functions": "^1.1.0",
     "fs-extra": "3.0.1",
     "history": "^4.7.2",
@@ -81,7 +81,7 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "flow": "flow",
-    "generate-mock-category": "node scripts/uploadFakeCategory"
+    "generate-mock-category": "node scripts-firebase/uploadFakeCategory"
   },
   "bugs": {
     "url": "https://github.com/youldali/react-giftsearch/issues"

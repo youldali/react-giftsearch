@@ -9,8 +9,7 @@ const generateBox = id => {
         experienceTypes = numberHelper.getRandomValuesInArray(config.experienceTypes),
         regions = numberHelper.getRandomValuesInArray(config.regions),
         numberOfNights = numberHelper.generateNumber(3),
-        numberOfPeopleMin = numberHelper.generateNumberInRange(1,3),
-        numberOfPeopleMax = numberHelper.generateNumberInRange(numberOfPeopleMin, 5),
+        forPeople = numberHelper.getRandomValuesInArray(config.forPeople),
         price = numberHelper.generateNumber(1000),
         boxType = numberHelper.getRandomValuesInArray(config.boxTypes),
         rating = numberHelper.generateFloatInRange(0, 10, 1);
@@ -22,10 +21,9 @@ const generateBox = id => {
         experienceTypes,
         regions,
         numberOfNights,
-        numberOfPeopleMin,
-        numberOfPeopleMax,
+        forPeople,
         boxType,
-        rating
+        rating,
     }
 
     mockBox.description = JSON.stringify(mockBox);

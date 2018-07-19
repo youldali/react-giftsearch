@@ -8,6 +8,7 @@ const
 		price: {label: 'Par prix'},
 		experienceType: {label: "Par type d' expérience"},
 		boxType: {label: 'Par type de coffret'},
+		forPeople: {label: 'Par nombre de personnes'},
 	},
 	defaultBlock = {label: 'Autres critères'};
 

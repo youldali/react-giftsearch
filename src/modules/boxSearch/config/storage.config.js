@@ -7,7 +7,12 @@ export const dbVersion = 1;
 
 const fieldsToIndexBase = {
     id: null,
-    price: null
+    price: null,
+    rating: null,
+    experienceTypes: {multiEntry: true},
+    regions: {multiEntry: true},
+    boxType: {multiEntry: true},
+    forPeople: {multiEntry: true}
 };
 
 export
@@ -19,8 +24,6 @@ const fieldsToIndexByUniverse: FieldsToIndexByUniverse = {
     sejour: { 
         ...fieldsToIndexBase, 
         numberOfNights: null,
-        numberOfPeopleMin: null,
-        numberOfPeopleMax: null,
         rating: null,
         experienceTypes: {multiEntry: true},
         regions: {multiEntry: true},
@@ -29,12 +32,6 @@ const fieldsToIndexByUniverse: FieldsToIndexByUniverse = {
     "mock-1000": { 
         ...fieldsToIndexBase, 
         numberOfNights: null,
-        numberOfPeopleMin: null,
-        numberOfPeopleMax: null,
-        rating: null,
-        experienceTypes: {multiEntry: true},
-        regions: {multiEntry: true},
-        boxType: {multiEntry: true},
     },
 };
 
