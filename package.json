@@ -81,7 +81,8 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "flow": "flow",
-    "generate-mock-category": "node scripts-firebase/uploadFakeCategory"
+    "generate-mock-category": "node scripts-firebase/uploadFakeCategory",
+    "generate-category": "node scripts-firebase/uploadCategory"
   },
   "bugs": {
     "url": "https://github.com/youldali/react-giftsearch/issues"
