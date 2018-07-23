@@ -7,7 +7,7 @@ import boxesStatistics, { selectors as boxesStatisticsSelectors } from './reduce
 import boxList, { selectors as boxListSelectors } from './reducers/boxList';
 import page, { selectors as pageSelectors } from './reducers/page';
 import displayBy, { selectors as displayBySelectors } from './reducers/displayBy';
-import router, { selectors as routerSelectors } from './reducers/router';
+import { selectors as routerSelectors } from './reducers/router';
 
 import filterConfig from './config/filter.config';
 import filterBlockConfig from './config/filterBlock.config';
@@ -21,7 +21,6 @@ combineReducers({
 	filtersApplied,
 	orderBy,
 	page,
-	router
 });
 
 export 

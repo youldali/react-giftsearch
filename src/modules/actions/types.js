@@ -25,8 +25,19 @@ export type WorkerResponseDataForBoxCollectionRequest =
 	  { type: 'BOX_LIST', boxList: BoxCollection }
 	| { type: 'BOXES_STATISTICS', boxesStatistics: BoxesStatistics };
 
+
+export type RouterState = {|
+	location: {|
+		pathname: string,
+		search: string,
+		hash: string,
+	|},
+	action: string
+|};
+
 export type State = {|
-	boxSearch: BoxSearchModuleState
+	boxSearch: BoxSearchModuleState,
+	router: RouterState
 |};
 	
 export 
