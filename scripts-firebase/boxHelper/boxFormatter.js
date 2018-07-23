@@ -28,6 +28,7 @@ const filterObjectProperties = rawBoxInfos => {
     	box[newPropertyName] = rawBoxInfos[propertyName];
 	}
 
+	box['sortValue'] = parseFloat(rawBoxInfos['search_fields']['buyer_smart_value']);
 	return box;
 };
 
@@ -38,6 +39,7 @@ const formatBoxInfos = rawBoxInfo => {
 	let box = filterObjectProperties(rawBoxInfo);
 
 	box.price = getRawPrice(box.price);
+	box.rating = parseFloat(box.rating);
 	box.id = parseInt(box.id, 10);
 
 	return box;

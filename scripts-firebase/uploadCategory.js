@@ -1,19 +1,12 @@
-const fetch = require('isomorphic-fetch');
-const formatBoxCollection = require('./boxHelper/boxFormatter');
+const 
+    fetch = require('isomorphic-fetch'),
+    formatBoxCollection = require('./boxHelper/boxFormatter'),
+    boxCollectionsConfig = require('./config/uploadBoxCollection.config'),
+    Ramda = require('ramda');
 
-'coffret cadeau', 'e-coffret', 'experience unique', 'excluweb'
-const experienceTypes = {
-    'physical':  'coffret cadeau',
-    'ebox':  'e-coffret',
-    'dev':  'experience unique',
-    'excluweb':  'coffret cadeau',
-}
-const categories = {
-    sejour: 'http://www.smartbox.com/fr/cloudsearch/search/thematic/?sortby=position&pagesize=1000&universe[]=29&for=buyer',
-}
 const categoryName = process.argv[2];
 
-if(!categories[categoryName]){
+if(!boxCollectionsConfig[categoryName]){
     console.log('Please enter a valid category name');
     return 1;
 }
@@ -29,11 +22,36 @@ admin.initializeApp({
 });
 
 const 
-    db = admin.firestore(),
-    collection = db.collection(categoryName);
+    db = admin.firestore();
 
-const getBoxes = async () => {
-    const response = await fetch(categories[categoryName]);
+const getBoxCollection = (collectionConfig) => {
+    Ramda.composeP(uploadCollection(categoryName), addSpecificPropertiesToCollection(collectionConfig.url, collectionConfig.values), formatBoxes, getBoxes)(collectionConfig.url)
+
+    return 1;
+}
+
+const _uploadCollection = (categoryName, items) => {
+    const 
+        firestoreCollection = db.collection(categoryName),
+        batch = db.batch();
+
+    for(let i = 0; i < items.length; i++){
+        const 
+            item = items[i],
+            ref = firestoreCollection.doc(item.id.toString());
+    
+        batch.set(ref, item);
+    }
+    
+    return batch.commit().then(function () {
+        console.log(`${items.length} boxes added for ${categoryName} `);
+    });
+}
+const uploadCollection = Ramda.curry(_uploadCollection)
+
+
+const getBoxes = async url => {
+    const response = await fetch(url);
 
     if(!response.ok) 
 		return Promise.reject(`Status: ${response.status} - ${response.statusText}`);
@@ -42,38 +60,52 @@ const getBoxes = async () => {
 	return jsonData.items;
 }
 
+const formatBoxes = items => {
+    const formattedCollection = formatBoxCollection(items);
 
-const getFormattedBoxes = async () => {
-    const boxes = await getBoxes();
-
-    const slice = boxes.slice(0, 5);
-
-    const formattedCollection = formatBoxCollection(slice);
-    console.log(formattedCollection);
+    return formattedCollection;
 }
 
-const getAllBoxIdMatchingParameter = async (parameter, parameterValue) => {
-    const url = `${categories[categoryName]}&${parameter}=${parameterValue}`;
-    const response = await fetch(categories[categoryName]);
+
+const _addSpecificPropertiesToCollection = (baseUrl, groupsPropertiesConfig, items) => {
+
+    const runThroughPropertyGroupConfig = async propertyGroupConfig => {
+        for(let [parameterValue, newJsonConfig] of Object.entries(propertyGroupConfig.values)){
+            const idList = await getAllBoxIdMatchingParameter(baseUrl, propertyGroupConfig.parameter, parameterValue);
+            addValueToItems(items, idList, newJsonConfig.propertyName, newJsonConfig.propertyValue, propertyGroupConfig.multi);
+        }
+
+        return items;
+    };
+
+    const allPromises = groupsPropertiesConfig.map(runThroughPropertyGroupConfig);
+
+
+    return Promise.all(allPromises).then( () => items);
+}
+const addSpecificPropertiesToCollection = Ramda.curry(_addSpecificPropertiesToCollection)
+
+
+const _getAllBoxIdMatchingParameter = async (baseUrl, parameter, parameterValue) => {
+    const url = `${baseUrl}&${parameter}=${parameterValue}`;
+    const response = await fetch(url);
     if(!response.ok) 
 		return Promise.reject(`Status: ${response.status} - ${response.statusText}`);
 	
 	const jsonData = await response.json();
-	return jsonData.items.map(item => item.id);
+	return jsonData.items.map(item => parseInt(item.id, 10));
+};
+const getAllBoxIdMatchingParameter = Ramda.curry(_getAllBoxIdMatchingParameter)
+
+
+const addValueToItems = async (items, itemsIdMatching, propertyName, propertyValue, isMulti) => {
+    const matchingItems = items.filter(item => itemsIdMatching.indexOf(item.id) >= 0);
+    matchingItems.forEach(item => {
+        !isMulti ? item[propertyName] = propertyValue
+        : Array.isArray(item[propertyName]) 
+        ? item[propertyName].push(propertyValue) 
+        : item[propertyName] = [propertyValue]
+    });
 };
 
-const addValueToItems = async (items, idList, propertyName, propertyValue) => {
-    const matchingItems = items.filter(item => idList.indexOf(item.id) >= 0);
-    matchingItems.forEach(item => item[propertyName] = propertyValue);
-};
-
-const addExperienceType = async items => {
-    for(let [parameterValue, jsonValue] of Object.entries(experienceTypes)){
-        const idList = await getAllBoxIdMatchingParameter('box_type[]', parameterValue);
-        addValueToItems(items, idList, 'experienceTypes', jsonValue);
-    }
-
-    return items;
-}
-
-return getFormattedBoxes();
+return getBoxCollection(boxCollectionsConfig[categoryName]);
