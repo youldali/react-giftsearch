@@ -23,9 +23,9 @@ const db = admin.firestore();
 
 
 
-const getAllBoxes = () => {
+const getAllBoxes = (universe) => {
     return (
-        db.collection('mock-1000').get()
+        db.collection(universe).get()
         .then(snapshot => {
             const boxes = [];
             snapshot.forEach(doc => {
@@ -42,11 +42,11 @@ const getAllBoxes = () => {
 
 exports.listBoxes = functions.https.onRequest( (req, res) => {
     // Grab the text parameter.
-    const original = req.query.text;
+    const universe = req.query.universe;
     
     res.append('Access-Control-Allow-Origin', '*');
     return (
-        getAllBoxes()
+        getAllBoxes(universe)
         .then(data => res.json({data}))
         .catch(err => {
             console.log('Error getting documents', err);

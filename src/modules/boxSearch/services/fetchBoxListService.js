@@ -13,7 +13,7 @@ async (universe: string): Promise<APIResponse> => {
 		fetchConfig = {
 			method: 'GET',
 		},
-		url = boxesEndpointURL + '?' + universe;
+		url = boxesEndpointURL + '?universe=' + universe;
 
 	const response: Response = await fetch(url, fetchConfig);
 	if(!response.ok) 
