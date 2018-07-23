@@ -25,11 +25,11 @@ const regions = [
 
 const experienceTypes = ['cycling', 'driving', 'flying', 'golfing', 'paragliding', 'swimming'];
 const boxTypes = ['coffret cadeau', 'e-coffret', 'experience unique', 'excluweb'];
-const forPeople = ["couple", "group", "solo"];
+const numberOfPeople = ["couple", "group", "solo"];
 
 module.exports = {
     regions,
     experienceTypes,
     boxTypes,
-    forPeople
+    numberOfPeople
 };

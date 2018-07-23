@@ -12,11 +12,21 @@ const boxTypes = {
 const numberOfNights = {
     parameter: 'category[]',
     values: {
-        '847':  {propertyName: '1Night', propertyValue: 1},
-        '862':  {propertyName: '2Nights', propertyValue: 1},
-        '868':  {propertyName: '3Nights', propertyValue: 1},
+        '847':  {propertyName: 'numberOfNights', propertyValue: 1},
+        '862':  {propertyName: 'numberOfNights', propertyValue: 2},
+        '868':  {propertyName: 'numberOfNights', propertyValue: 3},
     },
-    multi: false,
+    multi: true,
+};
+
+const numberOfPeople = {
+    parameter: 'number_people[]',
+    values: {
+        '1':  {propertyName: 'numberOfPeople', propertyValue: 'couple'},
+        '3&number_people[]=4&number_people[]=5':  {propertyName: 'numberOfPeople', propertyValue: 'group'},
+        '2':  {propertyName: 'numberOfPeople', propertyValue: 'solo'},
+    },
+    multi: true,
 };
 
 const experienceTypes = {
@@ -34,7 +44,7 @@ const experienceTypes = {
 const boxCollectionsConfig = {
     sejour: {
         url: 'http://www.smartbox.com/fr/cloudsearch/search/thematic/?sortby=position&pagesize=1000&universe[]=29&for=buyer',
-        values: [boxTypes, numberOfNights, experienceTypes],
+        values: [boxTypes, numberOfNights, experienceTypes, numberOfPeople],
     }
 };
 

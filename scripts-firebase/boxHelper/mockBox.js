@@ -8,11 +8,13 @@ const generateBox = id => {
         name = 'box - ' + id,
         experienceTypes = numberHelper.getRandomValuesInArray(config.experienceTypes),
         regions = numberHelper.getRandomValuesInArray(config.regions),
-        numberOfNights = numberHelper.generateNumber(3),
-        forPeople = numberHelper.getRandomValuesInArray(config.forPeople),
+        numberOfNights = numberHelper.generateNumbers(4, 1),
+        numberOfPeople = numberHelper.getRandomValuesInArray(config.numberOfPeople),
         price = numberHelper.generateNumber(1000),
-        boxType = numberHelper.getRandomValuesInArray(config.boxTypes),
-        rating = numberHelper.generateFloatInRange(0, 10, 1);
+        boxTypes = numberHelper.getRandomValuesInArray(config.boxTypes),
+        rating = numberHelper.generateFloatInRange(0, 10, 1),
+        img = 'http://media.smartbox.com/pim/10000003771481081850179.jpg?thumbor=280x0/filters:quality(90)',
+        sortValue = numberHelper.generateFloatInRange(0, 10, 1);
 
     const mockBox = {
         id,
@@ -21,9 +23,11 @@ const generateBox = id => {
         experienceTypes,
         regions,
         numberOfNights,
-        forPeople,
-        boxType,
+        numberOfPeople,
+        boxTypes,
         rating,
+        img,
+        sortValue,
     }
 
     mockBox.description = JSON.stringify(mockBox);

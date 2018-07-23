@@ -9,13 +9,13 @@ const filterConfigBase: FilterConfigList = [
 	{ filterName:'priceRange3', filterGroup: 'price', field: 'price', operator: 'inRangeOpenClosed', operand: createInterval(100, 200), label: 'De 100€ à 200€' },
 	{ filterName:'priceRange4', filterGroup: 'price', field: 'price', operator: '>', operand: 200, label: 'Plus de 200€' } ,
 
-	{ filterName:'solo', filterGroup: 'forPeople', field: 'forPeople', operator: 'contains', operand: 'solo', label: 'Experience solitaire' } ,
-	{ filterName:'couple', filterGroup: 'forPeople', field: 'forPeople', operator: 'contains', operand: 'couple', label: 'Experience á 2' } ,
-	{ filterName:'group', filterGroup: 'forPeople', field: 'forPeople', operator: 'contains', operand: 'group', label: 'Experience en groupe' } ,
+	{ filterName:'solo', filterGroup: 'numberOfPeople', field: 'numberOfPeople', operator: 'contains', operand: 'solo', label: 'Experience solitaire' } ,
+	{ filterName:'couple', filterGroup: 'numberOfPeople', field: 'numberOfPeople', operator: 'contains', operand: 'couple', label: 'Experience á 2' } ,
+	{ filterName:'group', filterGroup: 'numberOfPeople', field: 'numberOfPeople', operator: 'contains', operand: 'group', label: 'Experience en groupe' } ,
 	
-	generateFilterConfigForEachOperand({ filterBaseName: 'experienceType', field: 'experienceTypes', operator: 'contains', filterGroup: 'experienceType'}),
+	generateFilterConfigForEachOperand({ filterBaseName: 'experienceTypes', field: 'experienceTypes', operator: 'contains', filterGroup: 'experienceTypes'}),
 
-	generateFilterConfigForEachOperand({ filterBaseName: 'boxType', field: 'boxType', operator: 'contains', filterGroup: 'boxType'}),
+	generateFilterConfigForEachOperand({ filterBaseName: 'boxTypes', field: 'boxTypes', operator: 'contains', filterGroup: 'boxTypes'}),
 ];
 
 export
@@ -27,8 +27,9 @@ const adventure: FilterConfigList = [
 export
 const sejour: FilterConfigList = [
 	...filterConfigBase,
-	{ filterName:'oneNight', filterGroup: 'night', field: 'numberOfNights', operator: '===', operand: 1, label: 'Une nuit' },
-	{ filterName:'twoNight', filterGroup: 'night', field: 'numberOfNights', operator: '===', operand: 2 , label: 'Deux nuit' },
+	{ filterName:'1Night', filterGroup: 'numberOfNights', field: 'numberOfNights', operator: 'contains', operand: 1, label: 'Une nuit' },
+	{ filterName:'2Nights', filterGroup: 'numberOfNights', field: 'numberOfNights', operator: 'contains', operand: 2, label: 'Deux nuit' },
+	{ filterName:'3Nights', filterGroup: 'numberOfNights', field: 'numberOfNights', operator: 'contains', operand: 3, label: 'Trois nuit' },
 ];
 
 export
@@ -40,7 +41,6 @@ const mock1000: FilterConfigList = [
 
 export default
 {
-	adventure,
 	sejour,
 	"mock-1000": mock1000,
 };
