@@ -4,6 +4,7 @@ import type { Action, BoxCollection, BoxCollectionRequestData, BoxesStatistics, 
 import fetchBoxListService from '../boxSearch/services/fetchBoxListService';
 import { handleErrorThunkAction } from 'helpers/promise/utils';
 import { selectors } from '../boxSearch/index';
+import { selectors as routerSelectors } from '../router/index';
 import { hasIndexedDB, hasWebWorker } from 'helpers/misc/featureDetection';
 import { getFetchBoxListWebWorker } from '../boxSearch/services/webWorkers';
 import { curry } from 'ramda';
@@ -144,7 +145,7 @@ export const tryFetchBoxListRemotely = handleErrorThunkAction(handleErrorFetchBo
 
 const getRequestData = (state: Object): BoxCollectionRequestData => (
 	{
-		universe: selectors.routerSelectors.getUniverse(state),
+		universe: routerSelectors.routerSelectors.getUniverse(state),
 		filtersApplied: selectors.filtersAppliedSelectors.getAllAppliedFilters(state),
 		orderBy: selectors.orderBySelectors.getOrderBy(state),
 		page: selectors.pageSelectors.getPage(state)

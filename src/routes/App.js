@@ -5,6 +5,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import BoxSearchLayout from './boxSearch/boxSearchLayout';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import type { RouterMatch } from 'modules/actions/types';
+import universeConfig from "modules/boxSearch/config/filter.config";
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -12,31 +13,21 @@ injectTapEventPlugin();
 
 const App = () => {
 
-	const isGiftSearchUniverseValid = (universe) => {
-		return true;
-		/*
-		if(universeToUrlMap[universe] !== undefined)
-			return true;
-
-		return false;
-		*/
-	};
+	const isBoxSearchUniverseValid = (universe) => universeConfig[universe] !== undefined
 
   return (
     <div className="App">
     	<Switch>
     		<Route 
-    			path="/gift-search/:universe" 
+    			path="/box-search/:universe" 
     			render={( {match}: {match: RouterMatch} ) => {
-    				const component = isGiftSearchUniverseValid(match.params.universe) 
+    				const component = isBoxSearchUniverseValid(match.params.universe) 
     					? <BoxSearchLayout /> 
-    					: <Redirect to="/gift-search/mock-1000"/>;
+    					: <Redirect to="/box-search/sejour"/>;
 
     				return component;
     			}} 
-
     		/>
-    		<Redirect to="/gift-search/gastronomy"/>
     	</Switch>
     </div>
   );

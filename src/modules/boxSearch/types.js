@@ -6,8 +6,12 @@ import type { FilterAppliedState } from './reducers/filtersApplied';
 import type { BoxesStatisticsState } from './reducers/boxesStatistics';
 import type { OrderByState } from './reducers/orderBy';
 import type { PageState } from './reducers/page';
-import type { RouterState } from './reducers/router';
 
+//FILTER
+export type UniverseName = string;
+export type FilterName = string;
+export type FilterGroup = string;
+export type FilterOperand = number | string | number[] | string[] | Interval;
 
 //STATE
 export type FiltersApplied = { +[FilterName]: FilterOperand};
@@ -18,14 +22,7 @@ export type BoxSearchModuleState = {|
 	filtersApplied: FilterAppliedState,
 	orderBy: OrderByState,
 	page: PageState,
-	router: RouterState
 |};
-
-//FILTER
-export type UniverseName = string;
-export type FilterName = string;
-export type FilterGroup = string;
-export type FilterOperand = number | string | number[] | string[] | Interval;
 
 //FILTER CONFIG
 export type FilterBaseInfos = {
