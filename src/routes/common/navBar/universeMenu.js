@@ -9,7 +9,7 @@ import Swap from '@material-ui/icons/SwapHoriz';
 import { withStyles } from '@material-ui/core/styles';
 import MenuButton from './menuButton';
 import { Link } from "react-router-dom";
-import { selectors } from 'modules/boxSearch/index';
+import { selectors as routerModuleSelectors } from 'modules/router/index';
 
 const linkStyle = {
   link: {
@@ -84,7 +84,7 @@ class UniverseMenu extends React.Component<UniverseMenuProps, UniverseMenuState>
 
 //Store connection
 const mapStateToProps = (state: State): Object => {
-  const routerPathName = selectors.routerSelectors.getPathName(state);
+  const routerPathName = routerModuleSelectors.routerSelectors.getPathName(state);
 	return {
 		routerPathName,
 	}
