@@ -11,14 +11,6 @@ const fieldsToKeep = {
 }
 
 /*
- * Returns the price (number) given the formatted price
- */
-const getRawPrice = formattedPrice => {
-	const rawPrice = parseFloat(formattedPrice.replace(',', '.').replace(' ', ''));
-	return rawPrice;
-};
-
-/*
  * Filter the properties returned by Cloudsearch depending on the config
  */
 const filterObjectProperties = rawBoxInfos => {
@@ -29,6 +21,7 @@ const filterObjectProperties = rawBoxInfos => {
 	}
 
 	box['sortValue'] = parseFloat(rawBoxInfos['search_fields']['buyer_smart_value']);
+	box['price'] = parseFloat(rawBoxInfos['search_fields']['price']);
 	return box;
 };
 
@@ -38,7 +31,6 @@ const filterObjectProperties = rawBoxInfos => {
 const formatBoxInfos = rawBoxInfo => {
 	let box = filterObjectProperties(rawBoxInfo);
 
-	box.price = getRawPrice(box.price);
 	box.rating = parseFloat(box.rating);
 	box.id = parseInt(box.id, 10);
 

@@ -65,6 +65,25 @@ class OrderByMenu extends React.PureComponent<OrderByMenuProps, OrderByMenuState
             >
                 Prix DESC
             </MenuItem>
+            <MenuItem 
+                onClick={event => this.handleMenuItemClick(event, '-sortValue')}
+                selected={this.props.orderByState === '-sortValue'}
+            >
+                Notre selection
+            </MenuItem>
+            <MenuItem 
+                onClick={event => this.handleMenuItemClick(event, '-id')}
+                selected={this.props.orderByState === '-id'}
+            >
+                Du + récent au + ancien
+            </MenuItem>
+            <MenuItem 
+                onClick={event => this.handleMenuItemClick(event, 'id')}
+                selected={this.props.orderByState === 'id'}
+            >
+                Du + ancien au + récent
+            </MenuItem>
+            
         </Menu>
       </React.Fragment>
     );

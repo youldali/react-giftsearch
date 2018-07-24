@@ -22,9 +22,9 @@ const numberOfNights = {
 const numberOfPeople = {
     parameter: 'number_people[]',
     values: {
-        '1':  {propertyName: 'numberOfPeople', propertyValue: 'couple'},
+        '2':  {propertyName: 'numberOfPeople', propertyValue: 'couple'},
         '3&number_people[]=4&number_people[]=5':  {propertyName: 'numberOfPeople', propertyValue: 'group'},
-        '2':  {propertyName: 'numberOfPeople', propertyValue: 'solo'},
+        '1':  {propertyName: 'numberOfPeople', propertyValue: 'solo'},
     },
     multi: true,
 };
