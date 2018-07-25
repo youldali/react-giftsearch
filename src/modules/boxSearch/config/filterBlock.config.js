@@ -6,20 +6,20 @@ import proxyObject from 'helpers/dataStructure/proxyObject';
 const 
 	blockBase: FilterBlockConfigByFilterGroup = {
 		price: {label: 'Par prix'},
-		experienceType: {label: "Par type d' expérience"},
-		boxType: {label: 'Par type de coffret'},
-		forPeople: {label: 'Par nombre de personnes'},
+		experienceTypes: {label: "Par type d' expérience"},
+		boxTypes: {label: 'Par type de coffret'},
+		numberOfPeople: {label: 'Par nombre de personnes'},
 	},
 	defaultBlock = {label: 'Autres critères'};
 
 const 
 	sejourFilterBlock: FilterBlockConfigByFilterGroup = {
 		...blockBase,
-		night: {label: 'Par nombre de nuits'},
+		numberOfNights: {label: 'Par nombre de nuits'},
 	}, 
 	mock1000FilterBlock: FilterBlockConfigByFilterGroup = {
 		...blockBase,
-		night: {label: 'Par nombre de nuits'},
+		numberOfNights: {label: 'Par nombre de nuits'},
 	};
 
 const filterBlocksPerUniverse: FilterBlockConfigByUniverse = {

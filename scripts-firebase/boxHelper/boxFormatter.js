@@ -20,7 +20,7 @@ const filterObjectProperties = rawBoxInfos => {
     	box[newPropertyName] = rawBoxInfos[propertyName];
 	}
 
-	box['sortValue'] = parseFloat(rawBoxInfos['search_fields']['buyer_smart_value']);
+	box['sortValue'] = parseFloat(rawBoxInfos['search_fields']['buyer_smart_value']) || 0;
 	box['price'] = parseFloat(rawBoxInfos['search_fields']['price']);
 	return box;
 };
