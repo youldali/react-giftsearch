@@ -21,7 +21,8 @@ const db = admin.firestore();
 // });
 
 
-
+//global object storing the boxes per universe, serving as cache for different requests
+const boxCollectionPerUniverse = {};
 
 const getAllBoxes = (universe) => {
     return (
@@ -33,20 +34,31 @@ const getAllBoxes = (universe) => {
             });
             return boxes;
         })
-        .catch(err => {
-            console.log('Error getting documents', err);
-        })
     );
 };
 
 
 exports.listBoxes = functions.https.onRequest( (req, res) => {
-    // Grab the text parameter.
-    const universe = req.query.universe;
     
+    const getBoxesFromFirestore = () => (
+        getAllBoxes(universe)
+            .then(boxCollection => {
+                boxCollectionPerUniverse[universe] = boxCollection;
+                return boxCollection;
+            })
+    );
+
+    const getBoxesFromCache = () => Promise.resolve(boxCollectionPerUniverse[universe]);
+
+    const 
+        universe = req.query.universe,
+        boxCollectionPromise = boxCollectionPerUniverse[universe] === undefined 
+        ? getBoxesFromFirestore() 
+        : getBoxesFromCache();
+
     res.append('Access-Control-Allow-Origin', '*');
     return (
-        getAllBoxes(universe)
+        boxCollectionPromise
         .then(data => res.json({data}))
         .catch(err => {
             console.log('Error getting documents', err);
