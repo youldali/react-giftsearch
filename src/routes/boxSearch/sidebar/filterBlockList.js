@@ -67,8 +67,19 @@ export default withRouter(FilterBlockListContainer);
 
 const styles = {
     filterList: {
-         padding: '0 2rem',
+         padding: '0 .5rem',
          marginTop: '2rem',
+    },
+
+    filterNavTitle: {
+        color: '#9E9E9E',
+        fontWeight: 'normal',
+        marginBottom: '.3rem',
+    
+    },
+
+    filterNavSubTitle: {
+        color: '#757575',
     },
 };
 
@@ -81,7 +92,7 @@ type FilterBlockListProps = {
 };
 
 const _FilterBlockList = (props: FilterBlockListProps) => {
-    const {filterStructureByFilterGroup, filterBlockConfigByBlockName} = props;
+    const {filterStructureByFilterGroup, filterBlockConfigByBlockName, classes} = props;
 
     const filterBlocksComponents = [];
     filterStructureByFilterGroup.forEach( (filterStructureList, filterGroup) => {
@@ -97,10 +108,14 @@ const _FilterBlockList = (props: FilterBlockListProps) => {
     return (
         <FormControl component="fieldset" className={props.classes.filterList}>
             <FormLabel component="legend">
-                {props.numberOfMatchingBoxes === props.totalNumberOfBoxes 
-                    ? <Typography variant="subheading">Filtres - {props.totalNumberOfBoxes} coffrets</Typography>
-                    : <Typography variant="subheading">Filtres - {props.numberOfMatchingBoxes} coffrets correspondant sur {props.totalNumberOfBoxes}</Typography>
-                }
+                <Typography variant="title" classes={{root: classes.filterNavTitle}}>Filtres</Typography>
+                <Typography classes={{root: classes.filterNavSubTitle}} variant="Subheading">
+                    {props.numberOfMatchingBoxes === props.totalNumberOfBoxes
+                    ? <React.Fragment>{props.totalNumberOfBoxes} coffrets </React.Fragment>
+                    : <React.Fragment>{props.numberOfMatchingBoxes} coffrets correspondant sur {props.totalNumberOfBoxes}</React.Fragment>
+                    }
+                </Typography>
+ 
             </FormLabel>
             {filterBlocksComponents}
         </FormControl>

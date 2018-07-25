@@ -10,6 +10,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import FilterLabel from './filterLabel';
 import { compose } from 'ramda';
 import { selectors } from 'modules/boxSearch/index';
@@ -20,9 +23,21 @@ const styles = {
         marginTop: '2rem',
     },
 
+    filterBlockTitle: {
+        fontWeight: 'bold',
+    },
+
+    filterLabelContainer: {
+        display: 'flex',
+    },
+
     filterLabel: {
         width: '100%',
     },
+
+    expansionPanel: {
+        display: 'block',
+    }
 };
 
 type FilterBlockProps = {
@@ -46,28 +61,35 @@ const FilterBlock = (props: FilterBlockProps) => {
 
     return (
         <FormGroup classes={{root: classes.filterGroup}}>
-            <Typography variant="subheading" gutterBottom>{filterBlockConfig['label']}</Typography>
-            {filterStructureList.map(filterStructure => {
-                const 
-                    isFilterChecked = props.filtersAppliedState[filterStructure.filterName] !== undefined,
-                    filterStatistic = props.filtersStatisticsState[filterStructure.filterName],
-                    filterNumber = !filterStatistic ? '0'
-                                    : filterStatistic.type === 'absolute' ? filterStatistic.number : `+ ${filterStatistic.number}`;
-                return (
-                    <FormControlLabel
-                        key={filterStructure.filterName}
-                        control={
-                            <Checkbox
-                            checked={isFilterChecked}
-                            onChange={event => onFilterClick(event, filterStructure.filterName, filterStructure.operand, isFilterChecked)}
-                            value=""
+            <ExpansionPanel classes={{root: classes.expansionPanel}}>
+                <ExpansionPanelSummary>
+                    <Typography variant="subheading" gutterBottom classes={{root: classes.filterBlockTitle}}>{filterBlockConfig['label']}</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                    <div>
+                    {filterStructureList.map(filterStructure => {
+                        const 
+                            isFilterChecked = props.filtersAppliedState[filterStructure.filterName] !== undefined,
+                            filterStatistic = props.filtersStatisticsState[filterStructure.filterName],
+                            filterNumber = !filterStatistic ? '0'
+                                            : filterStatistic.type === 'absolute' ? filterStatistic.number : `+ ${filterStatistic.number}`;
+                        return (
+                            <FormControlLabel
+                                key={filterStructure.filterName}
+                                control={
+                                    <Checkbox
+                                    checked={isFilterChecked}
+                                    onChange={event => onFilterClick(event, filterStructure.filterName, filterStructure.operand, isFilterChecked)}
+                                    />
+                                }
+                                label={<FilterLabel text={filterStructure.label} filterNumber={filterNumber} />}
+                                classes={{label: classes.filterLabel, root: classes.filterLabelContainer}}
                             />
-                        }
-                        label={<FilterLabel text={filterStructure.label} filterNumber={filterNumber} />}
-                        classes={{label: classes.filterLabel}}
-                    />
-                )}
-            )}
+                        )}
+                    )}
+                    </div>
+                </ExpansionPanelDetails>
+            </ExpansionPanel>
             <Divider />
         </FormGroup>
     );
