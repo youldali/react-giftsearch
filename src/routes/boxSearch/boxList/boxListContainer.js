@@ -19,7 +19,8 @@ type BoxListContainerProps = {
   displayAs: DisplayType,
   match: RouterMatch,
   isFetching: boolean,
-  hasFetchSucceeded: boolean
+  hasFetchSucceeded: boolean,
+  numberOfMatchingBoxes: number,
 };
 
 export
@@ -64,7 +65,7 @@ class BoxListContainer extends PureComponent<BoxListContainerProps>{
         <ListLazyload 
           onBottomReached={this.props.incrementPage}
           numberOfItemsDisplayed={this.props.boxList.length}
-          numberOfItems={1000}
+          numberOfItems={this.props.numberOfMatchingBoxes}
           currentPage={this.props.currentPage}
           offsetBottomDetection={offsetBottomDetection}
           isFetching={this.props.isFetching}
@@ -87,7 +88,8 @@ const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
   const 
     boxList = selectors.boxListSelectors.getList(state),
     isFetching = selectors.boxListSelectors.isFetching(state),
-    hasFetchSucceeded = selectors.boxListSelectors.hasFetchSucceeded(state);
+    hasFetchSucceeded = selectors.boxListSelectors.hasFetchSucceeded(state),
+    numberOfMatchingBoxes = selectors.boxesStatisticsSelectors.getNumberOfMatchingBoxes(state);
 
   const 
     currentPage = selectors.pageSelectors.getPage(state),
@@ -100,7 +102,8 @@ const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
     hasFetchSucceeded,
     currentPage,
     displayAs,
-    match
+    match,
+    numberOfMatchingBoxes,
 	}
 }
 
