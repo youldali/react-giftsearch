@@ -13,14 +13,16 @@ import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import grey from '@material-ui/core/colors/grey';
 import FilterLabel from './filterLabel';
 import { compose } from 'ramda';
 import { selectors } from 'modules/boxSearch/index';
-import { setAppliedFilters, resetAppliedFilters, resetAllAppliedFilters } from 'modules/actions/boxSearch';
+import { setAppliedFilters, resetAppliedFilters } from 'modules/actions/boxSearch';
 
 const styles = {
     filterGroup: {
-        marginTop: '2rem',
+        marginTop: '1px',
     },
 
     filterBlockTitle: {
@@ -37,7 +39,12 @@ const styles = {
 
     expansionPanel: {
         display: 'block',
-    }
+        boxShadow: 'none',
+    },
+
+    expansionPanelTitle: {
+        background: grey[100],
+    },
 };
 
 type FilterBlockProps = {
@@ -48,7 +55,6 @@ type FilterBlockProps = {
     filtersStatisticsState: FilterStatisticSimplified,
     setAppliedFilters: Function,
 	resetAppliedFilters: Function,
-	resetAllAppliedFilters: Function,
 }
 
 
@@ -62,7 +68,7 @@ const FilterBlock = (props: FilterBlockProps) => {
     return (
         <FormGroup classes={{root: classes.filterGroup}}>
             <ExpansionPanel classes={{root: classes.expansionPanel}}>
-                <ExpansionPanelSummary>
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} classes={{root: classes.expansionPanelTitle}}>
                     <Typography variant="subheading" gutterBottom classes={{root: classes.filterBlockTitle}}>{filterBlockConfig['label']}</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
@@ -112,7 +118,6 @@ const mapDispatchToProps = (dispatch: Dispatch): Object => {
 	return {
 		setAppliedFilters: (filters: FiltersApplied) => dispatch(setAppliedFilters(filters)),
 		resetAppliedFilters: (filters: Array<string>) => dispatch(resetAppliedFilters(filters)),
-		resetAllAppliedFilters: () => dispatch(resetAllAppliedFilters()),
 	}
 }
 

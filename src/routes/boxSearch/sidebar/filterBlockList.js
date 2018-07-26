@@ -1,19 +1,22 @@
 //@flow
 import type { FilterStructureByFilterGroup, FilterBlockConfigByFilterGroup } from 'modules/boxSearch/types';
-import type { RouterMatch, State } from 'modules/actions/types';
+import type { Dispatch, RouterMatch, State } from 'modules/actions/types';
 
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import grey from '@material-ui/core/colors/grey';
 import { config, helpers } from 'modules/boxSearch';
 import { withRouter } from 'react-router'
 import FilterBlock from './filterBlock';
 import { selectors } from 'modules/boxSearch/index';
 import { compose } from 'ramda';
-
+import Button from '@material-ui/core/Button';
+import { resetAllAppliedFilters } from 'modules/actions/boxSearch';
 
 const {filterBlockConfig, filterConfig} = config;
 
@@ -66,20 +69,28 @@ export default withRouter(FilterBlockListContainer);
 
 
 const styles = {
-    filterList: {
-         padding: '0 .5rem',
-         marginTop: '2rem',
+    appBar: {
+        padding: '10px 24px',
+        alignItems: 'center',
+        flexDirection: 'row',
     },
 
     filterNavTitle: {
-        color: '#9E9E9E',
+        color: grey[200],
         fontWeight: 'normal',
         marginBottom: '.3rem',
     
     },
 
     filterNavSubTitle: {
-        color: '#757575',
+        color: grey[300],
+        flexGrow: 1,
+        padding: '.5rem 0',
+    },
+
+    filterList: {
+         marginTop: '1rem',
+         width: '100%',
     },
 };
 
@@ -89,6 +100,8 @@ type FilterBlockListProps = {
     filterBlockConfigByBlockName: ProxyObject<FilterBlockConfigByFilterGroup>,
     numberOfMatchingBoxes: number,
     totalNumberOfBoxes: number,
+    numberOfFiltersApplied: number,
+    resetAllAppliedFilters: Function
 };
 
 const _FilterBlockList = (props: FilterBlockListProps) => {
@@ -106,19 +119,30 @@ const _FilterBlockList = (props: FilterBlockListProps) => {
     });
 
     return (
-        <FormControl component="fieldset" className={props.classes.filterList}>
-            <FormLabel component="legend">
-                <Typography variant="title" classes={{root: classes.filterNavTitle}}>Filtres</Typography>
-                <Typography classes={{root: classes.filterNavSubTitle}} variant="Subheading">
+        <React.Fragment>
+            <AppBar position='sticky' classes={{root: classes.appBar}}>
+                <Typography classes={{root: classes.filterNavSubTitle}} variant="subheading">
                     {props.numberOfMatchingBoxes === props.totalNumberOfBoxes
                     ? <React.Fragment>{props.totalNumberOfBoxes} coffrets </React.Fragment>
-                    : <React.Fragment>{props.numberOfMatchingBoxes} coffrets correspondant sur {props.totalNumberOfBoxes}</React.Fragment>
+                    : <React.Fragment>{props.numberOfMatchingBoxes} sur {props.totalNumberOfBoxes} coffrets</React.Fragment>
                     }
                 </Typography>
- 
-            </FormLabel>
-            {filterBlocksComponents}
-        </FormControl>
+
+                {props.numberOfFiltersApplied > 0 &&
+                    <Button
+                    variant='flat'
+                    color="secondary"
+                    size='small'
+                    onClick={props.resetAllAppliedFilters}
+                    >
+                        Effacer ({props.numberOfFiltersApplied})
+                    </Button>
+                }
+            </AppBar>
+            <FormControl className={props.classes.filterList}>
+                {filterBlocksComponents}
+            </FormControl>
+        </React.Fragment>
     );
 }
 
@@ -126,11 +150,20 @@ const _FilterBlockList = (props: FilterBlockListProps) => {
 const mapStateToProps = (state: State): Object => {
     const 
         numberOfMatchingBoxes = selectors.boxesStatisticsSelectors.getNumberOfMatchingBoxes(state),
-        totalNumberOfBoxes = selectors.boxesStatisticsSelectors.getTotalNumberOfBoxes(state);
+        totalNumberOfBoxes = selectors.boxesStatisticsSelectors.getTotalNumberOfBoxes(state),
+        numberOfFiltersApplied = selectors.filtersAppliedSelectors.getNumberOfFiltersApplied(state);
 
 	return {
         numberOfMatchingBoxes,
         totalNumberOfBoxes,
+        numberOfFiltersApplied,
     }
 }
-const FilterBlockList = compose(connect(mapStateToProps), withStyles(styles))(_FilterBlockList);
+
+const mapDispatchToProps = (dispatch: Dispatch): Object => (
+	{
+		resetAllAppliedFilters: () => dispatch(resetAllAppliedFilters()),
+	}
+);
+
+const FilterBlockList = compose(connect(mapStateToProps, mapDispatchToProps), withStyles(styles))(_FilterBlockList);

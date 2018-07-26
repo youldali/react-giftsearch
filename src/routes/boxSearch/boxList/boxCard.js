@@ -101,7 +101,6 @@ type BoxCardType = {
 };
 
 const _BoxCard = (props: BoxCardType) => {
-	console.log(props);
 	return(
 	<Card classes={{root:props.classes.card}}>
 		<CardMediaImage

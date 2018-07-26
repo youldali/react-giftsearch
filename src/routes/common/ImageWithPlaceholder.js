@@ -29,7 +29,6 @@ type ImageWithPlaceholderProps = {
 }
 export
 const ImageWithPlaceholder = (props: ImageWithPlaceholderProps) => {
-    console.log(props);
 	return(
 	<div 
 		className={props.classes.root}

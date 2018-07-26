@@ -33,6 +33,8 @@ const _getIsFilterApplied = (filtersAppliedState: FilterAppliedState, filterName
 export const getIsFilterApplied = curry(_getIsFilterApplied);
 
 
+const getNumberOfFiltersApplied = (state: State): number => Object.keys(state.boxSearch.filtersApplied).length
+
 const getAllAppliedFilters = (state: State): FiltersApplied => (state.boxSearch.filtersApplied);
 
 const getFilterValue = (state: State, filterName: string): FilterOperand  => (state.boxSearch.filtersApplied[filterName]);
@@ -50,5 +52,6 @@ const selectors = {
 	getFilterValue,
 	getAllAppliedFilters,
 	areFiltersApplied,
-	getIsFilterApplied
+	getIsFilterApplied,
+	getNumberOfFiltersApplied,
 };
