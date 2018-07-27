@@ -6,25 +6,9 @@ import { connect } from 'react-redux';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Swap from '@material-ui/icons/SwapHoriz';
-import { withStyles } from '@material-ui/core/styles';
 import MenuButton from './menuButton';
-import { Link } from "react-router-dom";
 import { selectors as routerModuleSelectors } from 'modules/router/index';
-
-const linkStyle = {
-  link: {
-    color: 'black',
-    textDecoration: 'none',
-  }
-}
-
-type StyledLinkProps = {
-  classes: Object,
-};
-
-const 
-  _StyledLink = (props: StyledLinkProps) => <Link {...props} className={props.classes.link}></Link>,
-  StyledLink = withStyles(linkStyle)(_StyledLink);
+import { push } from 'connected-react-router'
 
 
 type UniverseMenuState = {
@@ -33,6 +17,7 @@ type UniverseMenuState = {
 
 type UniverseMenuProps = {
     routerPathName: string,
+    pushRoute: Function,
 };
 class UniverseMenu extends React.Component<UniverseMenuProps, UniverseMenuState> {
   state = {
@@ -42,6 +27,11 @@ class UniverseMenu extends React.Component<UniverseMenuProps, UniverseMenuState>
   handleClick = (event: SyntheticEvent<HTMLButtonElement>) => {
     this.setState({ anchorEl: event.currentTarget });
   };
+
+  handleMenuItemClick = (route: string) => {
+    this.props.pushRoute(route);
+    this.handleClose();
+  }
 
   handleClose = () => {
     this.setState({ anchorEl: null });
@@ -65,16 +55,16 @@ class UniverseMenu extends React.Component<UniverseMenuProps, UniverseMenuState>
           onClose={this.handleClose}
         >
           <MenuItem 
-            onClick={this.handleClose}
+            onClick={() => this.handleMenuItemClick('/box-search/sejour')}
             selected={this.props.routerPathName === '/box-search/sejour'}
           >
-            <StyledLink to="/box-search/sejour">Séjour</StyledLink>
+            Séjour
           </MenuItem>
           <MenuItem 
-            onClick={this.handleClose}
+            onClick={() => this.handleMenuItemClick('/box-search/mock-1000')}
             selected={this.props.routerPathName === '/box-search/mock-1000'}
           >
-            <StyledLink to="/box-search/mock-1000">Test 1000 boxes</StyledLink>
+            Test 1000 boxes
           </MenuItem>
         </Menu>
       </React.Fragment>
@@ -90,5 +80,11 @@ const mapStateToProps = (state: State): Object => {
 	}
 };
 
+const mapDispatchToProps = (dispatch: Dispatch): Object => (
+	{
+		pushRoute: (route: string) => dispatch(push(route)),
+	}
+);
+
 export default
-connect(mapStateToProps)(UniverseMenu);
+connect(mapStateToProps, mapDispatchToProps)(UniverseMenu);
