@@ -2,12 +2,13 @@
 
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import grey from '@material-ui/core/colors/grey';
 
 const styles = {
     root: {
 	},
 	wrapper:{
-		background: '#DDDDDD',
+		background: grey[200],
 		position: 'relative',
 	},
 	image: {

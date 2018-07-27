@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { selectors } from 'modules/boxSearch/index';
 import * as actions from 'modules/actions/boxSearch';
-import BoxCardList from './boxCardList';
+import BoxCardList, {BoxCardListPlaceholder} from './boxCardList';
 import ListLazyload from 'routes/common/behavior/lazyLoadingForList';
 import Loader from 'routes/common/loader';
 import { ErrorLoading, ErrorNoResults } from 'routes/common/error';
@@ -52,7 +52,7 @@ class BoxListContainer extends PureComponent<BoxListContainerProps>{
     //Component to render
     let component = null;
     if(this.props.isFetching && this.props.currentPage === 1)
-      component = <Loader /> ;
+      component = <BoxCardListPlaceholder /> ;
 
     else if(!this.props.hasFetchSucceeded)
       component = <ErrorLoading actionRetry={() => {this.props.fetchList(this.props.match.params.universe);} } /> ;

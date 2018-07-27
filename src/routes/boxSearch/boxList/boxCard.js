@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import grey from '@material-ui/core/colors/grey';
 import ImageWithPlaceholder from '../../common/ImageWithPlaceholder';
 import CardIcon, {IconRating} from './CardIcon';
 
@@ -17,10 +18,6 @@ const cardMediaImageStyles = {
 	},
 };
 
-
-type CardMediaImageType = {
-	classes: Object,
-};
 
 const _CardMediaImage = (props) => (
 	<ImageWithPlaceholder
@@ -36,8 +33,7 @@ const CardMediaImage = withStyles(cardMediaImageStyles)(_CardMediaImage);
 const boxCardStyles = {
 	card: {
 		display: 'flex',
-		margin: '1rem 0',
-		padding: '0 0.5rem',
+		padding: '1rem .5rem',
 		fontSize: '0.8rem',
 		boxShadow: 'none',
 		borderBottom: '1px solid #CCCCCC'
@@ -48,7 +44,11 @@ const boxCardStyles = {
 	},
 
 	cardContent: {
-		padding: '1em',
+		padding: '0 .5rem',
+
+		'&:last-child': {
+			padding: '0 .5rem',
+		}
 	},
 
 	cardMedia: {
@@ -99,6 +99,37 @@ type BoxCardType = {
 	webExclusive: boolean,
 	classes: Object,
 };
+
+
+const boxCardPlaceholderStyle = Object.assign({}, boxCardStyles,
+	{
+		cardTitle: {
+			height: '1.5rem',
+			background: grey[200],
+			marginBottom: '1rem',
+		},
+
+		cardDescription: {
+			height: '4.5rem',
+			background: grey[200],
+		},
+	}
+)
+
+const _BoxCardPlaceholder = ({classes}: {classes: Object}) => {
+	return(
+	<Card classes={{root: classes.card}}>
+		<CardMediaImage />
+		<div className={classes.cardContentWrapper}>
+			<CardContent classes={{root: classes.cardContent}}>
+				<div className={classes.cardTitle}></div>
+				<div className={classes.cardDescription}></div>
+			</CardContent>
+		</div>
+  	</Card>
+)};
+export const BoxCardPlaceholder = withStyles(boxCardPlaceholderStyle)(_BoxCardPlaceholder);
+
 
 const _BoxCard = (props: BoxCardType) => {
 	return(

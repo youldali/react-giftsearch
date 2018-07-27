@@ -14,7 +14,8 @@ const generateBox = id => {
         boxTypes = numberHelper.getRandomValuesInArray(config.boxTypes),
         rating = numberHelper.generateFloatInRange(0, 10, 1),
         img = 'http://media.smartbox.com/pim/10000003771481081850179.jpg?thumbor=280x0/filters:quality(90)',
-        sortValue = numberHelper.generateFloatInRange(0, 10, 1);
+        sortValue = numberHelper.generateFloatInRange(0, 10, 1),
+        numberOfReviews = numberHelper.generateNumber(15000);
 
     const mockBox = {
         id,
@@ -28,6 +29,7 @@ const generateBox = id => {
         rating,
         img,
         sortValue,
+        numberOfReviews,
     }
 
     mockBox.description = JSON.stringify(mockBox);

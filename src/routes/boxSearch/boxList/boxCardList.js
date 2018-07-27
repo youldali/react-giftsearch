@@ -3,11 +3,27 @@
 import type { BoxCollection } from 'modules/actions/types';
 
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import BoxCard from './boxCard';
+import BoxCard, {BoxCardPlaceholder} from './boxCard';
 
-const styles = {};
-const _BoxCardList = ({ boxCollection, classes}: {boxCollection: BoxCollection, classes: Object }) => (
+
+
+export
+const BoxCardListPlaceholder = () => {
+    const 
+        nbOfPlaceholderToDisplay = 5,
+        placeholderListComponent = [];
+    for(let i = 0; i < nbOfPlaceholderToDisplay; i++){
+        placeholderListComponent.push(<BoxCardPlaceholder />);
+    }
+    return (
+        <div>
+            {placeholderListComponent}
+        </div>
+    );
+};
+
+
+const BoxCardList = ({ boxCollection}: {boxCollection: BoxCollection }) => (
   <div>
     {boxCollection.map((box) =>
         <BoxCard key={box.id}
@@ -23,10 +39,9 @@ const _BoxCardList = ({ boxCollection, classes}: {boxCollection: BoxCollection, 
             showRating={box.show_rating}
             numberOfReviews={box.reviews_count}        
             description={box.description}
-            classes={classes}
         />
     )}
   </div>
 );
 
-export default withStyles(styles)(_BoxCardList);
+export default BoxCardList;
