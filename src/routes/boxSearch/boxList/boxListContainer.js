@@ -5,14 +5,13 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { selectors } from 'modules/boxSearch/index';
-import * as actions from 'modules/actions/boxSearch';
+import { fetchBoxList, incrementPage } from 'modules/actions/boxSearch';
 import BoxCardList, {BoxCardListPlaceholder} from './boxCardList';
 import ListLazyload from 'routes/common/behavior/lazyLoadingForList';
-import Loader from 'routes/common/loader';
 import { ErrorLoading, ErrorNoResults } from 'routes/common/error';
 
 type BoxListContainerProps = {
-  fetchList: Function,
+  fetchBoxList: Function,
   incrementPage: Function,
   boxList: BoxCollection,
   currentPage: number,
@@ -27,13 +26,8 @@ export
 class BoxListContainer extends PureComponent<BoxListContainerProps>{
 
   componentDidMount() {
-    this.props.fetchList();
+    this.props.fetchBoxList();
   }
-
-  componentDidUpdate(prevProps: BoxListContainerProps){
-    if(this.props.match.params.universe !== prevProps.match.params.universe)
-      this.props.fetchList();
-  }  
 
   render(){
     //box List to render
@@ -55,7 +49,7 @@ class BoxListContainer extends PureComponent<BoxListContainerProps>{
       component = <BoxCardListPlaceholder /> ;
 
     else if(!this.props.hasFetchSucceeded)
-      component = <ErrorLoading actionRetry={() => {this.props.fetchList(this.props.match.params.universe);} } /> ;
+      component = <ErrorLoading actionRetry={() => this.props.fetchBoxList() } /> ;
 
     else if(this.props.boxList.length === 0)
       component = <ErrorNoResults /> ;  
@@ -109,8 +103,8 @@ const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
 
 const mapDispatchToProps = (dispatch: Dispatch): Object => {
 	return {
-		fetchList: () => dispatch(actions.fetchBoxListAction),
-    incrementPage: () => dispatch(actions.incrementPage())
+		fetchBoxList: () => dispatch(fetchBoxList()),
+    incrementPage: () => dispatch(incrementPage())
 	}
 }
 

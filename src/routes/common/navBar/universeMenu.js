@@ -8,16 +8,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Swap from '@material-ui/icons/SwapHoriz';
 import MenuButton from './menuButton';
 import { selectors as routerModuleSelectors } from 'modules/router/index';
-import { push } from 'connected-react-router'
-
+import { setUniverse } from 'modules/actions/boxSearch';
 
 type UniverseMenuState = {
   anchorEl: ?HTMLElement,
 };
 
 type UniverseMenuProps = {
-    routerPathName: string,
-    pushRoute: Function,
+    currentUniverse: string,
+    setUniverse: Function,
 };
 class UniverseMenu extends React.Component<UniverseMenuProps, UniverseMenuState> {
   state = {
@@ -28,8 +27,8 @@ class UniverseMenu extends React.Component<UniverseMenuProps, UniverseMenuState>
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleMenuItemClick = (route: string) => {
-    this.props.pushRoute(route);
+  handleMenuItemClick = (universe: string) => {
+    this.props.setUniverse(universe);
     this.handleClose();
   }
 
@@ -55,14 +54,14 @@ class UniverseMenu extends React.Component<UniverseMenuProps, UniverseMenuState>
           onClose={this.handleClose}
         >
           <MenuItem 
-            onClick={() => this.handleMenuItemClick('/box-search/sejour')}
-            selected={this.props.routerPathName === '/box-search/sejour'}
+            onClick={() => this.handleMenuItemClick('sejour')}
+            selected={this.props.currentUniverse === 'sejour'}
           >
             Séjour
           </MenuItem>
           <MenuItem 
-            onClick={() => this.handleMenuItemClick('/box-search/mock-1000')}
-            selected={this.props.routerPathName === '/box-search/mock-1000'}
+            onClick={() => this.handleMenuItemClick('mock-1000')}
+            selected={this.props.currentUniverse === 'mock-1000'}
           >
             Test 1000 boxes
           </MenuItem>
@@ -74,15 +73,15 @@ class UniverseMenu extends React.Component<UniverseMenuProps, UniverseMenuState>
 
 //Store connection
 const mapStateToProps = (state: State): Object => {
-  const routerPathName = routerModuleSelectors.routerSelectors.getPathName(state);
+  const currentUniverse = routerModuleSelectors.routerSelectors.getUniverse(state);
 	return {
-		routerPathName,
+		currentUniverse,
 	}
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): Object => (
 	{
-		pushRoute: (route: string) => dispatch(push(route)),
+		setUniverse: (universe: string) => dispatch(setUniverse(universe)),
 	}
 );
 

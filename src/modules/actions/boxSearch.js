@@ -8,6 +8,27 @@ import { selectors as routerModuleSelectors } from '../router/index';
 import { hasIndexedDB, hasWebWorker } from 'helpers/misc/featureDetection';
 import { getFetchBoxListWebWorker } from '../boxSearch/services/webWorkers';
 import { curry } from 'ramda';
+import { push } from 'connected-react-router';
+
+export 
+const setUniverse = (universe: string) => (dispatch: Dispatch) : Action => {
+	dispatch({
+		type: "BOX_LIST_SEARCH/SET_UNIVERSE",
+		universe
+	});
+
+	dispatch(push(`/box-search/${universe}`));
+	return dispatch(fetchBoxListAction);
+};
+
+export 
+const fetchBoxList = () => (dispatch: Dispatch) : Action => {
+	dispatch({
+		type: "BOX_LIST_SEARCH/FETCH_BOX_LIST",
+	});
+
+	return dispatch(fetchBoxListAction);
+};
 
 export 
 const setAppliedFilters = (filtersToApply: FiltersApplied) => (dispatch: Dispatch) : Action => {
@@ -177,6 +198,5 @@ const fetchBoxListWithWorkerAction = (dispatch: Dispatch, getState: Function): P
 };
 
 
-export
 const fetchBoxListAction = (() => 
 true ? fetchBoxListWithWorkerAction : tryFetchBoxListRemotely)();

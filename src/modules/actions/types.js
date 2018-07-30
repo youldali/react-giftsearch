@@ -40,6 +40,7 @@ type Action =
 	| { type: 'BOX_LIST_SEARCH/RESET_ALL_APPLIED_FILTERS'}
 	| { type: 'BOX_LIST_SEARCH/SET_ORDER_BY', orderBy: string }
 	| { type: 'BOX_LIST_SEARCH/SET_UNIVERSE', universe: string }
+	| { type: 'BOX_LIST_SEARCH/FETCH_BOX_LIST' }
 	| { type: 'BOX_LIST_SEARCH/FETCH_REQUESTED' }
 	| { type: 'BOX_LIST_SEARCH/SET_BOX_LIST', boxList: BoxCollection }
 	| { type: 'BOX_LIST_SEARCH/APPEND_TO_BOX_LIST', boxList: BoxCollection }
