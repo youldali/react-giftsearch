@@ -34,6 +34,7 @@ function giftListReducer (state: BoxListState = initialState, action: Action): B
 			};
 
 		case "BOX_LIST_SEARCH/FETCH_REQUESTED":
+		case "BOX_LIST_SEARCH/FETCH_BOX_LIST":
 		case "BOX_LIST_SEARCH/SET_APPLIED_FILTERS":
 		case "BOX_LIST_SEARCH/RESET_APPLIED_FILTERS":
 		case "BOX_LIST_SEARCH/RESET_ALL_APPLIED_FILTERS":

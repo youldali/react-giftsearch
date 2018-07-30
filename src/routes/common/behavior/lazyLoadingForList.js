@@ -2,9 +2,19 @@
 
 import type {Element} from 'react';
 import React, { PureComponent } from 'react';
-import Loader from 'routes/common/loader';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { withStyles } from '@material-ui/core/styles';
 import { isElementBottomVisible } from 'helpers/DOM/visibility';
 //import throttle from 'lodash.throttle';
+
+
+const styles = {
+  linearProgress: {
+    width: '50%',
+    margin: '1rem auto',
+  }
+}
+
 
 type ListLazyLoadProps = {
   currentPage: number,
@@ -14,10 +24,10 @@ type ListLazyLoadProps = {
   children: Element<any>,
   offsetBottomDetection: ?number,
   isFetching: boolean,
+  classes: Object,
 };
 
 class ListLazyLoad extends PureComponent<ListLazyLoadProps> {
-  props: ListLazyLoadProps;
   hasScrollEventListener: boolean;
   wrapperRef: HTMLElement | null;
 
@@ -85,7 +95,7 @@ class ListLazyLoad extends PureComponent<ListLazyLoadProps> {
         </div>
 
         {this.props.numberOfItemsDisplayed < this.props.numberOfItems && 
-          <Loader />
+          <LinearProgress classes={{root: this.props.classes.linearProgress}} />
         }
       </div>
     )
@@ -93,4 +103,4 @@ class ListLazyLoad extends PureComponent<ListLazyLoadProps> {
   
 }
 
-export default ListLazyLoad;
+export default withStyles(styles)(ListLazyLoad);

@@ -36,7 +36,11 @@ const boxCardStyles = {
 		padding: '1rem .5rem',
 		fontSize: '0.8rem',
 		boxShadow: 'none',
-		borderBottom: '1px solid #CCCCCC'
+		borderBottom: `1px solid ${grey[200]}`,
+
+		'&:last-child': {
+			borderBottom: 'none',
+		}
 	},
 
 	cardContentWrapper: {

@@ -1,13 +1,13 @@
 //@flow
 
-import type { BoxCollection, Dispatch, DisplayType, RouterMatch } from 'modules/actions/types';
+import type { BoxCollection, Dispatch, DisplayType } from 'modules/actions/types';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { selectors } from 'modules/boxSearch/index';
 import { fetchBoxList, incrementPage } from 'modules/actions/boxSearch';
 import BoxCardList, {BoxCardListPlaceholder} from './boxCardList';
 import ListLazyload from 'routes/common/behavior/lazyLoadingForList';
+import Placeholder from 'routes/common/behavior/placeholder';
 import { ErrorLoading, ErrorNoResults } from 'routes/common/error';
 
 type BoxListContainerProps = {
@@ -16,7 +16,6 @@ type BoxListContainerProps = {
   boxList: BoxCollection,
   currentPage: number,
   displayAs: DisplayType,
-  match: RouterMatch,
   isFetching: boolean,
   hasFetchSucceeded: boolean,
   numberOfMatchingBoxes: number,
@@ -44,28 +43,22 @@ class BoxListContainer extends PureComponent<BoxListContainerProps>{
     }
 
     //Component to render
-    let component = null;
-    if(this.props.isFetching && this.props.currentPage === 1)
-      component = <BoxCardListPlaceholder /> ;
+    const listBoxLazyLoad = this.props.isFetching && this.props.currentPage === 1 ? null :
+      <ListLazyload 
+        onBottomReached={this.props.incrementPage}
+        numberOfItemsDisplayed={this.props.boxList.length}
+        numberOfItems={this.props.numberOfMatchingBoxes}
+        currentPage={this.props.currentPage}
+        offsetBottomDetection={offsetBottomDetection}
+        isFetching={this.props.isFetching}
+      >
+        {boxList}
+      </ListLazyload>;
 
-    else if(!this.props.hasFetchSucceeded)
-      component = <ErrorLoading actionRetry={() => this.props.fetchBoxList() } /> ;
-
-    else if(this.props.boxList.length === 0)
-      component = <ErrorNoResults /> ;  
-
-    else
-      component = 
-        <ListLazyload 
-          onBottomReached={this.props.incrementPage}
-          numberOfItemsDisplayed={this.props.boxList.length}
-          numberOfItems={this.props.numberOfMatchingBoxes}
-          currentPage={this.props.currentPage}
-          offsetBottomDetection={offsetBottomDetection}
-          isFetching={this.props.isFetching}
-        >
-          {boxList}
-        </ListLazyload> ;
+    let component = 
+    !this.props.hasFetchSucceeded ? <ErrorLoading actionRetry={() => this.props.fetchBoxList() } />
+    : !this.props.isFetching && this.props.boxList.length === 0 ? <ErrorNoResults />
+    : <Placeholder componentToDisplay={listBoxLazyLoad} componentPlaceholder={<BoxCardListPlaceholder />}/>;
 
   	return (
       <div>
@@ -77,8 +70,7 @@ class BoxListContainer extends PureComponent<BoxListContainerProps>{
 
 
 //store Connection
-type OwnProps = { match: RouterMatch };
-const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
+const mapStateToProps = (state: Object): Object => {
   const 
     boxList = selectors.boxListSelectors.getList(state),
     isFetching = selectors.boxListSelectors.isFetching(state),
@@ -87,8 +79,7 @@ const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
 
   const 
     currentPage = selectors.pageSelectors.getPage(state),
-    displayAs = selectors.displayBySelectors.getDisplay(state),
-    {match} = ownProps;
+    displayAs = selectors.displayBySelectors.getDisplay(state);
 
 	return {
     boxList,
@@ -96,7 +87,6 @@ const mapStateToProps = (state: Object, ownProps: OwnProps): Object => {
     hasFetchSucceeded,
     currentPage,
     displayAs,
-    match,
     numberOfMatchingBoxes,
 	}
 }
@@ -108,4 +98,4 @@ const mapDispatchToProps = (dispatch: Dispatch): Object => {
 	}
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BoxListContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(BoxListContainer);

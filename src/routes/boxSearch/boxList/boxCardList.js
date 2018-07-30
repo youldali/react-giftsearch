@@ -13,7 +13,7 @@ const BoxCardListPlaceholder = () => {
         nbOfPlaceholderToDisplay = 5,
         placeholderListComponent = [];
     for(let i = 0; i < nbOfPlaceholderToDisplay; i++){
-        placeholderListComponent.push(<BoxCardPlaceholder />);
+        placeholderListComponent.push(<BoxCardPlaceholder key={i} />);
     }
     return (
         <div>

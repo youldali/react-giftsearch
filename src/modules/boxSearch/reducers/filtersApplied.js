@@ -18,6 +18,7 @@ function filterReducer (state: FilterAppliedState = {}, action: Action): FilterA
 			return hasOne(action.filtersToReset)(state) ? omit(action.filtersToReset, state) : state;
 
 		case "BOX_LIST_SEARCH/RESET_ALL_APPLIED_FILTERS":
+		case "BOX_LIST_SEARCH/SET_UNIVERSE":
 			return Object.keys(state).length === 0 ? state : {};
 
 		default:
