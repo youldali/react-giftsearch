@@ -10,7 +10,7 @@ import BoxListContainer from './boxList/boxListContainer';
 const BoxSearchLayout =  () => {
 	return (
 		<div>
-			<Grid container spacing={24}>
+			<Grid container spacing={0}>
 				<Grid item xs={12}>
           			<NavBar />
 					<BoxListContainer />

@@ -6,9 +6,9 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
-  button: {
-    height: '100%',
-  },
+  iconWrapper: {
+    marginRight: '.4rem',
+  }
 };
 
 type MenuButton = {
@@ -20,16 +20,13 @@ type MenuButton = {
 
 const menuButton = (props: MenuButton) => {
 	return(
-	<Button
+	    <Button
         aria-haspopup="true"
         onClick={props.onClick}
-        variant="raised" 
-        color="secondary"
         fullWidth={true}
-        className={props.classes.button}
         >
-        {props.icon}
-        {props.text}
+        <span className={props.classes.iconWrapper}>{props.icon}</span>
+        <span>{props.text}</span>
     </Button>
   );
 }

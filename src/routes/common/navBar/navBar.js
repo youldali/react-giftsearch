@@ -8,26 +8,28 @@ import UniverseMenu from './universeMenu';
 import FilterMenu from './filterButton';
 import Grid from '@material-ui/core/Grid';
 
-const menuStyles = {
-  button: {
-    height: '100%',
-  },
+
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = {
+	toolbar: {
+		alignItems: 'stretch',
+	}
 };
 
-const navBar = () => {
+const navBar = (props) => {
 	return(
-		<Grid container spacing={8}>
-			<Grid item xs={4}>
+		<AppBar position="fixed" color="default">
+			<Toolbar disableGutters={true} classes={{root: props.classes.toolbar}}>
 				<UniverseMenu />
-			</Grid>
-			<Grid item xs={4}>
-				<OrderByMenu menuStyles={menuStyles} />
-			</Grid>
-			<Grid item xs={4}>
+				<OrderByMenu />
 				<FilterMenu />
-			</Grid>
-		</Grid>
+			</Toolbar>
+		</AppBar>
   );
 }
 
-export default navBar;
+export default withStyles(styles)(navBar);

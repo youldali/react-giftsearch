@@ -37,7 +37,7 @@ class FilterMenu extends React.Component<FilterMenuProps, FilterMenuState> {
         return (
             <React.Fragment>
                 <MenuButton 
-                    text="Filter"
+                    text="Filtrer"
                     onClick={this.toggleDrawer(true)}
                     icon={<FilterListIcon />}
                 />

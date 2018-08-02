@@ -42,7 +42,7 @@ class UniverseMenu extends React.Component<UniverseMenuProps, UniverseMenuState>
     return (
       <React.Fragment>
         <MenuButton 
-          text="Changer d'univers"
+          text="Univers"
           onClick={this.handleClick}
           icon={<Swap />}
         />

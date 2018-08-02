@@ -43,7 +43,7 @@ class OrderByMenu extends React.PureComponent<OrderByMenuProps, OrderByMenuState
     return (
       <React.Fragment>
         <MenuButton 
-          text='Trier par' 
+          text='Trier' 
           onClick={this.handleClick}
           icon={<Sort />}
         />
