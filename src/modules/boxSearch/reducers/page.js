@@ -18,6 +18,7 @@ function pageReducer(state: PageState = initialState, action: Action): PageState
 		case "BOX_LIST_SEARCH/SET_BOX_LIST":
 		case "BOX_LIST_SEARCH/SET_DISPLAY_BY":
 		case "BOX_LIST_SEARCH/SET_ORDER_BY":
+		case "BOX_LIST_SEARCH/SET_UNIVERSE":
 			return initialState;
 		default:
 			return state;

@@ -1,11 +1,10 @@
 //@flow
 
-import type {BoxesIdMappedByFilteredStatus, FilterStatisticDetailed, FiltersStatisticsDetailed, FilterStructure, FilterStructureMap } from '../types';
+import type {BoxesIdMappedByFilteredStatus, FilterStatisticDetailed, FiltersStatisticsDetailed, FilterStatisticSimplified, FilterStructure, FilterStructureMap } from '../types';
 import type { BoxCollectionRequestData } from 'modules/actions/types';
 
 import { getItemIdListMatchingSingleFilter } from '../services/idbStorageService';
 import helperGetFilterStatistic  from '../filteringHelpers/filterStatistic';
-import { findIntersectionOfSortedArrays, liftInArray } from 'helpers/array/utils';
 import { has, map, mergeAll, curry } from 'ramda';
 import 'core-js/fn/object/values';
 
@@ -34,7 +33,7 @@ export default getFiltersStatistics;
 
 
 export
-const getFiltersStatisticsSimplified = (filtersStatisticsDetailed: FiltersStatisticsDetailed) => {
+const getFiltersStatisticsSimplified = (filtersStatisticsDetailed: FiltersStatisticsDetailed): FilterStatisticSimplified => {
     const simplifyFilterStatistic = (filterStatisticDetailed: FilterStatisticDetailed) => ({
         type: filterStatisticDetailed.type,
         number: filterStatisticDetailed.idList.length
