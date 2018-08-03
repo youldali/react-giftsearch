@@ -38,7 +38,7 @@ class Placeholder extends PureComponent<PlaceholderProps, PlaceholderState> {
     }
 
     cancelSwitchToPlaceholder(){
-        this.state.component !== this.props.componentToDisplay && (this.setState({component: this.props.componentToDisplay}) || console.log('cancel'));
+        (this.state.component !== this.props.componentToDisplay) && this.setState({component: this.props.componentToDisplay});
         this.timeout && clearTimeout(this.timeout);
         return null;
     }

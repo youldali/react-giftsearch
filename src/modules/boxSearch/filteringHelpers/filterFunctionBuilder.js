@@ -14,7 +14,7 @@ import type { FilterName, FilterGroup, FilterFunction, FilterOperand, FilterStru
 const _evaluateCriteria = 
 (filterStructure: FilterStructure, filterValue: FilterOperand, target: Object): boolean => {
 	const {field, operator} = filterStructure;
-	return operators[operator](target[field], filterValue);
+	return target[field] !== undefined && operators[operator](target[field], filterValue);
 };
 export const evaluateCriteria = curry(_evaluateCriteria);
 

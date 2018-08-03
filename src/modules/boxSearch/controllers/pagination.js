@@ -1,5 +1,5 @@
 //@flow
-import type { Box, BoxId, FilterStructure, FilterStructureMap } from '../types';
+import type { Box, BoxId } from '../types';
 import type { BoxCollectionRequestData } from 'modules/actions/types';
 
 import { getBoxesList } from '../services/idbStorageService';
