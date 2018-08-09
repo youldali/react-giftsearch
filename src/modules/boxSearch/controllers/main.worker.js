@@ -28,32 +28,7 @@ type FiltersStatisticsComputation = {
     totalNumberOfBoxes: number,
 };
 
-let 
-    lastRequestData = {
-        universe: null,
-        filtersApplied: null,
-        orderBy: null,
-        page: null,
-    },
-    lastBoxListComputation: BoxListComputation = {
-        boxesIdMappedByFilteredStatus: null,
-        orderedBoxIdList: null,
-        paginatedBoxList: null,
-    },
-    lastFilterStatisticComputation: FiltersStatisticsComputation = {
-        filtersStatisticsDetailedByFilter: null,
-        filtersStatisticsByFilter: null,
-        numberOfMatchingBoxes: 0,
-        totalNumberOfBoxes: 0,
-    };
-
 const perPage = 10;
-
-
-const 
-    FILTERING_CHANGE = 1,
-    ORDERING_CHANGE = 2,
-    PAGINATION_CHANGE = 3;
 
 self.onmessage = async (event) => {
     const requestData: BoxCollectionRequestData = event.data;
@@ -61,94 +36,150 @@ self.onmessage = async (event) => {
 };
 
 
-const processBoxRequest = async (requestData: BoxCollectionRequestData) => {
-    const {universe, filtersApplied, orderBy, page} = requestData;
+const processBoxRequest = (function (){
+    const 
+        FILTERING_CHANGE = 1,
+        ORDERING_CHANGE = 2,
+        PAGINATION_CHANGE = 3;
 
-    const levelChange = 
-        universe !== lastRequestData.universe || !equals(filtersApplied, lastRequestData.filtersApplied) ? FILTERING_CHANGE :
-        orderBy !== lastRequestData.orderBy ? ORDERING_CHANGE :
-        page !== lastRequestData.page ? PAGINATION_CHANGE :
-        null;
-
-    
-    const doBoxListComputation = (previousBoxListComputation: BoxListComputation) => {
-        const 
-            { universe } = requestData,
-            filterConfigForUniverse = filterConfig[universe];
-    
-        const newBoxListComputation = Object.assign({}, previousBoxListComputation);
-        
-        const 
-            onFilterChanged = async (filterStructureMap) => {
-                const boxesIdMappedByFilteredStatus = await getBoxesIdMappedByFilterStatus(requestData, filterStructureMap);
-    
-                newBoxListComputation.boxesIdMappedByFilteredStatus = boxesIdMappedByFilteredStatus;
-                return boxesIdMappedByFilteredStatus;
-            },
-            onOrderingChanged = async (boxesIdMappedByFilteredStatus) => {
-                const orderedBoxIdList = await getOrderedBoxIdList(requestData, boxesIdMappedByFilteredStatus.get(true));
-    
-                newBoxListComputation.orderedBoxIdList = orderedBoxIdList;
-                return orderedBoxIdList;
-            },
-            onPaginationChanged = async (orderedBoxIdList) => {
-                const paginatedBoxList = await getPaginatedBoxList(requestData, perPage, orderedBoxIdList);
-    
-                newBoxListComputation.paginatedBoxList = paginatedBoxList;
-                return paginatedBoxList;
-            };
-    
-        levelChange === FILTERING_CHANGE ? composeP(onPaginationChanged, onOrderingChanged, onFilterChanged, getFilterStructureMap)(universe, filterConfigForUniverse) : 
-        levelChange === ORDERING_CHANGE ? composeP(onPaginationChanged, onOrderingChanged)(previousBoxListComputation.boxesIdMappedByFilteredStatus) :
-        levelChange === PAGINATION_CHANGE ? onPaginationChanged(previousBoxListComputation.orderedBoxIdList) :
-        previousBoxListComputation.paginatedBoxList
-
-        return newBoxListComputation;
-    };
-
-    const doFiltersStatisticsComputation = (previousFiltersStatisticsComputation: FiltersStatisticsComputation) => {
-        const 
-            { universe } = requestData,
-            filterConfigForUniverse = filterConfig[universe],
-            { boxesIdMappedByFilteredStatus } = lastBoxListComputation;
-    
-        const onFilteringChanged = async () => {
-            const filterStructureMap = await getFilterStructureMap(universe, filterConfigForUniverse);
-    
-            const 
-                filtersStatisticsDetailedByFilter = await getFiltersStatistics(requestData, filterStructureMap, boxesIdMappedByFilteredStatus),
-                filtersStatisticsByFilter = getFiltersStatisticsSimplified(filtersStatisticsDetailedByFilter);
-    
-            const 
-                totalNumberOfBoxes = await getNumberOfBoxes(universe),
-                newFiltersStatisticsComputation = {
-                    filtersStatisticsDetailedByFilter,
-                    filtersStatisticsByFilter,
-                    numberOfMatchingBoxes: boxesIdMappedByFilteredStatus.get(true).length,
-                    totalNumberOfBoxes,
-                };
-    
-            return newFiltersStatisticsComputation;
+    let 
+        ongoingRequest = null,
+        lastRequestData = {
+            universe: null,
+            filtersApplied: null,
+            orderBy: null,
+            page: null,
+        },
+        lastBoxListComputation: BoxListComputation = {
+            boxesIdMappedByFilteredStatus: null,
+            orderedBoxIdList: null,
+            paginatedBoxList: null,
+        },
+        lastFilterStatisticComputation: FiltersStatisticsComputation = {
+            filtersStatisticsDetailedByFilter: null,
+            filtersStatisticsByFilter: null,
+            numberOfMatchingBoxes: 0,
+            totalNumberOfBoxes: 0,
         };
-    
-        return levelChange === FILTERING_CHANGE ? onFilteringChanged() : previousFiltersStatisticsComputation;
-    };
 
-    const 
-        boxListComputation = await doBoxListComputation(lastBoxListComputation),
-        {boxList} = boxListComputation;
-    levelChange && postBoxList(boxList);
+    return async (requestData: BoxCollectionRequestData) => {
 
-    const 
-        filtersStatisticsComputation = await doFiltersStatisticsComputation(lastFilterStatisticComputation),
-        boxesStatistics = pick(['filtersStatisticsByFilter', 'numberOfMatchingBoxes', 'totalNumberOfBoxes'], filtersStatisticsComputation);
-    levelChange === FILTERING_CHANGE && postBoxesStatistics(boxesStatistics);
+        ongoingRequest = requestData;
+
+        const 
+            isRequestStillValid = () => ongoingRequest === requestData,
+            dropIfRequestIsInvalid = (f: Function) => (...args) => {
+                return isRequestStillValid() ? Promise.resolve(f(...args)) : Promise.resolve(null)
+            };
+
+        const 
+            {universe, filtersApplied, orderBy, page} = requestData,
+            filterConfigForUniverse = filterConfig[universe],
+            filterStructureMap = await getFilterStructureMap(universe, filterConfigForUniverse);
+
+        const levelChange = 
+            universe !== lastRequestData.universe || !equals(filtersApplied, lastRequestData.filtersApplied) ? FILTERING_CHANGE :
+            orderBy !== lastRequestData.orderBy ? ORDERING_CHANGE :
+            page !== lastRequestData.page ? PAGINATION_CHANGE :
+            null;
+
+        
+        const doBoxListComputation = (previousBoxListComputation: BoxListComputation): Promise<?BoxListComputation> => {
+            const newBoxListComputation = Object.assign({}, previousBoxListComputation);
+            
+            const 
+                onFilterChanged = dropIfRequestIsInvalid( async (filterStructureMap, newBoxListComputation: BoxListComputation) => {
+                    const boxesIdMappedByFilteredStatus = await getBoxesIdMappedByFilterStatus(requestData, filterStructureMap);
+        
+                    newBoxListComputation.boxesIdMappedByFilteredStatus = boxesIdMappedByFilteredStatus;
+                    return newBoxListComputation;
+                }),
+                onOrderingChanged = dropIfRequestIsInvalid( async (newBoxListComputation: BoxListComputation) => {
+                    const
+                        {boxesIdMappedByFilteredStatus} = newBoxListComputation,
+                        orderedBoxIdList = await getOrderedBoxIdList(requestData, boxesIdMappedByFilteredStatus.get(true));
+        
+                    newBoxListComputation.orderedBoxIdList = orderedBoxIdList;
+                    return newBoxListComputation;
+                }),
+                onPaginationChanged = dropIfRequestIsInvalid(async (newBoxListComputation: BoxListComputation) => {
+                    const 
+                        {orderedBoxIdList} = newBoxListComputation,
+                        paginatedBoxList = await getPaginatedBoxList(requestData, perPage, orderedBoxIdList);
+        
+                    newBoxListComputation.paginatedBoxList = paginatedBoxList;
+                    return newBoxListComputation;
+                });
+        
+            return (
+                levelChange === FILTERING_CHANGE ? composeP(onPaginationChanged, onOrderingChanged, onFilterChanged)(filterStructureMap, newBoxListComputation) : 
+                levelChange === ORDERING_CHANGE ? composeP(onPaginationChanged, onOrderingChanged)(newBoxListComputation) :
+                levelChange === PAGINATION_CHANGE ? onPaginationChanged(newBoxListComputation) :
+                Promise.resolve(previousBoxListComputation)
+            );
+        };
+
+        const doFiltersStatisticsComputation = (previousFiltersStatisticsComputation: FiltersStatisticsComputation, boxListComputation: ?BoxListComputation): Promise<?FiltersStatisticsComputation> => {
+            if(!boxListComputation)
+                return Promise.resolve(null);
+
+            const { boxesIdMappedByFilteredStatus } = boxListComputation;
+        
+            const onFilteringChanged = dropIfRequestIsInvalid(async () => {    
+                const 
+                    filtersStatisticsDetailedByFilter = await getFiltersStatistics(requestData, filterStructureMap, boxesIdMappedByFilteredStatus),
+                    filtersStatisticsByFilter = getFiltersStatisticsSimplified(filtersStatisticsDetailedByFilter);
+        
+                const 
+                    totalNumberOfBoxes = await getNumberOfBoxes(universe),
+                    newFiltersStatisticsComputation = {
+                        filtersStatisticsDetailedByFilter,
+                        filtersStatisticsByFilter,
+                        numberOfMatchingBoxes: boxesIdMappedByFilteredStatus.get(true).length,
+                        totalNumberOfBoxes,
+                    };
+        
+                return newFiltersStatisticsComputation;
+            });
+        
+            return levelChange === FILTERING_CHANGE ? onFilteringChanged() : Promise.resolve(previousFiltersStatisticsComputation);
+        };
 
 
-    lastBoxListComputation = boxListComputation;
-    lastFilterStatisticComputation = filtersStatisticsComputation;
-    lastRequestData = requestData;
-}
+        const tryPostBoxList = (boxListComputation: ?BoxListComputation) => {
+            if(!boxListComputation || !levelChange)
+                return;
+
+            return postBoxList(boxListComputation.paginatedBoxList);
+        };
+
+        const tryPostBoxesStatistics = (filtersStatisticsComputation: ?FiltersStatisticsComputation) => {
+            if(!filtersStatisticsComputation || levelChange !== FILTERING_CHANGE)
+                return;
+
+            const boxesStatistics = pick(['filtersStatisticsByFilter', 'numberOfMatchingBoxes', 'totalNumberOfBoxes'], filtersStatisticsComputation);
+            return postBoxesStatistics(boxesStatistics);
+        };
+
+        const saveComputations = (requestData, newBoxListComputation, newFiltersStatisticsComputation) => {
+            if(!newBoxListComputation || !newFiltersStatisticsComputation)
+                return;
+
+            lastBoxListComputation = newBoxListComputation;
+            lastFilterStatisticComputation = newFiltersStatisticsComputation;
+            lastRequestData = requestData;
+        }
+        
+        const newBoxListComputation = await doBoxListComputation(lastBoxListComputation);
+        tryPostBoxList(newBoxListComputation);
+
+        const newFiltersStatisticsComputation = await doFiltersStatisticsComputation(lastFilterStatisticComputation, newBoxListComputation);
+        tryPostBoxesStatistics(newFiltersStatisticsComputation);
+
+        saveComputations(requestData, newBoxListComputation, newFiltersStatisticsComputation);
+    }
+})();
+
 
 const postBoxList = (boxList) => {
     self.postMessage({ type: 'BOX_LIST', boxList: boxList });
@@ -157,5 +188,3 @@ const postBoxList = (boxList) => {
 const postBoxesStatistics = (boxesStatistics) => {
     self.postMessage({ type: 'BOXES_STATISTICS', boxesStatistics });
 };
-
-
