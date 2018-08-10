@@ -28,6 +28,7 @@ const createFilterFunctionDataStructure = () => {
 		filtersFunctionsMappedToFilterGroup: {[string]: FilterFunction[]} = {},
 		noGroupFilterFunctionList: Array<FilterFunction[]> = [],
 		filterFunctionListMappedToFilterGroup = new Map(),
+		filterGroupList = [],
 
 		addFilterFunctionToNoGroupList = (filterFunction: FilterFunction) => noGroupFilterFunctionList.push([filterFunction]),
 
@@ -35,6 +36,7 @@ const createFilterFunctionDataStructure = () => {
 			const filterGroupFunctionCollection = [filterFunction];
 			filtersFunctionsMappedToFilterGroup[filterGroup] = filterGroupFunctionCollection;
 			filterFunctionListMappedToFilterGroup.set(filterGroupFunctionCollection, filterGroup);
+			filterGroupList.push(filterGroup);
 		},
 
 		saveFilterFunctionIntoGroup = (filterFunction: FilterFunction, filterGroup: FilterGroup) => filtersFunctionsMappedToFilterGroup[filterGroup].push(filterFunction);
@@ -49,7 +51,7 @@ const createFilterFunctionDataStructure = () => {
 			return this;
 		},
 
-		getFilteringData(): FiltersFunctionsData{
+		getFilteringData(): FiltersFunctionsData {
 			const 
 				sorterByLength = (a, b) => a.length - b.length,
 				sortedFilterFunctionCollectionBelongingToGroup = compose(sort(sorterByLength), Object.values)(filtersFunctionsMappedToFilterGroup),
@@ -57,7 +59,8 @@ const createFilterFunctionDataStructure = () => {
 
 			return {
 				filterFunctionListByGroup,
-				filterFunctionListMappedToFilterGroup
+				filterFunctionListMappedToFilterGroup,
+				filterGroupList,
 			}
 		}
 	};

@@ -1,17 +1,21 @@
 //@flow
 
 import type { BoxId, BoxesIdMappedByFilteredStatus, FilteredBoxStatus, FilterGroup } from '../types';
-import { findIntersectionOfSortedArrays } from 'helpers/array/utils'
-import { curry } from 'ramda';
 
 export
-const createBoxesFilteredStatusStructure = () => {
-    const boxesIdMappedByFilteredStatus: BoxesIdMappedByFilteredStatus = new Map();
-    boxesIdMappedByFilteredStatus
-        .set(true, [])
-        .set(false, []);
-
+const createBoxesFilteredStatusStructure = (filterGroupList: FilterGroup[] = []) => {
     const
+        initMapStructure = (filterGroupList: FilterGroup[]): BoxesIdMappedByFilteredStatus => {
+            const boxesIdMappedByFilteredStatus: BoxesIdMappedByFilteredStatus = new Map();
+            boxesIdMappedByFilteredStatus
+                .set(true, [])
+                .set(false, []);
+
+            filterGroupList.forEach(filterGroup => boxesIdMappedByFilteredStatus.set(filterGroup, []));
+
+            return boxesIdMappedByFilteredStatus;
+        },
+
         addToBoolean = (hasPassed: boolean, id: BoxId) => {
             // $FlowFixMe
             boxesIdMappedByFilteredStatus
@@ -30,6 +34,7 @@ const createBoxesFilteredStatusStructure = () => {
             return this;
         };
 
+    const boxesIdMappedByFilteredStatus = initMapStructure(filterGroupList);
     return {
         addFilteredObjectStatus(filteredBoxStatus: FilteredBoxStatus, id: BoxId){
             return (

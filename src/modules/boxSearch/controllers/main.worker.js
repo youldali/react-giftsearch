@@ -68,7 +68,7 @@ const processBoxRequest = (function (){
 
         const 
             isRequestStillValid = () => ongoingRequest === requestData,
-            dropIfRequestIsInvalid = (f: Function) => (...args) => {
+            dropIfRequestIsInvalid = (f: Function) => (...args: any) => {
                 return isRequestStillValid() ? Promise.resolve(f(...args)) : Promise.resolve(null)
             };
 

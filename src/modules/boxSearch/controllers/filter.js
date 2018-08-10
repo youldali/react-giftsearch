@@ -13,12 +13,12 @@ const _getBoxesIdMappedByFilterStatus = (requestData: BoxCollectionRequestData, 
     
     const withFiltersApplied = async () => {  
         //filter function builder
-        const {filterFunctionListByGroup, filterFunctionListMappedToFilterGroup} = getFilterFunctionsData(filterStructureMap, filtersApplied);
+        const {filterFunctionListByGroup, filterFunctionListMappedToFilterGroup, filterGroupList} = getFilterFunctionsData(filterStructureMap, filtersApplied);
     
         //filtering
         const 
             appliedGetFilterStatusForItem = getFilterStatusForItem(filterFunctionListByGroup, filterFunctionListMappedToFilterGroup),
-            filterStatisticStructure = createBoxesFilteredStatusStructure(),
+            filterStatisticStructure = createBoxesFilteredStatusStructure(filterGroupList),
             appliedIterateOnItemCallback = iterateOnItemCallback(filterStatisticStructure, appliedGetFilterStatusForItem);
     
         await iterateOverBoxes(universe, appliedIterateOnItemCallback);

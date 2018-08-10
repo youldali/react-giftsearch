@@ -74,7 +74,8 @@ export type FilterTuple = [FilterName, FilterFunction];
 export type FilterFunctionListMappedToFilterGroup = Map<FilterFunction[], FilterGroup>;
 export type FiltersFunctionsData = {
 	filterFunctionListByGroup: FilterFunctionListByGroup, 
-	filterFunctionListMappedToFilterGroup: FilterFunctionListMappedToFilterGroup
+	filterFunctionListMappedToFilterGroup: FilterFunctionListMappedToFilterGroup,
+	filterGroupList: FilterGroup[],
 }
 
 //FILTER STATUS / STATISTIC
