@@ -1,41 +1,45 @@
 const boxTypes = {
     parameter: 'box_type[]',
+    newPropertyName: 'boxTypes',
     values: {
-        'physical':  {propertyName: 'boxTypes', propertyValue: 'coffret cadeau'},
-        'ebox':  {propertyName: 'boxTypes', propertyValue: 'e-coffret'},
-        'dev':  {propertyName: 'boxTypes', propertyValue: 'experience unique'},
-        'excluweb':  {propertyName: 'boxTypes', propertyValue: 'excluweb'},
+        'physical':  {propertyValue: 'coffret cadeau'},
+        'ebox':  {propertyValue: 'e-coffret'},
+        'dev':  {propertyValue: 'experience unique'},
+        'excluweb':  {propertyValue: 'excluweb'},
     },
     multi: true,
 };
 
 const numberOfNights = {
     parameter: 'category[]',
+    newPropertyName: 'numberOfNights',
     values: {
-        '847':  {propertyName: 'numberOfNights', propertyValue: 1},
-        '862':  {propertyName: 'numberOfNights', propertyValue: 2},
-        '868':  {propertyName: 'numberOfNights', propertyValue: 3},
+        '847':  {propertyValue: 1},
+        '862':  {propertyValue: 2},
+        '868':  {propertyValue: 3},
     },
     multi: true,
 };
 
 const numberOfPeople = {
     parameter: 'number_people[]',
+    newPropertyName: 'numberOfPeople',
     values: {
-        '2':  {propertyName: 'numberOfPeople', propertyValue: 'couple'},
-        '3&number_people[]=4&number_people[]=5':  {propertyName: 'numberOfPeople', propertyValue: 'group'},
-        '1':  {propertyName: 'numberOfPeople', propertyValue: 'solo'},
+        '2':  {propertyValue: 'couple'},
+        '3&number_people[]=4&number_people[]=5':  {propertyValue: 'group'},
+        '1':  {propertyValue: 'solo'},
     },
     multi: true,
 };
 
 const experienceTypes = {
     parameter: 'category[]',
+    newPropertyName: 'experienceTypes',
     values: {
-        '855':  {propertyName: 'experienceTypes', propertyValue: 'insolite'},
-        '876':  {propertyName: 'experienceTypes', propertyValue: 'luxe'},
-        '865':  {propertyName: 'experienceTypes', propertyValue: 'chateau'},
-        '866':  {propertyName: 'experienceTypes', propertyValue: 'romantique'},
+        '855':  {propertyValue: 'insolite'},
+        '876':  {propertyValue: 'luxe'},
+        '865':  {propertyValue: 'chateau'},
+        '866':  {propertyValue: 'romantique'},
     },
     multi: true,
 };

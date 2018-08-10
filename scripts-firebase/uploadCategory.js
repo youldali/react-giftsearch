@@ -72,14 +72,15 @@ const _addSpecificPropertiesToCollection = (baseUrl, groupsPropertiesConfig, ite
     const runThroughPropertyGroupConfig = async propertyGroupConfig => {
         for(let [parameterValue, newJsonConfig] of Object.entries(propertyGroupConfig.values)){
             const idList = await getAllBoxIdMatchingParameter(baseUrl, propertyGroupConfig.parameter, parameterValue);
-            addValueToItems(items, idList, newJsonConfig.propertyName, newJsonConfig.propertyValue, propertyGroupConfig.multi);
+            addValueToItems(items, idList, propertyGroupConfig.newPropertyName, newJsonConfig.propertyValue, propertyGroupConfig.multi);
         }
 
+        //sort property
+        items.forEach(item => Array.isArray(item[propertyGroupConfig.newPropertyName]) && item[propertyGroupConfig.newPropertyName].sort());
         return items;
     };
 
     const allPromises = groupsPropertiesConfig.map(runThroughPropertyGroupConfig);
-
 
     return Promise.all(allPromises).then( () => items);
 }

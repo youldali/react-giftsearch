@@ -34,7 +34,7 @@ class BoxListContainer extends PureComponent<BoxListContainerProps>{
     let offsetBottomDetection = 0;
     switch(this.props.displayAs){
       case 'card':
-        offsetBottomDetection = 200;
+        offsetBottomDetection = 250;
         boxList = <BoxCardList boxCollection={this.props.boxList} />
         break;
       case 'list':
