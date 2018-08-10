@@ -1,4 +1,4 @@
-import { getAllBoxesId, getAllBoxesIdOrderByField, getBoxesList, getItemIdListMatchingSingleFilter, getNumberOfBoxes, getOperandList, iterateOverBoxes } from '../idbStorageService';
+import { getAllBoxesId, getAllBoxesIdOrderByField, getBoxesList, getItemIdListMatchingSingleFilter, getNumberOfBoxes, getOperandList, iterateOverBoxes, memoizeByUniverse } from '../idbStorageService';
 import * as fetchBoxListService from '../fetchBoxListService';
 import createFilterStructure from '../../domainModel/filterStructure'
 import createInterval from 'helpers/dataStructure/interval';
@@ -6,6 +6,27 @@ import { boxCollection, boxes } from '../__mocks__/fetchBoxListService';
 
 jest.mock('helpers/storage/idbStorage');
 jest.mock('../fetchBoxListService');
+
+
+describe('memoizeByUniverse', () => {
+	test('it should memoize the result', () => {
+        const 
+            functionToMemoize = (universe, field) => ({universe, field}),
+            keyGenerator = (universe, field) => universe + field;
+
+
+        const memoizedFunction =  memoizeByUniverse(keyGenerator, functionToMemoize);
+
+        const 
+            r1 = memoizedFunction('sejour', 'field1'),
+            r2 = memoizedFunction('sejour', 'field1'),
+            r3 = memoizedFunction('sejour', 'field3');
+
+        expect(r1).toBe(r2);
+        expect(r1).not.toBe(r3);
+    });
+});
+
 
 describe('getItemIdListMatchingSingleFilter', () => {
 	test('get the item id matching the filter structure passed (1)', () => {
@@ -23,7 +44,7 @@ describe('getItemIdListMatchingSingleFilter', () => {
     test('get the item id matching the filter structure passed (2)', () => {
         const
             universe = 'sejour',
-            filterStructure = createFilterStructure({ filterName:'priceRange1', filterGroup: '', field: 'experienceType', operator: 'contains', operand : 'plane' });
+            filterStructure = createFilterStructure({ filterName:'priceRange2', filterGroup: '', field: 'experienceType', operator: 'contains', operand : 'plane' });
 
         const 
             matchingItemsIdList = getItemIdListMatchingSingleFilter(universe, filterStructure),

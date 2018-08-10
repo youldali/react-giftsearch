@@ -24,8 +24,12 @@ beforeEach(() => {
 			filtersApplied: {},
 			orderBy: '',
 			page: 1,
-			router: {universe: 'sejour'}
-		}
+		},
+		router: {
+			location: {
+				pathname: 'box-search/sejour'
+			}
+		},
 	});
 
 	store.replaceReducer(rootReducer);
@@ -174,8 +178,12 @@ describe('incrementPage', () => {
 				filtersApplied: {},
 				orderBy: '',
 				page: 2,
-				router: {universe: 'sejour'}
-			}
+			},
+			router: {
+				location: {
+					pathname: 'box-search/sejour'
+				}
+			},
 		});
 	});
 

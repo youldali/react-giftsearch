@@ -1,5 +1,5 @@
 //@flow
-import { curry, mapObjIndexed, reverse } from 'ramda';
+import { curry, reverse } from 'ramda';
 
 //eslint-disable-next-line
 const globalScope = typeof window !== "undefined" ? window : self;
