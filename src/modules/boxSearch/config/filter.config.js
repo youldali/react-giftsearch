@@ -33,14 +33,17 @@ const sejour: FilterConfigList = [
 ];
 
 export
-const mock1000: FilterConfigList = [
+const mock: FilterConfigList = [
 	...filterConfigBase,
-	{ filterName:'oneNight', filterGroup: 'night', field: 'numberOfNights', operator: '===', operand: 1, label: 'Une nuit' },
-	{ filterName:'twoNight', filterGroup: 'night', field: 'numberOfNights', operator: '===', operand: 2 , label: 'Deux nuit' },
+	{ filterName:'oneNight', filterGroup: 'night', field: 'numberOfNights', operator: 'contains', operand: 1, label: 'Une nuit' },
+	{ filterName:'twoNight', filterGroup: 'night', field: 'numberOfNights', operator: 'contains', operand: 2 , label: 'Deux nuit' },
+	{ filterName:'threeNight', filterGroup: 'night', field: 'numberOfNights', operator: 'contains', operand: 3 , label: 'Trois nuit' },
 ];
 
 export default
 {
 	sejour,
-	"mock-1000": mock1000,
+	"mock-1000": mock,
+	"mock-5000": mock,
+	"mock-10000": mock,
 };

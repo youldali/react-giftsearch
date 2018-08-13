@@ -48,7 +48,7 @@ const getRandomValuesInArray = array => {
         nbOfElementsToReturn = generateNumber(numberOfElements) + 1,
         indexes = generateNumbers(numberOfElements, nbOfElementsToReturn);
 
-    return array.filter( (element, index) => indexes.indexOf(index) > -1);
+    return array.filter( (element, index) => indexes.indexOf(index) > -1).sort();
 }
 
 module.exports = {

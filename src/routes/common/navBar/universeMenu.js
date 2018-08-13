@@ -65,6 +65,18 @@ class UniverseMenu extends React.Component<UniverseMenuProps, UniverseMenuState>
           >
             Test 1000 boxes
           </MenuItem>
+          <MenuItem 
+            onClick={() => this.handleMenuItemClick('mock-5000')}
+            selected={this.props.currentUniverse === 'mock-5000'}
+          >
+            Test 5000 boxes
+          </MenuItem>
+          <MenuItem 
+            onClick={() => this.handleMenuItemClick('mock-10000')}
+            selected={this.props.currentUniverse === 'mock-10000'}
+          >
+            Test 10000 boxes
+          </MenuItem>
         </Menu>
       </React.Fragment>
     );

@@ -30,6 +30,14 @@ const fieldsToIndexByUniverse: FieldsToIndexByUniverse = {
         ...fieldsToIndexBase, 
         numberOfNights: {multiEntry: true},
     },
+    "mock-5000": { 
+        ...fieldsToIndexBase, 
+        numberOfNights: {multiEntry: true},
+    },
+    "mock-10000": { 
+        ...fieldsToIndexBase, 
+        numberOfNights: {multiEntry: true},
+    },
 };
 
 export default {

@@ -8,7 +8,7 @@ const generateBox = id => {
         name = 'box - ' + id,
         experienceTypes = numberHelper.getRandomValuesInArray(config.experienceTypes),
         regions = numberHelper.getRandomValuesInArray(config.regions),
-        numberOfNights = numberHelper.generateNumbers(4, 1),
+        numberOfNights = numberHelper.generateNumbers(4, 2).sort(),
         numberOfPeople = numberHelper.getRandomValuesInArray(config.numberOfPeople),
         price = numberHelper.generateNumber(1000),
         boxTypes = numberHelper.getRandomValuesInArray(config.boxTypes),
