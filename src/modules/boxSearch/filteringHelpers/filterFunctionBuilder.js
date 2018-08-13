@@ -1,7 +1,4 @@
 //@flow
-
-import 'core-js/fn/object/entries';
-import 'core-js/fn/object/values';
 import operators from 'helpers/misc/operators';
 import { compose, concat, curry, mapObjIndexed, sort } from 'ramda';
 

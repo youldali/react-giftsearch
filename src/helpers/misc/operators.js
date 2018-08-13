@@ -1,6 +1,4 @@
 //@flow
-
-import 'core-js/fn/array/includes.js';
 import { getHasOneInCommon, findElementIndexInSortedArray } from 'helpers/array/utils';
 
 export

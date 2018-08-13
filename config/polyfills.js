@@ -20,3 +20,9 @@ Object.assign = require('object-assign');
 if (process.env.NODE_ENV === 'test') {
   require('raf').polyfill(global);
 }
+
+require('es6-map/implement');
+require('indexeddb-getall-shim');
+require('core-js/fn/array/includes.js');
+require('core-js/fn/object/values');
+require('core-js/fn/object/entries');

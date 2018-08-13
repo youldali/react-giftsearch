@@ -6,8 +6,6 @@ import type { BoxCollectionRequestData } from 'modules/actions/types';
 import { getItemIdListMatchingSingleFilter } from '../services/idbStorageService';
 import helperGetFilterStatistic  from '../filteringHelpers/filterStatistic';
 import { has, map, mergeAll, curry } from 'ramda';
-import 'core-js/fn/object/values';
-
 
 const _getFiltersStatistics = (requestData: BoxCollectionRequestData, filterStructureMap: FilterStructureMap, boxesIdMappedByFilteredStatus: BoxesIdMappedByFilteredStatus): Promise<FiltersStatisticsDetailed> => {
     const { filtersApplied, universe } = requestData;

@@ -5,6 +5,7 @@
 import type { Box, BoxId, BoxesIdMappedByFilteredStatus, FilterStatisticDetailed, FilterStatisticSimplified } from '../types';
 import type { BoxCollectionRequestData } from 'modules/actions/types';
 
+import 'polyfills';
 import filterConfig from '../config/filter.config';
 import getFilterStructureMap from '../configHelpers/filterConfigResolver'
 import getBoxesIdMappedByFilterStatus from './filter';

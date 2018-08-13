@@ -35,7 +35,7 @@ const _createUniversesStores = (fieldsToIndexByUniverse: FieldsToIndexByUniverse
             fieldsToIndexTuples = Object.entries(fieldsToIndex);
     
         //$FlowFixMe
-        fieldsToIndexTuples.forEach( ([indexName, indexConfig]) => objectStore.createIndex(indexName, indexName, indexConfig) );
+        fieldsToIndexTuples.forEach( ([indexName, indexConfig]) => objectStore.createIndex(indexName, indexName, indexConfig || {}) );
     };
 
     mapObjIndexed(createUniverseStore, fieldsToIndexByUniverse);
