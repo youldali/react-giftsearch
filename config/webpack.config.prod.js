@@ -148,9 +148,15 @@ module.exports = {
             test: /\.worker\.js$/,
             include: paths.appSrc,
             use:[
-              { loader: 'worker-loader' },
-              { loader: 'babel-loader' },
+              { 
+                loader: 'worker-loader', 
+                options: { name: 'static/js/worker.[chunkhash:8].js' } 
+              },
+              { 
+                loader: 'babel-loader',
+              },
             ],
+            
           },
           // Process JS with Babel.
           {

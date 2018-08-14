@@ -25,6 +25,8 @@ const
 const filterBlocksPerUniverse: FilterBlockConfigByUniverse = {
 	sejour: proxyObject(sejourFilterBlock, defaultBlock),
 	"mock-1000": proxyObject(mock1000FilterBlock, defaultBlock),
+	"mock-5000": proxyObject(mock1000FilterBlock, defaultBlock),
+	"mock-10000": proxyObject(mock1000FilterBlock, defaultBlock),
 }
 
 export default filterBlocksPerUniverse;
